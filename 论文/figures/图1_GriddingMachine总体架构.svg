@@ -37,7 +37,7 @@
   <path d="M1035 142 Q1035 120 1057 120 H1533 Q1555 120 1555 142 V185 H1035 Z" fill="#3b8f5a"/>
   <text x="325" y="161" text-anchor="middle" class="lane-title">生产端：GriddingMachineDatasets</text>
   <text x="820" y="161" text-anchor="middle" class="lane-title">目录与分发</text>
-  <text x="1295" y="161" text-anchor="middle" class="lane-title">消费端：GriddingMachine.jl</text>
+  <text x="1295" y="161" text-anchor="middle" class="lane-title">数据使用：GriddingMachine.jl</text>
 
   <!-- producer boxes -->
   <rect class="box" x="80" y="225" width="215" height="125" fill="#ffffff" stroke="#69a4d1" filter="url(#shadow)"/>
@@ -83,18 +83,18 @@
   <text x="820" y="466" text-anchor="middle" class="box-title">动态数据目录</text>
   <text x="820" y="498" text-anchor="middle" class="code">Artifacts.yaml</text>
   <text x="820" y="530" text-anchor="middle" class="box-text">标签、路径、镜像 URL</text>
-  <text x="820" y="557" text-anchor="middle" class="box-text">目录版本、大小与 SHA-256</text>
+  <text x="820" y="557" text-anchor="middle" class="box-text">独立维护的 YAML 数据目录</text>
 
   <rect class="box" x="665" y="640" width="310" height="100" fill="#fffaf0" stroke="#d49a31" stroke-dasharray="9 6"/>
   <text x="820" y="675" text-anchor="middle" class="box-title">独立更新与版本冻结</text>
-  <text x="820" y="707" text-anchor="middle" class="box-text">新增数据无需升级客户端</text>
+  <text x="820" y="707" text-anchor="middle" class="box-text">目录更新不依赖软件包发版</text>
 
   <path d="M565 682 H620 V292 H653" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
   <text x="611" y="471" text-anchor="end" class="arrow-label" transform="rotate(-90 611 471)">发布标准 NetCDF</text>
   <line x1="820" y1="360" x2="820" y2="418" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
   <line x1="820" y1="575" x2="820" y2="628" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <!-- consumer boxes -->
+  <!-- data-use boxes -->
   <rect class="box" x="1075" y="225" width="205" height="145" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
   <text x="1177" y="260" text-anchor="middle" class="box-title">Collector</text>
   <text x="1177" y="292" text-anchor="middle" class="box-text">更新/加载目录</text>
@@ -102,10 +102,10 @@
   <text x="1177" y="347" text-anchor="middle" class="code">download_dataset!</text>
 
   <rect class="box" x="1320" y="225" width="195" height="145" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
-  <text x="1417" y="260" text-anchor="middle" class="box-title">安全落盘</text>
-  <text x="1417" y="292" text-anchor="middle" class="box-text">独立临时缓存</text>
-  <text x="1417" y="320" text-anchor="middle" class="box-text">大小/SHA-256 校验</text>
-  <text x="1417" y="347" text-anchor="middle" class="box-text">通过后原子移动</text>
+  <text x="1417" y="260" text-anchor="middle" class="box-title">缓存与落盘</text>
+  <text x="1417" y="292" text-anchor="middle" class="box-text">下载至 cache</text>
+  <text x="1417" y="320" text-anchor="middle" class="box-text">完成后移入 public</text>
+  <text x="1417" y="347" text-anchor="middle" class="box-text">内容哈希校验待补充</text>
   <line x1="1280" y1="297" x2="1308" y2="297" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
 
   <rect class="box" x="1075" y="450" width="205" height="125" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
