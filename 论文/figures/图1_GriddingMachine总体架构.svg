@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .title { font: 700 34px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #17324d; }
+      .subtitle { font: 400 18px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #526779; }
+      .lane-title { font: 700 25px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #ffffff; }
+      .box-title { font: 700 21px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #17324d; }
+      .box-text { font: 400 17px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #34495e; }
+      .small { font: 400 15px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #526779; }
+      .code { font: 600 16px Consolas, "Courier New", monospace; fill: #17324d; }
+      .arrow-label { font: 600 15px "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill: #526779; }
+      .box { stroke-width: 2.2; rx: 16; ry: 16; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#45677f"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#2f78b7"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#183b56" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="#f7fafc"/>
+  <text x="800" y="55" text-anchor="middle" class="title">GriddingMachine 全球网格数据全生命周期框架</text>
+  <text x="800" y="86" text-anchor="middle" class="subtitle">生产与质控 — 发布与发现 — 下载与读取 — 模型调用</text>
+
+  <!-- lane backgrounds -->
+  <rect x="45" y="120" width="560" height="665" rx="22" fill="#eaf4fc" stroke="#90badb" stroke-width="2"/>
+  <rect x="625" y="120" width="390" height="665" rx="22" fill="#fff5df" stroke="#e6bb63" stroke-width="2"/>
+  <rect x="1035" y="120" width="520" height="665" rx="22" fill="#eaf7ef" stroke="#88c69e" stroke-width="2"/>
+
+  <path d="M45 142 Q45 120 67 120 H583 Q605 120 605 142 V185 H45 Z" fill="#2f78b7"/>
+  <path d="M625 142 Q625 120 647 120 H993 Q1015 120 1015 142 V185 H625 Z" fill="#c88917"/>
+  <path d="M1035 142 Q1035 120 1057 120 H1533 Q1555 120 1555 142 V185 H1035 Z" fill="#3b8f5a"/>
+  <text x="325" y="161" text-anchor="middle" class="lane-title">生产端：GriddingMachineDatasets</text>
+  <text x="820" y="161" text-anchor="middle" class="lane-title">目录与分发</text>
+  <text x="1295" y="161" text-anchor="middle" class="lane-title">消费端：GriddingMachine.jl</text>
+
+  <!-- producer boxes -->
+  <rect class="box" x="80" y="225" width="215" height="125" fill="#ffffff" stroke="#69a4d1" filter="url(#shadow)"/>
+  <text x="187" y="259" text-anchor="middle" class="box-title">异构源数据</text>
+  <text x="187" y="289" text-anchor="middle" class="box-text">NetCDF / GeoTIFF 等</text>
+  <text x="187" y="317" text-anchor="middle" class="box-text">维度、方向、单位各异</text>
+
+  <rect class="box" x="350" y="225" width="215" height="125" fill="#ffffff" stroke="#69a4d1" filter="url(#shadow)"/>
+  <text x="457" y="259" text-anchor="middle" class="box-title">YAML 配置</text>
+  <text x="457" y="289" text-anchor="middle" class="box-text">文件与维度映射</text>
+  <text x="457" y="317" text-anchor="middle" class="box-text">变换、缺失值与元数据</text>
+
+  <line x1="296" y1="287" x2="338" y2="287" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="80" y="415" width="485" height="145" fill="#ffffff" stroke="#2f78b7" filter="url(#shadow)"/>
+  <text x="322" y="451" text-anchor="middle" class="box-title">标准化处理流水线</text>
+  <text x="322" y="483" text-anchor="middle" class="code">process_dataset!</text>
+  <text x="322" y="515" text-anchor="middle" class="box-text">读取 → 维度/方向调整 → 缩放与过滤 → 缺失值处理</text>
+  <text x="322" y="542" text-anchor="middle" class="small">配置解析、处理逻辑与输出应由自动测试覆盖</text>
+  <path d="M187 350 V382 H322 V403" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M457 350 V382 H322" fill="none" stroke="#45677f" stroke-width="3"/>
+
+  <rect class="box" x="80" y="625" width="215" height="115" fill="#ffffff" stroke="#2f78b7" filter="url(#shadow)"/>
+  <text x="187" y="660" text-anchor="middle" class="box-title">质量控制</text>
+  <text x="187" y="691" text-anchor="middle" class="box-text">结构与数值检查</text>
+  <text x="187" y="718" text-anchor="middle" class="box-text">方向图人工复核</text>
+
+  <rect class="box" x="350" y="625" width="215" height="115" fill="#ffffff" stroke="#2f78b7" filter="url(#shadow)"/>
+  <text x="457" y="660" text-anchor="middle" class="box-title">标准数据产品</text>
+  <text x="457" y="691" text-anchor="middle" class="code">TAG.nc</text>
+  <text x="457" y="718" text-anchor="middle" class="box-text">数据、误差与溯源信息</text>
+  <line x1="322" y1="560" x2="187" y2="613" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="296" y1="682" x2="338" y2="682" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- distribution boxes -->
+  <rect class="box" x="665" y="225" width="310" height="135" fill="#ffffff" stroke="#d49a31" filter="url(#shadow)"/>
+  <text x="820" y="260" text-anchor="middle" class="box-title">数据镜像</text>
+  <text x="820" y="292" text-anchor="middle" class="box-text">机构 FTP / HTTP(S)</text>
+  <text x="820" y="320" text-anchor="middle" class="box-text">Zenodo 等公共存储</text>
+  <text x="820" y="347" text-anchor="middle" class="small">同一标签可登记多个 URL</text>
+
+  <rect class="box" x="665" y="430" width="310" height="145" fill="#ffffff" stroke="#d49a31" filter="url(#shadow)"/>
+  <text x="820" y="466" text-anchor="middle" class="box-title">动态数据目录</text>
+  <text x="820" y="498" text-anchor="middle" class="code">Artifacts.yaml</text>
+  <text x="820" y="530" text-anchor="middle" class="box-text">标签、路径、镜像 URL</text>
+  <text x="820" y="557" text-anchor="middle" class="box-text">目录版本、大小与 SHA-256</text>
+
+  <rect class="box" x="665" y="640" width="310" height="100" fill="#fffaf0" stroke="#d49a31" stroke-dasharray="9 6"/>
+  <text x="820" y="675" text-anchor="middle" class="box-title">独立更新与版本冻结</text>
+  <text x="820" y="707" text-anchor="middle" class="box-text">新增数据无需升级客户端</text>
+
+  <path d="M565 682 H620 V292 H653" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="611" y="471" text-anchor="end" class="arrow-label" transform="rotate(-90 611 471)">发布标准 NetCDF</text>
+  <line x1="820" y1="360" x2="820" y2="418" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="820" y1="575" x2="820" y2="628" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- consumer boxes -->
+  <rect class="box" x="1075" y="225" width="205" height="145" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
+  <text x="1177" y="260" text-anchor="middle" class="box-title">Collector</text>
+  <text x="1177" y="292" text-anchor="middle" class="box-text">更新/加载目录</text>
+  <text x="1177" y="320" text-anchor="middle" class="box-text">镜像探测与失败回退</text>
+  <text x="1177" y="347" text-anchor="middle" class="code">download_dataset!</text>
+
+  <rect class="box" x="1320" y="225" width="195" height="145" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
+  <text x="1417" y="260" text-anchor="middle" class="box-title">安全落盘</text>
+  <text x="1417" y="292" text-anchor="middle" class="box-text">独立临时缓存</text>
+  <text x="1417" y="320" text-anchor="middle" class="box-text">大小/SHA-256 校验</text>
+  <text x="1417" y="347" text-anchor="middle" class="box-text">通过后原子移动</text>
+  <line x1="1280" y1="297" x2="1308" y2="297" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="1075" y="450" width="205" height="125" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
+  <text x="1177" y="486" text-anchor="middle" class="box-title">Indexer</text>
+  <text x="1177" y="520" text-anchor="middle" class="code">read_dataset</text>
+  <text x="1177" y="549" text-anchor="middle" class="box-text">整场/周期/站点读取</text>
+
+  <rect class="box" x="1320" y="450" width="195" height="125" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
+  <text x="1417" y="486" text-anchor="middle" class="box-title">模型数据接口</text>
+  <text x="1417" y="520" text-anchor="middle" class="code">grid_dict</text>
+  <text x="1417" y="548" text-anchor="middle" class="code">grid_weather</text>
+  <path d="M1417 370 V410 H1177 V438" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1280" y1="512" x2="1308" y2="512" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="1075" y="650" width="440" height="90" fill="#ffffff" stroke="#3b8f5a" filter="url(#shadow)"/>
+  <text x="1295" y="685" text-anchor="middle" class="box-title">地球系统模型与可复现实验</text>
+  <text x="1295" y="716" text-anchor="middle" class="box-text">参数初始化 · 气象驱动 · 模型运行与评估</text>
+  <path d="M1417 575 V615 H1295 V638" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- cross-lane data flows -->
+  <path d="M975 492 H1030 V297 H1063" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="1019" y="404" text-anchor="end" class="arrow-label" transform="rotate(-90 1019 404)">发现与获取</text>
+  <path d="M1075 260 H1030 V260 H987" fill="none" stroke="#2f78b7" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#arrow-blue)"/>
+  <text x="1031" y="244" text-anchor="middle" class="small">目录更新</text>
+
+  <!-- feedback and scope -->
+  <path d="M1295 760 V815 H325 V752" fill="none" stroke="#2f78b7" stroke-width="2.6" stroke-dasharray="10 7" marker-end="url(#arrow-blue)"/>
+  <text x="800" y="838" text-anchor="middle" class="arrow-label">使用反馈与社区数据贡献：回到配置、质控和版本登记</text>
+
+  <rect x="1110" y="790" width="405" height="54" rx="12" fill="#eef1f4" stroke="#9aa8b3" stroke-dasharray="7 5"/>
+  <text x="1312" y="823" text-anchor="middle" class="small">本文范围之外：Server / Requestor 远程子集服务</text>
+</svg>
