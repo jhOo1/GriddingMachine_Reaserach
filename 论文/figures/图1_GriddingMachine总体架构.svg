@@ -24,8 +24,8 @@
   </defs>
 
   <rect width="1600" height="900" fill="#f7fafc"/>
-  <text x="800" y="55" text-anchor="middle" class="title">GriddingMachine 全球网格数据全生命周期框架</text>
-  <text x="800" y="86" text-anchor="middle" class="subtitle">生产与质控 — 发布与发现 — 下载与读取 — 模型调用</text>
+  <text x="800" y="55" text-anchor="middle" class="title">GriddingMachine 全球网格数据生产、分发与模型调用框架</text>
+  <text x="800" y="86" text-anchor="middle" class="subtitle">网页配置与生产 — 目录与多镜像 — 可靠下载与读取 — 模型初始化</text>
 
   <!-- lane backgrounds -->
   <rect x="45" y="120" width="560" height="665" rx="22" fill="#eaf4fc" stroke="#90badb" stroke-width="2"/>
@@ -46,7 +46,7 @@
   <text x="187" y="317" text-anchor="middle" class="box-text">维度、方向、单位各异</text>
 
   <rect class="box" x="350" y="225" width="215" height="125" fill="#ffffff" stroke="#69a4d1" filter="url(#shadow)"/>
-  <text x="457" y="259" text-anchor="middle" class="box-title">YAML 配置</text>
+  <text x="457" y="259" text-anchor="middle" class="box-title">网页 / 模板生成 YAML</text>
   <text x="457" y="289" text-anchor="middle" class="box-text">文件与维度映射</text>
   <text x="457" y="317" text-anchor="middle" class="box-text">变换、缺失值与元数据</text>
 
@@ -105,7 +105,7 @@
   <text x="1417" y="260" text-anchor="middle" class="box-title">缓存与落盘</text>
   <text x="1417" y="292" text-anchor="middle" class="box-text">下载至 cache</text>
   <text x="1417" y="320" text-anchor="middle" class="box-text">完成后移入 public</text>
-  <text x="1417" y="347" text-anchor="middle" class="box-text">内容哈希校验待补充</text>
+  <text x="1417" y="347" text-anchor="middle" class="box-text">字节数 + SHA-256 校验</text>
   <line x1="1280" y1="297" x2="1308" y2="297" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
 
   <rect class="box" x="1075" y="450" width="205" height="125" fill="#ffffff" stroke="#5aa977" filter="url(#shadow)"/>
@@ -121,8 +121,8 @@
   <line x1="1280" y1="512" x2="1308" y2="512" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
 
   <rect class="box" x="1075" y="650" width="440" height="90" fill="#ffffff" stroke="#3b8f5a" filter="url(#shadow)"/>
-  <text x="1295" y="685" text-anchor="middle" class="box-title">地球系统模型与可复现实验</text>
-  <text x="1295" y="716" text-anchor="middle" class="box-text">参数初始化 · 气象驱动 · 模型运行与评估</text>
+  <text x="1295" y="685" text-anchor="middle" class="box-title">Emerald 模型初始化验证</text>
+  <text x="1295" y="716" text-anchor="middle" class="box-text">参数初始化 · 气象驱动 · 最小步进</text>
   <path d="M1417 575 V615 H1295 V638" fill="none" stroke="#45677f" stroke-width="3" marker-end="url(#arrow)"/>
 
   <!-- cross-lane data flows -->
