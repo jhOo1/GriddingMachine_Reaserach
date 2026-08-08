@@ -8,7 +8,7 @@
 
 ## 摘要
 
-地球系统模型的参数化、初始化和驱动依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍需要大量重复劳动。本文在2022年发布的GriddingMachine基础上，围绕新数据进入系统、标准文件可靠到达本地以及本地数据进入模型三个环节进行更新。数据生产部分以共享schema约束网页生成的YAML和通用流水线，并显式映射二维或三维NetCDF的源维度；数据分发部分取消外层`tar.gz`，采用可独立更新的YAML目录登记多个镜像，通过独立cache、文件大小和SHA-256校验控制正式落盘；数据使用部分以`read_dataset`统一读取，并通过`grid_dict`和`grid_weather`组织Emerald初始化所需参数与气象驱动。在Windows和Julia 1.12.6环境中，数据生产包47项、数据使用包61项及Emerald最小烟雾5项自动测试全部通过。上述结果支持受控夹具下的配置、目录、下载和模型接口正确性；完整生产矩阵、三平台真实网络、分发效率、真实格点和贡献者复现实验仍需在投稿前完成。本文以可重复测试评价GriddingMachine相对2022版的具体改进，为全球规则网格数据从贡献到模型调用提供可维护路径。
+地球系统模型的参数化、初始化和驱动依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍需要大量重复劳动。本文在2022年发布的GriddingMachine基础上，围绕新数据进入系统、标准文件可靠到达本地以及本地数据进入模型三个环节进行更新。数据生产部分以共享schema约束网页生成的YAML和通用流水线，并显式映射二维或三维NetCDF的源维度；数据分发部分取消外层`tar.gz`，采用可独立更新的YAML目录登记多个镜像，通过独立cache、文件大小和SHA-256校验控制正式落盘；数据使用部分以`read_dataset`统一读取，并通过`grid_dict`和`grid_weather`组织Emerald初始化所需参数与气象驱动。在Windows和Julia 1.12.6环境中，数据生产包54项、数据使用包61项及Emerald最小烟雾5项自动测试全部通过，其中包括二维和三维合成NetCDF的最小端到端生产案例。上述结果支持受控夹具下的配置、目录、下载和模型接口正确性；完整生产矩阵、三平台真实网络、分发效率、真实格点和贡献者复现实验仍需在投稿前完成。本文以可重复测试评价GriddingMachine相对2022版的具体改进，为全球规则网格数据从贡献到模型调用提供可维护路径。
 
 **关键词：** 地球系统模型；全球网格数据；数据标准化；NetCDF；数据分发；模型初始化
 
@@ -16,7 +16,7 @@
 
 ## Abstract
 
-Earth system model parameterization, initialization, and forcing depend on heterogeneous global gridded datasets, yet producing, publishing, reliably obtaining, and adapting these datasets still requires repeated manual work. Building on the 2022 GriddingMachine release, this study updates three connected stages: introducing new datasets, delivering standardized files to local storage, and organizing local data for model use. A shared schema constrains browser-generated YAML and the processing pipeline, including explicit source-dimension mapping. Distribution uses directly readable NetCDF files, an independently updated multi-mirror catalog, isolated cache files, and file-size and SHA-256 verification before promotion. `read_dataset` provides unified access, while `grid_dict` and `grid_weather` organize parameters and forcing for Emerald initialization. Under Windows and Julia 1.12.6, all 47 tests for the production package, 61 tests for the data-use package, and five Emerald smoke checks passed. These results support configuration, catalog, download, and model-interface behavior under controlled fixtures; the full production matrix, three-platform network faults, distribution efficiency, real-site reference data, and contributor reproduction remain pre-submission experiments. The study provides a testable and maintainable path from contributing global regular-grid data to model use.
+Earth system model parameterization, initialization, and forcing depend on heterogeneous global gridded datasets, yet producing, publishing, reliably obtaining, and adapting these datasets still requires repeated manual work. Building on the 2022 GriddingMachine release, this study updates three connected stages: introducing new datasets, delivering standardized files to local storage, and organizing local data for model use. A shared schema constrains browser-generated YAML and the processing pipeline, including explicit source-dimension mapping. Distribution uses directly readable NetCDF files, an independently updated multi-mirror catalog, isolated cache files, and file-size and SHA-256 verification before promotion. `read_dataset` provides unified access, while `grid_dict` and `grid_weather` organize parameters and forcing for Emerald initialization. Under Windows and Julia 1.12.6, all 54 tests for the production package, 61 tests for the data-use package, and five Emerald smoke checks passed, including minimal two- and three-dimensional end-to-end production cases. These results support configuration, catalog, download, and model-interface behavior under controlled fixtures; the full production matrix, three-platform network faults, distribution efficiency, real-site reference data, and contributor reproduction remain pre-submission experiments. The study provides a testable and maintainable path from contributing global regular-grid data to model use.
 
 **Keywords:** Earth system modeling; global gridded data; data standardization; NetCDF; data distribution; model initialization
 
@@ -266,11 +266,11 @@ Indexer 模块使用 `read_dataset` 读取本地 NetCDF 或目录标签。当前
 
 ## 4 阶段性结果与待完成实验
 
-本节只报告已由当前本地提交和日志支持的结果；尚未运行的跨平台、真实数据、性能和参与者实验列为待完成项，不以占位数值冒充结果。当前验证环境为 Windows、Julia 1.12.6，代码提交为 `GriddingMachine@fe46788` 和 `GriddingMachineDatasets@049867d`。
+本节只报告已由当前本地提交和日志支持的结果；尚未运行的跨平台、真实数据、性能和参与者实验列为待完成项，不以占位数值冒充结果。当前验证环境为 Windows、Julia 1.12.6，代码提交为 `GriddingMachine@fe46788` 和 `GriddingMachineDatasets@00136f5`。
 
 ### 4.1 数据生产、配置契约与目录生成
 
-`GriddingMachineDatasets` 自动测试共47项，全部通过。其中38项覆盖 YAML schema、旧配置规范化、非法配置拒绝、二维/三维源维度重排和网页生成契约；9项覆盖包级加载、运行时根目录配置以及本地目录元数据生成。目录生成测试从临时文件得到正确的 `SIZE` 与 SHA-256，并成功写回、重读 `Artifacts.yaml`；空 URL 和缺少本地文件字段均被明确拒绝。
+`GriddingMachineDatasets` 自动测试共54项，全部通过。其中38项覆盖 YAML schema、旧配置规范化、非法配置拒绝、二维/三维源维度重排和网页生成契约；16项覆盖包级加载、运行时根目录、本地目录元数据生成和合成NetCDF端到端生产。二维案例验证`(lat,lon)`换序、纬度翻转、经度半球切换、线性缩放和范围过滤，三维案例验证`(ind,lat,lon)`换序；重复调用安全跳过已有输出。目录生成测试从临时文件得到正确的 `SIZE` 与 SHA-256，并成功写回、重读 `Artifacts.yaml`。
 
 这些结果证明共享配置契约、维度重排函数和本地目录完整性字段已经实现，但不能替代完整 `process_dataset!` 合成 NetCDF 矩阵。投稿前仍需完成31案例端到端运行、人工方向复核、至少1个真实数据案例以及2～3名未参与开发者的贡献流程复现。
 
@@ -320,13 +320,13 @@ Earth Engine把大规模地理空间数据与云端计算结合，适合服务�
 
 本文在2022版GriddingMachine基础上实现连接数据贡献、标准化生产、目录与镜像维护、统一读取和模型初始化的更新。论文分支已形成共享YAML schema和源维度映射、可独立更新且事务替换的目录、直接NetCDF多镜像分发、`SIZE/SHA256`校验后落盘，以及`read_dataset`、`grid_dict`和`grid_weather`接口。YAML格式变化本身不是核心贡献，核心在于配置、目录、下载和模型接口之间形成可机器检查的契约。
 
-当前 Windows/Julia 1.12.6 环境中，GriddingMachineDatasets 47项、GriddingMachine 61项以及Emerald最小烟雾5项测试全部通过，证明上述核心机制在受控夹具下可运行。投稿前仍须完成31案例生产流水线、直接NetCDF效率、Linux/macOS故障注入、真实镜像、真实格点及贡献者复现实验；在这些证据缺失时，本文不声称直接NetCDF必然更快、镜像排序跨平台最优或接口已验证长期模型模拟。
+当前 Windows/Julia 1.12.6 环境中，GriddingMachineDatasets 54项、GriddingMachine 61项以及Emerald最小烟雾5项测试全部通过，证明上述核心机制在受控夹具下可运行。投稿前仍须完成31案例生产流水线、直接NetCDF效率、Linux/macOS故障注入、真实镜像、真实格点及贡献者复现实验；在这些证据缺失时，本文不声称直接NetCDF必然更快、镜像排序跨平台最优或接口已验证长期模型模拟。
 
 GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以可验证目录和模型数据接口连接数据发布者与使用者。完成外部实验、历史目录迁移和正式归档后，该框架可为全球规则网格数据的持续维护和可复用模型输入提供更完整的证据链。
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，本文本地论文分支当前提交为`fe46788`。数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，本地论文分支当前提交为`049867d`。论文材料与实验协议位于https://github.com/jhOo1/GriddingMachine_Reaserach。【上述为本地阶段性提交，尚未推送或归档；投稿前应由作者确认后创建正式release tag和归档DOI，并补充数据目录、原始结果、环境文件与绘图脚本的永久地址。】
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，本文本地论文分支当前提交为`fe46788`。数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，本地论文分支当前提交为`00136f5`。论文材料与实验协议位于https://github.com/jhOo1/GriddingMachine_Reaserach。【上述为本地阶段性提交，尚未推送或归档；投稿前应由作者确认后创建正式release tag和归档DOI，并补充数据目录、原始结果、环境文件与绘图脚本的永久地址。】
 
 ## 作者贡献
 
