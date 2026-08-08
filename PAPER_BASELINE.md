@@ -47,8 +47,8 @@
 ## 当前本地论文实现（尚未推送）
 
 - GriddingMachine工作树：`D:\Emerald\GriddingMachine_paper`，分支`paper-release`，提交`fe46788`。
-- GriddingMachineDatasets工作树：`D:\Emerald\GriddingMachineDatasets_paper`，分支`paper-release`，提交`00136f5`。
-- 验证环境：Julia 1.12.6；GriddingMachine 61/61，GriddingMachineDatasets 54/54，Emerald最小烟雾5/5。
+- GriddingMachineDatasets工作树：`D:\Emerald\GriddingMachineDatasets_paper`，分支`paper-release`，提交`e638ea1`。
+- 验证环境：Julia 1.12.6；GriddingMachine 61/61，GriddingMachineDatasets 67/67，Emerald最小烟雾5/5。
 - 本地提交不是正式release，未获得作者确认前不得push、建远程release或修改Zenodo记录。
 
 ## 下一阶段
