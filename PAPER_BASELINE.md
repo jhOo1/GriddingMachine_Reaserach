@@ -44,8 +44,17 @@
 
 ## 下一阶段
 
-1. 统一网页生成器、YAML schema和生产流水线，补齐源维度映射并验证新贡献者流程。
-2. 恢复文件大小/SHA-256校验，修复安全落盘和跨平台镜像探测。
-3. 为Collector公共操作、`read_dataset`和模型初始化接口建立状态与数值回归测试。
-4. 固定Emerald版本，完成固定格点初始化和最小步进，不扩展为长期模型实验。
-5. 冻结论文release，保存原始结果和绘图脚本，再回填摘要、结果、讨论与结论。
+## 当前本地论文实现（尚未推送）
+
+- GriddingMachine工作树：`D:\Emerald\GriddingMachine_paper`，分支`paper-release`，提交`fe46788`。
+- GriddingMachineDatasets工作树：`D:\Emerald\GriddingMachineDatasets_paper`，分支`paper-release`，提交`049867d`。
+- 验证环境：Julia 1.12.6；GriddingMachine 61/61，GriddingMachineDatasets 47/47，Emerald最小烟雾5/5。
+- 本地提交不是正式release，未获得作者确认前不得push、建远程release或修改Zenodo记录。
+
+## 下一阶段
+
+1. 完成生产流水线端到端合成NetCDF矩阵。
+2. 运行直接NetCDF效率、三平台故障注入和真实镜像实验。
+3. 完成真实固定格点金标准与贡献者流程复现。
+4. 迁移历史目录完整性字段，补齐溯源元数据。
+5. 作者确认后冻结论文release，保存原始结果和绘图脚本，再完成投稿稿。

@@ -8,7 +8,7 @@
 
 ## 摘要
 
-地球系统模型的参数化、初始化和驱动依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍需要大量重复劳动。本文在2022年发布的GriddingMachine基础上，针对新数据进入系统、标准数据可靠到达本地以及本地数据进入模型三个环节进行更新。数据生产部分以网页辅助生成YAML配置，并由通用流水线完成二维或三维NetCDF的标准化、检查和目录登记；数据分发部分取消外层`tar.gz`，采用可独立更新的YAML目录登记多个镜像，并通过cache、文件大小和SHA-256校验控制正式落盘；数据使用部分以`read_dataset`统一读取，并通过`grid_dict`和`grid_weather`组织Emerald初始化所需的陆地参数和气象驱动。本文采用合成NetCDF、贡献流程复现、Collector接口回归、三操作系统故障注入以及固定格点金标准和模型初始化实验进行验证。【定量结果待论文release完成并运行实验后填写。】本研究旨在以可重复测试验证GriddingMachine相对2022版的具体改进，为全球规则网格数据从贡献到模型调用提供一条可维护路径。
+地球系统模型的参数化、初始化和驱动依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍需要大量重复劳动。本文在2022年发布的GriddingMachine基础上，围绕新数据进入系统、标准文件可靠到达本地以及本地数据进入模型三个环节进行更新。数据生产部分以共享schema约束网页生成的YAML和通用流水线，并显式映射二维或三维NetCDF的源维度；数据分发部分取消外层`tar.gz`，采用可独立更新的YAML目录登记多个镜像，通过独立cache、文件大小和SHA-256校验控制正式落盘；数据使用部分以`read_dataset`统一读取，并通过`grid_dict`和`grid_weather`组织Emerald初始化所需参数与气象驱动。在Windows和Julia 1.12.6环境中，数据生产包47项、数据使用包61项及Emerald最小烟雾5项自动测试全部通过。上述结果支持受控夹具下的配置、目录、下载和模型接口正确性；完整生产矩阵、三平台真实网络、分发效率、真实格点和贡献者复现实验仍需在投稿前完成。本文以可重复测试评价GriddingMachine相对2022版的具体改进，为全球规则网格数据从贡献到模型调用提供可维护路径。
 
 **关键词：** 地球系统模型；全球网格数据；数据标准化；NetCDF；数据分发；模型初始化
 
@@ -16,7 +16,7 @@
 
 ## Abstract
 
-Earth system model parameterization, initialization, and forcing depend on global gridded datasets from heterogeneous sources, yet producing, publishing, reliably obtaining, and adapting these datasets still requires repeated manual work. Building on the GriddingMachine release published in 2022, this study updates three connected stages: introducing new datasets, delivering standardized files to local storage, and organizing local data for model use. A browser-based form assists in generating YAML configurations, and a common pipeline standardizes, checks, and registers two- or three-dimensional NetCDF data. Distribution uses directly readable NetCDF files, an independently updated catalog with multiple mirrors, and cache-based download followed by file-size and SHA-256 verification. `read_dataset` provides unified access, while `grid_dict` and `grid_weather` organize land parameters and meteorological forcing for Emerald initialization. Validation combines synthetic NetCDF files, independent reproduction of the contribution workflow, regression tests of catalog operations, fault injection on three operating systems, and fixed-site numerical reference and model-initialization tests. **[Quantitative results and the result-supported conclusion will be inserted after the manuscript release is frozen and tested.]** The study evaluates concrete improvements over the 2022 release and provides a maintainable path from contributing global regular-grid data to using them in an Earth system model.
+Earth system model parameterization, initialization, and forcing depend on heterogeneous global gridded datasets, yet producing, publishing, reliably obtaining, and adapting these datasets still requires repeated manual work. Building on the 2022 GriddingMachine release, this study updates three connected stages: introducing new datasets, delivering standardized files to local storage, and organizing local data for model use. A shared schema constrains browser-generated YAML and the processing pipeline, including explicit source-dimension mapping. Distribution uses directly readable NetCDF files, an independently updated multi-mirror catalog, isolated cache files, and file-size and SHA-256 verification before promotion. `read_dataset` provides unified access, while `grid_dict` and `grid_weather` organize parameters and forcing for Emerald initialization. Under Windows and Julia 1.12.6, all 47 tests for the production package, 61 tests for the data-use package, and five Emerald smoke checks passed. These results support configuration, catalog, download, and model-interface behavior under controlled fixtures; the full production matrix, three-platform network faults, distribution efficiency, real-site reference data, and contributor reproduction remain pre-submission experiments. The study provides a testable and maintainable path from contributing global regular-grid data to model use.
 
 **Keywords:** Earth system modeling; global gridded data; data standardization; NetCDF; data distribution; model initialization
 
@@ -44,26 +44,26 @@ GriddingMachine 新版由数据生产、目录与分发、数据使用三个相�
 
 **Fig. 1 Framework for global gridded data production, distribution, and model use in GriddingMachine.** A browser form or template generates YAML configurations for standardization and quality control. The catalog and distribution component maintains NetCDF files, content checksums, and mirrors. The data-use component manages the catalog, verifies cache-based downloads, provides unified access, and supplies parameters and forcing for Emerald initialization. Dashed lines indicate independent updates, community feedback, or mechanisms to be validated in the manuscript release. Server/Requestor is outside the scope of this study.
 
-在生产端，原始数据及其处理规则分别作为数据输入和 YAML 配置输入。当前 YAML 描述原始文件组合、源变量、经纬度方向、数值变换、有效范围、缺失值处理及输出元数据；论文实验版本将进一步加入显式维度映射。`process_dataset!` 根据配置枚举需要处理的数据文件，依次调用读取、验证和保存过程，最终生成以统一标签命名的 `TAG.nc`。生产过程中的质量控制包括可自动断言的结构与数值检查，以及用于补充确认空间方向的图形复核。自动检查必须成为合成数据测试矩阵的一部分，人工复核不能替代维度、坐标、数值范围和缺失值处理的程序化验证。
+在生产端，原始数据及其处理规则分别作为数据输入和 YAML 配置输入。论文版本使用共享 schema 描述原始文件组合、源变量、经纬度方向、源维度语义、数值变换、有效范围、缺失值处理及输出元数据；网页生成器与处理流水线调用同一校验函数。`process_dataset!` 根据配置枚举输入，依次完成读取、验证和保存，最终生成以统一标签命名的 `TAG.nc`。生产过程中的质量控制同时包括可自动断言的配置、维度与数值检查，以及用于补充确认空间方向的图形复核；人工复核不替代程序化验证。
 
-通过质量控制的数据产品被发布到机构 FTP、HTTP(S) 服务或 Zenodo 等公共存储位置。一个数据标签可以对应多个镜像地址，并在 `Artifacts.yaml` 中登记标签、相对路径和 URL。目录文件与 `GriddingMachine.jl` 软件包分开维护，使数据列表可以在不发布新软件版本的情况下更新。当前目录尚未记录文件大小和 SHA-256，下载过程也未执行内容哈希校验，因此本文不把现有实现表述为已经保证镜像内容一致或文件完整性。
+通过质量控制的数据产品可发布到机构 FTP、HTTP(S) 服务或 Zenodo 等公共存储位置。一个标签可以对应多个镜像地址；论文版本在 `Artifacts.yaml` 中登记相对路径、URL、文件字节数和 SHA-256。`GriddingMachineDatasets` 的目录生成函数仅从本地文件计算这些字段并事务式写入本地 YAML，不承担网站上传或远程记录管理。目录与 `GriddingMachine.jl` 分开维护，使数据列表能够独立更新。
 
-在数据使用端，Collector负责初始化、更新和加载目录，并由`download_dataset!`完成镜像排序、失败回退和文件下载。当前代码先把文件下载到`cache`目录，在某个下载调用未抛出异常后退出镜像循环，再把缓存文件移动到`public`数据目录；这一过程尚未比较文件大小或内容哈希。Indexer随后通过`read_dataset`提供整场、指定周期及站点数据读取，并通过`grid_dict`和`grid_weather`将多个标签组织为模型参数集合和气象驱动。论文release在完成校验与接口测试后，将这些数据用于Emerald固定格点初始化和最小步进。
+在数据使用端，Collector 的 `configure!` 显式设置本地根目录与目录来源，包加载不再自动访问网络。目录下载先进入临时文件，经 schema 校验后替换正式目录，并保留上一有效目录；`download_dataset!` 使用 HTTP 协议探测排序镜像，为每次调用创建独立 `.part` 文件，只有字节数和 SHA-256 均符合目录时才进入 `public`，否则清理本次缓存并尝试下一镜像。Indexer 通过 `read_dataset` 提供整场、指定周期及站点读取，`grid_dict` 和 `grid_weather`则组织 Emerald 所需参数和气象驱动。论文版本已完成固定夹具下的接口回归、Emerald 最小初始化及 60 s 单步烟雾验证，真实科学数据案例仍需单独执行。
 
 该生命周期不是单向发布链。模型使用过程中发现的数据错误、元数据不足和新增数据需求可以反馈至 YAML 配置、质量控制和版本登记环节，形成持续维护机制。本文评价的重点是上述本地数据生产、可靠分发、统一读取和模型接口闭环；考虑到网络服务部署与端口安全涉及不同的技术问题，Server/Requestor 不纳入本文核心架构与实验评价。
 
-表1概括2022版与当前论文版本的主要差异。这里将“当前已有行为”与“拟在实验release中实现的增强”分开列示，防止把设计目标误写为已经完成的软件功能。
+表1概括2022版与当前论文版本的主要差异，并明确已实现机制与仍需外部实验验证的边界。
 
 **表1 2022版与当前论文版本的功能和技术路线比较**
 
 | 环节 | 2022版 | 当前论文版本 | 当前边界 |
 |---|---|---|---|
 | 分发单元 | NetCDF的`tar.gz` artifact | 可直接读取的`.nc` | 效率优势待3.2节验证 |
-| 数据目录 | 软件内置`Artifacts.toml` | 外置并可独立更新的`Artifacts.yaml` | 更新依赖网页文本结构，无schema与回滚 |
-| 下载 | artifact下载、哈希寻址和解包 | ping排序、多URL回退、cache至public | 当前无大小或哈希校验 |
+| 数据目录 | 软件内置`Artifacts.toml` | 外置`Artifacts.yaml`；schema校验、临时替换和上一版本备份 | 默认入口仍需解析Zenodo落地页 |
+| 下载 | artifact下载、哈希寻址和解包 | 协议探测、多URL回退、独立cache、`SIZE/SHA256`校验后落盘 | 跨平台与真实网络结果待补 |
 | 读取 | `read_LUT` | `read_dataset`，旧名称保留为别名 | 假设全球规则经纬网，不插值 |
 | 模型组织 | 标准化数据和通用读取 | `grid_dict`与`grid_weather` | 仅支持固定标签组合 |
-| 数据生产 | 数据源专用处理及贡献流程 | YAML驱动的通用处理骨架 | 配置schema与任意维度重排尚未完成 |
+| 数据生产 | 数据源专用处理及贡献流程 | 共享YAML schema、网页生成及显式源维度映射 | 完整生产流水线矩阵与贡献者复现待补 |
 
 **Table 1 Comparison between the 2022 release and the current manuscript version of GriddingMachine.** The table distinguishes implemented behavior from enhancements that still require implementation and validation. A field-level comparison is provided in the supplementary manuscript materials.
 
@@ -90,19 +90,19 @@ GriddingMachine 以 NetCDF 作为标准数据格式，原因是该格式能够�
 
 **Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** Each requirement is evaluated by automated tests against the frozen experimental release. A detailed working table, including field-level checks, is maintained with the manuscript materials.
 
-CF 约定不强制固定维度顺序，而是利用坐标变量和属性表达数据含义[2]。GriddingMachine 进一步固定输出维度顺序，是为了降低下游模型接口的复杂度；但生产端不能假设所有源数据已经采用这一顺序。因此，论文实验版本的 YAML schema 需要显式记录源变量各维度的语义，将 `(lat, lon)`、`(ind, lat, lon)` 等排列重排为统一输出，并通过坐标值而非仅凭数组位置判断翻转和循环平移操作。对于非规则网格、区域投影或无法无损映射到规则经纬网的数据，流水线应给出明确错误或进入数据源专用的预处理步骤，而不能静默生成看似合规的文件。
+CF 约定不强制固定维度顺序，而是利用坐标变量和属性表达数据含义[2]。GriddingMachine 固定输出维度顺序以降低下游接口复杂度，但生产端不能假设源数据已经采用该顺序。论文版本通过 YAML 的 `DIMENSIONS` 显式记录源变量各维度语义，并由 `standardize_dimension_order` 将 `(lat, lon)`、`(ind, lat, lon)` 等排列重排为统一输出；经纬度翻转与循环平移则结合坐标值和位置编码数组验证。非规则网格、区域投影或不能无损映射到规则经纬网的数据必须明确拒绝或进入数据源专用预处理，不能静默生成看似合规的文件。
 
 #### 2.2.2 YAML 配置结构
 
 YAML 将数据源差异与通用处理代码分离。当前配置由四类顶层字段组成：`FILE` 描述文件命名模式及 `PREFIX`、空间分辨率 `NX`、时间分辨率 `MT`、可选年份 `YYYY` 和数据版本 `VV`；`FOLDER` 指定原始数据与标准化数据目录；`DATA` 及可选的 `STD` 描述源变量名称、单位、缩放、有效范围、经纬度变换、缺失值策略和处理日志；`GRIDDINGMACHINE` 定义标签及可选修订号。一个配置可以包含多组前缀、分辨率、时间尺度、年份和版本，流水线对其笛卡尔组合逐项生成目标文件。
 
-为避免配置错误在长流程末端才暴露，论文实验版本将为 YAML 增加 `schema_version` 并在读取数据前完成结构校验。字段分为必需字段、具有明确默认值的可选字段和互斥字段；数组长度必须与变量前缀一一对应。维度映射、坐标变量、缺失值、单位、引用、许可和输出属性均由 schema 约束。旧版遗留的 `TARBALL` 字段从生产配置中删除，YAML 网页生成器与处理流水线必须由同一 schema 驱动，确保网页生成的最小配置能够直接运行。以 `wyujie@51cf0fe` 为基线的21份 YAML 尚未完全满足这一要求，例如 `GAPFILL` 并非全部配置均具备，而当前读取函数将其作为必需字段；这些差异将在正式实验前通过 schema 迁移和配置测试消除。
+为避免配置错误在长流程末端才暴露，论文版本加入 `SCHEMA_VERSION` 并在读取数据前进行结构校验。字段分为必需项、具有明确默认值的可选项和互斥项，数组长度必须与变量前缀一一对应；`DIMENSIONS`、坐标变换、缺失值策略和输出属性由共享 schema 约束。旧版 `TARBALL` 已从生产配置及网页生成内容移除，缺省 `GAPFILL` 被规范化为 `KEEP_AS_IS`。当前自动测试覆盖合法最小配置、旧配置规范化、非法字段、数组长度和维度映射，但来源、许可、引用和输出 NetCDF 的完整溯源属性仍需继续约束。
 
 #### 2.2.3 网页配置生成器
 
 `GriddingMachineDatasets`仓库包含一个面向数据贡献者的本地网页工具。其前端表单收集文件命名模式、变量标签、分辨率、时间尺度、版本、输入输出目录、单位、数值范围、缩放、纬度方向及GriddingMachine标签，后端`YamlBuilder`将表单内容转换为YAML，并提供预览和保存接口。该工具的目的不是提供远程数据服务，而是减少手工编辑配置时的拼写、缩进和字段遗漏，使贡献者能够从原始NetCDF开始执行标准化流程。因此，它与本文排除的Server/Requestor具有不同用途。
 
-当前网页工具尚不能作为已经完成的贡献入口：保存目录被固定为一条Linux服务器路径，生成内容仍包含已经取消的`TARBALL`，没有覆盖`GAPFILL`、经度变换、源维度映射和完整溯源字段，相关依赖也未完全纳入根项目环境。论文release须让网页生成器和`process_dataset!`共用同一YAML schema，允许用户选择输出目录，并对表单输入进行字段级校验。契约测试将把网页生成的YAML直接交给流水线；只有能够解析并完成受控数据处理的配置才算通过，单纯生成格式合法的文本不算通过。
+论文版本已使网页后端调用共享 schema，生成内容不再包含 `TARBALL`，并补入 `SCHEMA_VERSION`、`GAPFILL` 与 `DIMENSIONS`；输出位置由调用者提供，而非固定为服务器路径。现有契约测试证明网页生成的配置能够通过同一 schema，但尚未把浏览器表单、合成 NetCDF、交互方向复核和最终保存串成一次端到端实验，因此本文暂不把网页工具表述为已经完成用户可用性验证的贡献入口。
 
 #### 2.2.4 数据处理顺序与可追溯输出
 
@@ -128,9 +128,9 @@ YAML 将数据源差异与通用处理代码分离。当前配置由四类顶层
 
 数据文件名由 `griddingmachine_tag` 生成，基本形式为 `TAG_(PREFIX_)NX_MT_(YYYY_)VV(_REVISION)`。其中 `NX` 表示空间分辨率，`MT` 表示时间分辨率，`YYYY` 和 `REVISION` 为可选部分。生成输出路径时，代码读取当前 `Artifacts.yaml`，如果拟生成标签已经存在则触发断言，从而避免直接产生同名数据文件。
 
-当前的数据发布与登记尚未组成全自动流程。标准 NetCDF 需要先上传至 Zenodo，机构 FTP 副本也需要单独准备；现有 `update_yaml_library!` 脚本尝试从 Zenodo 记录网页提取 `.nc` 文件链接，根据文件名生成标签，并向 `Artifacts.yaml` 条目写入 `PATH` 以及 Zenodo、FTP URL。已有标签会追加新的 URL，新标签则创建目录项，最后对目录排序并写回文件。FTP 上传在代码中仍为 TODO，服务器地址、目录路径和 Zenodo 记录号也采用固定值；脚本还存在变量名不一致和模块加载时直接执行的问题。因此，本文将其描述为“辅助生成目录条目的开发脚本”，不称为已经实现的自动发布系统。
+数据发布与目录登记被有意分开。维护者先在 Zenodo、机构 FTP 或其他存储中完成显式发布，再把本地标准 NetCDF 路径和公开 URL 交给 `update_yaml_library!`。该函数调用 `build_catalog_entry` 读取本地文件，生成 `PATH`、去重后的 `URL`、`SIZE` 和 `SHA256`，按标签排序后通过临时文件替换本地 `Artifacts.yaml`。它不抓取网页、不内置服务器地址，也不执行上传、删除或远程记录修改，因此本文称其为“可校验目录生成器”，而不是自动发布系统。
 
-仓库中的 `verify_urls!` 用于初步检查目录地址。它先对各服务器执行 ping，再通过 FTP 目录查询或 HTTP GET 判断文件是否存在，并将异常地址写入日志。但当前全库函数在检查前10个标签后即停止，HTTP 请求关闭了 TLS 证书校验，而且禁止 ICMP 的可用服务器会被直接视为不可访问。由此，现有代码可以辅助抽查部分 URL，不能证明全部1 179个标签均可访问，也不能证明多个 URL 指向内容相同的文件。当前 `Artifacts.yaml` 仅保存 `PATH` 和 `URL`，尚无文件大小或内容哈希字段。
+目录生成器的单元测试使用临时文件核对字节数和 SHA-256，并验证写回后的 YAML 值；下载端再以相同字段验证实际内容，从而形成“本地标准文件—目录条目—下载文件”的最小完整性链。现存 `verify_urls!` 仍只能作为旧目录地址抽查工具，不能证明全部历史标签可访问或既有多个 URL 内容一致；因此，历史目录迁移必须重新从权威本地文件生成 `SIZE/SHA256`，不能仅凭 URL 可访问性补写哈希。
 
 #### 2.3.4 数据贡献与发布流程
 
@@ -142,31 +142,29 @@ YAML 将数据源差异与通用处理代码分离。当前配置由四类顶层
 
 #### 2.4.1 本地目录初始化与加载
 
-`GriddingMachine.jl` 通过 Collector 模块管理数据目录和本地文件。当前代码将工作目录固定为用户主目录下的 `GriddingMachine`，其中 `Artifacts.yaml` 保存数据目录，`cache` 保存下载过程中的缓存文件，`public` 按目录条目中的 `PATH` 保存正式 NetCDF。Collector 模块加载时创建这些目录，并立即调用 `load_database!` 读取 `Artifacts.yaml`，将目录内容和标签分别保存在全局变量 `YAML_DATABASE` 和 `YAML_TAGS` 中。如果本地目录文件不存在，软件包会先访问 Zenodo 下载目录，再完成解析。
+`GriddingMachine.jl` 通过 Collector 管理目录和本地文件。`configure!` 可从参数或环境变量设置数据根目录、目录 URL 和本地目录文件；`cache` 保存下载临时文件，`public` 按条目中的 `PATH` 保存正式 NetCDF。模块初始化只设置配置并清空内存状态，不创建目录、不读取目录且不访问网络；只有显式调用初始化、加载、更新或下载时才发生对应 I/O。
 
-目录条目以数据标签为键，当前包含 `PATH` 和 `URL` 两类信息。`dataset_found` 判断标签是否存在；`dataset_path`、`dataset_dir`、`dataset_cache` 和 `dataset_url` 分别返回正式文件路径、目标目录、缓存路径和下载地址数组。该结构使目录内容可以独立于 `GriddingMachine.jl` 的发布版本更新，但也意味着首次加载软件包时可能发生目录创建和网络访问。当前实现没有离线模式或可配置的数据根目录，本文将这一行为作为现有软件边界，而不表述为无副作用的初始化过程。
+目录条目以数据标签为键，必需字段为安全相对路径 `PATH` 和至少一个 `URL`，可选完整性字段为正整数字节数 `SIZE` 与64位十六进制 `SHA256`。加载时对标签字符、路径穿越、URL 协议和完整性字段执行 schema 校验，并提供路径、URL、信息和本地状态查询。可配置根目录与无网络导入使测试和离线使用能够与开发者真实数据目录隔离。
 
 #### 2.4.2 数据目录更新
 
-`update_database!` 调用 `download_database!` 获取远端目录，随后重新执行 `load_database!` 并更新内存中的标签列表。远端入口目前固定为一个 Zenodo 记录页面。`download_database!` 首先下载该页面的 HTML 文本，查找包含 `Artifacts.yaml?download=1` 的行，从中截取实际文件记录号和下载地址。软件包同时在本地 `Zenodo` 文本文件中保存上次记录号；当远端记录号、本地记录号和目录文件均存在且一致时跳过下载，否则最多重试3次下载 `Artifacts.yaml`，并写入新的记录号。
+`update_database!` 调用 `download_database!` 获取目录，验证后再加载为内存状态。调用者可直接提供 YAML 文件 URL，也可使用 Zenodo 落地页；后者仍通过页面中的 `Artifacts.yaml` 链接解析实际下载地址。目录先写入同目录临时文件，解析根节点并执行 schema 校验；通过后备份当前目录为 `Artifacts.previous.yaml`，再替换正式文件。
 
-该机制已经实现“目录更新与软件包版本分离”，但更新过程依赖 Zenodo 网页的具体文本结构，而不是结构化 API。目录文件直接写入正式路径，记录号也在同一下载过程内更新；当前代码没有在替换前执行 YAML 结构检查，也没有保留上一目录版本。因此，本研究可以验证软件包是否发现并加载新目录记录，但不能据现有代码声称目录更新具有原子性或自动回滚能力。
+该机制实现了目录与软件版本分离，并避免损坏 YAML 直接覆盖上一有效目录；替换失败时使用备份恢复。当前局限是默认 Zenodo 入口仍依赖落地页链接结构，而非结构化 API；备份也只有一个上一版本，不能替代远程版本归档。
 
 #### 2.4.3 多镜像排序与失败回退
 
-`download_dataset!` 接收一个数据标签。如果标签不在当前内存目录中，函数先调用 `update_database!` 刷新目录；刷新后仍不存在则报错。若对应 NetCDF 已位于正式路径，函数直接返回本地文件，不再访问网络。需要下载时，函数取得该标签的全部 URL，提取各 URL 的服务器地址，调用 `ip_address_ping` 测量往返时间，并按测得时间由小到大排列镜像。
+`download_dataset!` 接收数据标签；标签不存在时可显式选择刷新目录，正式文件已存在且通过已登记完整性检查时直接返回。需要下载时，函数对 HTTP(S) URL 发送限时 `HEAD` 请求，以协议层响应时间和可用性排序；探测失败的 URL 仍保留在队列尾部，避免“禁用 ICMP 即不可下载”的误判。
 
-当前 `ip_address_ping` 执行 `ping -c 2 -W 2`，分别解析 macOS 的汇总行或 Linux 的 `time=` 输出；命令失败、输出格式不匹配或无法解析时返回 `Inf`。下载循环按排序结果依次尝试镜像：遇到 `Inf` 时报告服务器不可达；`Downloads.download` 抛出异常时记录警告并继续下一个 URL；某次调用未抛出异常时退出循环。这一实现体现了“优先尝试网络往返时间较短的镜像，并在下载异常时回退”的基本逻辑。
+下载循环按排序结果逐一尝试镜像。每次尝试均写入进程级唯一 `.part` 文件，并检查文件确实生成、字节数符合 `SIZE`、摘要符合 `SHA256`；任一条件失败即删除本次临时文件并记录原因，随后尝试下一 URL。全部镜像失败时抛出汇总错误，不触碰已有正式文件。
 
-镜像排序目前存在两项明确边界。第一，Windows 的 ping 参数和输出格式与当前实现不同，因此 Windows 上可能把所有镜像判断为不可达；服务器禁用 ICMP 时，即使 HTTP 或 FTP 文件可访问也会得到 `Inf`。第二，ping 反映的是 ICMP 往返时间，不等同于文件协议连接时间、首字节时间或实际传输吞吐率。因而本文在完成跨平台实验前，只称该方法为“基于 ping 的镜像排序”，不称为跨平台最优镜像选择。
+协议探测消除了操作系统 `ping` 参数和 ICMP 策略差异，但 `HEAD` 响应时间仍不等于大文件吞吐率，且 FTP 镜像目前不能以同一方式预探测。因此本文只称其为“协议可达性辅助排序”，不声称选择全局最优镜像；跨平台故障注入仍是必要实验。
 
 #### 2.4.4 缓存落盘与批量同步
 
-每个标签使用 `cache/<TAG>.nc` 作为缓存文件。下载循环结束后，代码创建 `Artifacts.yaml` 中指定的目标目录，并通过 `mv` 将缓存文件移动到正式路径。该设计使正在下载的文件与 `public` 中供读取的数据分离，降低未完成下载直接以正式路径出现的可能性。`sync_database!` 在更新目录后遍历全部标签并调用 `download_dataset!`，每个标签之间暂停1秒，可用于顺序同步整个目录。
+每次下载使用 `cache/.<TAG>.<PID>.part`，校验成功后才移动到正式路径；`sync_database!` 在更新目录后遍历标签并复用相同下载逻辑。论文测试仅同步临时 fixture，不运行超过100 GB的完整历史目录。
 
-当前缓存流程不检查响应内容、文件大小或哈希，也没有独立的下载成功状态。如果所有具有有限 ping 的镜像均在下载时抛出异常，循环结束后仍会执行 `mv`；此时可能因缓存不存在而报错，也可能移动之前残留的同名缓存。现有 `Artifacts.yaml` 不含哈希字段，因此无法判断下载内容是否完整或多个镜像是否一致。本文将通过下载中断、截断文件、错误响应和全部镜像失败等案例验证这些边界；在当前代码未修改前，不使用“完整性保证”或“安全原子下载”等表述。
-
-论文release将恢复2022版artifact流程中已有但在直接NetCDF迁移时丢失的内容校验：目录条目同时登记文件字节数和SHA-256；每次下载使用干净的临时cache；仅当下载成功、字节数和SHA-256均一致时才以原子重命名方式进入`public`；失败时删除本次临时文件并保持已有正式文件不变。该行为必须通过故障注入复测后才能写入结果。
+本地回归已覆盖首选镜像失败、错误字节数、错误 SHA-256、残留缓存及全部失败等受控分支，并断言失败内容不进入正式目录。现阶段证据来自 Windows 上的注入式 downloader/probe fixture；Linux、macOS、真实 HTTP 超时与连接重置仍需在冻结 release 后运行，因而跨平台可靠性结论暂不写入摘要。
 
 #### 2.4.5 Collector公共操作
 
@@ -230,7 +228,7 @@ Indexer 模块使用 `read_dataset` 读取本地 NetCDF 或目录标签。当前
 
 每个案例记录结构检查、数值检查和异常检查结果。结构通过要求输出变量、维度、形状和属性与预期一致；数值通过要求逐点结果与金标准一致，Float32转换按预先固定的绝对和相对容差判断；预期失败通过要求函数产生指定类型和阶段的错误，且不留下可被当作正式数据使用的输出。另记录最大绝对误差、最大相对误差、处理日志和重复运行一致性。
 
-全部非交互测试在Linux、macOS和Windows上运行至少3次。论文声称支持的案例必须达到100%的结构和数值通过率；暂不支持的案例必须稳定拒绝，不能静默产生错误结果。人工方向图由至少2名检查者独立判断并保存审核记录，但不计入自动正确率。当前目标分支没有`test/runtests.jl`，本机也没有可用Julia环境，因此本节目前是预先冻结的实验方案，不包含运行结果。
+正式实验中，全部非交互测试在Linux、macOS和Windows上运行至少3次。论文声称支持的案例必须达到100%的结构和数值通过率；暂不支持的案例必须稳定拒绝，不能静默产生错误结果。人工方向图由至少2名检查者独立判断并保存审核记录，但不计入自动正确率。当前已在 Windows 和 Julia 1.12.6 环境建立自动测试入口并完成 schema、维度映射、网页配置、目录生成等实现级回归；完整31案例流水线和另外两种操作系统仍属于投稿前实验。
 
 #### 3.1.4 网页配置契约与贡献流程复现
 
@@ -258,7 +256,7 @@ Indexer 模块使用 `read_dataset` 读取本地 NetCDF 或目录标签。当前
 
 #### 3.3.3 真实镜像补充检查
 
-真实镜像实验从当前具有多个URL的标签中固定3～5个小中型文件，在中科大校内网络和至少一种校外网络各重复3～5次，记录协议可达性、选择的镜像、回退、吞吐率和内容校验结果。该实验仅确认受控结论在有限真实环境中没有明显矛盾，不比较两个存储服务的长期性能，也不外推到整个目录。当前代码的Windows ping、ICMP误判、无哈希以及全部下载失败后仍可能执行`mv`是基线缺陷；论文结果应报告修复后的release是否通过，而不是把已知缺陷重新包装成未知假设。
+真实镜像实验从当前具有多个URL且已经补齐`SIZE/SHA256`的标签中固定3～5个小中型文件，在中科大校内网络和至少一种校外网络各重复3～5次，记录协议可达性、选择的镜像、回退、吞吐率和内容校验结果。该实验仅确认受控结论在有限真实环境中没有明显矛盾，不比较存储服务的长期性能，也不外推到整个目录。基线的 Windows ping、ICMP误判、无哈希以及失败后移动缓存问题已经在论文分支修复；正式结果需报告冻结 release 的三平台复测，而非仅报告修复代码存在。
 
 ### 3.4 统一读取与模型初始化案例
 
@@ -266,45 +264,39 @@ Indexer 模块使用 `read_dataset` 读取本地 NetCDF 或目录标签。当前
 
 数值金标准通过后，固定Emerald版本和依赖环境，将`grid_dict`和`grid_weather`输出用于同一植被格点的模型初始化，并执行能够读取首个气象时间步的最小步进烟雾测试。记录初始化是否成功、字段映射错误、单位或维度错误以及首步是否产生有限状态。本文不比较长期模拟结果、科学性能或计算速度；若投稿前不能完成该最小验证，则`grid_dict/grid_weather`只能作为未完成的软件功能，不能列入摘要的已验证贡献。
 
-## 4 结果
+## 4 阶段性结果与待完成实验
 
-本章结构在实验前冻结，用于避免根据结果改变指标或选择性报告。所有数值均从固定release的原始CSV和日志生成；当前第一版不包含尚未运行的实验结果，方括号内容为回填位置，不代表推断性结果。
+本节只报告已由当前本地提交和日志支持的结果；尚未运行的跨平台、真实数据、性能和参与者实验列为待完成项，不以占位数值冒充结果。当前验证环境为 Windows、Julia 1.12.6，代码提交为 `GriddingMachine@fe46788` 和 `GriddingMachineDatasets@049867d`。
 
-### 4.1 数据生产与贡献流程复现
+### 4.1 数据生产、配置契约与目录生成
 
-31个合成案例在Linux、macOS和Windows上的总执行次数分别为[待填写]、[待填写]和[待填写]。其中，当前声称支持的[待填写]个案例有[待填写]个达到结构与数值断言，符合预期率为[待填写]%；边界案例中[待填写]个被明确拒绝，[待填写]个产生非预期失败，[待填写]个出现静默错误。各组结果及最大数值误差见表4a。
+`GriddingMachineDatasets` 自动测试共47项，全部通过。其中38项覆盖 YAML schema、旧配置规范化、非法配置拒绝、二维/三维源维度重排和网页生成契约；9项覆盖包级加载、运行时根目录配置以及本地目录元数据生成。目录生成测试从临时文件得到正确的 `SIZE` 与 SHA-256，并成功写回、重读 `Artifacts.yaml`；空 URL 和缺少本地文件字段均被明确拒绝。
 
-[实验后从下列两类表述中选择并给出案例编号：①结果支持时，说明维度、坐标、缩放和缺失值处理中哪些组合已通过；②发现缺陷时，说明缺陷触发条件、输出影响以及其是否在论文release中修复。] 重复运行的输出哈希一致率为[待填写]%，人工方向检查的检查者一致性为[待填写]。真实数据案例[数据标签待填写]与其独立参考结果的最大绝对误差为[待填写]。
-
-网页配置生成器的[待填写]个合法表单案例中，[待填写]个生成的YAML无需手工修改即可由流水线处理；[待填写]个非法输入均在处理前得到字段级提示。贡献流程复现共有[待填写]名参与者，其中[待填写]名仅依据文档完成全部步骤；口头干预集中在[步骤待填写]。修订指南后，后续验证者的完成情况为[待填写]。最终NetCDF和目录项的自动断言通过率为[待填写]。
+这些结果证明共享配置契约、维度重排函数和本地目录完整性字段已经实现，但不能替代完整 `process_dataset!` 合成 NetCDF 矩阵。投稿前仍需完成31案例端到端运行、人工方向复核、至少1个真实数据案例以及2～3名未参与开发者的贡献流程复现。
 
 ### 4.2 直接NetCDF分发效率
 
-三个候选数据产品的直接NetCDF与`tar.gz`在解包后具有相同SHA-256。受控本地HTTP冷缓存实验中，直接NetCDF相对`tar.gz`的传输字节变化为[待填写]%，端到端首次读取时间变化为[待填写]%，峰值临时磁盘占用变化为[待填写]%；分数据类型的结果见表4b。
+取消外层 `tar.gz` 已在代码路径中实现，但三类数据产品的受控性能比较尚未运行。因此当前只能得出“删除了额外打包与解包步骤”，不能声称传输量、首次读取时间或临时磁盘占用必然更低。该实验保留为投稿前必要的支持性实验，按3.2节方案报告中位数、四分位距和95% bootstrap置信区间。
 
-[仅在置信区间和重复实验支持时写入方向性结论。若外层压缩节省传输量但增加解包时间，则分别报告带宽受限和本地处理受限条件，不给出“直接NetCDF始终更快”的总体结论。]
+### 4.3 Collector、完整性校验与故障分支
 
-### 4.3 Collector操作、多镜像与故障注入
+`GriddingMachine` 自动回归共61项，全部通过：目录初始化和schema 5项、事务式目录更新6项、镜像回退/缓存隔离/完整性校验8项、同步/信息/目录树/安全清理8项、`read_dataset` 18项、模型输入字典15项。受控 fixture 已验证错误大小、错误哈希、首选镜像失败和全部镜像失败时不会把错误缓存作为正式数据，并验证目录损坏不覆盖上一有效目录。所有清理测试均限定在临时数据根目录。
 
-Collector状态矩阵覆盖[待填写]个初始状态和[待填写]项公共操作。初始化/加载、目录更新、单标签下载、小型目录同步、三类清理、目录树、信息查询及`read_dataset`重载分别有[待填写]项符合预期；重复调用的状态一致率为[待填写]%。目录损坏或网络失败时，上一有效目录和正式文件保持不变的案例数为[待填写]/[待填写]。`read_LUT`兼容别名与`read_dataset`的结果一致率为[待填写]%。
-
-受控双镜像实验共执行[待填写]个“平台—场景”组合和[待填写]次下载。Linux、macOS和Windows的成功率分别为[待填写]%、[待填写]%和[待填写]%，在首选镜像返回404、超时或连接重置时的正确回退率分别为[待填写]。禁止ICMP但HTTP可用、全部镜像失败、残留缓存、HTML响应和中途截断等场景的正式目录状态正确率见表4c。
-
-真实网络实验覆盖[待填写]个具有多个URL的标签。校内和校外网络的有效下载数/总尝试数分别为[待填写]和[待填写]，镜像选择、吞吐率、回退次数和内容校验结果为[待填写]。这些结果只代表选定标签和测量时段，不外推至整个目录。基线代码中的Windows ping、ICMP误判、缺少哈希和失败后移动缓存问题对应的修复commit为[待填写]，修复后复测通过数为[待填写]/[待填写]。
+上述结果是 Windows 上的函数级故障注入，不等同于三操作系统真实网络实验。Linux、macOS、真实HTTP的404/超时/连接重置、3～5个真实多镜像标签及校内外网络复测仍需完成；在此之前不声称镜像选择具有跨平台最优性或代表全部历史目录。
 
 ### 4.4 统一读取与模型初始化接口
 
-在[最终格点和年份待填写]上，`read_dataset`各重载与NetCDF底层读取的比较次数为[待填写]，一致率为[待填写]%，最大绝对误差为[待填写]。`grid_dict`的[待填写]个输出字段和`grid_weather`的9类输出中，分别有[待填写]和[待填写]项与独立金标准在既定容差内一致；缺失值、端点和裸土边界行为见表4d。
+合成 NetCDF 回归中，`read_dataset` 的整场、周期和站点读取、经纬度边界换算及 `read_LUT` 兼容别名均通过，共18项；`grid_dict/grid_weather` 的字段、形状、时间组织和裸土分支共15项通过。测试发现并修复裸土分支把标量传给 `resample` 的错误，并使气象接口返回 Emerald 可接受的普通 `Dict`。
 
-在Emerald[版本待填写]中，`grid_dict`输出完成固定植被格点初始化的结果为[成功/失败，待填写]，`grid_weather`首个时间步完成最小步进的结果为[成功/失败，待填写]。发现的字段、单位或维度映射问题及修复commit为[待填写]。裸土格点产生的预期边界行为为[待填写]。本节不报告长期模型结果，也不据此评价Emerald的科学性能。
+在隔离依赖环境中，Emerald 最小烟雾测试5项全部通过，覆盖参数组织、气象组织、模型初始化和60 s单步执行。这只证明接口在固定合成输入下能够连接，不证明 US-NR1 真实格点数值、单位、长期模拟或科学性能；真实固定格点金标准比较仍为投稿前必要实验。
 
 ## 5 讨论
 
 ### 5.1 从数据集合到可维护工作流
 
-2022版GriddingMachine的主要贡献是建立统一的网格和变量约定，并通过标签及Julia artifact降低多源全球数据的发现和调用成本[4]。当前更新进一步把新数据贡献、目录与镜像维护、统一读取和模型初始化数据组织连接起来。其关键变化不是TOML换成YAML，也不是单纯增加数据数量，而是让贡献者能够按同一契约制作数据，让目录独立于软件更新，让同一标签可从多个位置取得并校验内容，并让固定的数据组合直接形成模型初始化输入。表1同时表明，这一演进尚未完成：基线代码已有YAML处理骨架、网页原型、外置目录、多URL、缓存落盘和模型字典，但schema、完整性校验、安全发布、完整回归测试及部分跨平台行为仍需在论文release中补齐。
+2022版GriddingMachine的主要贡献是建立统一的网格和变量约定，并通过标签及Julia artifact降低多源全球数据的发现和调用成本[4]。当前更新进一步连接新数据贡献、目录与镜像维护、统一读取和模型初始化数据组织。其关键变化不是TOML换成YAML，也不是单纯增加数据数量，而是共享配置契约、独立可验证目录、失败不污染正式文件的下载状态机，以及可回归测试的模型输入接口。当前论文分支已补齐schema、显式维度重排、目录事务替换、`SIZE/SHA256`校验和主要函数回归；尚未完成的是完整生产矩阵、历史目录迁移、三平台真实网络和真实格点验证。
 
-第4章实验完成后，本节将据RQ1—RQ4回答这些变化是否形成可重复的工作流。生产正确性依据逐点金标准和网页—流水线契约，而非流程成功退出；贡献流程依据未参与开发者能否按文档独立完成；分发可靠性以故障后的正式目录状态和内容哈希为核心；公共接口依据状态转换断言；模型接口则同时满足数值金标准和Emerald最小初始化。这样的评价方式避免用功能列表或主观代码量替代验证。
+阶段性结果表明核心机制已具有自动回归证据，但尚不足以回答全部RQ1—RQ4。生产正确性仍需逐点金标准和网页—流水线端到端契约；贡献流程需由未参与开发者复现；分发可靠性需补三平台真实协议故障；模型接口需补真实格点数值金标准。这样的证据分层避免用功能列表、单次成功运行或主观代码量替代验证。
 
 ### 5.2 与相关地球科学数据基础设施的关系
 
@@ -314,27 +306,27 @@ Earth Engine把大规模地理空间数据与云端计算结合，适合服务�
 
 ### 5.3 FAIR与可复现性的实际边界
 
-标签和外置目录提高数据的可发现性，多URL和直接NetCDF有助于获取，统一网格与变量约定支持互操作，来源、许可、处理记录和版本信息则关系到复用[1]。但是，采用YAML、NetCDF或Zenodo本身并不自动满足FAIR。当前目录缺少文件大小和内容哈希，部分标准文件元数据尚未由schema统一约束，目录更新也没有事务式替换与回滚；这意味着用户可能能够找到并下载文件，却仍不足以证明镜像一致、文件完整或处理可重建。
+标签和外置目录提高数据的可发现性，多URL和直接NetCDF有助于获取，统一网格与变量约定支持互操作，来源、许可、处理记录和版本信息则关系到复用[1]。但是，采用YAML、NetCDF或Zenodo本身并不自动满足FAIR。论文版本已经支持目录 `SIZE/SHA256`、下载后校验和目录事务替换，但历史目录尚未全部迁移，部分标准文件的来源、许可、配置哈希和代码版本也尚未由schema写入最终NetCDF；因此当前证据支持受控文件完整性，不足以证明全部镜像一致或任意数据产品可重建。
 
-论文实验release应把配置哈希、代码版本、文件大小和SHA-256连成最小溯源链，并将每项结果关联到不可变release和原始日志。只有当目录校验、下载后校验、失败清理和重复构建测试全部通过，才可将“可复现”和“可靠”从设计目标提升为结果支持的结论。
+正式 release 仍需把配置哈希、代码版本、文件大小和SHA-256连成最小溯源链，并将每项结果关联到不可变标签、归档地址和原始日志。只有在历史目录迁移、重复构建和跨平台复测通过后，才可把面向完整数据集合的“可复现”和“可靠”从设计目标提升为结果支持的结论。
 
 ### 5.4 局限与后续工作
 
-第一，生产流程当前对源维度顺序作较强假设，21份YAML也没有完全服从统一schema；非规则网格、区域投影和复杂时间坐标仍需要数据源专用预处理。第二，空间方向依赖人工查看图片，审核记录未写入数据溯源；自动坐标和值域断言应成为主检查，人工判断只作补充。第三，基于ping的镜像排序受操作系统、ICMP策略和网络瞬时状态影响，且往返时间不等于实际吞吐率。更稳健的实现应直接探测文件协议，以小范围请求或历史传输统计排序，并在全部失败时保持正式目录不变。
+第一，共享schema和显式维度映射已经实现，但21份历史YAML尚未全部迁移；非规则网格、区域投影和复杂时间坐标仍需数据源专用预处理。第二，空间方向仍依赖人工查看图片，审核记录未写入数据溯源；自动坐标和值域断言应作为主检查，人工判断只作补充。第三，协议层 `HEAD` 探测避免了ping的跨平台问题，但响应时间不等于实际吞吐率，FTP也不能使用同一探测方式；后续可结合小范围请求或历史传输统计，而不把当前排序称为最优选择。
 
-第四，网页配置生成器当前仍有固定路径、遗留字段和依赖未声明等问题；小样本组内复现只能发现明显流程中断点，不能证明面向所有用户的可用性。第五，`read_dataset`按规则网格公式换算索引，没有读取实际坐标，也没有插值，极区和日期变更线端点存在越界风险；当前接口还不检查单位。第六，`grid_dict`和`grid_weather`依赖固定的`gm1/gm2`、`wd1`标签与内置系数，本文的Emerald最小步进只能证明接口可接入，不能证明长期模拟结果或推广到其他模型。后续可增加显式数据清单、单位和来源版本检查，再通过模型适配层支持不同模型。Server/Requestor远程子集服务可作为独立研究方向评估，但不纳入本文核心贡献。
+第四，网页生成内容已与共享schema对齐，但尚未完成浏览器到标准NetCDF的端到端用户实验；小样本组内复现只能发现明显流程中断点，不能证明面向所有用户的可用性。第五，`read_dataset`仍按规则网格公式换算索引，不插值且不在接口层检查单位；边界已作回归，但真实坐标异常仍可能需要读取坐标变量判断。第六，`grid_dict`和`grid_weather`依赖固定的`gm1/gm2`、`wd1`标签与内置系数，Emerald最小步进只能证明接口可接入，不能证明长期模拟结果或推广到其他模型。Server/Requestor远程子集服务可作为独立研究方向评估，但不纳入本文核心贡献。
 
 ## 6 结论
 
-本文在2022版GriddingMachine基础上提出连接数据贡献、标准化生产、目录与镜像维护、统一读取和模型初始化的更新方案。当前`wyujie`基线已经具有YAML驱动的生产骨架和网页原型、可独立更新的YAML目录、直接NetCDF分发、多URL尝试、缓存落盘以及`read_dataset`、`grid_dict`和`grid_weather`接口；代码复核同时表明，YAML格式变化本身不是核心贡献，schema与维度映射、SHA校验、安全落盘、Collector回归和模型初始化验证才是投稿前必须完成的内容。
+本文在2022版GriddingMachine基础上实现连接数据贡献、标准化生产、目录与镜像维护、统一读取和模型初始化的更新。论文分支已形成共享YAML schema和源维度映射、可独立更新且事务替换的目录、直接NetCDF多镜像分发、`SIZE/SHA256`校验后落盘，以及`read_dataset`、`grid_dict`和`grid_weather`接口。YAML格式变化本身不是核心贡献，核心在于配置、目录、下载和模型接口之间形成可机器检查的契约。
 
-本文据此设计合成数据与网页契约、贡献流程复现、直接NetCDF支持性效率对比、Collector状态回归、三平台故障注入、固定格点金标准和Emerald最小初始化实验，使软件更新由工作流正确性和状态证据评价，而不是由功能描述评价。**[实验完成后在此用3—5句填入由结果直接支持的定量结论，并同步更新中英文摘要。]** 在缺少相应实测证据时，本研究不声称直接NetCDF必然更快、镜像选择跨平台最优、下载已经具备完整性保证，或接口已经验证长期模型模拟。
+当前 Windows/Julia 1.12.6 环境中，GriddingMachineDatasets 47项、GriddingMachine 61项以及Emerald最小烟雾5项测试全部通过，证明上述核心机制在受控夹具下可运行。投稿前仍须完成31案例生产流水线、直接NetCDF效率、Linux/macOS故障注入、真实镜像、真实格点及贡献者复现实验；在这些证据缺失时，本文不声称直接NetCDF必然更快、镜像排序跨平台最优或接口已验证长期模型模拟。
 
-GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以目录和模型数据接口连接数据发布者与使用者。完成实验release、溯源字段和自动测试后，该框架有望为全球规则网格数据的持续维护和可复用模型输入提供更可验证的路径。
+GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以可验证目录和模型数据接口连接数据发布者与使用者。完成外部实验、历史目录迁移和正式归档后，该框架可为全球规则网格数据的持续维护和可复用模型输入提供更完整的证据链。
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，本文当前代码基线为`wyujie@715268067645b0b68ba76ffb7c1be945de048705`。数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，当前基线为`wyujie@51cf0fee842c6c731b8c1836841682afec52df48`。论文材料与实验协议位于https://github.com/jhOo1/GriddingMachine_Reaserach。【投稿前以正式release tag和归档DOI替代分支描述，并补充数据目录、原始结果、环境文件与绘图脚本的永久地址。】
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，本文本地论文分支当前提交为`fe46788`。数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，本地论文分支当前提交为`049867d`。论文材料与实验协议位于https://github.com/jhOo1/GriddingMachine_Reaserach。【上述为本地阶段性提交，尚未推送或归档；投稿前应由作者确认后创建正式release tag和归档DOI，并补充数据目录、原始结果、环境文件与绘图脚本的永久地址。】
 
 ## 作者贡献
 
