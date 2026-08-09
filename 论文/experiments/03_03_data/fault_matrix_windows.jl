@@ -251,19 +251,19 @@ function scenario_definition(id::String, data::Vector{UInt8})
     good() = Behavior(body = data)
     bad500() = Behavior(body = collect(codeunits("server-error")), get_status = 500)
     if id == "M01"
-        return (good = true, b1 = Behavior(body = data, head_delay = 0.05), b2 = good(), probe = :real, before = :none, cache = false)
+        return (good = true, b1 = good(), b2 = good(), probe = :prefer_second, before = :none, cache = false)
     elseif id == "M02"
         return (good = true, b1 = Behavior(body = collect(codeunits("missing")), head_status = 404, get_status = 404), b2 = Behavior(body = data), probe = :ordered, before = :none, cache = false)
     elseif id == "M03"
-        return (good = true, b1 = Behavior(body = data, head_delay = 1.50), b2 = good(), probe = :one_second, before = :none, cache = false)
+        return (good = true, b1 = good(), b2 = good(), probe = :first_unreachable, before = :none, cache = false)
     elseif id == "M04"
         return (good = true, b1 = Behavior(body = data, head_action = :reset, get_action = :reset), b2 = good(), probe = :ordered, before = :none, cache = false)
     elseif id == "M05"
-        return (good = true, b1 = good(), b2 = nothing, probe = :real, before = :none, cache = false)
+        return (good = true, b1 = good(), b2 = nothing, probe = :all_unreachable, before = :none, cache = false)
     elseif id == "M06"
-        return (good = false, b1 = bad500(), b2 = bad500(), probe = :real, before = :previous, cache = false)
+        return (good = false, b1 = bad500(), b2 = bad500(), probe = :ordered, before = :previous, cache = false)
     elseif id == "M07"
-        return (good = false, b1 = Behavior(body = UInt8[], head_status = 500, get_status = 500), b2 = Behavior(body = UInt8[], head_status = 500, get_status = 500), probe = :real, before = :previous, cache = false)
+        return (good = false, b1 = Behavior(body = UInt8[], head_status = 500, get_status = 500), b2 = Behavior(body = UInt8[], head_status = 500, get_status = 500), probe = :all_unreachable, before = :previous, cache = false)
     elseif id == "M08"
         return (good = false, b1 = bad500(), b2 = bad500(), probe = :ordered, before = :previous, cache = true)
     elseif id == "M09"
@@ -273,7 +273,7 @@ function scenario_definition(id::String, data::Vector{UInt8})
     elseif id == "M11"
         return (good = false, b1 = Behavior(body = data, get_action = :truncate, announced_length = length(data)), b2 = nothing, probe = :ordered, before = :previous, cache = false)
     elseif id == "M12"
-        return (good = true, b1 = good(), b2 = nothing, probe = :real, before = :valid, cache = false)
+        return (good = true, b1 = good(), b2 = nothing, probe = :all_unreachable, before = :valid, cache = false)
     elseif id == "M13"
         return (good = false, b1 = Behavior(body = wrong_same_length(data, "WRONG-SHA")), b2 = nothing, probe = :ordered, before = :previous, cache = false)
     end
@@ -301,10 +301,12 @@ function run_once(id::String, repetition::Int, data::Vector{UInt8})
             before_exists = isfile(destination)
             before_hash = before_exists ? sha256_file(destination) : ""
             stable_before = isfile(stable_cache) ? sha256_file(stable_cache) : ""
-            probe = if definition.probe == :real
-                CollectorUnderTest.probe_url
-            elseif definition.probe == :one_second
-                address -> CollectorUnderTest.probe_url(address; timeout = 1)
+            probe = if definition.probe == :prefer_second
+                address -> address == urls[2] ? 5.0 : 50.0
+            elseif definition.probe == :first_unreachable
+                address -> address == urls[1] ? Inf : 5.0
+            elseif definition.probe == :all_unreachable
+                _ -> Inf
             else
                 _ -> 0.0
             end
@@ -339,9 +341,9 @@ function run_once(id::String, repetition::Int, data::Vector{UInt8})
                 all(address -> occursin(address, error_text), urls) || error("$id error omitted URL")
             end
             definition.cache && stable_after == stable_before || !definition.cache || error("$id changed stable cache")
-            id == "M01" && get_attempts == ["m2"] || id != "M01" || error("M01 did not select faster mirror")
+            id == "M01" && get_attempts == ["m2"] || id != "M01" || error("M01 did not select the mirror with the lower injected ping")
             id == "M02" && get_attempts == ["m1", "m2"] || id != "M02" || error("M02 did not fall back after 404")
-            id == "M03" && get_attempts == ["m2"] || id != "M03" || error("M03 did not avoid timed-out mirror")
+            id == "M03" && get_attempts == ["m2"] || id != "M03" || error("M03 did not rank the finite ping ahead of Inf")
             id == "M04" && get_attempts == ["m1", "m2"] || id != "M04" || error("M04 did not fall back after reset")
             id == "M05" && get_attempts == ["m1"] || id != "M05" || error("M05 HTTP endpoint was misclassified")
             id == "M07" && get_attempts == ["m1", "m2"] || id != "M07" || error("M07 did not try all URLs after failed probes")
@@ -417,7 +419,7 @@ function main()
         "bootstrap_samples" => BOOTSTRAP_SAMPLES,
         "network_scope" => "127.0.0.1 only",
         "limitation" => BACKEND == "package" ?
-            "Windows package-level result; Linux, macOS, and real-mirror observations remain pending" :
+            "Windows package-level result with injected ping scores; actual ICMP and mirror performance require the campus-network experiment; Linux and macOS remain outside scope" :
             "dataset-download.jl loaded through a minimal source harness",
     )
     open(joinpath(ROOT, "$(output_prefix)_metadata.toml"), "w") do io
