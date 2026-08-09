@@ -1,10 +1,10 @@
-# 实验3.3 Windows受控HTTP结果
+# 实验3.3 历史Windows受控HTTP结果
 
 ## 1. 实验范围
 
 本轮在Windows 10、Julia 1.12.6环境中执行M01～M13，每个场景独立重复5次，共65次。两个故障端点均绑定`127.0.0.1`临时端口，使用已通过来源完整性校验的`ELEV_4X_1Y_V1.nc`（810299 B，SHA-256 `642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f`）作为正确内容。
 
-实验脚本没有复制GriddingMachine源码。清理已确认进程不存在的陈旧`Distances`预编译锁并补齐两个小型依赖源码后，完整GriddingMachine包正常加载，随后`Pkg.test`的61项测试全部通过。故障矩阵默认从`GriddingMachine.Collector`公共模块调用`configure!`、`load_database!`、`probe_url`、`dataset_path`和`download_dataset!`，使用的`dataset-download.jl` SHA-256为`85ef79f427f7e7cadbe4248f7187ec36c59622b467a71be142436143f1289634`。因此本节主要结果已升级为“Windows包级真实HTTP故障实验”；早期最小源码harness结果只保留作补充审计。
+本结果生成于HTTP `HEAD`探测版本，验证了回退、缓存隔离和完整性保护，但不代表当前Windows ping排序版本的最终结果。当前论文代码已在`53bb0be`恢复ping排序并通过63/63测试；受控矩阵须按新协议重跑，且必须另在校园网实际访问FTP和Zenodo。
 
 环境恢复也暴露出一个复现风险：`Pkg.test`提示无法严格使用仓库Manifest，并在临时测试环境中重新解析、降级若干间接依赖后才运行。61/61证明当前解析环境中的功能测试通过，但不能等同于锁定清单已在另一台机器上无歧义复现；终稿归档前仍需修复该问题。
 
@@ -35,8 +35,8 @@
 ## 4. 尚未满足的正式release条件
 
 1. 修复`Pkg.test`不能严格采用仓库Manifest而重新解析依赖的问题，并保存从空缓存建立环境的完整日志。
-2. 结论明确限定为Windows包级回环HTTP状态正确性；不要求Linux/macOS复跑，也不作跨平台外推。
-3. 从具有多个真实URL且补齐`SIZE/SHA256`的目录中选择3～5个小中型标签，分别在校内和至少一种校外网络做只读观察。
+2. 结论限定为历史HTTP探测版本的Windows回环状态记录，不作当前ping排序或跨平台结论。
+3. 在中科大校园网选择同时具有FTP与Zenodo地址且补齐`SIZE/SHA256`的3～5个小中型标签，对两个远端分别进行实际只读下载。
 4. 当前harness没有独立记录TCP连接时间、首字节时间和吞吐率；若终稿需要这些指标，应在正式脚本中增加分阶段计时。
 
 可复核文件：`03_03_data/fault_matrix_windows.jl`、`03_03_data/fault_matrix_windows_package_raw.csv`、`03_03_data/fault_matrix_windows_package_summary.csv`、`03_03_data/fault_matrix_windows_package_metadata.toml`和`03_03_data/package_environment_windows.toml`。无后缀的早期CSV/TOML为源码harness补充记录，不作为当前主要结果。
