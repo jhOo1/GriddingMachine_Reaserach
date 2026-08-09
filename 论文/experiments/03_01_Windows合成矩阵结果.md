@@ -12,10 +12,10 @@
 
 所有NetCDF均生成在研究仓库的纯ASCII临时目录`experiment_data/03_01/work`。早期诊断轮次使用含中文的`论文/.../work`时，NetCDF底层库无法创建文件；改用ASCII路径后问题消失。因此本结果不能证明Windows下含非ASCII路径的兼容性。
 
-首轮冻结曾报告`NetcdfIO.dimname_nc/size_nc/varname_nc`未声明导入。数据生产代码迁移至NetcdfIO 0.3的`read_dimnames/read_varnames/read_dims`后，本地完整测试配置38/38、包集成31/31通过，二维和三维输出均通过`verify_processed_data!`；新提交上的三次矩阵不再出现旧导入警告。GriddingMachine预编译缓存警告仍重复出现，正式环境仍需清理复现。
+首轮冻结曾报告`NetcdfIO.dimname_nc/size_nc/varname_nc`未声明导入。数据生产代码迁移至NetcdfIO 0.3的`read_dimnames/read_varnames/read_dims`后，又修复方向绘图和同一配置对象复用，本地完整测试配置38/38、包集成35/35通过，二维和三维输出均通过`verify_processed_data!`。GriddingMachine预编译缓存警告仍重复出现，正式环境仍需清理复现。
 
 `process_dataset!(yaml_path)`重复运行会重新读取配置并安全跳过已有输出；直接复用同一可变`Dict`则会因首次运行追加内部`CHANGE_LOGS_TO_WRITE`而在第二次schema校验失败。论文结果只支持正常YAML入口的幂等性，不将可变Dict复用写成已支持行为。
 
 ## 3. 未完成项
 
-V01/V02需要两名检查者分别接受正确方向图和拒绝故意反向图，并保存判断记录。Linux和macOS尚未复跑；网页案例验证的是共享构建器生成配置和流水线契约，不等于真实浏览器交互或贡献者可用性研究。真实小型数据产品的独立数值核对和2～3名贡献者流程复现也仍待完成。
+V01/V02工具已完成技术试跑，需要两名检查者分别接受正确方向图和拒绝故意反向图，并保存判断记录。本文不要求Linux和macOS复跑；网页案例验证的是共享构建器生成配置和流水线契约，不等于真实浏览器交互或贡献者可用性研究。ELEV真实标准产品核对已完成，至少1名贡献者的完整流程复现仍待完成。

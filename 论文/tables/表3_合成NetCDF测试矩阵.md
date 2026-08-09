@@ -1,6 +1,6 @@
 # 表3 GriddingMachineDatasets 合成 NetCDF 测试矩阵
 
-> 状态说明：Windows实测基于GriddingMachine `fe46788`、GriddingMachineDatasets `064ce1d`和Julia 1.12.6。独立运行3次，每次29个非交互案例全部通过；V01/V02等待两名检查者完成人工方向审核。原始结果见`experiments/03_01_data/matrix_windows_run1_raw.csv`至`run3_raw.csv`。
+> 状态说明：Windows自动矩阵基于GriddingMachine `fe46788`、GriddingMachineDatasets `064ce1d`和Julia 1.12.6。独立运行3次，每次29个非交互案例全部通过；随后方向绘图和配置复用修复于`3926ae3`通过配置38/38、包集成35/35及V01/V02技术试跑。两名检查者的正式人工审核待完成。
 
 | 编号 | 测试对象 | 合成输入或操作 | 正确输出/行为 | Windows实测 |
 |---|---|---|---|---|
@@ -45,4 +45,4 @@
 - 预期失败识别率：不支持输入是否产生预先定义的明确错误，而非静默生成错误结果。
 - 可重复性：相同配置重复运行得到相同数组、属性和处理日志。
 
-注：当前为Windows三次冻结实测。正式投稿表还需加入Linux/macOS各3次复跑、V01/V02人工审核及原始日志归档地址。
+注：本文限定为Windows实测。正式投稿表还需补V01/V02两名独立检查者记录及原始日志归档地址，不要求Linux/macOS复跑。

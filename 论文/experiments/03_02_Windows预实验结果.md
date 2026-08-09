@@ -31,7 +31,7 @@ Windows预实验采用本机`127.0.0.1`回环HTTP服务、gzip级别6、每组�
 1. 获得并校验逐小时大文件，或事先确定同量级替代样本，补齐小、中、大三类数据。
 2. 确认2022版实际外层打包参数；若无法确认，终稿继续明确写gzip level 6。
 3. 在可记录的冷缓存条件复跑，或把正式研究问题限定为可复现的暖缓存工作流。
-4. 在Linux和macOS按同一冻结脚本复跑，避免把Windows单机结果外推为跨平台结论。
+4. 本文仅报告Windows暖缓存结果并明确不外推；Linux/macOS复跑和ERA5大文件不是必要实验。
 5. 若报告“峰值磁盘占用”，增加定时目录采样；当前只能称为按文件生命周期计算的逻辑临时占用。
 
 可复核文件：`03_02_data/benchmark_distribution_pilot.py`、`03_02_data/pilot_windows_raw.csv`、`03_02_data/pilot_windows_summary.csv`和`03_02_data/pilot_windows_metadata.json`。
