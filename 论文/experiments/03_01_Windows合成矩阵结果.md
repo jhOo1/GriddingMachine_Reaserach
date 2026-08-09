@@ -4,7 +4,7 @@
 
 ## 1. 结果
 
-在Windows 10、Julia 1.12.6、GriddingMachine `fe46788`和GriddingMachineDatasets `4167807`条件下，表3共31个编号案例连续独立运行3次。每次均为29个非交互案例全部通过、V01/V02两个人工方向审核待执行；三次自动结构/数值通过率均为100%，网络请求数均为0。
+在Windows 10、Julia 1.12.6、GriddingMachine `fe46788`和GriddingMachineDatasets `064ce1d`条件下，表3共31个编号案例连续独立运行3次。每次均为29个非交互案例全部通过、V01/V02两个人工方向审核待执行；三次自动结构/数值通过率均为100%，网络请求数均为0。
 
 自动案例覆盖4项维度、4项坐标、4项数值、7项缺失值、5项预期拒绝、2项YAML契约和3项输出行为。二维与三维标准/换序、纬度和经度反转、经度半球平移、组合变换、Float32容差、线性缩放、有效范围、六类缺失值策略、未知方法拒绝、最小YAML、网页构建配置、标签数量校验、主变量属性、同形`std`追加、已有输出安全跳过和目录标签冲突均满足预设断言。
 
@@ -12,7 +12,7 @@
 
 所有NetCDF均生成在研究仓库的纯ASCII临时目录`experiment_data/03_01/work`。早期诊断轮次使用含中文的`论文/.../work`时，NetCDF底层库无法创建文件；改用ASCII路径后问题消失。因此本结果不能证明Windows下含非ASCII路径的兼容性。
 
-当前包组合仍报告`NetcdfIO.dimname_nc/size_nc/varname_nc`未声明导入及预编译缓存警告。实验运行器使用NetcdfIO 0.3的`read_varnames/read_attributes`完成输出断言，但GriddingMachineDatasets源码中的旧导入仍应在正式冻结前清理。
+首轮冻结曾报告`NetcdfIO.dimname_nc/size_nc/varname_nc`未声明导入。数据生产代码迁移至NetcdfIO 0.3的`read_dimnames/read_varnames/read_dims`后，本地完整测试配置38/38、包集成31/31通过，二维和三维输出均通过`verify_processed_data!`；新提交上的三次矩阵不再出现旧导入警告。GriddingMachine预编译缓存警告仍重复出现，正式环境仍需清理复现。
 
 `process_dataset!(yaml_path)`重复运行会重新读取配置并安全跳过已有输出；直接复用同一可变`Dict`则会因首次运行追加内部`CHANGE_LOGS_TO_WRITE`而在第二次schema校验失败。论文结果只支持正常YAML入口的幂等性，不将可变Dict复用写成已支持行为。
 

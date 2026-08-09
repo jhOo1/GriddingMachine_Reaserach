@@ -1,6 +1,6 @@
 # 表3 GriddingMachineDatasets 合成 NetCDF 测试矩阵
 
-> 状态说明：Windows实测基于GriddingMachine `fe46788`、GriddingMachineDatasets `4167807`和Julia 1.12.6。独立运行3次，每次29个非交互案例全部通过；V01/V02等待两名检查者完成人工方向审核。原始结果见`experiments/03_01_data/matrix_windows_run1_raw.csv`至`run3_raw.csv`。
+> 状态说明：Windows实测基于GriddingMachine `fe46788`、GriddingMachineDatasets `064ce1d`和Julia 1.12.6。独立运行3次，每次29个非交互案例全部通过；V01/V02等待两名检查者完成人工方向审核。原始结果见`experiments/03_01_data/matrix_windows_run1_raw.csv`至`run3_raw.csv`。
 
 | 编号 | 测试对象 | 合成输入或操作 | 正确输出/行为 | Windows实测 |
 |---|---|---|---|---|
