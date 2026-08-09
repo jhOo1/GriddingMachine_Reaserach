@@ -5,7 +5,10 @@ const RESEARCH = joinpath(WORKSPACE, "GriddingMachine_Reaserach")
 const GM_REPO = joinpath(WORKSPACE, "GriddingMachine_paper")
 const GMD_REPO = joinpath(WORKSPACE, "GriddingMachineDatasets_paper")
 const PYTHON_PACKAGES = joinpath(dirname(@__DIR__), "03_02_data", "python_env")
-const PYTHON = something(Sys.which("python"), "")
+const VERIFIED_PYTHON = raw"D:\develop\Python\Python311\python.exe"
+const PYTHON_OVERRIDE = get(ENV, "GMD_AUDIT_PYTHON", "")
+const PYTHON = !isempty(PYTHON_OVERRIDE) ? PYTHON_OVERRIDE :
+    (isfile(VERIFIED_PYTHON) ? VERIFIED_PYTHON : something(Sys.which("python"), ""))
 const PLOT_SCRIPT = joinpath(GMD_REPO, "src", "python", "verify-data.py")
 const AUDIT_ROOT = joinpath(RESEARCH, "experiment_data", "03_01", "manual_orientation")
 
@@ -13,6 +16,10 @@ const AUDIT_ROOT = joinpath(RESEARCH, "experiment_data", "03_01", "manual_orient
 isfile(PYTHON) || error("Python executable not found on PATH")
 isdir(PYTHON_PACKAGES) || error("Python packages not found: $PYTHON_PACKAGES")
 ENV["GMD_PYTHON_PACKAGES"] = PYTHON_PACKAGES
+const PYTHON_CHECK = "import matplotlib,sys,os; " *
+    "sys.path.append(os.environ['GMD_PYTHON_PACKAGES']); import netCDF4"
+success(pipeline(`$PYTHON -c $PYTHON_CHECK`; stdout=devnull, stderr=devnull)) ||
+    error("Python dependencies are incompatible. Set GMD_AUDIT_PYTHON to a working Python executable. Selected: $PYTHON")
 import GriddingMachine
 pushfirst!(LOAD_PATH, GMD_REPO)
 import GriddingMachineDatasets
