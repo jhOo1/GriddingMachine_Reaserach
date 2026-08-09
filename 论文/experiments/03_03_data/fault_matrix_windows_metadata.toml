@@ -1,0 +1,13 @@
+bootstrap_samples = 5000
+collector_source = "D:\\Emerald\\GriddingMachine_paper\\src\\Collector\\dataset-download.jl"
+collector_source_sha256 = "85ef79f427f7e7cadbe4248f7187ec36c59622b467a71be142436143f1289634"
+created_utc = "2026-08-09T04:13:02.280"
+fixture = "D:\\Emerald\\GriddingMachine_Reaserach\\论文\\experiments\\03_02_data\\ELEV_4X_1Y_V1.nc"
+fixture_bytes = 810299
+fixture_sha256 = "642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f"
+julia_version = "1.12.6"
+limitation = "dataset-download.jl loaded through a minimal harness; after missing dependency sources were restored, full package precompilation still did not finish within a five-minute verification window"
+network_scope = "127.0.0.1 only"
+platform = "x86_64-w64-mingw32"
+repetitions_per_scenario = 5
+status = "Windows source-level controlled HTTP experiment"
