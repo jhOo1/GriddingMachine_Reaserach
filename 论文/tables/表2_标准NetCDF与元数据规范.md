@@ -18,6 +18,6 @@
 | 标签 | `TAG_(PREFIX_)NX_MT_(YYYY_)VV(_REVISION)` | 标签唯一且能表达数据类别、空间/时间分辨率、年份、版本及可选修订号 | 正则表达式、目录唯一性和文件名一致性检查 |
 | 分发完整性 | `SIZE_BYTES`、`SHA256` | 记录在数据目录中；同一标签的所有镜像必须具有相同字节数和 SHA-256 | 下载后重新计算并比较，失败文件不得进入正式目录 |
 
-注：本表是论文实验版本的验收规范，不代表 `wyujie@51cf0fe` 已经全部满足。最终稿应依据冻结 release 的自动测试结果，将各项标记为“通过”“不适用”或明确限制。
+注：本表定义论文版本的目标验收规范。冻结版本已验证标准文件结构、显式维度映射、主要坐标和数值处理以及目录`SIZE/SHA256`链；来源、许可、配置哈希和代码版本尚未在全部历史产品的最终NetCDF中完整迁移，因此不能据此声称所有历史数据均可从原始来源重建。
 
 **Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** The table defines the acceptance criteria for the experimental release. Compliance must be demonstrated using automated tests against the frozen release rather than inferred from the design.
