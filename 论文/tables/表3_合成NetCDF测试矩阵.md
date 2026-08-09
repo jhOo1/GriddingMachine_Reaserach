@@ -27,7 +27,7 @@
 | G08 | 非支持方法 | `GAPFILL=UNKNOWN` | 抛出包含方法名称的错误 | 通过（明确拒绝） |
 | Y01 | 最小合法YAML | 必需字段及`GAPFILL`齐全 | 完成一次处理并生成目标文件 | 通过 |
 | Y02 | 缺少GAPFILL | 其他字段合法 | 在处理开始前报告schema错误 | 通过（前置拒绝） |
-| Y03 | 网页生成YAML | 使用当前YamlBuilder输出 | 生成配置可直接被流水线使用 | 通过 |
+| Y03 | 构建器生成YAML | 使用当前`YamlBuilder`输出 | 生成配置可直接被流水线使用 | 通过 |
 | Y04 | LABEL长度不匹配 | 两个PREFIX、一个LABEL | 在读取数据前报告对应关系错误 | 通过（前置拒绝） |
 | O01 | 主变量保存 | 2D/3D `data`及处理日志 | 变量、维度、about、unit、change_n正确 | 通过 |
 | O02 | std追加 | `data`后追加同形`std` | 文件同时包含同形`data/std` | 通过（2D/3D同形） |

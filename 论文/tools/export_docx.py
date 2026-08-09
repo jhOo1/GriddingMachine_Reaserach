@@ -63,6 +63,24 @@ def shade_cell(cell, fill: str) -> None:
     tc_pr.append(shd)
 
 
+def add_code_block(document: Document, lines: list[str]) -> None:
+    paragraph = document.add_paragraph()
+    paragraph.paragraph_format.first_line_indent = Cm(0)
+    paragraph.paragraph_format.left_indent = Cm(0.55)
+    paragraph.paragraph_format.right_indent = Cm(0.55)
+    paragraph.paragraph_format.space_before = Pt(4)
+    paragraph.paragraph_format.space_after = Pt(6)
+    paragraph.paragraph_format.line_spacing = 1.0
+    p_pr = paragraph._p.get_or_add_pPr()
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:fill"), "F2F5F7")
+    p_pr.append(shd)
+    run = paragraph.add_run("\n".join(lines))
+    run.font.name = "Consolas"
+    run.font.size = Pt(8.5)
+    run._element.rPr.rFonts.set(qn("w:eastAsia"), "等线")
+
+
 def add_table(document: Document, lines: list[str]) -> None:
     rows = [table_cells(line) for line in lines if not is_separator(line)]
     if not rows:
@@ -124,6 +142,16 @@ def export() -> None:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 paragraph.add_run().add_picture(str(FIGURE_PREVIEW), width=Cm(15.0))
             i += 1
+            continue
+
+        if line.startswith("```"):
+            code_lines: list[str] = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code_lines.append(lines[i])
+                i += 1
+            i += 1 if i < len(lines) else 0
+            add_code_block(document, code_lines)
             continue
 
         if line.startswith("|") and i + 1 < len(lines) and is_separator(lines[i + 1].strip()):
