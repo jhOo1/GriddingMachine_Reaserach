@@ -1,0 +1,66 @@
+date = "2026-08-09"
+griddingmachine_commit = "fe46788bc284065db14af30b61d29bf7e96be2b6"
+griddingmachinedatasets_commit = "064ce1d3d0bac5ce61bb375b67064bddc6297eb1"
+julia_version = "1.12.6"
+network_requests = 0
+platform = "x86_64-w64-mingw32"
+
+[historical_yaml]
+configured_unit = "-"
+generated_tag = "ELEV_4X_1Y_V1_R1"
+limits = [0.0, 1.0]
+limits_cover_real_range = false
+matches_current_tag = false
+path = "D:\\Emerald\\GriddingMachineDatasets_paper\\yaml\\community\\ELEV_4X_1Y_V1.yaml"
+real_unit = "m"
+schema_valid = true
+
+[independent_read]
+griddingmachine_exact = true
+latitude_first = -89.875
+latitude_last = 89.875
+longitude_first = -179.875
+longitude_last = 179.875
+
+[roundtrip]
+all_passed = true
+
+    [[roundtrip.repetitions]]
+    data_exact = true
+    latitude_exact = true
+    longitude_exact = true
+    output_bytes = 654671
+    output_sha256 = "08dfc8472c3574e73daf2add605efba1e8dd35d9769937ef227c944a272159c3"
+    passed = true
+    run = 1
+    verifier_calls = 1
+    [[roundtrip.repetitions]]
+    data_exact = true
+    latitude_exact = true
+    longitude_exact = true
+    output_bytes = 654671
+    output_sha256 = "08dfc8472c3574e73daf2add605efba1e8dd35d9769937ef227c944a272159c3"
+    passed = true
+    run = 2
+    verifier_calls = 1
+    [[roundtrip.repetitions]]
+    data_exact = true
+    latitude_exact = true
+    longitude_exact = true
+    output_bytes = 654671
+    output_sha256 = "08dfc8472c3574e73daf2add605efba1e8dd35d9769937ef227c944a272159c3"
+    passed = true
+    run = 3
+    verifier_calls = 1
+
+[source]
+array_sha256 = "a569143037e2e01cb101e094439255aef5a4d62f99fbe45baa55323ff77e6750"
+bytes = 810299
+finite_max = 5357.7001953125
+finite_min = -415.5
+integrity_verified = true
+nan_count = 0
+path = "D:\\Emerald\\GriddingMachine_Reaserach\\experiment_data\\03_04\\downloads\\ELEV_4X_1Y_V1.nc"
+sha256 = "642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f"
+shape = [1440, 720]
+unit = "m"
