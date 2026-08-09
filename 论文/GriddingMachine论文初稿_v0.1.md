@@ -52,9 +52,9 @@ GriddingMachine 新版由数据生产、目录与分发、数据使用三个相�
 
 ![图1 GriddingMachine全球网格数据生产、分发与模型调用框架](figures/图1_GriddingMachine总体架构.svg)
 
-**图1 GriddingMachine新版数据工作流** （a）异构源数据由共享YAML契约驱动标准化与质量控制；（b）标准NetCDF通过包含多镜像、文件大小和SHA-256的独立目录分发，使用端在隔离cache中完成失败回退和完整性校验；（c）统一读取及模型数据接口把标准格点数组组织为参数与气象驱动。贯穿各环节的机器可检查契约及使用反馈共同形成持续维护闭环；Server/Requestor远程子集服务不属于本文范围。
+**图1 GriddingMachine从2022版到新版的数据工作流与关键优化** （a）2022版以数据集专用脚本、`tar.gz`制品、包内目录和`read_LUT`为主要路径；（b）新版形成“共享YAML契约—标准化与质控—直接NetCDF制品—独立数据目录—安全获取—统一读取与模型调用”的端到端流程；（c）O1—O5分别表示统一数据契约、简化数据制品、目录独立演化、事务式下载和模型就绪接口。蓝色实线、橙色虚线和灰色分别表示新版核心路径、版本间改进映射和2022版基线。Server/Requestor远程子集服务不属于本文范围。
 
-**Fig. 1 Updated GriddingMachine data workflow.** (a) A shared YAML contract drives standardization and quality control of heterogeneous source data. (b) Standard NetCDF files are distributed through an independent catalog containing multiple mirrors, file sizes, and SHA-256 hashes; fallback and integrity verification occur in an isolated cache. (c) Unified access and model-data interfaces organize standardized arrays into parameter and weather-driver dictionaries. Machine-checkable contracts and user feedback connect the stages into a maintainable loop. Server/Requestor is outside the scope of this study.
+**Fig. 1 Data workflow and key optimizations from the 2022 release to the updated GriddingMachine.** (a) The 2022 baseline used dataset-specific scripts, `tar.gz` artifacts, an in-package catalog, and `read_LUT`. (b) The updated end-to-end workflow links a shared YAML contract, standardization and quality control, direct NetCDF products, an independent catalog, verified acquisition, and unified model-ready access. (c) O1--O5 denote the unified data contract, simplified artifacts, independently evolving catalog, transactional downloads, and model-ready interfaces, respectively. Blue solid lines, orange dashed lines, and gray elements indicate the updated workflow, cross-version changes, and the 2022 baseline. Server/Requestor is outside the scope of this study.
 
 在生产端，原始数据及其处理规则分别作为数据输入和 YAML 配置输入。论文版本使用共享 schema 描述原始文件组合、源变量、经纬度方向、源维度语义、数值变换、有效范围、缺失值处理及输出元数据；配置构建器与处理流水线调用同一校验函数。`process_dataset!` 根据配置枚举输入，依次完成读取、验证和保存，最终生成以统一标签命名的 `TAG.nc`。生产过程中的质量控制同时包括可自动断言的配置、维度与数值检查，以及用于补充确认空间方向的图形复核；人工复核不替代程序化验证。
 

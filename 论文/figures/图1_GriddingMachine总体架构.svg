@@ -1,208 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760">
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="760" viewBox="0 0 1800 760">
   <defs>
     <style>
-      .sans { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; }
-      .mono { font-family: Consolas, "Courier New", monospace; }
-      .ink { fill: #263744; }
-      .muted { fill: #6f7e88; }
-      .stage { font-size: 24px; font-weight: 700; }
-      .stage-en { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; }
-      .label { font-size: 17px; font-weight: 650; }
-      .body { font-size: 14px; }
-      .small { font-size: 12px; }
-      .flow { fill: none; stroke: #718795; stroke-width: 2.1; marker-end: url(#arrow); }
-      .thin { fill: none; stroke: #a9b6be; stroke-width: 1.3; }
-      .grid { fill: none; stroke: #88a3b3; stroke-width: 1; }
+      .sans{font-family:Arial,"Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+      .mono{font-family:Consolas,"Courier New",monospace}
+      .panel{font-size:26px;font-weight:700;fill:#17212b}
+      .node-title{font-size:22px;font-weight:700;fill:#17212b}
+      .node-sub{font-size:17px;fill:#52616d}
+      .base-title{font-size:21px;font-weight:700;fill:#65717a}
+      .base-sub{font-size:17px;fill:#7c8790}
+      .opt-title{font-size:20px;font-weight:700;fill:#8f5311}
+      .opt-sub{font-size:17px;fill:#384650}
+      .note{font-size:15px;fill:#68757e}
+      .box{fill:#fff;stroke:#315d7d;stroke-width:2}
+      .basebox{fill:#f7f8f9;stroke:#a7afb5;stroke-width:1.5}
+      .flow{fill:none;stroke:#315d7d;stroke-width:2.2;marker-end:url(#arrow)}
+      .baseflow{fill:none;stroke:#a7afb5;stroke-width:1.6;marker-end:url(#arrow-gray)}
+      .change{fill:none;stroke:#bd711e;stroke-width:1.5;stroke-dasharray:5 5;marker-end:url(#arrow-orange)}
+      .guide{stroke:#d6dce0;stroke-width:1}
     </style>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#718795"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#315d7d"/>
     </marker>
-    <marker id="feedback" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#278477"/>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#a7afb5"/>
     </marker>
-    <clipPath id="cube-front"><polygon points="1230,225 1320,255 1320,355 1230,325"/></clipPath>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#bd711e"/>
+    </marker>
   </defs>
 
-  <rect width="1600" height="760" fill="#ffffff"/>
+  <rect width="1800" height="760" fill="#fff"/>
 
-  <!-- Stage headings -->
+  <!-- (a) 2022 baseline -->
+  <text x="56" y="58" class="sans panel">(a) 2022年基线</text>
+  <line x1="56" y1="76" x2="1744" y2="76" class="guide"/>
+
   <g class="sans">
-    <text x="64" y="54" class="stage-en" fill="#176b87">A · PRODUCTION</text>
-    <text x="64" y="88" class="stage ink">标准化生产</text>
-    <line x1="64" y1="108" x2="520" y2="108" stroke="#176b87" stroke-width="2"/>
+    <rect x="82" y="110" width="250" height="96" class="basebox"/>
+    <text x="207" y="148" text-anchor="middle" class="base-title">多源网格数据</text>
+    <text x="207" y="176" text-anchor="middle" class="base-sub">数据集特定的结构与约定</text>
 
-    <text x="594" y="54" class="stage-en" fill="#b57922">B · DISTRIBUTION</text>
-    <text x="594" y="88" class="stage ink">可验证分发</text>
-    <line x1="594" y1="108" x2="1046" y2="108" stroke="#c58b2a" stroke-width="2"/>
+    <rect x="420" y="110" width="250" height="96" class="basebox"/>
+    <text x="545" y="148" text-anchor="middle" class="base-title">专用预处理脚本</text>
+    <text x="545" y="176" text-anchor="middle" class="base-sub">配置与处理逻辑分散</text>
 
-    <text x="1120" y="54" class="stage-en" fill="#2b7658">C · MODEL USE</text>
-    <text x="1120" y="88" class="stage ink">统一读取与模型调用</text>
-    <line x1="1120" y1="108" x2="1536" y2="108" stroke="#3a7c5a" stroke-width="2"/>
+    <rect x="758" y="110" width="250" height="96" class="basebox"/>
+    <text x="883" y="148" text-anchor="middle" class="base-title">tar.gz 数据制品</text>
+    <text x="883" y="176" text-anchor="middle" class="base-sub">外层归档后再分发</text>
+
+    <rect x="1096" y="110" width="250" height="96" class="basebox"/>
+    <text x="1221" y="148" text-anchor="middle" class="base-title">包内数据目录</text>
+    <text x="1221" y="176" text-anchor="middle" class="base-sub mono">Artifacts.toml</text>
+
+    <rect x="1434" y="110" width="250" height="96" class="basebox"/>
+    <text x="1559" y="148" text-anchor="middle" class="base-title">数据读取与应用</text>
+    <text x="1559" y="176" text-anchor="middle" class="base-sub mono">read_LUT</text>
   </g>
+  <path d="M332 158H412" class="baseflow"/>
+  <path d="M670 158H750" class="baseflow"/>
+  <path d="M1008 158H1088" class="baseflow"/>
+  <path d="M1346 158H1426" class="baseflow"/>
 
-  <line x1="560" y1="40" x2="560" y2="515" stroke="#e4e9ec" stroke-width="1"/>
-  <line x1="1086" y1="40" x2="1086" y2="515" stroke="#e4e9ec" stroke-width="1"/>
+  <!-- vertical change links -->
+  <path d="M545 206V286" class="change"/>
+  <path d="M883 206V286" class="change"/>
+  <path d="M1221 206V286" class="change"/>
+  <path d="M1559 206V286" class="change"/>
 
-  <!-- A: heterogeneous data stack -->
-  <g>
-    <polygon points="65,205 215,175 245,270 95,300" fill="#f1f6f8" stroke="#88a3b3" stroke-width="1.3"/>
-    <polygon points="76,193 226,163 256,258 106,288" fill="#f8fbfc" stroke="#6f96aa" stroke-width="1.3"/>
-    <polygon points="87,181 237,151 267,246 117,276" fill="#ffffff" stroke="#176b87" stroke-width="1.8"/>
-    <g class="grid">
-      <line x1="117" y1="276" x2="87" y2="181"/><line x1="147" y1="270" x2="117" y2="175"/>
-      <line x1="177" y1="264" x2="147" y2="169"/><line x1="207" y1="258" x2="177" y2="163"/>
-      <line x1="237" y1="252" x2="207" y2="157"/>
-      <line x1="96" y1="211" x2="246" y2="181"/><line x1="105" y1="241" x2="255" y2="211"/>
-    </g>
-    <circle cx="134" cy="214" r="5" fill="#d06355"/><circle cx="213" cy="201" r="5" fill="#d9a43a"/>
-    <circle cx="184" cy="241" r="5" fill="#278477"/>
-    <text x="164" y="329" text-anchor="middle" class="sans label ink">异构源数据</text>
-    <text x="164" y="352" text-anchor="middle" class="sans body muted">维度 · 方向 · 单位 · 缺失值</text>
-  </g>
+  <!-- (b) updated workflow -->
+  <text x="56" y="276" class="sans panel">(b) 新版端到端工作流</text>
+  <line x1="56" y1="294" x2="1744" y2="294" class="guide"/>
 
-  <!-- YAML document -->
-  <g>
-    <path d="M305 147 H420 L454 181 V307 H305 Z" fill="#ffffff" stroke="#176b87" stroke-width="1.8"/>
-    <path d="M420 147 V181 H454" fill="#e8f2f5" stroke="#176b87" stroke-width="1.3"/>
-    <text x="329" y="182" class="mono body" fill="#176b87">SCHEMA_VERSION: 1</text>
-    <text x="329" y="210" class="mono small ink">FILE:</text>
-    <line x1="329" y1="223" x2="416" y2="223" stroke="#b8c8d0"/>
-    <text x="329" y="245" class="mono small ink">DATA:</text>
-    <line x1="329" y1="258" x2="430" y2="258" stroke="#b8c8d0"/>
-    <text x="329" y="280" class="mono small ink">DIMENSIONS:</text>
-    <line x1="329" y1="293" x2="407" y2="293" stroke="#b8c8d0"/>
-    <text x="380" y="329" text-anchor="middle" class="sans label ink">共享YAML契约</text>
-    <text x="380" y="351" text-anchor="middle" class="sans small muted">同一schema约束</text>
-    <text x="380" y="369" text-anchor="middle" class="sans small muted">配置构建与数据处理</text>
-  </g>
-
-  <!-- Inputs merge into process -->
-  <path d="M267 220 C292 220, 285 229, 303 229" class="flow"/>
-  <path d="M272 276 C330 385, 443 385, 487 307" class="flow"/>
-  <path d="M454 229 C474 229, 482 229, 499 229" class="flow"/>
-
-  <!-- Process glyph -->
-  <g>
-    <circle cx="510" cy="255" r="47" fill="#f0f6f8" stroke="#176b87" stroke-width="1.8"/>
-    <path d="M482 255 H538 M510 227 V283" stroke="#176b87" stroke-width="2"/>
-    <path d="M489 238 C505 247, 515 247, 531 238 M489 272 C505 263, 515 263, 531 272" fill="none" stroke="#176b87" stroke-width="1.5"/>
-    <text x="510" y="329" text-anchor="middle" class="sans label ink">标准化与质控</text>
-    <text x="510" y="352" text-anchor="middle" class="mono body muted">process_dataset!</text>
-  </g>
-
-  <!-- B: standard NetCDF -->
-  <path d="M557 255 H610" class="flow"/>
-  <g>
-    <path d="M626 177 H715 L741 203 V306 H626 Z" fill="#fffdfa" stroke="#c58b2a" stroke-width="1.8"/>
-    <path d="M715 177 V203 H741" fill="#fbefd8" stroke="#c58b2a" stroke-width="1.2"/>
-    <rect x="646" y="216" width="76" height="54" fill="#ffffff" stroke="#cfb077"/>
-    <path d="M646 234 H722 M646 252 H722 M665 216 V270 M684 216 V270 M703 216 V270" class="thin"/>
-    <text x="684" y="291" text-anchor="middle" class="mono small" fill="#9b661b">TAG.nc</text>
-    <text x="684" y="329" text-anchor="middle" class="sans label ink">标准NetCDF</text>
-    <text x="684" y="352" text-anchor="middle" class="sans body muted">无需外层tar.gz</text>
-  </g>
-
-  <!-- Catalog and mirrors -->
-  <path d="M741 241 H785" class="flow"/>
-  <g>
-    <rect x="796" y="174" width="128" height="138" fill="#ffffff" stroke="#c58b2a" stroke-width="1.8"/>
-    <line x1="812" y1="207" x2="908" y2="207" stroke="#c7a460"/>
-    <line x1="812" y1="231" x2="908" y2="231" stroke="#c7a460"/>
-    <line x1="812" y1="255" x2="908" y2="255" stroke="#c7a460"/>
-    <line x1="812" y1="279" x2="884" y2="279" stroke="#c7a460"/>
-    <circle cx="810" cy="207" r="3" fill="#c58b2a"/><circle cx="810" cy="231" r="3" fill="#c58b2a"/>
-    <circle cx="810" cy="255" r="3" fill="#c58b2a"/><circle cx="810" cy="279" r="3" fill="#c58b2a"/>
-    <text x="860" y="329" text-anchor="middle" class="sans label ink">独立数据目录</text>
-    <text x="860" y="352" text-anchor="middle" class="mono body muted">PATH · SIZE · SHA-256</text>
-  </g>
-
-  <path d="M924 216 C945 196, 952 185, 968 179" class="flow"/>
-  <path d="M924 270 C945 290, 952 301, 968 307" class="flow"/>
   <g class="sans">
-    <circle cx="990" cy="171" r="24" fill="#fff8ea" stroke="#c58b2a" stroke-width="1.5"/>
-    <path d="M978 171 H1002 M990 159 V183" stroke="#b57922" stroke-width="1.4"/>
-    <text x="1024" y="176" class="body ink">机构FTP</text>
-    <circle cx="990" cy="315" r="24" fill="#fff8ea" stroke="#c58b2a" stroke-width="1.5"/>
-    <path d="M977 315 H1003 M990 302 C980 310, 980 320, 990 328 M990 302 C1000 310, 1000 320, 990 328" fill="none" stroke="#b57922" stroke-width="1.4"/>
-    <text x="1024" y="320" class="body ink">Zenodo</text>
-    <text x="990" y="366" text-anchor="middle" class="sans body muted">内容相同的多镜像</text>
+    <rect x="56" y="326" width="205" height="126" class="box"/>
+    <text x="80" y="354" class="node-sub">01</text>
+    <text x="158" y="377" text-anchor="middle" class="node-title">异构源数据</text>
+    <text x="158" y="405" text-anchor="middle" class="node-sub mono">NetCDF / GeoTIFF</text>
+
+    <rect x="303" y="326" width="205" height="126" class="box"/>
+    <text x="327" y="354" class="node-sub">02</text>
+    <text x="405" y="377" text-anchor="middle" class="node-title">共享YAML契约</text>
+    <text x="405" y="405" text-anchor="middle" class="node-sub mono">schema · dimensions</text>
+
+    <rect x="550" y="326" width="205" height="126" class="box"/>
+    <text x="574" y="354" class="node-sub">03</text>
+    <text x="652" y="377" text-anchor="middle" class="node-title">标准化与质控</text>
+    <text x="652" y="405" text-anchor="middle" class="node-sub mono">process_dataset!</text>
+
+    <rect x="797" y="326" width="205" height="126" class="box"/>
+    <text x="821" y="354" class="node-sub">04</text>
+    <text x="899" y="377" text-anchor="middle" class="node-title">标准数据产品</text>
+    <text x="899" y="405" text-anchor="middle" class="node-sub mono">TAG.nc</text>
+    <text x="899" y="429" text-anchor="middle" class="node-sub">直接分发</text>
+
+    <rect x="1044" y="326" width="205" height="126" class="box"/>
+    <text x="1068" y="354" class="node-sub">05</text>
+    <text x="1146" y="377" text-anchor="middle" class="node-title">独立数据目录</text>
+    <text x="1146" y="405" text-anchor="middle" class="node-sub mono">URL · SIZE · SHA-256</text>
+    <text x="1146" y="429" text-anchor="middle" class="node-sub">FTP / Zenodo</text>
+
+    <rect x="1291" y="326" width="205" height="126" class="box"/>
+    <text x="1315" y="354" class="node-sub">06</text>
+    <text x="1393" y="377" text-anchor="middle" class="node-title">安全获取与落盘</text>
+    <text x="1393" y="405" text-anchor="middle" class="node-sub mono">cache / .part</text>
+    <text x="1393" y="429" text-anchor="middle" class="node-sub mono">verify → public</text>
+
+    <rect x="1538" y="326" width="205" height="126" class="box"/>
+    <text x="1562" y="354" class="node-sub">07</text>
+    <text x="1640" y="377" text-anchor="middle" class="node-title">统一读取与模型调用</text>
+    <text x="1640" y="405" text-anchor="middle" class="node-sub mono">read_dataset</text>
+    <text x="1640" y="429" text-anchor="middle" class="node-sub">模型输入字典</text>
   </g>
+  <path d="M261 389H295" class="flow"/>
+  <path d="M508 389H542" class="flow"/>
+  <path d="M755 389H789" class="flow"/>
+  <path d="M1002 389H1036" class="flow"/>
+  <path d="M1249 389H1283" class="flow"/>
+  <path d="M1496 389H1530" class="flow"/>
 
-  <!-- C: verified local acquisition -->
-  <path d="M1060 171 C1090 171, 1098 213, 1125 232" class="flow"/>
-  <path d="M1060 315 C1090 315, 1098 273, 1125 254" class="flow"/>
-  <g>
-    <path d="M1140 180 L1215 205 V266 C1215 309, 1184 338, 1140 355 C1096 338, 1065 309, 1065 266 V205 Z" fill="#f0f7f4" stroke="#2b7658" stroke-width="1.8"/>
-    <path d="M1104 264 L1128 288 L1177 235" fill="none" stroke="#278477" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="1140" y="386" text-anchor="middle" class="sans label ink">校验后落盘</text>
-    <text x="1140" y="409" text-anchor="middle" class="sans small muted">回退 · 隔离cache</text>
-    <text x="1140" y="428" text-anchor="middle" class="sans small muted">完整性通过后进入public</text>
-  </g>
+  <!-- (c) optimization callouts -->
+  <text x="56" y="515" class="sans panel">(c) 关键优化</text>
+  <line x1="56" y1="533" x2="1744" y2="533" class="guide"/>
 
-  <!-- read_dataset connector -->
-  <path d="M1215 264 H1244" class="flow"/>
-  <text x="1230" y="199" text-anchor="middle" class="mono small" fill="#2b7658">read_dataset</text>
-
-  <!-- data cube -->
-  <g>
-    <polygon points="1260,205 1350,235 1320,255 1230,225" fill="#e9f3ee" stroke="#3a7c5a" stroke-width="1.6"/>
-    <polygon points="1320,255 1350,235 1350,335 1320,355" fill="#dcebe2" stroke="#3a7c5a" stroke-width="1.6"/>
-    <polygon points="1230,225 1320,255 1320,355 1230,325" fill="#f7fbf8" stroke="#3a7c5a" stroke-width="1.6"/>
-    <g clip-path="url(#cube-front)" class="grid">
-      <line x1="1252" y1="220" x2="1252" y2="345"/><line x1="1275" y1="228" x2="1275" y2="350"/>
-      <line x1="1298" y1="236" x2="1298" y2="357"/><line x1="1220" y1="251" x2="1330" y2="288"/>
-      <line x1="1220" y1="281" x2="1330" y2="318"/>
-    </g>
-    <text x="1290" y="386" text-anchor="middle" class="sans label ink">标准格点数组</text>
-    <text x="1290" y="409" text-anchor="middle" class="sans small muted">整场 · 周期 · 单格点</text>
-  </g>
-
-  <!-- dictionaries -->
-  <path d="M1350 285 H1380" class="flow"/>
-  <g>
-    <path d="M1390 178 H1488 V250 H1390 Z" fill="#ffffff" stroke="#3a7c5a" stroke-width="1.5"/>
-    <line x1="1406" y1="201" x2="1472" y2="201" stroke="#9db6a7"/>
-    <line x1="1406" y1="219" x2="1460" y2="219" stroke="#9db6a7"/>
-    <line x1="1406" y1="237" x2="1468" y2="237" stroke="#9db6a7"/>
-    <text x="1439" y="164" text-anchor="middle" class="mono small" fill="#2b7658">grid_dict</text>
-
-    <path d="M1390 291 H1488 V363 H1390 Z" fill="#ffffff" stroke="#3a7c5a" stroke-width="1.5"/>
-    <path d="M1406 345 C1420 320, 1432 337, 1445 313 C1457 329, 1466 309, 1472 316" fill="none" stroke="#278477" stroke-width="1.8"/>
-    <text x="1439" y="278" text-anchor="middle" class="mono small" fill="#2b7658">grid_weather</text>
-    <text x="1439" y="386" text-anchor="middle" class="sans label ink">模型输入字典</text>
-    <text x="1439" y="409" text-anchor="middle" class="sans body muted">参数 · 气象驱动</text>
-  </g>
-
-  <!-- Emerald endpoint -->
-  <path d="M1488 270 H1520" class="flow"/>
-  <g>
-    <circle cx="1544" cy="270" r="31" fill="#2b7658"/>
-    <path d="M1531 281 C1534 258, 1548 247, 1560 250 C1559 269, 1547 282, 1531 281 Z" fill="#ffffff"/>
-    <path d="M1534 278 C1541 270, 1548 263, 1557 255" fill="none" stroke="#2b7658" stroke-width="1.5"/>
-    <text x="1544" y="329" text-anchor="middle" class="sans label ink">Emerald</text>
-    <text x="1544" y="352" text-anchor="middle" class="sans body muted">初始化与模拟</text>
-  </g>
-
-  <!-- Contract spine -->
-  <line x1="64" y1="492" x2="1536" y2="492" stroke="#d7dfe4" stroke-width="1.3"/>
-  <circle cx="380" cy="492" r="5" fill="#176b87"/>
-  <circle cx="860" cy="492" r="5" fill="#c58b2a"/>
-  <circle cx="1140" cy="492" r="5" fill="#278477"/>
-  <circle cx="1439" cy="492" r="5" fill="#3a7c5a"/>
   <g class="sans">
-    <text x="64" y="534" class="stage-en" fill="#6f7e88">MACHINE-CHECKABLE CONTRACT</text>
-    <text x="405" y="534" text-anchor="middle" class="body ink">schema与维度语义</text>
-    <text x="860" y="534" text-anchor="middle" class="body ink">标签、版本与内容哈希</text>
-    <text x="1140" y="534" text-anchor="middle" class="body ink">失败不污染正式文件</text>
-    <text x="1439" y="534" text-anchor="middle" class="body ink">固定字段与形状</text>
+    <circle cx="178" cy="590" r="24" fill="#fff" stroke="#bd711e" stroke-width="2"/>
+    <text x="178" y="596" text-anchor="middle" class="opt-title">O1</text>
+    <text x="218" y="581" class="opt-title">统一数据契约</text>
+    <text x="218" y="607" class="opt-sub">显式声明维度与处理语义</text>
+
+    <circle cx="536" cy="590" r="24" fill="#fff" stroke="#bd711e" stroke-width="2"/>
+    <text x="536" y="596" text-anchor="middle" class="opt-title">O2</text>
+    <text x="576" y="581" class="opt-title">简化数据制品</text>
+    <text x="576" y="607" class="opt-sub">取消外层tar.gz，直接发布NetCDF</text>
+
+    <circle cx="894" cy="590" r="24" fill="#fff" stroke="#bd711e" stroke-width="2"/>
+    <text x="894" y="596" text-anchor="middle" class="opt-title">O3</text>
+    <text x="934" y="581" class="opt-title">目录独立演化</text>
+    <text x="934" y="607" class="opt-sub">目录独立更新，镜像可校验</text>
+
+    <circle cx="1252" cy="590" r="24" fill="#fff" stroke="#bd711e" stroke-width="2"/>
+    <text x="1252" y="596" text-anchor="middle" class="opt-title">O4</text>
+    <text x="1292" y="581" class="opt-title">事务式下载</text>
+    <text x="1292" y="607" class="opt-sub">失败回退与校验后落盘</text>
+
+    <circle cx="1550" cy="590" r="24" fill="#fff" stroke="#bd711e" stroke-width="2"/>
+    <text x="1550" y="596" text-anchor="middle" class="opt-title">O5</text>
+    <text x="1590" y="581" class="opt-title">模型就绪接口</text>
+    <text x="1590" y="607" class="opt-sub">统一读取并组织模型输入</text>
   </g>
 
-  <!-- Feedback loop -->
-  <path d="M1544 375 C1544 650, 1425 683, 520 683 C322 683, 280 641, 360 577" fill="none" stroke="#278477" stroke-width="1.7" stroke-dasharray="7 6" marker-end="url(#feedback)"/>
-  <rect x="648" y="665" width="510" height="34" fill="#ffffff"/>
-  <text x="903" y="688" text-anchor="middle" class="sans body" fill="#278477">使用反馈回到配置、质量控制与版本登记，形成持续维护闭环</text>
+  <path d="M405 452V548H178V558" class="change"/>
+  <path d="M899 452V518H536V558" class="change"/>
+  <path d="M1146 452V548H894V558" class="change"/>
+  <path d="M1393 452V548H1252V558" class="change"/>
+  <path d="M1640 452V526H1550V558" class="change"/>
 
-  <!-- Scope note -->
-  <text x="64" y="726" class="sans small muted">实线：论文核心数据路径　　虚线：维护反馈　　Server / Requestor远程子集服务不在本文范围内</text>
+  <line x1="56" y1="674" x2="1744" y2="674" class="guide"/>
+  <text x="56" y="704" class="sans note">蓝色实线：新版核心数据路径　　橙色虚线：相对2022版的改进映射　　灰色：2022版基线</text>
+  <text x="56" y="730" class="sans note">范围：Windows工作流；Server/Requestor远程子集服务不属于本文核心内容。</text>
 </svg>
