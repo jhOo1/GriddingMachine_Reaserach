@@ -4,6 +4,8 @@
 
 1. 中国科学技术大学地球和空间科学学院，安徽 合肥 230026
 
+姜皓，E-mail：hao.jiang@mail.ustc.edu.cn；ORCID：https://orcid.org/0009-0009-8295-8661
+
 \* 通讯作者：王玉杰，wyujie@ustc.edu.cn
 
 ## 摘要
@@ -17,6 +19,8 @@
 **Authors:** Hao Jiang^1, Yujie Wang^1*
 
 1. School of Earth and Space Sciences, University of Science and Technology of China, Hefei 230026, China
+
+Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-0009-8295-8661
 
 \* Corresponding author: Yujie Wang, wyujie@ustc.edu.cn
 
