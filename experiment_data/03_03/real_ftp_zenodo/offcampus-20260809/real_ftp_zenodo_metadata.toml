@@ -1,0 +1,10 @@
+all_downloads_verified = false
+griddingmachine_commit = "53bb0be8b676f88d3d3dbe32f20aefdad883fcc2"
+julia_version = "1.12.6"
+operating_system = "NT"
+remote_writes_or_deletes = false
+repetitions = 3
+require_all_downloads = false
+run_label = "offcampus-20260809"
+timeout_seconds = 20.0
+timestamp = "2026-08-09T18:09:26.436"

@@ -26,4 +26,16 @@ julia --startup-file=no --project=D:\Emerald\GriddingMachine_paper run_real_ftp_
 
 结果保存在`D:\Emerald\GriddingMachine_Reaserach\experiment_data\03_03\real_ftp_zenodo`。正式通过要求是24次真实下载全部成功且哈希一致。若FTP失败，先确认校园网条件，不得把校外失败写成软件失败；若Zenodo ping为`Inf`但下载成功，应如实记录为“ICMP无响应但HTTPS可下载”，不能删除该案例。
 
+若当前不在校园网，可执行一次独立的校外可达性观察。该观察真实连接FTP并保留超时，也真实下载Zenodo，但写入独立子目录且不作为校园网正式结果：
+
+```powershell
+$env:MIRROR_RUN_LABEL='offcampus-20260809'
+$env:MIRROR_FTP_TIMEOUT_SECONDS='20'
+$env:MIRROR_ZENODO_TIMEOUT_SECONDS='120'
+$env:MIRROR_REQUIRE_ALL='false'
+julia --startup-file=no --project=D:\Emerald\GriddingMachine_paper run_real_ftp_zenodo_windows.jl
+```
+
+校外观察结束后可移除这3个仅对当前PowerShell会话生效的环境变量。校园网正式实验必须使用新的运行标签并保持`MIRROR_REQUIRE_ALL=true`，不能覆盖或改写校外原始CSV。
+
 该实验的ping延迟和下载时间只代表执行时段及校园网环境。论文可以比较ping排序是否与本次实际下载表现一致，但不能据此声称长期或全球最优镜像。

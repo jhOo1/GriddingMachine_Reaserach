@@ -6,9 +6,17 @@ using TOML
 import GriddingMachine
 
 const ROOT = dirname(dirname(dirname(@__DIR__)))
-const OUTPUT = joinpath(ROOT, "experiment_data", "03_03", "real_ftp_zenodo")
+const OUTPUT_ROOT = joinpath(ROOT, "experiment_data", "03_03", "real_ftp_zenodo")
+const RUN_LABEL = get(ENV, "MIRROR_RUN_LABEL", "campus")
+occursin(r"^[A-Za-z0-9_-]{1,48}$", RUN_LABEL) || error("Invalid MIRROR_RUN_LABEL")
+const OUTPUT = joinpath(OUTPUT_ROOT, RUN_LABEL)
 const WORK = joinpath(OUTPUT, "work")
 const REPETITIONS = parse(Int, get(ENV, "MIRROR_REPETITIONS", "3"))
+const FTP_TIMEOUT_SECONDS = parse(Float64, get(ENV, "MIRROR_FTP_TIMEOUT_SECONDS",
+    get(ENV, "MIRROR_TIMEOUT_SECONDS", "60")))
+const ZENODO_TIMEOUT_SECONDS = parse(Float64, get(ENV, "MIRROR_ZENODO_TIMEOUT_SECONDS",
+    get(ENV, "MIRROR_TIMEOUT_SECONDS", "60")))
+const REQUIRE_ALL = lowercase(get(ENV, "MIRROR_REQUIRE_ALL", "true")) in ("true", "1", "yes")
 
 const CANDIDATES = [
     (tag="SC_2X_1Y_V1", size=90987,
@@ -35,6 +43,8 @@ end
 function main()
     Sys.iswindows() || error("This experiment is fixed to Windows")
     REPETITIONS >= 3 || error("MIRROR_REPETITIONS must be at least 3")
+    FTP_TIMEOUT_SECONDS > 0 || error("MIRROR_FTP_TIMEOUT_SECONDS must be positive")
+    ZENODO_TIMEOUT_SECONDS > 0 || error("MIRROR_ZENODO_TIMEOUT_SECONDS must be positive")
     mkpath(WORK)
     rows = NamedTuple[]
     orders = NamedTuple[]
@@ -49,6 +59,7 @@ function main()
             selected_first=ordered[1]))
 
         for (mirror, url, ping_ms) in zip(("ftp", "zenodo"), urls, scores)
+            timeout_seconds = mirror == "ftp" ? FTP_TIMEOUT_SECONDS : ZENODO_TIMEOUT_SECONDS
             target = joinpath(WORK, "$(candidate.tag)-$(mirror)-$(repetition).nc")
             rm(target; force=true)
             started = time_ns()
@@ -57,7 +68,8 @@ function main()
             actual_size = 0
             actual_sha = ""
             try
-                Downloads.download(url, target)
+                println("Downloading $(candidate.tag) from $mirror, repetition $repetition/$REPETITIONS...")
+                Downloads.download(url, target; timeout=timeout_seconds)
                 actual_size = filesize(target)
                 actual_sha = sha256_file(target)
                 success = actual_size == candidate.size && actual_sha == candidate.sha
@@ -67,7 +79,7 @@ function main()
             finally
                 elapsed_s = (time_ns() - started) / 1.0e9
                 push!(rows, (tag=candidate.tag, repetition, mirror, url, ping_ms,
-                    elapsed_s, success, expected_size=candidate.size, actual_size,
+                    timeout_seconds, elapsed_s, success, expected_size=candidate.size, actual_size,
                     expected_sha256=candidate.sha, actual_sha256=actual_sha, error=error_text))
                 rm(target; force=true)
             end
@@ -92,6 +104,9 @@ function main()
     end
     metadata = Dict(
         "timestamp"=>string(Dates.now()), "operating_system"=>string(Sys.KERNEL),
+        "run_label"=>RUN_LABEL, "ftp_timeout_seconds"=>FTP_TIMEOUT_SECONDS,
+        "zenodo_timeout_seconds"=>ZENODO_TIMEOUT_SECONDS,
+        "require_all_downloads"=>REQUIRE_ALL,
         "julia_version"=>string(VERSION), "repetitions"=>REPETITIONS,
         "griddingmachine_commit"=>readchomp(`git -C $(dirname(Base.active_project())) rev-parse HEAD`),
         "all_downloads_verified"=>all(row.success for row in rows),
@@ -101,9 +116,12 @@ function main()
         TOML.print(io, metadata; sorted=true)
     end
     rm(WORK; recursive=true, force=true)
-    metadata["all_downloads_verified"] || error(
-        "At least one real FTP/Zenodo download failed; inspect $raw_path")
-    println("Real FTP/Zenodo experiment passed: $(length(rows))/$(length(rows)) downloads verified")
+    success_count = count(row.success for row in rows)
+    if REQUIRE_ALL && !metadata["all_downloads_verified"]
+        error("At least one real FTP/Zenodo download failed; inspect $raw_path")
+    end
+    println("Real FTP/Zenodo observation completed: $success_count/$(length(rows)) downloads verified")
+    !REQUIRE_ALL && println("Partial failures were retained because MIRROR_REQUIRE_ALL=false")
 end
 
 main()

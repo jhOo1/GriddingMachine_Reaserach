@@ -1,22 +1,28 @@
 # GriddingMachine：全球网格数据生产、分发与模型调用框架的更新与验证
 
-**姜皓（Hao Jiang）**^1，[其他作者待定]^1，**王玉杰（Yujie Wang）**^1*
+**姜皓（Hao Jiang）**^1，**王玉杰（Yujie Wang）**^1*
 
-1. 中国科学技术大学[二级单位待确认]，安徽 合肥 [邮政编码待确认]
+1. 中国科学技术大学地球和空间科学学院，安徽 合肥 230026
 
-\* 通讯作者：王玉杰，[邮箱待确认]
+\* 通讯作者：王玉杰，wyujie@ustc.edu.cn
 
 ## 摘要
 
-地球系统模型的参数化、初始化和驱动依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍需要大量重复劳动。本文在2022年发布的GriddingMachine基础上，围绕新数据进入系统、标准文件可靠到达本地以及本地数据进入模型三个环节进行更新。数据生产部分以共享schema约束网页生成的YAML和通用流水线，并显式映射二维或三维NetCDF的源维度；数据分发部分取消外层`tar.gz`，采用可独立更新的YAML目录登记多个镜像，通过独立cache、文件大小和SHA-256校验控制正式落盘；数据使用部分以`read_dataset`统一读取，并通过`grid_dict`和`grid_weather`组织Emerald初始化所需参数与气象驱动。在Windows和Julia 1.12.6环境中，数据生产包73项、数据使用包63项及Emerald合成输入最小烟雾5项自动测试全部通过；进一步执行的31编号数据生产矩阵中29个非交互案例连续3次全部通过，一名操作者对方向正确的V01选择接受、对南北翻转的V02选择拒绝，审核结果为PASS。一名未参与代码开发的参与者在获得一次关于受控NetCDF和YAML填写方式的说明后完成本地贡献流程，输出数值及模拟目录大小和SHA-256均通过自动验收。两个已内部压缩产品的Windows暖缓存实验显示，直接NetCDF减少了端到端时间和按文件生命周期计算的临时占用。核验14个`gm2`真实陆面文件后，US-NR1候选格点成功形成参数字典，撒哈拉非植被格点按预期拒绝。镜像顺序当前依据Windows `ping`延迟，FTP与Zenodo的真实比较需在能够访问机构FTP的中科大校园网完成。本文证据范围限定为Windows，不作其他操作系统外推；单案例流程复现不构成一般用户研究，真实天气文件、长期模型模拟和Server/Requestor也不作为验证软件流程改进的必要条件。本文以可重复测试评价GriddingMachine相对2022版的具体改进，为全球规则网格数据从贡献到模型调用提供可维护路径。
+地球系统模型依赖来源广泛、格式各异的全球网格数据，但数据制作、发布、稳定获取和模型适配仍存在重复劳动。本文在2022版GriddingMachine基础上，构建从数据贡献到模型调用的可验证工作流：以共享schema约束网页生成的YAML和NetCDF生产流水线，以可独立更新的多镜像目录和`SIZE/SHA256`控制cache与正式落盘，并以`read_dataset`、`grid_dict`和`grid_weather`统一读取及Emerald输入组织。在Windows和Julia 1.12.6环境中，数据生产包73项、数据使用包63项及Emerald最小烟雾5项测试全部通过；31编号生产矩阵中的29个非交互案例连续3次全部通过，人工方向正反例审核为PASS。一名未参与开发的参与者在获得1次配置说明后完成受控贡献流程，自动产物验收为PASS。当前ping版本的13个故障场景重复5次，65次状态断言全部通过且无`.part`残留；校外真实访问中Zenodo 12/12下载通过大小和哈希核验，机构FTP 0/12连接超时，表明ICMP无响应不等于文件不可下载。两个内部压缩样本改为直接NetCDF后，Windows暖缓存端到端中位时间分别降低48.3%和82.9%。14个真实陆面文件通过完整性核验，US-NR1格点成功形成参数字典，非植被格点按预期拒绝。结果表明，新版以机器可检查契约连接了生产、分发和模型接口；证据范围限定于Windows，校园网镜像比较、真实气象和长期模型模拟不在当前结论内。
 
 **关键词：** 地球系统模型；全球网格数据；数据标准化；NetCDF；数据分发；模型初始化
 
 **English title:** GriddingMachine: Updating and Validating a Framework for Global Gridded Data Production, Distribution, and Model Use
 
+**Authors:** Hao Jiang^1, Yujie Wang^1*
+
+1. School of Earth and Space Sciences, University of Science and Technology of China, Hefei 230026, China
+
+\* Corresponding author: Yujie Wang, wyujie@ustc.edu.cn
+
 ## Abstract
 
-Earth system model parameterization, initialization, and forcing depend on heterogeneous global gridded datasets, yet producing, publishing, reliably obtaining, and adapting these datasets still requires repeated manual work. Building on the 2022 GriddingMachine release, this study updates three connected stages: introducing new datasets, delivering standardized files to local storage, and organizing local data for model use. A shared schema constrains browser-generated YAML and the processing pipeline, including explicit source-dimension mapping. Distribution uses directly readable NetCDF files, an independently updated multi-mirror catalog, isolated cache files, and file-size and SHA-256 verification before promotion. `read_dataset` provides unified access, while `grid_dict` and `grid_weather` organize parameters and forcing for Emerald initialization. Under Windows and Julia 1.12.6, all 73 tests for the production package, 63 tests for the data-use package, and five Emerald smoke checks passed. In addition, all 29 non-interactive cases in a 31-case production matrix passed in three independent runs. Tests with 14 verified land files exercised real-data reading and parameter organization. Mirror ordering currently uses Windows ICMP ping latency; a real FTP-versus-Zenodo comparison therefore remains to be run on the USTC campus network, where the institutional FTP server is accessible. The evidence is deliberately limited to Windows and does not imply cross-platform behavior, real-weather scientific validation, or long-term model skill. The study provides a testable and maintainable path from contributing global regular-grid data to model use.
+Earth system models rely on heterogeneous global gridded datasets, yet producing, publishing, reliably obtaining, and adapting these data still requires repeated manual work. Building on the 2022 GriddingMachine release, this study establishes a verifiable workflow from data contribution to model use. A shared schema constrains browser-generated YAML and NetCDF production, while an independently updated multi-mirror catalog uses isolated cache files and `SIZE/SHA256` checks before promotion. The `read_dataset`, `grid_dict`, and `grid_weather` interfaces then provide unified access and organize inputs for Emerald. Under Windows and Julia 1.12.6, all 73 production-package tests, 63 data-use tests, and five Emerald smoke checks passed. All 29 non-interactive cases in a 31-case production matrix passed in three runs, and the positive/negative orientation audit passed. One participant not involved in development completed the controlled contribution workflow after one configuration clarification, with all output assertions passing. Across 13 fault scenarios repeated five times, all 65 state assertions passed with no residual `.part` files. In an off-campus real-network observation, all 12 Zenodo downloads matched the registered sizes and SHA-256 hashes, whereas all 12 institutional FTP attempts timed out; both hosts returned infinite ping scores, demonstrating that ICMP non-response does not imply download failure. Replacing outer `tar.gz` archives with direct NetCDF reduced median warm-cache end-to-end time by 48.3% and 82.9% for two internally compressed samples. Fourteen verified land files supported parameter-dictionary generation at the US-NR1 grid cell, while a non-vegetated cell was rejected as expected. The updated framework therefore connects production, distribution, and model interfaces through machine-checkable contracts. Evidence is limited to Windows; campus-network mirror comparison, real-weather validation, and long-term model simulation remain outside the current conclusions.
 
 **Keywords:** Earth system modeling; global gridded data; data standardization; NetCDF; data distribution; model initialization
 
@@ -27,6 +33,8 @@ Earth system model parameterization, initialization, and forcing depend on heter
 科学数据管理正在由单纯的数据公开转向强调可发现、可获取、可互操作和可复用的 FAIR 原则[1]。NetCDF 具有自描述、跨平台和适合多维数组等特点，已广泛用于地球科学数据交换；CF 元数据约定进一步通过坐标、物理量、单位和时空属性描述促进不同数据源之间的解释与处理[2]。Google Earth Engine 等云平台显著提升了大尺度遥感数据的访问和分析能力[3]。然而，对于尚未进入统一云平台、保存在不同机构服务器或研究团队本地的数据，特别是需要离线使用、版本固定或直接进入地球系统模型的数据，研究人员仍然面临格式不一致、分发位置分散、目录更新与软件版本耦合以及模型输入转换重复等问题。
 
 王玉杰等[4]于 2022 年提出 GriddingMachine，将常用于陆面和地球系统模拟的全球数据处理为具有统一空间和变量约定的 NetCDF 文件，并通过标签、`Artifacts.toml` 和 Julia artifact 机制实现数据管理和自动下载，同时提供 Julia、Matlab、Octave、Python 和 R 接口。该版本降低了全球网格数据发现和调用的门槛，并明确了经纬度方向、空间分辨率、变量名称、缺失值、单位、引用信息和处理日志等数据规范。但是，旧版采用 `tar.gz` 作为分发单元，数据目录随软件发布更新，数据镜像和贡献流程的扩展能力有限；当数据存储位置、网络环境和软件接口持续变化时，数据生产、发布、更新和模型使用之间仍缺少统一且可验证的闭环。
+
+从相关技术体系看，NetCDF以维度、变量和属性构成机器无关的多维科学数据抽象[5]，地球系统数据立方体则强调对多变量时空数据的共同组织和分析[6]；Julia通过多重派发和专业化兼顾高层抽象与科学计算性能[7]。与此同时，软件引用原则要求科研软件具有可识别、可持续、可访问和可归属的版本记录[8]。这些工作分别解决文件表达、多变量分析、计算实现和软件引用问题，但不能自动形成“异构数据生产—多镜像分发—完整性验证—模型输入组织”的领域闭环，这正是本文验证的系统边界。
 
 针对上述问题，本研究围绕2022版的实际使用障碍更新GriddingMachine，而不把TOML改为YAML这一格式变化本身作为创新。在数据生产端，网页表单辅助贡献者生成YAML，通用流水线依据配置完成源维度映射、坐标和数值处理、质量检查及标准NetCDF输出；在分发端，以可直接读取的NetCDF替代二次压缩制品，通过独立目录登记机构FTP、Zenodo及其他社区镜像，并在cache下载后校验文件大小和SHA-256；在数据使用端，系统化测试目录更新、单文件下载、全库同步、旧文件清理、目录与信息查询等操作，以`read_dataset`替代含义不准确的`read_LUT`名称，再通过`grid_dict`和`grid_weather`组织Emerald初始化数据。远程子集服务Server/Requestor涉及端口开放与服务安全，不属于本文范围。
 
@@ -258,7 +266,7 @@ Indexer 模块使用 `read_dataset` 读取本地 NetCDF 或目录标签。当前
 
 #### 3.3.3 真实镜像补充检查
 
-真实镜像实验保留为必要实验，并在中科大校园网执行。固定具有同内容FTP和Zenodo地址且已登记`SIZE/SHA256`的少量小中型标签，对每个地址分别记录Windows `ping`结果、单文件下载是否成功、下载时间、字节数和SHA-256，再调用论文版本的实际排序与回退路径。每个文件—镜像组合至少重复3次，所有下载缓存只写入论文研究目录。该实验只读访问FTP和Zenodo，不执行上传、覆盖或删除远端对象；结果仅代表实验时段与校园网环境。
+真实镜像实验分为校外可达性观察和校园网正式比较。固定具有同内容FTP和Zenodo地址且已登记`SIZE/SHA256`的4个小中型标签，对每个地址分别记录Windows `ping`结果、单文件下载是否成功、下载时间、字节数和SHA-256。每个文件—镜像组合重复3次，所有下载缓存只写入论文研究目录。校外观察允许FTP失败并如实保留；校园网实验要求两个镜像均实际下载。实验只读访问FTP和Zenodo，不执行上传、覆盖或删除远端对象，结果分别限定于对应网络环境。
 
 ### 3.4 统一读取与模型初始化案例
 
@@ -298,9 +306,11 @@ ELEV直接`.nc`与`.tar.gz`的端到端中位时间分别为20.929 ms（四分�
 
 当前包级M01～M13矩阵使用固定注入ping分数，在Windows上每场景重复5次，共65次状态断言全部通过。M01验证较低ping镜像优先；M03验证有限值排在`Inf`之前；M05验证唯一URL即使ping为`Inf`仍会下载；M07验证所有ping为`Inf`时URL仍全部进入尝试队列。其余场景覆盖404、连接重置、全部下载失败、稳定cache、截断cache、同长度错误内容、传输截断、已有完整正式文件和同大小错误SHA-256。65次运行的`.part`残留均为0，预期失败场景保持旧正式文件不变。
 
-恢复Windows ping解析后，提交`53bb0be`中的完整包正常加载，63项测试全部通过，其中两项新增测试覆盖正常响应与超时文本的ping延迟解析。包测试与注入ping矩阵分别验证真实Windows文本解析和确定性排序/状态逻辑；回环矩阵不测真实网络性能，仍需在校园网完成FTP—Zenodo实际访问。
+恢复Windows ping解析后，提交`53bb0be`中的完整包正常加载，63项测试全部通过，其中两项新增测试覆盖正常响应与超时文本的ping延迟解析。包测试与注入ping矩阵分别验证真实Windows文本解析和确定性排序/状态逻辑。
 
-受控故障注入与真实镜像访问回答不同问题：前者验证失败时的文件状态，后者验证校园网内FTP与Zenodo的真实可达性、ping顺序和下载表现。两者都限定为Windows；在真实校园网实验完成前，本文不报告最终镜像选择结果，也不声称ping选择吞吐率最优。
+在当前非校园网环境中进一步实际访问4个标签的FTP和Zenodo地址，每个文件—镜像组合重复3次。Windows ping对两个主机均返回`Inf`。FTP的12次尝试全部在10 s连接超时；Zenodo的12次下载全部达到登记字节数并通过SHA-256。Zenodo中位下载时间随文件大小由6.639 s增至271.507 s；20 s预实验仅使最小文件通过，说明下载超时必须与文件规模和网络条件共同解释。两轮均无远端写操作，临时下载文件在记录后清除。
+
+受控故障注入与真实镜像访问回答不同问题：前者验证失败时的文件状态，后者验证特定网络内FTP与Zenodo的真实可达性、ping顺序和下载表现。校外结果证明ICMP无响应不等于HTTPS不可下载，也支持保留`Inf`地址并实施失败回退；但FTP不可达主要由当前网络边界造成。校园网实验完成前，本文不报告校内最终镜像表现，也不声称ping选择吞吐率最优。
 
 ### 4.4 统一读取与模型初始化接口
 
@@ -322,15 +332,15 @@ ELEV直接`.nc`与`.tar.gz`的端到端中位时间分别为20.929 ms（四分�
 
 ### 5.2 与相关地球科学数据基础设施的关系
 
-Earth Engine把大规模地理空间数据与云端计算结合，适合服务器侧的行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[5]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[6]。GriddingMachine不试图替代这些通用或大规模平台。它面向的是一组经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
+Earth Engine把大规模地理空间数据与云端计算结合，适合服务器侧的行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[9]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[10]。GriddingMachine不试图替代这些通用或大规模平台。它面向的是一组经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
 
-因此，GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以`read_dataset`、`grid_dict`和`grid_weather`把标准数据组织为模型所需字段。对于接近云端的超大数据分析，云优化分块格式和数据邻近计算更合适[6]；对于CMIP等机构联合数据，ESGF的联合治理更成熟[5]。GriddingMachine的适用范围应限定为可下载、可本地缓存的规则网格数据，不能由本研究推及任意规模或任意网格的地球科学数据。
+因此，GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以`read_dataset`、`grid_dict`和`grid_weather`把标准数据组织为模型所需字段。对于接近云端的超大数据分析，云优化分块格式和数据邻近计算更合适[10]；对于CMIP等机构联合数据，ESGF的联合治理更成熟[9]。GriddingMachine的适用范围应限定为可下载、可本地缓存的规则网格数据，不能由本研究推及任意规模或任意网格的地球科学数据。
 
 ### 5.3 FAIR与可复现性的实际边界
 
 标签和外置目录提高数据的可发现性，多URL和直接NetCDF有助于获取，统一网格与变量约定支持互操作，来源、许可、处理记录和版本信息则关系到复用[1]。但是，采用YAML、NetCDF或Zenodo本身并不自动满足FAIR。论文版本已经支持目录 `SIZE/SHA256`、下载后校验和目录事务替换，但历史目录尚未全部迁移，部分标准文件的来源、许可、配置哈希和代码版本也尚未由schema写入最终NetCDF；因此当前证据支持受控文件完整性，不足以证明全部镜像一致或任意数据产品可重建。
 
-正式release仍需把配置哈希、代码版本、文件大小和SHA-256连成最小溯源链，并将每项结果关联到不可变标签、归档地址和原始日志。ELEV历史YAML与当前文件范围、单位和标签的不一致说明，旧配置不能自动视为当前产品的完整生产溯源；本文因此只评价当前标准文件是否满足`catergory.txt`规定的功能规则以及能否被新版流程无损使用，不把历史产品的原始可重建性纳入结论。
+正式release仍需把配置哈希、代码版本、文件大小和SHA-256连成最小溯源链，并将每项结果关联到不可变标签、归档地址和原始日志；软件本身也应按可识别版本作为研究产物引用[8]。ELEV历史YAML与当前文件范围、单位和标签的不一致说明，旧配置不能自动视为当前产品的完整生产溯源；本文因此只评价当前标准文件是否满足`catergory.txt`规定的功能规则以及能否被新版流程无损使用，不把历史产品的原始可重建性纳入结论。
 
 ### 5.4 局限与后续工作
 
@@ -342,7 +352,7 @@ Earth Engine把大规模地理空间数据与云端计算结合，适合服务�
 
 本文在2022版GriddingMachine基础上实现连接数据贡献、标准化生产、目录与镜像维护、统一读取和模型初始化的更新。论文分支已形成共享YAML schema和源维度映射、可独立更新且事务替换的目录、直接NetCDF多镜像分发、`SIZE/SHA256`校验后落盘，以及`read_dataset`、`grid_dict`和`grid_weather`接口。YAML格式变化本身不是核心贡献，核心在于配置、目录、下载和模型接口之间形成可机器检查的契约。
 
-当前Windows/Julia 1.12.6环境中，GriddingMachineDatasets 73项、GriddingMachine 63项以及Emerald合成输入最小烟雾5项测试全部通过，证明上述核心机制在受控夹具下可运行。数据生产31编号矩阵的29个非交互案例连续3次全部通过，一名操作者的V01/V02审核结果为PASS；一名未参与开发者在获得一次说明后完成受控贡献流程，自动产物验收为PASS。两个内部压缩样本的Windows暖缓存实验支持直接NetCDF减少额外处理时间和逻辑临时占用。14个真实`gm2`陆面文件全部通过完整性核验，US-NR1参数字典成功生成，撒哈拉非植被格点按预期拒绝。投稿前关键剩余证据为校园网内实际FTP—Zenodo ping与下载实验。本文结论限定于Windows，不把单案例复现外推为用户研究，也不声称效率数值可外推到所有文件或其他操作系统、ping排序等同于吞吐率最优、真实气象已经验证、真实参数已完成独立科学数值验证或接口已验证长期模型模拟。
+当前Windows/Julia 1.12.6环境中，GriddingMachineDatasets 73项、GriddingMachine 63项以及Emerald合成输入最小烟雾5项测试全部通过，证明上述核心机制在受控夹具下可运行。数据生产31编号矩阵的29个非交互案例连续3次全部通过，一名操作者的V01/V02审核结果为PASS；一名未参与开发者在获得一次说明后完成受控贡献流程，自动产物验收为PASS。当前ping版本65次受控故障断言全部通过；校外真实访问中Zenodo 12/12下载及完整性核验通过，机构FTP 0/12连接超时。两个内部压缩样本的Windows暖缓存实验支持直接NetCDF减少额外处理时间和逻辑临时占用。14个真实`gm2`陆面文件全部通过完整性核验，US-NR1参数字典成功生成，撒哈拉非植被格点按预期拒绝。投稿前关键剩余证据为校园网内实际FTP—Zenodo ping与下载实验。本文结论限定于Windows，不把单案例复现外推为用户研究，也不声称效率数值可外推到所有文件或其他操作系统、ping排序等同于吞吐率最优、真实气象已经验证、真实参数已完成独立科学数值验证或接口已验证长期模型模拟。
 
 GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以可验证目录和模型数据接口连接数据发布者与使用者。完成独立人工流程验证和正式归档后，该框架可为全球规则网格数据的持续维护和可复用模型输入提供更完整的证据链。
 
@@ -360,7 +370,7 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 ## AI 工具使用声明
 
-本文准备过程中使用 OpenAI Codex 辅助梳理研究材料、检查论文结构、形成文字初稿和协助代码审查。所有研究问题、方法选择、代码修改、实验设计、数据、结果解释和最终文字均由作者核验并承担责任。投稿前将依据实际使用情况补充工具版本、使用环节和人工核验过程。
+本文准备过程中使用OpenAI Codex辅助整理研究材料与代码差异、检查论文结构、起草和修订部分文字、审查Julia/Python实验脚本、执行本地受控测试并汇总机器生成日志。研究问题、实验范围、通过标准和结论边界由作者确定；工具输出未经人工核对不作为论文证据。作者逐项核验代码提交、原始CSV/TOML、文件哈希、终端结果和正文表述，并对研究设计、数据真实性、结果解释及全文承担责任。OpenAI Codex不列为作者或参考文献作者。
 
 ## 参考文献
 
@@ -372,6 +382,14 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [4] WANG Y, KÖHLER P, BRAGHIERE R K, et al. GriddingMachine, a database and software for Earth system modeling at global and regional scales[J]. Scientific Data, 2022, 9: 258. DOI: 10.1038/s41597-022-01346-x.
 
-[5] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
+[5] REW R, DAVIS G. NetCDF: An interface for scientific data access[J]. IEEE Computer Graphics and Applications, 1990, 10(4): 76-82. DOI: 10.1109/38.56302.
 
-[6] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
+[6] MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
+
+[7] BEZANSON J, EDELMAN A, KARPINSKI S, et al. Julia: A fresh approach to numerical computing[J]. SIAM Review, 2017, 59(1): 65-98. DOI: 10.1137/141000671.
+
+[8] SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
+
+[9] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
+
+[10] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
