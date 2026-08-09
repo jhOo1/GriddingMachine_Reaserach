@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-08-09T03:51:47.503559+00:00",
+  "status": "pilot",
+  "scope": "distribution format only; not a GriddingMachine API benchmark",
+  "cache_condition": "warm operating-system cache after one explicit application warm-up; no privileged Windows cache eviction was performed",
+  "http": "127.0.0.1 ephemeral port; no external network traffic",
+  "tar_gzip_level": 6,
+  "repetitions_per_combination": 10,
+  "random_seed": 20260809,
+  "bootstrap_samples": 5000,
+  "python": "3.11.0 (main, Oct 24 2022, 18:26:48) [MSC v.1933 64 bit (AMD64)]",
+  "netcdf4_python": "1.7.4",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "processor": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
+  "datasets": {
+    "ELEV_4X_1Y_V1.nc": {
+      "bytes": 810299,
+      "sha256": "642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f",
+      "archive_bytes": 758198,
+      "archive_sha256": "587b44f547bc6f4293edcaff8871a5313da69d3b88fcd10e4acc651e0d101ee3",
+      "package_ms": 28.8528,
+      "dimensions": {
+        "lon": 1440,
+        "lat": 720
+      },
+      "data_shape": [
+        720,
+        1440
+      ],
+      "data_dtype": "float64",
+      "data_filters": {
+        "zlib": true,
+        "szip": false,
+        "zstd": false,
+        "bzip2": false,
+        "blosc": false,
+        "shuffle": false,
+        "complevel": 4,
+        "fletcher32": false
+      }
+    },
+    "LAI_MODIS_2X_8D_2020_V1.nc": {
+      "bytes": 13936426,
+      "sha256": "fda32f694a38d9d3c5244cd5bd739825c7441c918d91e56442a553ab4fa5d0df",
+      "archive_bytes": 13634759,
+      "archive_sha256": "04b1e64eb3c16f8035b7370b68878b6cf26b92275e8a431fab7986804bff0cf3",
+      "package_ms": 453.0151,
+      "dimensions": {
+        "lon": 720,
+        "lat": 360,
+        "ind": 46
+      },
+      "data_shape": [
+        46,
+        360,
+        720
+      ],
+      "data_dtype": "float64",
+      "data_filters": {
+        "zlib": true,
+        "szip": false,
+        "zstd": false,
+        "bzip2": false,
+        "blosc": false,
+        "shuffle": false,
+        "complevel": 4,
+        "fletcher32": false
+      }
+    }
+  }
+}

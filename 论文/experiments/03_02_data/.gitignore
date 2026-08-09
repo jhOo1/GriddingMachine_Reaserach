@@ -1,0 +1,6 @@
+*.nc
+*.tar.gz
+downloads/
+work/
+python_env/
+pip_cache/
