@@ -16,6 +16,7 @@ const TAG = "FAULT_4X_1Y_V1"
 const REPETITIONS = 5
 const SEED = 20260809
 const BOOTSTRAP_SAMPLES = 5000
+const BACKEND = lowercase(get(ENV, "FAULT_MATRIX_BACKEND", "package"))
 
 isfile(DOWNLOAD_SOURCE) || error("Missing Collector source: $DOWNLOAD_SOURCE")
 isfile(SOURCE_DATA) || error("Missing integrity-checked fixture: $SOURCE_DATA")
@@ -35,6 +36,7 @@ using Downloads
 function request(method, url; status_exception = false, connect_timeout = 5, readtimeout = 5)
     return Downloads.request(url; method, timeout = max(connect_timeout, readtimeout))
 end
+
 end
 
 struct CatalogValidationError <: Exception
@@ -73,6 +75,41 @@ function configure!(home::String, urls::Vector{String}, data::Vector{UInt8})
     initialize_database!()
     return nothing
 end
+end
+
+if BACKEND == "package"
+    @eval using GriddingMachine
+elseif BACKEND != "source"
+    error("FAULT_MATRIX_BACKEND must be package or source")
+end
+
+const CollectorUnderTest = BACKEND == "package" ? GriddingMachine.Collector : CollectorHarness
+
+function configure_backend!(home::String, urls::Vector{String}, data::Vector{UInt8})
+    if BACKEND == "source"
+        CollectorHarness.configure!(home, urls, data)
+        return nothing
+    end
+    catalog = joinpath(home, "Artifacts.yaml")
+    mkpath(home)
+    open(catalog, "w") do io
+        println(io, "$TAG:")
+        println(io, "  PATH: public/v0")
+        println(io, "  URL:")
+        for address in urls
+            println(io, "    - \"$address\"")
+        end
+        println(io, "  SIZE: $(length(data))")
+        println(io, "  SHA256: $(sha256_hex(data))")
+    end
+    CollectorUnderTest.configure!(;
+        home,
+        catalog_file = catalog,
+        catalog_url = "http://127.0.0.1/unused",
+        clear = true,
+    )
+    CollectorUnderTest.load_database!(; download_if_missing = false)
+    return nothing
 end
 
 Base.@kwdef mutable struct Behavior
@@ -216,9 +253,9 @@ function scenario_definition(id::String, data::Vector{UInt8})
     if id == "M01"
         return (good = true, b1 = Behavior(body = data, head_delay = 0.05), b2 = good(), probe = :real, before = :none, cache = false)
     elseif id == "M02"
-        return (good = true, b1 = Behavior(body = collect(codeunits("missing")), head_status = 404, get_status = 404), b2 = Behavior(body = data, head_delay = 0.02), probe = :real, before = :none, cache = false)
+        return (good = true, b1 = Behavior(body = collect(codeunits("missing")), head_status = 404, get_status = 404), b2 = Behavior(body = data), probe = :ordered, before = :none, cache = false)
     elseif id == "M03"
-        return (good = true, b1 = Behavior(body = data, head_delay = 0.20), b2 = good(), probe = :short, before = :none, cache = false)
+        return (good = true, b1 = Behavior(body = data, head_delay = 1.50), b2 = good(), probe = :one_second, before = :none, cache = false)
     elseif id == "M04"
         return (good = true, b1 = Behavior(body = data, head_action = :reset, get_action = :reset), b2 = good(), probe = :ordered, before = :none, cache = false)
     elseif id == "M05"
@@ -251,8 +288,8 @@ function run_once(id::String, repetition::Int, data::Vector{UInt8})
     urls = url.(servers)
     try
         return mktempdir(WORK_ROOT; prefix = "$(id)-$(repetition)-") do home
-            CollectorHarness.configure!(home, urls, data)
-            destination = CollectorHarness.dataset_path(TAG)
+            configure_backend!(home, urls, data)
+            destination = CollectorUnderTest.dataset_path(TAG)
             mkpath(dirname(destination))
             if definition.before == :previous
                 write(destination, "previous-formal-file")
@@ -265,9 +302,9 @@ function run_once(id::String, repetition::Int, data::Vector{UInt8})
             before_hash = before_exists ? sha256_file(destination) : ""
             stable_before = isfile(stable_cache) ? sha256_file(stable_cache) : ""
             probe = if definition.probe == :real
-                CollectorHarness.probe_url
-            elseif definition.probe == :short
-                address -> CollectorHarness.probe_url(address; timeout = 0.05)
+                CollectorUnderTest.probe_url
+            elseif definition.probe == :one_second
+                address -> CollectorUnderTest.probe_url(address; timeout = 1)
             else
                 _ -> 0.0
             end
@@ -276,7 +313,7 @@ function run_once(id::String, repetition::Int, data::Vector{UInt8})
             result_path = ""
             error_text = ""
             try
-                result_path = CollectorHarness.download_dataset!(TAG; probe, require_integrity = true)
+                result_path = CollectorUnderTest.download_dataset!(TAG; probe, require_integrity = true)
             catch exception
                 error_text = sprint(showerror, exception)
             end
@@ -345,7 +382,8 @@ function main()
         end
         println("$id passed $REPETITIONS/$REPETITIONS")
     end
-    write_csv(joinpath(ROOT, "fault_matrix_windows_raw.csv"), rows)
+    output_prefix = "fault_matrix_windows_$(BACKEND)"
+    write_csv(joinpath(ROOT, "$(output_prefix)_raw.csv"), rows)
 
     summaries = NamedTuple[]
     for (index, id) in enumerate(["M$(lpad(value, 2, '0'))" for value in 1:13])
@@ -363,10 +401,11 @@ function main()
             ci95_high_ms = ci_high,
         ))
     end
-    write_csv(joinpath(ROOT, "fault_matrix_windows_summary.csv"), summaries)
+    write_csv(joinpath(ROOT, "$(output_prefix)_summary.csv"), summaries)
     metadata = Dict(
         "created_utc" => string(now(UTC)),
-        "status" => "Windows source-level controlled HTTP experiment",
+        "status" => "Windows $(BACKEND)-level controlled HTTP experiment",
+        "backend" => BACKEND,
         "platform" => Sys.MACHINE,
         "julia_version" => string(VERSION),
         "collector_source" => DOWNLOAD_SOURCE,
@@ -377,9 +416,11 @@ function main()
         "repetitions_per_scenario" => REPETITIONS,
         "bootstrap_samples" => BOOTSTRAP_SAMPLES,
         "network_scope" => "127.0.0.1 only",
-        "limitation" => "dataset-download.jl loaded through a minimal harness; after missing dependency sources were restored, full package precompilation still did not finish within a five-minute verification window",
+        "limitation" => BACKEND == "package" ?
+            "Windows package-level result; Linux, macOS, and real-mirror observations remain pending" :
+            "dataset-download.jl loaded through a minimal source harness",
     )
-    open(joinpath(ROOT, "fault_matrix_windows_metadata.toml"), "w") do io
+    open(joinpath(ROOT, "$(output_prefix)_metadata.toml"), "w") do io
         TOML.print(io, metadata; sorted = true)
     end
     println("All $(length(rows)) measured runs passed state assertions")

@@ -4,7 +4,9 @@
 
 本轮在Windows 10、Julia 1.12.6环境中执行M01～M13，每个场景独立重复5次，共65次。两个故障端点均绑定`127.0.0.1`临时端口，使用已通过来源完整性校验的`ELEV_4X_1Y_V1.nc`（810299 B，SHA-256 `642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f`）作为正确内容。
 
-实验脚本没有复制GriddingMachine源码，而是直接载入`GriddingMachine_paper/src/Collector/dataset-download.jl`；载入文件的SHA-256为`85ef79f427f7e7cadbe4248f7187ec36c59622b467a71be142436143f1289634`。本轮通过只含必要状态函数的最小harness执行当前下载源码。随后按Manifest补齐本机缺少的两个小型依赖源码，但完整包单任务预编译仍未在5分钟验证窗口内完成。因此结果属于“Windows源码级真实HTTP故障实验”，不能替代完整包加载、Linux/macOS和真实镜像实验。
+实验脚本没有复制GriddingMachine源码。清理已确认进程不存在的陈旧`Distances`预编译锁并补齐两个小型依赖源码后，完整GriddingMachine包正常加载，随后`Pkg.test`的61项测试全部通过。故障矩阵默认从`GriddingMachine.Collector`公共模块调用`configure!`、`load_database!`、`probe_url`、`dataset_path`和`download_dataset!`，使用的`dataset-download.jl` SHA-256为`85ef79f427f7e7cadbe4248f7187ec36c59622b467a71be142436143f1289634`。因此本节主要结果已升级为“Windows包级真实HTTP故障实验”；早期最小源码harness结果只保留作补充审计。
+
+环境恢复也暴露出一个复现风险：`Pkg.test`提示无法严格使用仓库Manifest，并在临时测试环境中重新解析、降级若干间接依赖后才运行。61/61证明当前解析环境中的功能测试通过，但不能等同于锁定清单已在另一台机器上无歧义复现；终稿归档前仍需修复该问题。
 
 ## 2. 状态正确性结果
 
@@ -28,13 +30,13 @@
 
 ## 3. 时间指标的解释
 
-各场景中位时间为3.741～84.335 ms，但时间不是本实验的主要结果。M01第一次运行达到1698.289 ms，而其余4次为70.998～83.223 ms，显示Julia/libcurl首次初始化对仅5次重复的bootstrap区间影响很大。故障注入阶段只用时间定位异常，不据此比较镜像性能或网络速度；正式跨平台实验应增加独立预热并扩大重复次数后再解释时间。
+包级各场景中位时间为3.873～1035.869 ms，其中M03包含预设的1 s协议探测超时，不能与普通场景横向比较。M01第一次运行达到4447.056 ms，而其余4次为70.124～92.952 ms，显示完整包和HTTP栈首次初始化对仅5次重复的bootstrap区间影响很大。故障注入阶段只用时间定位异常，不据此比较镜像性能或网络速度；正式跨平台实验应增加独立预热并扩大重复次数后再解释时间。
 
 ## 4. 尚未满足的正式release条件
 
-1. 继续诊断完整包预编译超时，建立可由提交的`Project.toml/Manifest.toml`在合理时间内加载的Julia环境，并用包级公共API复跑同一矩阵。
-2. 在Linux和macOS复跑冻结脚本；不能把Windows源码级结果外推到三平台。
+1. 修复`Pkg.test`不能严格采用仓库Manifest而重新解析依赖的问题，并保存从空缓存建立环境的完整日志。
+2. 在Linux和macOS复跑冻结脚本；不能把Windows包级结果外推到三平台。
 3. 从具有多个真实URL且补齐`SIZE/SHA256`的目录中选择3～5个小中型标签，分别在校内和至少一种校外网络做只读观察。
 4. 当前harness没有独立记录TCP连接时间、首字节时间和吞吐率；若终稿需要这些指标，应在正式脚本中增加分阶段计时。
 
-可复核文件：`03_03_data/fault_matrix_windows.jl`、`03_03_data/fault_matrix_windows_raw.csv`、`03_03_data/fault_matrix_windows_summary.csv`和`03_03_data/fault_matrix_windows_metadata.toml`。
+可复核文件：`03_03_data/fault_matrix_windows.jl`、`03_03_data/fault_matrix_windows_package_raw.csv`、`03_03_data/fault_matrix_windows_package_summary.csv`、`03_03_data/fault_matrix_windows_package_metadata.toml`和`03_03_data/package_environment_windows.toml`。无后缀的早期CSV/TOML为源码harness补充记录，不作为当前主要结果。
