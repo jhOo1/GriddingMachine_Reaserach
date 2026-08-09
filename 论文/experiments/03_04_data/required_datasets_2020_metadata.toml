@@ -1,0 +1,12 @@
+catalog = "D:\\Emerald\\GriddingMachineDatasets_paper\\Artifacts.yaml"
+catalog_entries = 1179
+known_total_bytes = 184404953
+missing_catalog_tags = 0
+network_requests = 0
+requested_fields = 22
+tags_with_size = 14
+tags_without_sha256 = 8
+tags_without_size = 8
+tags_without_url = 0
+unique_tags = 22
+year = 2020

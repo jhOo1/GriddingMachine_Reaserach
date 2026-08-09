@@ -1,0 +1,84 @@
+SC_2X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SC_2X_1Y_V1.nc/content"
+  SIZE: 90987
+  SHA256: a752c43b9c383890bb221f428554eec4bba3ae1b1ba3b7165340f8acc61f8d42
+SOIL_VGA_12X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SOIL_VGA_12X_1Y_V1.nc/content"
+  SIZE: 27943068
+  SHA256: 6186c2d080ac818c732f0708678fc177eea6cdce9af0ffb3fc7efc48684493c3
+SOIL_VGN_12X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SOIL_VGN_12X_1Y_V1.nc/content"
+  SIZE: 42280208
+  SHA256: 6b3ea92bd5e1e7ea20dbbed25f9360fbbeaec01c752a502dd9e64c22b652dd99
+SOIL_SWCR_12X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SOIL_SWCR_12X_1Y_V1.nc/content"
+  SIZE: 33924760
+  SHA256: 39b55ba85d9bfa2cd0c611d27009269b5d21278a3b850eb5f5c6f8ab9ae36a76
+SOIL_SWCS_12X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SOIL_SWCS_12X_1Y_V1.nc/content"
+  SIZE: 46065259
+  SHA256: e65f4af354a0131998e99ca729d1820ed28267f7ea5f18d2fc5ec3b6fec5fa29
+CH_20X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/CH_20X_1Y_V1.nc/content"
+  SIZE: 4207244
+  SHA256: 77492a5d621103e895ca940208299bdd5b8bc4f93702f6fb4bdbe4476b2745c4
+CHL_2X_7D_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/CHL_2X_7D_V1.nc/content"
+  SIZE: 7438033
+  SHA256: 1838b07daed46ebd623def204f3cbf339be160fa6754cb1bc4fed8b61b5b54e2
+CI_2X_1M_V3:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/CI_2X_1M_V3.nc/content"
+  SIZE: 4130395
+  SHA256: e526292d50a74da52b91c77e00a3ff9d356cdd7b81343207a09b59a1c1367079
+LAI_MODIS_2X_8D_2020_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/LAI_MODIS_2X_8D_2020_V1.nc/content"
+  SIZE: 13936426
+  SHA256: fda32f694a38d9d3c5244cd5bd739825c7441c918d91e56442a553ab4fa5d0df
+SLA_2X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/SLA_2X_1Y_V1.nc/content"
+  SIZE: 505273
+  SHA256: 352c864477922925057605b70fc20810b6e738989b5a96e70e4fb8701a0f6179
+VCMAX_2X_1Y_V2:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/VCMAX_2X_1Y_V2.nc/content"
+  SIZE: 639384
+  SHA256: 52cd1b95b5bf07cc34f900cf9b7c840c8ab8454c7ee76ffc8a80c856f5ff7cd4
+ELEV_4X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/ELEV_4X_1Y_V1.nc/content"
+  SIZE: 810299
+  SHA256: 642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f
+LM_4X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17709092/files/LM_4X_1Y_V1.nc/content"
+  SIZE: 1450609
+  SHA256: d71fb262797e32c2ea9567b99af25d00dadebd335a01bb1aa8b108df267b393e
+PFT_2X_1Y_V1:
+  PATH: downloads
+  URL:
+    - "https://zenodo.org/api/records/17732092/files/PFT_2X_1Y_V1.nc/content"
+  SIZE: 983008
+  SHA256: e93c21167ae55a611c89b6e046cba9553ffcc54372122f807e4be49146cc7f0c

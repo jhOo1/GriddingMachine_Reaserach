@@ -1,0 +1,46 @@
+[environment]
+catalog = "D:\\Emerald\\GriddingMachine_Reaserach\\论文\\experiments\\03_04_data\\Artifacts.land.local.yaml"
+julia_version = "1.12.6"
+network_requests = 0
+platform = "x86_64-w64-mingw32"
+required_files = 14
+verified_files = 14
+year = 2020
+
+[points.SAHARA]
+center_lat = 23.5
+center_lon = 13.5
+classification = "bare"
+daily_length = 0
+elevation = 0.0
+error = "The target grid is not vegetated!"
+grid_dict_key_count = 0
+grid_dict_success = false
+lai_max = nan
+land_mask = 1.0
+lat_index = 114
+lon_index = 194
+name = "SAHARA"
+pft_count = 0
+requested_lat = 23.0
+requested_lon = 13.0
+soil_layers = 0
+
+[points.US_NR1]
+center_lat = 40.5
+center_lon = -105.5
+classification = "vegetated"
+daily_length = 366
+elevation = 1773.2000732421875
+error = ""
+grid_dict_key_count = 34
+grid_dict_success = true
+lai_max = 1.5791170597076416
+land_mask = 0.9915920223398897
+lat_index = 131
+lon_index = 75
+name = "US_NR1"
+pft_count = 17
+requested_lat = 40.0329
+requested_lon = -105.5464
+soil_layers = 4
