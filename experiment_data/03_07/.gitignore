@@ -1,0 +1,4 @@
+catalog_audit/*
+!catalog_audit/catalog_coverage_summary.toml
+!catalog_audit/catalog_entries.csv
+!catalog_audit/integrity_ready_tags.txt

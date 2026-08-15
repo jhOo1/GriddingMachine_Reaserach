@@ -1,0 +1,26 @@
+[audit]
+audit_date = "2026-08-15"
+audit_script = "GriddingMachine_Reaserach/论文/experiments/03_07_data/audit_catalog_coverage.jl"
+catalog_path = "GriddingMachineDatasets/Artifacts.yaml"
+catalog_sha256 = "fed5d6e2c8cf1ea73ef7e698523c7d9c01d513e9904951c7efb5a8ceacbd0482"
+network_access = false
+
+[catalog_paths]
+"public/gm1" = 1
+"public/v0" = 986
+"public/wd1" = 192
+
+[coverage]
+entries_total = 1179
+entries_with_multiple_urls = 72
+entries_with_path = 1179
+entries_with_sha256 = 14
+entries_with_size = 14
+entries_with_size_and_sha256 = 14
+entries_with_url = 1179
+integrity_coverage_percent = 1.187
+multiple_url_coverage_percent = 6.107
+
+[url_hosts]
+"114.214.212.145" = 1179
+"zenodo.org" = 72
