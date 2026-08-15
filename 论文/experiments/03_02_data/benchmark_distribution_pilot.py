@@ -31,6 +31,7 @@ from pathlib import Path
 ROOT = Path.cwd().resolve()
 if not (ROOT / Path(__file__).name).is_file():
     raise RuntimeError("Run this script from its 03_02_data directory")
+INPUT_ROOT = Path(os.environ.get("PILOT_INPUT_ROOT", ROOT)).resolve()
 sys.path.insert(0, str(ROOT / "python_env"))
 
 from netCDF4 import Dataset  # noqa: E402
@@ -208,7 +209,7 @@ def main() -> None:
     platform_slug = os.environ.get("PILOT_PLATFORM", platform.system()).lower()
     if platform_slug not in {"windows", "macos", "linux"}:
         raise RuntimeError(f"Unsupported PILOT_PLATFORM={platform_slug}")
-    inputs = [ROOT / name for name in INPUTS]
+    inputs = [INPUT_ROOT / name for name in INPUTS]
     missing = [str(path) for path in inputs if not path.is_file()]
     if missing:
         raise FileNotFoundError(f"Missing pilot inputs: {missing}")

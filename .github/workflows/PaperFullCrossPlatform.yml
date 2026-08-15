@@ -46,7 +46,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check netCDF4
       - name: Generate CI-only NetCDF fixtures
         working-directory: research/论文/experiments/03_02_data
-        run: python prepare_ci_fixtures.py
+        run: python prepare_ci_fixtures.py --output-dir "${{ github.workspace }}/ci-fixtures"
       - name: Instantiate paper packages
         run: |
           julia --startup-file=no --project=GriddingMachine_paper -e 'using Pkg; Pkg.instantiate()'
@@ -60,11 +60,13 @@ jobs:
         env:
           FAULT_MATRIX_PLATFORM: ${{ matrix.slug }}
           GRIDDING_MACHINE_PAPER_REPO: ${{ github.workspace }}/GriddingMachine_paper
+          FAULT_MATRIX_SOURCE_DATA: ${{ github.workspace }}/ci-fixtures/ELEV_4X_1Y_V1.nc
         run: julia --startup-file=no --project=GriddingMachine_paper "research/论文/experiments/03_03_data/fault_matrix_windows.jl"
       - name: Run direct NetCDF benchmark
         working-directory: research/论文/experiments/03_02_data
         env:
           PILOT_PLATFORM: ${{ matrix.slug }}
+          PILOT_INPUT_ROOT: ${{ github.workspace }}/ci-fixtures
         run: python benchmark_distribution_pilot.py
       - name: Archive controlled experiment outputs
         if: always()

@@ -11,7 +11,11 @@ const WORK_ROOT = joinpath(ROOT, "work")
 const WORKSPACE = dirname(dirname(dirname(dirname(ROOT))))
 const GM_REPO = get(ENV, "GRIDDING_MACHINE_PAPER_REPO", joinpath(WORKSPACE, "GriddingMachine_paper"))
 const DOWNLOAD_SOURCE = joinpath(GM_REPO, "src", "Collector", "dataset-download.jl")
-const SOURCE_DATA = joinpath(dirname(ROOT), "03_02_data", "ELEV_4X_1Y_V1.nc")
+const SOURCE_DATA = get(
+    ENV,
+    "FAULT_MATRIX_SOURCE_DATA",
+    joinpath(dirname(ROOT), "03_02_data", "ELEV_4X_1Y_V1.nc"),
+)
 const TAG = "FAULT_4X_1Y_V1"
 const REPETITIONS = 5
 const SEED = 20260809
