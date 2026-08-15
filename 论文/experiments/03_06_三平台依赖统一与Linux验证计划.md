@@ -43,7 +43,7 @@ GriddingMachineDatasets和Emerald的`Project.toml`均将GriddingMachine固定到
 
 - GriddingMachine：三平台均为63/63，运行记录为<https://github.com/CliMA/GriddingMachine.jl/actions/runs/31876825314>；
 - GriddingMachineDatasets：三平台均为38/38配置测试和35/35包集成测试，并归档平台Manifest，运行记录为<https://github.com/jhOo1/GriddingMachineDatasets/actions/runs/31876841675>；
-- Emerald：统一依赖候选`d79324f`按作者决定仅保留本地。Windows统一环境为5/5；macOS已归档的是基线`wyujie@9828b2a`配合临时兼容环境的5/5，不把它写成候选提交的三平台CI；Ubuntu未运行Emerald。
+- Emerald：接口代码提交`d79324f`已发布到`jhOo1/Emerald-paper`，公开快照`b95d119`在三平台均为5/5，并归档平台Manifest；运行记录为<https://github.com/jhOo1/Emerald-paper/actions/runs/31886671034>。该CI只覆盖固定合成输入下的最小接口烟雾。
 
 研究仓库运行三平台受控CI，记录为<https://github.com/jhOo1/GriddingMachine_Reaserach/actions/runs/31877990092>：
 
@@ -51,12 +51,12 @@ GriddingMachineDatasets和Emerald的`Project.toml`均将GriddingMachine固定到
 - 两个小型确定性NetCDF夹具、两种分发形式各10次，共40次分发测量，SHA-256检查均通过；
 - M01--M13各5次，共65次故障状态断言均通过。
 
-三个平台工件名分别为`paper-controlled-windows`、`paper-controlled-macos`和`paper-controlled-linux`。Ubuntu结果可以支持“表4所列核心代码路径已通过Linux CI兼容性验证”，但不能外推为Emerald、真实ELEV/LAI性能、真实FTP/Zenodo或真实`gm2`陆面案例均在Linux完成。真实网络结果按网络环境单独报告，不由GitHub runner代替校园网实验。GitHub Actions工件存在保留期限，投稿前必须迁移到永久归档。
+研究仓库三个平台工件名分别为`paper-controlled-windows`、`paper-controlled-macos`和`paper-controlled-linux`；Emerald仓库另保存`Emerald-manifest-*`。Ubuntu结果可以支持“表4所列核心代码路径和Emerald合成输入接口已通过Linux CI兼容性验证”，但不能外推为真实ELEV/LAI性能、真实FTP/Zenodo、真实`gm2`陆面案例、长期模型模拟或科学正确性均在Linux完成。真实网络结果按网络环境单独报告，不由GitHub runner代替校园网实验。GitHub Actions工件存在保留期限，投稿前必须迁移到永久归档。
 
 ## 5. 剩余操作
 
-1. 已完成：GriddingMachine、GriddingMachineDatasets和研究仓库公开候选提交及三平台CI；正文、表4、讨论和结论已按证据边界回填Linux结果。
+1. 已完成：GriddingMachine、GriddingMachineDatasets、Emerald和研究仓库公开候选提交及三平台CI；正文、表4、讨论和结论已按证据边界回填Linux结果。
 2. 待完成：下载或重新生成最终冻结版本的日志、CSV、TOML和Manifest，并存入带DOI的永久归档；不能只依赖Actions临时工件。
-3. 待作者决定：是否公开Emerald候选`d79324f`。若不公开，正文继续把它限定为本地接口案例；若公开，则在macOS和Ubuntu干净runner上补跑统一候选。
+3. 已完成：Emerald候选`d79324f`已公开，修复后的仓库快照`b95d119`已在Windows、macOS和Ubuntu干净runner上通过5/5接口烟雾；仍需创建不可变release和永久归档。
 4. 待完成：在中科大校园网实际只读访问同内容FTP和Zenodo，记录ping、下载时间、字节数与SHA-256。
 5. 正式release前创建不可变tag，并推动GriddingMachine 0.5.0注册，以消除Git source覆盖。
