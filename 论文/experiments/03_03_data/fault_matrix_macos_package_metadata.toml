@@ -1,0 +1,14 @@
+backend = "package"
+bootstrap_samples = 5000
+collector_source = "/Users/haomin/Desktop/code/Emerald/GriddingMachine_paper/src/Collector/dataset-download.jl"
+collector_source_sha256 = "248a90e0c8138fcb2d8b222308260e1747859d0749f2bc1d8124129a9b5988a5"
+created_utc = "2026-08-15T07:54:05.499"
+fixture = "/Users/haomin/Desktop/code/Emerald/GriddingMachine_Reaserach/论文/experiments/03_02_data/ELEV_4X_1Y_V1.nc"
+fixture_bytes = 810299
+fixture_sha256 = "642a485fda9517d267a71a63f8cbbb79b924bb19b2ff18a6471c0305b5be6f0f"
+julia_version = "1.12.6"
+limitation = "Windows package-level result with injected ping scores; actual ICMP and mirror performance require the campus-network experiment; Linux and macOS remain outside scope"
+network_scope = "127.0.0.1 only"
+platform = "arm64-apple-darwin24.0.0"
+repetitions_per_scenario = 5
+status = "Windows package-level controlled HTTP experiment"

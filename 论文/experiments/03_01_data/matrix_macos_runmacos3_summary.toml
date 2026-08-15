@@ -1,0 +1,13 @@
+automatic_cases = 29
+date = "2026-08-15"
+failed = 0
+griddingmachine_commit = "53bb0be8b676f88d3d3dbe32f20aefdad883fcc2"
+griddingmachinedatasets_commit = "3926ae384690dac6a8ce57af87edc5ff210a40c0"
+julia_version = "1.12.6"
+manual_pending = 2
+network_requests = 0
+passed = 29
+platform = "arm64-apple-darwin24.0.0"
+run_id = "macos3"
+total_cases = 31
+work_root = "/Users/haomin/Desktop/code/Emerald/GriddingMachine_Reaserach/experiment_data/03_01/work"

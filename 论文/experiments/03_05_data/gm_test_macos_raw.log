@@ -1,0 +1,857 @@
+  Installing known registries into `~/.julia`
+       Added `General` registry to ~/.julia/registries
+    Updating registry at `~/.julia/registries/General.toml`
+   Installed HypergeometricFunctions ───── v0.3.30
+   Installed StatsFuns ─────────────────── v2.2.1
+   Installed Accessors ─────────────────── v0.1.45
+   Installed OffsetArrays ──────────────── v1.17.0
+   Installed JuliaFormatter ────────────── v2.12.4
+   Installed Compiler ──────────────────── v0.1.1
+   Installed LRUCache ──────────────────── v1.6.2
+   Installed Preferences ───────────────── v1.5.2
+   Installed PDMats ────────────────────── v0.11.41
+   Installed ConcurrentUtilities ───────── v2.6.0
+   Installed LoggingExtras ─────────────── v1.2.0
+   Installed InlineStrings ─────────────── v1.4.5
+   Installed Nettle ────────────────────── v1.0.0
+   Installed Roots ─────────────────────── v3.0.6
+   Installed NetcdfIO ──────────────────── v0.3.0
+   Installed URIParser ─────────────────── v0.4.1
+   Installed OpenSSL ───────────────────── v1.6.1
+   Installed ScopedValues ──────────────── v1.6.2
+   Installed FileIO ────────────────────── v1.20.0
+   Installed InvertedIndices ───────────── v1.3.1
+   Installed Statistics ────────────────── v1.11.1
+   Installed HTTP ──────────────────────── v1.11.0
+   Installed CodeTracking ──────────────── v3.0.2
+   Installed DataFrames ────────────────── v1.8.2
+   Installed CFTime ────────────────────── v0.2.10
+   Installed GLM ───────────────────────── v1.9.5
+   Installed Millboard ─────────────────── v0.2.5
+   Installed Missings ──────────────────── v1.2.0
+   Installed ArgParse ──────────────────── v1.2.0
+   Installed Gamma ─────────────────────── v1.2.0
+   Installed IrrationalConstants ───────── v0.2.6
+   Installed JLD2 ──────────────────────── v0.6.5
+   Installed EzXML ─────────────────────── v1.2.3
+   Installed Hwloc_jll ─────────────────── v2.14.0+0
+   Installed Xorg_libpciaccess_jll ─────── v0.19.0+0
+   Installed Revise ────────────────────── v3.16.3
+   Installed JSON ──────────────────────── v1.7.1
+   Installed Bzip2_jll ─────────────────── v1.0.9+0
+   Installed PtrArrays ─────────────────── v1.4.0
+   Installed SpecialFunctions ──────────── v2.8.3
+   Installed SimpleBufferStream ────────── v1.2.0
+   Installed SentinelArrays ────────────── v1.4.10
+   Installed LoweredCodeUtils ──────────── v3.8.0
+   Installed XZ_jll ────────────────────── v5.8.3+0
+   Installed StringEncodings ───────────── v0.3.7
+   Installed MicrosoftMPI_jll ──────────── v10.1.4+3
+   Installed JuliaSyntax ───────────────── v1.0.2
+   Installed ChunkCodecLibZstd ─────────── v1.0.0
+   Installed WorkerUtilities ───────────── v1.6.1
+   Installed MPIPreferences ────────────── v0.1.12
+   Installed TranscodingStreams ────────── v0.11.3
+   Installed Rmath_jll ─────────────────── v0.5.2+0
+   Installed Lz4_jll ───────────────────── v1.10.1+0
+   Installed MbedTLS ───────────────────── v1.1.10
+   Installed CommonMark ────────────────── v1.0.4
+   Installed StatsAPI ──────────────────── v1.8.0
+   Installed StatsModels ───────────────── v0.7.10
+   Installed WeakRefStrings ────────────── v1.4.3
+   Installed DataStructures ────────────── v0.19.6
+   Installed Compat ────────────────────── v4.18.1
+   Installed DotEnv ────────────────────── v1.0.0
+   Installed Glob ──────────────────────── v1.5.0
+   Installed NetCDF_jll ────────────────── v401.900.300+0
+   Installed CodecZlib ─────────────────── v0.7.8
+   Installed HDF5_jll ──────────────────── v1.14.6+0
+   Installed ExceptionUnwrapping ───────── v0.1.11
+   Installed MPICH_jll ─────────────────── v4.3.2+0
+   Installed StatsBase ─────────────────── v0.34.12
+   Installed CSV ───────────────────────── v0.10.16
+   Installed libzip_jll ────────────────── v1.11.3+0
+   Installed TableTraits ───────────────── v1.0.1
+   Installed PrettyTables ──────────────── v3.4.6
+   Installed ChunkCodecLibZlib ─────────── v1.1.0
+   Installed JuliaInterpreter ──────────── v0.11.4
+   Installed Zstd_jll ──────────────────── v1.5.7+1
+   Installed Parsers ───────────────────── v2.8.7
+   Installed HashArrayMappedTries ──────── v0.2.0
+   Installed PooledArrays ──────────────── v1.4.3
+   Installed OpenMPI_jll ───────────────── v5.0.11+0
+   Installed DataValueInterfaces ───────── v1.0.0
+   Installed OrderedCollections ────────── v1.8.2
+   Installed ChunkCodecCore ────────────── v1.0.1
+   Installed ConstructionBase ──────────── v1.6.0
+   Installed MIMEs ─────────────────────── v1.1.0
+   Installed JLLWrappers ───────────────── v1.8.0
+   Installed Reexport ──────────────────── v1.2.2
+   Installed LogExpFunctions ───────────── v1.0.1
+   Installed CommonDataModel ───────────── v0.4.4
+   Installed AliasTables ───────────────── v1.1.3
+   Installed PkgUtility ────────────────── v0.3.1
+   Installed MbedTLS_jll ───────────────── v2.28.1010+0
+   Installed CompositionsBase ──────────── v0.1.2
+   Installed MacroTools ────────────────── v0.5.16
+   Installed OpenSpecFun_jll ───────────── v0.5.6+0
+   Installed InverseFunctions ──────────── v0.1.17
+   Installed CommonSolve ───────────────── v0.2.13
+   Installed DocStringExtensions ───────── v0.9.5
+   Installed Crayons ───────────────────── v4.2.0
+   Installed libaec_jll ────────────────── v1.1.7+0
+   Installed YAML ──────────────────────── v0.4.16
+   Installed Rmath ─────────────────────── v0.9.0
+   Installed Blosc_jll ─────────────────── v1.21.7+0
+   Installed XML2_jll ──────────────────── v2.13.9+0
+   Installed BitFlags ──────────────────── v0.1.10
+   Installed Tables ────────────────────── v1.13.0
+   Installed DataAPI ───────────────────── v1.16.0
+   Installed IteratorInterfaceExtensions ─ v1.0.0
+   Installed PrecompileTools ───────────── v1.3.4
+   Installed Nullables ─────────────────── v1.0.0
+   Installed Libiconv_jll ──────────────── v1.18.0+0
+   Installed URIs ──────────────────────── v1.7.0
+   Installed LaTeXStrings ──────────────── v1.4.0
+   Installed FilePathsBase ─────────────── v0.9.24
+   Installed FillArrays ────────────────── v1.17.0
+   Installed Inflector ─────────────────── v1.1.0
+   Installed MPItrampoline_jll ─────────── v5.5.6+0
+   Installed Requires ──────────────────── v1.3.1
+   Installed ShiftedArrays ─────────────── v2.0.0
+   Installed QuadGK ────────────────────── v2.11.3
+   Installed HttpCommon ────────────────── v0.5.0
+   Installed Distributions ─────────────── v0.25.130
+   Installed TextWrap ──────────────────── v1.0.2
+   Installed StringManipulation ────────── v0.4.7
+   Installed Nettle_jll ────────────────── v3.10.2+0
+   Installed StructUtils ───────────────── v2.8.5
+   Installed SortingAlgorithms ─────────── v1.2.3
+   Installed DiskArrays ────────────────── v0.4.22
+   Installed Genie ─────────────────────── v5.35.15
+  Installing 18 artifacts
+   Installed artifact Bzip2       299.6 KiB
+   Installed artifact OpenSpecFun 162.9 KiB
+   Installed artifact Rmath       94.4 KiB
+   Installed artifact libzip      155.1 KiB
+   Installed artifact XML2        945.3 KiB
+   Installed artifact Nettle      1.1 MiB
+   Installed artifact libaec      41.6 KiB
+   Installed artifact XZ          725.6 KiB
+   Installed artifact Lz4         320.0 KiB
+   Installed artifact Hwloc       2.6 MiB
+   Installed artifact MPICH       2.3 MiB
+   Installed artifact MbedTLS     2.0 MiB
+   Installed artifact NetCDF      876.4 KiB
+   Installed artifact Blosc       31.1 KiB
+   Installed artifact HDF5        4.9 MiB
+   Installed artifact Libiconv    1.7 MiB
+   Installed artifact Zstd        505.5 KiB
+   Installed artifact testfiles   6.2 MiB
+    Updating `~/Desktop/code/Emerald/GriddingMachine.jl/Project.toml`
+⌅ [c43c736e] + Genie v5.35.15
+⌅ [cd3eb016] + HTTP v1.11.0
+  [682c06a0] + JSON v1.7.1
+  [6a36f34d] + NetcdfIO v0.3.0
+⌅ [bac558e1] + OrderedCollections v1.8.2
+  [0d262f2c] + PkgUtility v0.3.1
+  [295af30f] + Revise v3.16.3
+  [ddb6d928] + YAML v0.4.16
+  [ade2ca70] ~ Dates ⇒ v1.11.0
+  [f43a241f] ~ Downloads ⇒ v1.7.0
+  [ea8e919c] ~ SHA ⇒ v0.7.0
+  [8dfed614] ~ Test ⇒ v1.11.0
+    Updating `~/Desktop/code/Emerald/GriddingMachine.jl/Manifest.toml`
+  [7d9f7c33] + Accessors v0.1.45
+  [66dad0bd] + AliasTables v1.1.3
+  [c7e460c6] + ArgParse v1.2.0
+  [d1d4a3ce] + BitFlags v0.1.10
+  [179af706] + CFTime v0.2.10
+  [336ed68f] + CSV v0.10.16
+  [0b6fb165] + ChunkCodecCore v1.0.1
+  [4c0bbee4] + ChunkCodecLibZlib v1.1.0
+  [55437552] + ChunkCodecLibZstd v1.0.0
+  [da1fd8a2] + CodeTracking v3.0.2
+  [944b1d66] + CodecZlib v0.7.8
+  [1fbeeb36] + CommonDataModel v0.4.4
+  [a80b9123] + CommonMark v1.0.4
+  [38540f10] + CommonSolve v0.2.13
+  [34da2185] + Compat v4.18.1
+  [807dbc54] + Compiler v0.1.1
+  [a33af91c] + CompositionsBase v0.1.2
+  [f0e56b4a] + ConcurrentUtilities v2.6.0
+  [187b0558] + ConstructionBase v1.6.0
+  [a8cc5b0e] + Crayons v4.2.0
+  [9a962f9c] + DataAPI v1.16.0
+  [a93c6f00] + DataFrames v1.8.2
+  [864edb3b] + DataStructures v0.19.6
+  [e2d170a0] + DataValueInterfaces v1.0.0
+  [3c3547ce] + DiskArrays v0.4.22
+  [31c24e10] + Distributions v0.25.130
+  [ffbed154] + DocStringExtensions v0.9.5
+  [4dc1fcf4] + DotEnv v1.0.0
+  [460bff9d] + ExceptionUnwrapping v0.1.11
+  [8f5d6c58] + EzXML v1.2.3
+  [5789e2e9] + FileIO v1.20.0
+  [48062228] + FilePathsBase v0.9.24
+  [1a297f60] + FillArrays v1.17.0
+  [38e38edf] + GLM v1.9.5
+  [a0844989] + Gamma v1.2.0
+⌅ [c43c736e] + Genie v5.35.15
+  [c27321d9] + Glob v1.5.0
+⌅ [cd3eb016] + HTTP v1.11.0
+  [076d061b] + HashArrayMappedTries v0.2.0
+  [77172c1b] + HttpCommon v0.5.0
+  [34004b35] + HypergeometricFunctions v0.3.30
+  [6d011eab] + Inflector v1.1.0
+  [842dd82b] + InlineStrings v1.4.5
+  [3587e190] + InverseFunctions v0.1.17
+  [41ab1584] + InvertedIndices v1.3.1
+  [92d709cd] + IrrationalConstants v0.2.6
+  [82899510] + IteratorInterfaceExtensions v1.0.0
+  [033835bb] + JLD2 v0.6.5
+  [692b3bcd] + JLLWrappers v1.8.0
+  [682c06a0] + JSON v1.7.1
+  [98e50ef6] + JuliaFormatter v2.12.4
+  [aa1ae85d] + JuliaInterpreter v0.11.4
+  [70703baa] + JuliaSyntax v1.0.2
+  [8ac3fa9e] + LRUCache v1.6.2
+  [b964fa9f] + LaTeXStrings v1.4.0
+  [2ab3a3ac] + LogExpFunctions v1.0.1
+  [e6f89c97] + LoggingExtras v1.2.0
+  [6f1432cf] + LoweredCodeUtils v3.8.0
+  [6c6e2e6c] + MIMEs v1.1.0
+  [3da0fdf6] + MPIPreferences v0.1.12
+  [1914dd2f] + MacroTools v0.5.16
+  [739be429] + MbedTLS v1.1.10
+  [39ec1447] + Millboard v0.2.5
+  [e1d29d7a] + Missings v1.2.0
+  [6a36f34d] + NetcdfIO v0.3.0
+  [49dea1ee] + Nettle v1.0.0
+  [4d1e1d77] + Nullables v1.0.0
+  [6fe1bfb0] + OffsetArrays v1.17.0
+  [4d8831e6] + OpenSSL v1.6.1
+⌅ [bac558e1] + OrderedCollections v1.8.2
+  [90014a1f] + PDMats v0.11.41
+  [69de0a69] + Parsers v2.8.7
+  [0d262f2c] + PkgUtility v0.3.1
+  [2dfb63ee] + PooledArrays v1.4.3
+  [aea7be01] + PrecompileTools v1.3.4
+  [21216c6a] + Preferences v1.5.2
+  [08abe8d2] + PrettyTables v3.4.6
+  [43287f4e] + PtrArrays v1.4.0
+  [1fd47b50] + QuadGK v2.11.3
+  [189a3867] + Reexport v1.2.2
+  [ae029012] + Requires v1.3.1
+  [295af30f] + Revise v3.16.3
+  [79098fc4] + Rmath v0.9.0
+  [f2b01f46] + Roots v3.0.6
+  [7e506255] + ScopedValues v1.6.2
+  [91c51154] + SentinelArrays v1.4.10
+  [1277b4bf] + ShiftedArrays v2.0.0
+  [777ac1f9] + SimpleBufferStream v1.2.0
+  [a2af1166] + SortingAlgorithms v1.2.3
+  [276daf66] + SpecialFunctions v2.8.3
+  [10745b16] + Statistics v1.11.1
+  [82ae8749] + StatsAPI v1.8.0
+  [2913bbd2] + StatsBase v0.34.12
+  [4c63d2b9] + StatsFuns v2.2.1
+  [3eaba693] + StatsModels v0.7.10
+  [69024149] + StringEncodings v0.3.7
+  [892a3eda] + StringManipulation v0.4.7
+  [ec057cc2] + StructUtils v2.8.5
+  [3783bdb8] + TableTraits v1.0.1
+  [bd369af6] + Tables v1.13.0
+  [b718987f] + TextWrap v1.0.2
+  [3bb67fe8] + TranscodingStreams v0.11.3
+  [30578b45] + URIParser v0.4.1
+  [5c2747f8] + URIs v1.7.0
+  [ea10d353] + WeakRefStrings v1.4.3
+  [76eceee3] + WorkerUtilities v1.6.1
+  [ddb6d928] + YAML v0.4.16
+  [0b7ba130] + Blosc_jll v1.21.7+0
+  [6e34b625] + Bzip2_jll v1.0.9+0
+⌅ [0234f1f7] + HDF5_jll v1.14.6+0
+  [e33a78d0] + Hwloc_jll v2.14.0+0
+  [94ce4f54] + Libiconv_jll v1.18.0+0
+  [5ced341a] + Lz4_jll v1.10.1+0
+⌅ [7cb0a576] + MPICH_jll v4.3.2+0
+  [f1f71cc9] + MPItrampoline_jll v5.5.6+0
+  [c8ffd9c3] + MbedTLS_jll v2.28.1010+0
+  [9237b28f] + MicrosoftMPI_jll v10.1.4+3
+⌅ [7243133f] + NetCDF_jll v401.900.300+0
+  [4c82536e] + Nettle_jll v3.10.2+0
+  [fe0851c0] + OpenMPI_jll v5.0.11+0
+  [efe28fd5] + OpenSpecFun_jll v0.5.6+0
+  [f50d1b31] + Rmath_jll v0.5.2+0
+⌅ [02c8fc9c] + XML2_jll v2.13.9+0
+  [ffd25f8a] + XZ_jll v5.8.3+0
+  [a65dc6b1] + Xorg_libpciaccess_jll v0.19.0+0
+  [3161d3a3] + Zstd_jll v1.5.7+1
+  [477f73a3] + libaec_jll v1.1.7+0
+  [337d8026] + libzip_jll v1.11.3+0
+  [0dad84c5] + ArgTools v1.1.2
+  [56f22d72] + Artifacts v1.11.0
+  [2a0f44e3] + Base64 v1.11.0
+  [8bf52ea8] + CRC32c v1.11.0
+  [ade2ca70] ~ Dates ⇒ v1.11.0
+  [8ba89e20] + Distributed v1.11.0
+  [f43a241f] ~ Downloads ⇒ v1.7.0
+  [7b1f6079] + FileWatching v1.11.0
+  [9fa8497b] + Future v1.11.0
+  [b77e0a4c] + InteractiveUtils v1.11.0
+  [ac6e5ff7] + JuliaSyntaxHighlighting v1.12.0
+  [4af54fe1] + LazyArtifacts v1.11.0
+  [b27032c2] + LibCURL v0.6.4
+  [76f85450] + LibGit2 v1.11.0
+  [8f399da3] + Libdl v1.11.0
+  [37e2e46d] + LinearAlgebra v1.12.0
+  [56ddb016] + Logging v1.11.0
+  [d6f4376e] + Markdown v1.11.0
+  [a63ad114] + Mmap v1.11.0
+  [ca575930] + NetworkOptions v1.3.0
+  [44cfe95a] + Pkg v1.12.1
+  [de0858da] + Printf v1.11.0
+  [3fa0cd96] + REPL v1.11.0
+  [9a3f8284] + Random v1.11.0
+  [ea8e919c] ~ SHA ⇒ v0.7.0
+  [9e88b42a] + Serialization v1.11.0
+  [6462fe0b] + Sockets v1.11.0
+  [2f01184e] + SparseArrays v1.12.0
+  [f489334b] + StyledStrings v1.11.0
+  [4607b0f0] + SuiteSparse
+  [fa267f1f] + TOML v1.0.3
+  [a4e569a6] + Tar v1.10.0
+  [8dfed614] ~ Test ⇒ v1.11.0
+  [cf7118a7] + UUIDs v1.11.0
+  [4ec0a83e] + Unicode v1.11.0
+  [e66e0078] + CompilerSupportLibraries_jll v1.3.0+1
+  [781609d7] + GMP_jll v6.3.0+2
+  [deac9b47] + LibCURL_jll v8.15.0+0
+  [e37daf67] + LibGit2_jll v1.9.0+0
+  [29816b5a] + LibSSH2_jll v1.11.3+1
+  [14a3606d] + MozillaCACerts_jll v2025.11.4
+  [4536629a] + OpenBLAS_jll v0.3.29+0
+  [05823500] + OpenLibm_jll v0.8.7+0
+  [458c3c95] + OpenSSL_jll v3.5.4+0
+  [bea87d4a] + SuiteSparse_jll v7.8.3+2
+  [83775a58] + Zlib_jll v1.3.1+2
+  [8e850b90] + libblastrampoline_jll v5.15.0+0
+  [8e850ede] + nghttp2_jll v1.64.0+1
+  [3f19e933] + p7zip_jll v17.7.0+0
+        Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading. To see why use `status --outdated -m`
+Precompiling packages...
+    802.7 ms  ✓ Compiler
+    818.6 ms  ✓ WorkerUtilities
+    880.2 ms  ✓ Glob
+    913.9 ms  ✓ IteratorInterfaceExtensions
+    929.2 ms  ✓ LaTeXStrings
+    437.5 ms  ✓ StatsAPI
+    457.7 ms  ✓ ChunkCodecCore
+    500.7 ms  ✓ InverseFunctions
+    711.0 ms  ✓ OffsetArrays
+    730.8 ms  ✓ FillArrays
+    521.5 ms  ✓ Statistics
+    425.3 ms  ✓ CommonSolve
+    480.1 ms  ✓ ShiftedArrays
+    723.2 ms  ✓ Millboard
+    526.2 ms  ✓ TextWrap
+   1159.7 ms  ✓ OrderedCollections
+    598.5 ms  ✓ Requires
+    513.5 ms  ✓ DataValueInterfaces
+    360.3 ms  ✓ Reexport
+   1893.9 ms  ✓ MacroTools
+    549.7 ms  ✓ DocStringExtensions
+    673.2 ms  ✓ InlineStrings
+    554.3 ms  ✓ URIs
+    517.7 ms  ✓ SimpleBufferStream
+    466.5 ms  ✓ CompositionsBase
+    449.2 ms  ✓ PtrArrays
+   1440.2 ms  ✓ IrrationalConstants
+    577.7 ms  ✓ TranscodingStreams
+    572.1 ms  ✓ HashArrayMappedTries
+   1025.0 ms  ✓ MIMEs
+    472.1 ms  ✓ InvertedIndices
+    539.8 ms  ✓ LRUCache
+    493.7 ms  ✓ DataAPI
+    506.1 ms  ✓ BitFlags
+   1008.6 ms  ✓ ConstructionBase
+    480.1 ms  ✓ Nullables
+    593.9 ms  ✓ ConcurrentUtilities
+   1305.2 ms  ✓ Crayons
+    536.5 ms  ✓ Inflector
+    670.8 ms  ✓ URIParser
+    895.7 ms  ✓ SentinelArrays
+   1212.4 ms  ✓ PDMats
+   1075.0 ms  ✓ CFTime
+   1282.6 ms  ✓ StructUtils
+    727.4 ms  ✓ LoggingExtras
+    594.7 ms  ✓ Preferences
+    956.2 ms  ✓ Compat
+    620.4 ms  ✓ ExceptionUnwrapping
+    959.7 ms  ✓ CodeTracking
+    851.6 ms  ✓ TableTraits
+    882.5 ms  ✓ ChunkCodecLibZlib
+   1126.5 ms  ✓ InverseFunctions → InverseFunctionsDatesExt
+   1291.3 ms  ✓ InverseFunctions → InverseFunctionsTestExt
+   1227.8 ms  ✓ FillArrays → FillArraysSparseArraysExt
+   9430.8 ms  ✓ JuliaSyntax
+   1100.9 ms  ✓ Statistics → SparseArraysExt
+    761.5 ms  ✓ FillArrays → FillArraysStatisticsExt
+   1238.8 ms  ✓ ArgParse
+   1081.0 ms  ✓ CompositionsBase → CompositionsBaseInverseFunctionsExt
+   1818.9 ms  ✓ DataStructures
+   1466.7 ms  ✓ AliasTables
+    293.3 ms  ✓ ScopedValues
+   1536.4 ms  ✓ CodecZlib
+   1417.9 ms  ✓ LRUCache → SerializationExt
+   3069.6 ms  ✓ FileIO
+    723.5 ms  ✓ Missings
+   1612.1 ms  ✓ PooledArrays
+   3162.9 ms  ✓ LogExpFunctions
+   1472.8 ms  ✓ ConstructionBase → ConstructionBaseLinearAlgebraExt
+   1818.2 ms  ✓ OpenSSL
+   2199.1 ms  ✓ FillArrays → FillArraysPDMatsExt
+   1252.9 ms  ✓ PrecompileTools
+   2268.6 ms  ✓ JLLWrappers
+   1586.1 ms  ✓ MPIPreferences
+   3115.4 ms  ✓ HttpCommon
+   1342.6 ms  ✓ Compat → CompatLinearAlgebraExt
+   2175.4 ms  ✓ SortingAlgorithms
+   1639.3 ms  ✓ LogExpFunctions → LogExpFunctionsInverseFunctionsExt
+    565.4 ms  ✓ Gamma
+   2445.6 ms  ✓ QuadGK
+   3505.5 ms  ✓ Tables
+   2276.0 ms  ✓ DiskArrays
+   2064.5 ms  ✓ DotEnv
+   5127.2 ms  ✓ JuliaInterpreter
+   1955.8 ms  ✓ StringManipulation
+   3148.5 ms  ✓ Accessors
+   1136.1 ms  ✓ Bzip2_jll
+    832.8 ms  ✓ Lz4_jll
+    482.4 ms  ✓ Xorg_libpciaccess_jll
+    517.3 ms  ✓ libaec_jll
+    549.3 ms  ✓ Rmath_jll
+    608.1 ms  ✓ XZ_jll
+    565.0 ms  ✓ MbedTLS_jll
+    549.2 ms  ✓ Zstd_jll
+    483.6 ms  ✓ MicrosoftMPI_jll
+    554.4 ms  ✓ Libiconv_jll
+    647.7 ms  ✓ OpenSpecFun_jll
+    621.3 ms  ✓ Nettle_jll
+    823.1 ms  ✓ FilePathsBase
+   4189.9 ms  ✓ Parsers
+   1274.9 ms  ✓ MPItrampoline_jll
+   1328.5 ms  ✓ HypergeometricFunctions
+   5811.7 ms  ✓ CommonMark
+   2462.4 ms  ✓ StructUtils → StructUtilsTablesExt
+   3797.2 ms  ✓ CommonDataModel
+   2068.6 ms  ✓ Accessors → LinearAlgebraExt
+    784.3 ms  ✓ Accessors → TestExt
+   7728.5 ms  ✓ StatsBase
+   2912.7 ms  ✓ Rmath
+   7131.6 ms  ✓ LoweredCodeUtils
+   2917.3 ms  ✓ ChunkCodecLibZstd
+   6015.9 ms  ✓ MbedTLS
+   3283.2 ms  ✓ Blosc_jll
+   3208.1 ms  ✓ StringEncodings
+   2303.9 ms  ✓ XML2_jll
+   5098.8 ms  ✓ libzip_jll
+   2806.3 ms  ✓ SpecialFunctions
+   1067.6 ms  ✓ FilePathsBase → FilePathsBaseMmapExt
+   1065.1 ms  ✓ FilePathsBase → FilePathsBaseTestExt
+   2615.6 ms  ✓ Nettle
+   1421.5 ms  ✓ CommonMark → CommonMarkMarkdownExt
+   2124.4 ms  ✓ InlineStrings → ParsersExt
+   1167.7 ms  ✓ PDMats → StatsBaseExt
+   4030.8 ms  ✓ JSON
+   3417.7 ms  ✓ Roots
+  17642.6 ms  ✓ PrettyTables
+   1577.1 ms  ✓ YAML
+   1218.5 ms  ✓ Hwloc_jll
+   2770.7 ms  ✓ EzXML
+   7978.2 ms  ✓ Revise
+   1866.6 ms  ✓ WeakRefStrings
+   4399.0 ms  ✓ StatsFuns
+    689.9 ms  ✓ OpenMPI_jll
+   3633.9 ms  ✓ MPICH_jll
+   1419.2 ms  ✓ Revise → DistributedExt
+  17044.0 ms  ✓ JLD2
+  16787.3 ms  ✓ HTTP
+    908.5 ms  ✓ StatsFuns → StatsFunsInverseFunctionsExt
+   1830.5 ms  ✓ StatsModels
+   1490.4 ms  ✓ FileIO → HTTPExt
+   5832.7 ms  ✓ HDF5_jll
+  10383.0 ms  ✓ CSV
+  20875.8 ms  ✓ JuliaFormatter
+   8212.1 ms  ✓ Distributions
+   2541.8 ms  ✓ Distributions → DistributionsTestExt
+   3911.3 ms  ✓ GLM
+  26449.1 ms  ✓ DataFrames
+  11670.1 ms  ✓ NetCDF_jll
+   5240.7 ms  ✓ NetcdfIO
+  15001.8 ms  ✓ Genie
+   6105.0 ms  ✓ PkgUtility
+   7992.8 ms  ✓ GriddingMachine
+  152 dependencies successfully precompiled in 93 seconds. 41 already precompiled.
+     Testing GriddingMachine
+      Status `/private/var/folders/q7/r58lxh_11nq_rw2bmmlqjpxm0000gn/T/jl_114F64/Project.toml`
+⌅ [c43c736e] Genie v5.35.15
+  [f20cf718] GriddingMachine v0.5.0 `~/Desktop/code/Emerald/GriddingMachine.jl`
+⌅ [cd3eb016] HTTP v1.11.0
+  [682c06a0] JSON v1.7.1
+  [6a36f34d] NetcdfIO v0.3.0
+⌅ [bac558e1] OrderedCollections v1.8.2
+  [0d262f2c] PkgUtility v0.3.1
+  [295af30f] Revise v3.16.3
+  [ddb6d928] YAML v0.4.16
+  [ade2ca70] Dates v1.11.0
+  [f43a241f] Downloads v1.7.0
+  [ea8e919c] SHA v0.7.0
+  [8dfed614] Test v1.11.0
+      Status `/private/var/folders/q7/r58lxh_11nq_rw2bmmlqjpxm0000gn/T/jl_114F64/Manifest.toml`
+  [7d9f7c33] Accessors v0.1.45
+  [66dad0bd] AliasTables v1.1.3
+  [c7e460c6] ArgParse v1.2.0
+  [d1d4a3ce] BitFlags v0.1.10
+  [179af706] CFTime v0.2.10
+  [336ed68f] CSV v0.10.16
+  [0b6fb165] ChunkCodecCore v1.0.1
+  [4c0bbee4] ChunkCodecLibZlib v1.1.0
+  [55437552] ChunkCodecLibZstd v1.0.0
+  [da1fd8a2] CodeTracking v3.0.2
+  [944b1d66] CodecZlib v0.7.8
+  [1fbeeb36] CommonDataModel v0.4.4
+  [a80b9123] CommonMark v1.0.4
+  [38540f10] CommonSolve v0.2.13
+  [34da2185] Compat v4.18.1
+  [807dbc54] Compiler v0.1.1
+  [a33af91c] CompositionsBase v0.1.2
+  [f0e56b4a] ConcurrentUtilities v2.6.0
+  [187b0558] ConstructionBase v1.6.0
+  [a8cc5b0e] Crayons v4.2.0
+  [9a962f9c] DataAPI v1.16.0
+  [a93c6f00] DataFrames v1.8.2
+  [864edb3b] DataStructures v0.19.6
+  [e2d170a0] DataValueInterfaces v1.0.0
+  [3c3547ce] DiskArrays v0.4.22
+  [31c24e10] Distributions v0.25.130
+  [ffbed154] DocStringExtensions v0.9.5
+  [4dc1fcf4] DotEnv v1.0.0
+  [460bff9d] ExceptionUnwrapping v0.1.11
+  [8f5d6c58] EzXML v1.2.3
+  [5789e2e9] FileIO v1.20.0
+  [48062228] FilePathsBase v0.9.24
+  [1a297f60] FillArrays v1.17.0
+  [38e38edf] GLM v1.9.5
+  [a0844989] Gamma v1.2.0
+⌅ [c43c736e] Genie v5.35.15
+  [c27321d9] Glob v1.5.0
+  [f20cf718] GriddingMachine v0.5.0 `~/Desktop/code/Emerald/GriddingMachine.jl`
+⌅ [cd3eb016] HTTP v1.11.0
+  [076d061b] HashArrayMappedTries v0.2.0
+  [77172c1b] HttpCommon v0.5.0
+  [34004b35] HypergeometricFunctions v0.3.30
+  [6d011eab] Inflector v1.1.0
+  [842dd82b] InlineStrings v1.4.5
+  [3587e190] InverseFunctions v0.1.17
+  [41ab1584] InvertedIndices v1.3.1
+  [92d709cd] IrrationalConstants v0.2.6
+  [82899510] IteratorInterfaceExtensions v1.0.0
+  [033835bb] JLD2 v0.6.5
+  [692b3bcd] JLLWrappers v1.8.0
+  [682c06a0] JSON v1.7.1
+  [98e50ef6] JuliaFormatter v2.12.4
+  [aa1ae85d] JuliaInterpreter v0.11.4
+  [70703baa] JuliaSyntax v1.0.2
+  [8ac3fa9e] LRUCache v1.6.2
+  [b964fa9f] LaTeXStrings v1.4.0
+  [2ab3a3ac] LogExpFunctions v1.0.1
+  [e6f89c97] LoggingExtras v1.2.0
+  [6f1432cf] LoweredCodeUtils v3.8.0
+  [6c6e2e6c] MIMEs v1.1.0
+  [3da0fdf6] MPIPreferences v0.1.12
+  [1914dd2f] MacroTools v0.5.16
+  [739be429] MbedTLS v1.1.10
+  [39ec1447] Millboard v0.2.5
+  [e1d29d7a] Missings v1.2.0
+  [6a36f34d] NetcdfIO v0.3.0
+  [49dea1ee] Nettle v1.0.0
+  [4d1e1d77] Nullables v1.0.0
+  [6fe1bfb0] OffsetArrays v1.17.0
+  [4d8831e6] OpenSSL v1.6.1
+⌅ [bac558e1] OrderedCollections v1.8.2
+  [90014a1f] PDMats v0.11.41
+  [69de0a69] Parsers v2.8.7
+  [0d262f2c] PkgUtility v0.3.1
+  [2dfb63ee] PooledArrays v1.4.3
+  [aea7be01] PrecompileTools v1.3.4
+  [21216c6a] Preferences v1.5.2
+  [08abe8d2] PrettyTables v3.4.6
+  [43287f4e] PtrArrays v1.4.0
+  [1fd47b50] QuadGK v2.11.3
+  [189a3867] Reexport v1.2.2
+  [ae029012] Requires v1.3.1
+  [295af30f] Revise v3.16.3
+  [79098fc4] Rmath v0.9.0
+  [f2b01f46] Roots v3.0.6
+  [7e506255] ScopedValues v1.6.2
+  [91c51154] SentinelArrays v1.4.10
+  [1277b4bf] ShiftedArrays v2.0.0
+  [777ac1f9] SimpleBufferStream v1.2.0
+  [a2af1166] SortingAlgorithms v1.2.3
+  [276daf66] SpecialFunctions v2.8.3
+  [10745b16] Statistics v1.11.1
+  [82ae8749] StatsAPI v1.8.0
+  [2913bbd2] StatsBase v0.34.12
+  [4c63d2b9] StatsFuns v2.2.1
+  [3eaba693] StatsModels v0.7.10
+  [69024149] StringEncodings v0.3.7
+  [892a3eda] StringManipulation v0.4.7
+  [ec057cc2] StructUtils v2.8.5
+  [3783bdb8] TableTraits v1.0.1
+  [bd369af6] Tables v1.13.0
+  [b718987f] TextWrap v1.0.2
+  [3bb67fe8] TranscodingStreams v0.11.3
+  [30578b45] URIParser v0.4.1
+  [5c2747f8] URIs v1.7.0
+  [ea10d353] WeakRefStrings v1.4.3
+  [76eceee3] WorkerUtilities v1.6.1
+  [ddb6d928] YAML v0.4.16
+  [0b7ba130] Blosc_jll v1.21.7+0
+  [6e34b625] Bzip2_jll v1.0.9+0
+⌅ [0234f1f7] HDF5_jll v1.14.6+0
+  [e33a78d0] Hwloc_jll v2.14.0+0
+  [94ce4f54] Libiconv_jll v1.18.0+0
+  [5ced341a] Lz4_jll v1.10.1+0
+⌅ [7cb0a576] MPICH_jll v4.3.2+0
+  [f1f71cc9] MPItrampoline_jll v5.5.6+0
+  [c8ffd9c3] MbedTLS_jll v2.28.1010+0
+  [9237b28f] MicrosoftMPI_jll v10.1.4+3
+⌅ [7243133f] NetCDF_jll v401.900.300+0
+  [4c82536e] Nettle_jll v3.10.2+0
+  [fe0851c0] OpenMPI_jll v5.0.11+0
+  [efe28fd5] OpenSpecFun_jll v0.5.6+0
+  [f50d1b31] Rmath_jll v0.5.2+0
+⌅ [02c8fc9c] XML2_jll v2.13.9+0
+  [ffd25f8a] XZ_jll v5.8.3+0
+  [a65dc6b1] Xorg_libpciaccess_jll v0.19.0+0
+  [3161d3a3] Zstd_jll v1.5.7+1
+  [477f73a3] libaec_jll v1.1.7+0
+  [337d8026] libzip_jll v1.11.3+0
+  [0dad84c5] ArgTools v1.1.2
+  [56f22d72] Artifacts v1.11.0
+  [2a0f44e3] Base64 v1.11.0
+  [8bf52ea8] CRC32c v1.11.0
+  [ade2ca70] Dates v1.11.0
+  [8ba89e20] Distributed v1.11.0
+  [f43a241f] Downloads v1.7.0
+  [7b1f6079] FileWatching v1.11.0
+  [9fa8497b] Future v1.11.0
+  [b77e0a4c] InteractiveUtils v1.11.0
+  [ac6e5ff7] JuliaSyntaxHighlighting v1.12.0
+  [4af54fe1] LazyArtifacts v1.11.0
+  [b27032c2] LibCURL v0.6.4
+  [76f85450] LibGit2 v1.11.0
+  [8f399da3] Libdl v1.11.0
+  [37e2e46d] LinearAlgebra v1.12.0
+  [56ddb016] Logging v1.11.0
+  [d6f4376e] Markdown v1.11.0
+  [a63ad114] Mmap v1.11.0
+  [ca575930] NetworkOptions v1.3.0
+  [44cfe95a] Pkg v1.12.1
+  [de0858da] Printf v1.11.0
+  [3fa0cd96] REPL v1.11.0
+  [9a3f8284] Random v1.11.0
+  [ea8e919c] SHA v0.7.0
+  [9e88b42a] Serialization v1.11.0
+  [6462fe0b] Sockets v1.11.0
+  [2f01184e] SparseArrays v1.12.0
+  [f489334b] StyledStrings v1.11.0
+  [4607b0f0] SuiteSparse
+  [fa267f1f] TOML v1.0.3
+  [a4e569a6] Tar v1.10.0
+  [8dfed614] Test v1.11.0
+  [cf7118a7] UUIDs v1.11.0
+  [4ec0a83e] Unicode v1.11.0
+  [e66e0078] CompilerSupportLibraries_jll v1.3.0+1
+  [781609d7] GMP_jll v6.3.0+2
+  [deac9b47] LibCURL_jll v8.15.0+0
+  [e37daf67] LibGit2_jll v1.9.0+0
+  [29816b5a] LibSSH2_jll v1.11.3+1
+  [14a3606d] MozillaCACerts_jll v2025.11.4
+  [4536629a] OpenBLAS_jll v0.3.29+0
+  [05823500] OpenLibm_jll v0.8.7+0
+  [458c3c95] OpenSSL_jll v3.5.4+0
+  [bea87d4a] SuiteSparse_jll v7.8.3+2
+  [83775a58] Zlib_jll v1.3.1+2
+  [8e850b90] libblastrampoline_jll v5.15.0+0
+  [8e850ede] nghttp2_jll v1.64.0+1
+  [3f19e933] p7zip_jll v17.7.0+0
+        Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading.
+Precompiling for configuration --code-coverage=none --color=auto --check-bounds=yes --warn-overwrite=yes --depwarn=yes --inline=yes --startup-file=no --track-allocation=none
+    484.8 ms  ✓ Compiler
+    531.7 ms  ✓ LaTeXStrings
+    592.3 ms  ✓ IteratorInterfaceExtensions
+    685.0 ms  ✓ Glob
+    742.6 ms  ✓ WorkerUtilities
+    365.4 ms  ✓ StatsAPI
+    436.1 ms  ✓ ChunkCodecCore
+    441.0 ms  ✓ InverseFunctions
+    666.5 ms  ✓ OffsetArrays
+    473.3 ms  ✓ Statistics
+    710.4 ms  ✓ FillArrays
+    440.2 ms  ✓ CommonSolve
+    436.3 ms  ✓ ShiftedArrays
+    721.3 ms  ✓ Millboard
+    466.1 ms  ✓ TextWrap
+    413.5 ms  ✓ DataValueInterfaces
+   1069.4 ms  ✓ OrderedCollections
+    722.3 ms  ✓ Requires
+    421.1 ms  ✓ Reexport
+   1888.0 ms  ✓ MacroTools
+    552.2 ms  ✓ DocStringExtensions
+    691.7 ms  ✓ InlineStrings
+    489.9 ms  ✓ URIs
+    488.9 ms  ✓ SimpleBufferStream
+    410.3 ms  ✓ CompositionsBase
+    391.7 ms  ✓ PtrArrays
+   1355.2 ms  ✓ IrrationalConstants
+    536.9 ms  ✓ TranscodingStreams
+    536.1 ms  ✓ HashArrayMappedTries
+   1000.5 ms  ✓ MIMEs
+    418.3 ms  ✓ InvertedIndices
+    471.6 ms  ✓ LRUCache
+    488.3 ms  ✓ DataAPI
+    462.3 ms  ✓ BitFlags
+    954.0 ms  ✓ ConstructionBase
+    459.8 ms  ✓ Nullables
+    673.0 ms  ✓ ConcurrentUtilities
+   1325.1 ms  ✓ Crayons
+    543.5 ms  ✓ Inflector
+    762.2 ms  ✓ URIParser
+    899.1 ms  ✓ PDMats
+   1020.7 ms  ✓ SentinelArrays
+    971.5 ms  ✓ CFTime
+   1171.7 ms  ✓ StructUtils
+    539.4 ms  ✓ LoggingExtras
+    592.8 ms  ✓ Preferences
+    635.5 ms  ✓ ExceptionUnwrapping
+   1020.2 ms  ✓ Compat
+   1038.1 ms  ✓ CodeTracking
+    763.5 ms  ✓ TableTraits
+    771.5 ms  ✓ ChunkCodecLibZlib
+    825.7 ms  ✓ InverseFunctions → InverseFunctionsDatesExt
+   1044.8 ms  ✓ InverseFunctions → InverseFunctionsTestExt
+   1098.2 ms  ✓ Statistics → SparseArraysExt
+   1197.9 ms  ✓ FillArrays → FillArraysStatisticsExt
+    920.0 ms  ✓ FillArrays → FillArraysSparseArraysExt
+   1653.2 ms  ✓ ArgParse
+   1102.2 ms  ✓ CompositionsBase → CompositionsBaseInverseFunctionsExt
+   2183.8 ms  ✓ DataStructures
+   1125.9 ms  ✓ AliasTables
+  11150.4 ms  ✓ JuliaSyntax
+    322.9 ms  ✓ ScopedValues
+   1017.2 ms  ✓ CodecZlib
+   2026.0 ms  ✓ LogExpFunctions
+   3263.7 ms  ✓ FileIO
+   1473.0 ms  ✓ LRUCache → SerializationExt
+   1302.2 ms  ✓ Missings
+   1754.5 ms  ✓ PooledArrays
+   2258.1 ms  ✓ ConstructionBase → ConstructionBaseLinearAlgebraExt
+   2698.7 ms  ✓ OpenSSL
+    457.5 ms  ✓ PrecompileTools
+   2340.0 ms  ✓ JLLWrappers
+    912.9 ms  ✓ MPIPreferences
+   2695.8 ms  ✓ FillArrays → FillArraysPDMatsExt
+   3672.6 ms  ✓ HttpCommon
+   1150.1 ms  ✓ Compat → CompatLinearAlgebraExt
+   1952.6 ms  ✓ SortingAlgorithms
+   1582.3 ms  ✓ LogExpFunctions → LogExpFunctionsInverseFunctionsExt
+   2210.0 ms  ✓ QuadGK
+    742.3 ms  ✓ Gamma
+   3658.9 ms  ✓ Tables
+   2418.4 ms  ✓ DiskArrays
+   2307.9 ms  ✓ DotEnv
+   2928.0 ms  ✓ StringManipulation
+   3751.7 ms  ✓ Accessors
+   6843.0 ms  ✓ JuliaInterpreter
+    731.2 ms  ✓ Xorg_libpciaccess_jll
+   1007.3 ms  ✓ Bzip2_jll
+   1025.7 ms  ✓ Lz4_jll
+    564.7 ms  ✓ libaec_jll
+    557.4 ms  ✓ Rmath_jll
+    623.4 ms  ✓ XZ_jll
+    606.6 ms  ✓ MbedTLS_jll
+    636.6 ms  ✓ Zstd_jll
+    554.5 ms  ✓ MicrosoftMPI_jll
+    665.9 ms  ✓ Libiconv_jll
+    697.0 ms  ✓ OpenSpecFun_jll
+    746.0 ms  ✓ Nettle_jll
+    835.5 ms  ✓ FilePathsBase
+   5571.2 ms  ✓ Parsers
+   1803.3 ms  ✓ MPItrampoline_jll
+   1993.0 ms  ✓ HypergeometricFunctions
+   7440.5 ms  ✓ CommonMark
+   2650.8 ms  ✓ StructUtils → StructUtilsTablesExt
+   3530.4 ms  ✓ CommonDataModel
+   2247.2 ms  ✓ Accessors → LinearAlgebraExt
+   1328.6 ms  ✓ Accessors → TestExt
+   1403.7 ms  ✓ Rmath
+   2514.7 ms  ✓ MbedTLS
+   8406.7 ms  ✓ StatsBase
+   2099.5 ms  ✓ ChunkCodecLibZstd
+   2023.0 ms  ✓ Blosc_jll
+   1857.1 ms  ✓ StringEncodings
+    799.3 ms  ✓ XML2_jll
+   2508.1 ms  ✓ libzip_jll
+   1591.9 ms  ✓ Nettle
+   1350.5 ms  ✓ FilePathsBase → FilePathsBaseMmapExt
+   2181.2 ms  ✓ SpecialFunctions
+    918.7 ms  ✓ FilePathsBase → FilePathsBaseTestExt
+   8842.3 ms  ✓ LoweredCodeUtils
+   1289.0 ms  ✓ CommonMark → CommonMarkMarkdownExt
+   2001.7 ms  ✓ InlineStrings → ParsersExt
+   1707.6 ms  ✓ PDMats → StatsBaseExt
+   4623.1 ms  ✓ JSON
+   3655.8 ms  ✓ Roots
+   1946.4 ms  ✓ YAML
+    683.6 ms  ✓ Hwloc_jll
+   2059.3 ms  ✓ EzXML
+  21417.3 ms  ✓ PrettyTables
+   5671.6 ms  ✓ StatsFuns
+   1382.4 ms  ✓ WeakRefStrings
+   1139.1 ms  ✓ OpenMPI_jll
+   3097.6 ms  ✓ MPICH_jll
+  12070.9 ms  ✓ Revise
+   1033.0 ms  ✓ StatsFuns → StatsFunsInverseFunctionsExt
+  19363.3 ms  ✓ HTTP
+   1999.4 ms  ✓ StatsModels
+   2616.9 ms  ✓ HDF5_jll
+  22324.3 ms  ✓ JLD2
+   1494.4 ms  ✓ Revise → DistributedExt
+   1932.4 ms  ✓ FileIO → HTTPExt
+   3899.0 ms  ✓ NetCDF_jll
+  12434.0 ms  ✓ CSV
+   9197.0 ms  ✓ Distributions
+  24322.2 ms  ✓ JuliaFormatter
+   1451.4 ms  ✓ Distributions → DistributionsTestExt
+   2511.0 ms  ✓ GLM
+  11307.4 ms  ✓ Genie
+  30781.8 ms  ✓ DataFrames
+   4299.8 ms  ✓ NetcdfIO
+   5259.6 ms  ✓ PkgUtility
+   8110.1 ms  ✓ GriddingMachine
+  152 dependencies successfully precompiled in 101 seconds. 41 already precompiled.
+     Testing Running tests...
+┌ Warning: Longitude is outside [-180, 180] degrees; wrapping it to this interval
+└ @ GriddingMachine.Indexer ~/Desktop/code/Emerald/GriddingMachine.jl/src/Indexer/dataset-index.jl:15
+Test Summary:                                     | Pass  Total  Time
+GriddingMachine                                   |   63     63  8.8s
+  Catalog initialization and schema               |    5      5  1.8s
+  Transactional catalog update                    |    6      6  0.0s
+  Mirror fallback, cache isolation, and integrity |   10     10  0.2s
+  Sync, information, tree, and cleanup            |    8      8  0.1s
+  Indexer read_dataset                            |   18     18  3.5s
+  Model input dictionaries                        |   15     15  1.5s
+     Testing GriddingMachine tests passed 

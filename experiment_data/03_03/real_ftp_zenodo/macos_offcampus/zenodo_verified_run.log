@@ -1,0 +1,14 @@
+SC_2X_1Y_V1 rep1: size=90987 ok=True t=4.98s 
+SC_2X_1Y_V1 rep2: size=90987 ok=True t=1.59s 
+SC_2X_1Y_V1 rep3: size=90987 ok=True t=4.26s 
+SLA_2X_1Y_V1 rep1: size=505273 ok=True t=2.37s 
+SLA_2X_1Y_V1 rep2: size=505273 ok=True t=5.69s 
+SLA_2X_1Y_V1 rep3: size=505273 ok=True t=3.77s 
+ELEV_4X_1Y_V1 rep1: size=810299 ok=True t=9.90s 
+ELEV_4X_1Y_V1 rep2: size=810299 ok=True t=13.12s 
+ELEV_4X_1Y_V1 rep3: size=810299 ok=True t=5.62s 
+CH_20X_1Y_V1 rep1: size=4207244 ok=True t=69.78s 
+CH_20X_1Y_V1 rep2: size=4207244 ok=True t=89.10s 
+CH_20X_1Y_V1 rep3: size=4207244 ok=True t=70.80s 
+
+Zenodo verified observation: 12/12 downloads completed with SIZE+SHA256 match -> zenodo_verified_raw.csv

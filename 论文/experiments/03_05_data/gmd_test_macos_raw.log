@@ -1,0 +1,18 @@
+[ Info: Processing file /var/folders/q7/r58lxh_11nq_rw2bmmlqjpxm0000gn/T/jl_TdhNw8/reprocessed/case-output/TEST_SRC_2X_1Y_V1.nc
+[ Info: Resolution not meeting our requirements for gapfilling. Skipping...
+[ Info: All mandatory dimensions and variables are found in provided file.
+[ Info: The dimensions of 'data' variable match the dimensions of lon and lat.
+[ Info: Data values are within the limits: (23, 49).
+[ Info: No NaN values found in the data for both land and ocean.
+[ Info: Processing file /var/folders/q7/r58lxh_11nq_rw2bmmlqjpxm0000gn/T/jl_TdhNw8/reprocessed/case-output/TESTDICT_SRC_2X_1Y_V1.nc
+[ Info: Resolution not meeting our requirements for gapfilling. Skipping...
+[ Info: Processing file /var/folders/q7/r58lxh_11nq_rw2bmmlqjpxm0000gn/T/jl_TdhNw8/reprocessed/case-output/TEST3_CUBE_2X_1M_V1.nc
+[ Info: Resolution not meeting our requirements for gapfilling. Skipping...
+[ Info: All mandatory dimensions and variables are found in provided file.
+[ Info: The dimensions of 'data' variable match the dimensions of lon and lat.
+[ Info: Data values are within the limits: (1, 16).
+[ Info: No NaN values found in the data for both land and ocean.
+Test Summary:                         | Pass  Total  Time
+GriddingMachineDatasets configuration |   38     38  2.9s
+Test Summary:       | Pass  Total   Time
+Package integration |   35     35  10.4s

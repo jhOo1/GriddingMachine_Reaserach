@@ -1,0 +1,13 @@
+timestamp = "2026-08-15T14:58"
+operating_system = "macOS 26.3.2 (arm64, Apple M4)"
+run_label = "macos_offcampus_zenodo_verified"
+method = "curl --resolve zenodo.org:443:188.185.48.75 (explicit IP; default DNS polluted to 0.0.0.0)"
+resolved_ip_source = "nslookup via 8.8.8.8 and 1.1.1.1, both 188.185.48.75"
+repetitions = 3
+timeout_seconds = 240
+single_attempt_per_rep = true
+truncated_transfers_retained_as_failure = true
+zenodo_downloads_verified = "12/12 SIZE+SHA256 match"
+ftp_tested = false
+ftp_note = "institutional FTP is campus-only; off-campus unreachable by network boundary, to be tested on Windows campus later"
+remote_writes_or_deletes = false
