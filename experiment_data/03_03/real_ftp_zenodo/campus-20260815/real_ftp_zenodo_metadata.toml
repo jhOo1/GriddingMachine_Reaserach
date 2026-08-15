@@ -1,0 +1,11 @@
+all_downloads_verified = true
+ftp_timeout_seconds = 120.0
+griddingmachine_commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+julia_version = "1.12.6"
+operating_system = "NT"
+remote_writes_or_deletes = false
+repetitions = 3
+require_all_downloads = true
+run_label = "campus-20260815"
+timestamp = "2026-08-15T22:37:43.132"
+zenodo_timeout_seconds = 120.0

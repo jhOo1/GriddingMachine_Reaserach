@@ -10,7 +10,7 @@
 
 ## 摘要
 
-地球系统模型依赖来源和格式各异的全球网格数据，数据制作、发布、稳定获取与模型适配仍存在重复劳动。本文在2022版GriddingMachine基础上构建从数据贡献到模型调用的可验证工作流：共享模式（schema）约束YAML配置与NetCDF生产，可独立更新的多镜像目录以`SIZE/SHA256`控制缓存和正式落盘，`read_dataset`、`grid_dict`与`grid_weather`统一数据读取及Emerald输入组织。在Windows和macOS的Julia 1.12.6环境中，GriddingMachineDatasets 73项、GriddingMachine 63项及Emerald烟雾5项测试全部通过；29个非交互生产案例在两平台各连续3轮通过，单人方向审核为PASS。一名未参与开发者经1次配置说明后完成受控贡献流程，产物验收为PASS。13个故障场景在两平台各重复5次，130次状态断言全部通过且无`.part`残留。两轮校外真实访问中，Zenodo下载均通过大小和哈希核验，机构FTP均因网络边界超时；其中一轮记录到DNS异常解析和正式记录前的一次传输截断。两个内部压缩样本改为直接NetCDF后，暖缓存端到端中位时间在两平台均降低。14个真实陆面文件通过完整性核验，US-NR1参数字典成功生成，非植被格点按预期拒绝。Ubuntu持续集成另通过73项、63项包测试、29个生产案例、65次故障断言和40次小型确定性分发测量，支持核心路径的Linux兼容性。结果表明，新版以机器可检查契约连接了数据生产、分发和模型接口；Linux证据不包含Emerald、真实网络和真实陆面案例，校园网镜像比较、真实气象和长期模拟不在当前结论内。
+地球系统模型依赖来源和格式各异的全球网格数据，数据制作、发布、稳定获取与模型适配仍存在重复劳动。本文在2022版GriddingMachine基础上构建从数据贡献到模型调用的可验证工作流：共享模式（schema）约束YAML配置与NetCDF生产，可独立更新的多镜像目录以`SIZE/SHA256`控制缓存和正式落盘，`read_dataset`、`grid_dict`与`grid_weather`统一数据读取及Emerald输入组织。在Windows和macOS的Julia 1.12.6环境中，GriddingMachineDatasets 73项、GriddingMachine 63项及Emerald烟雾5项测试全部通过；29个非交互生产案例在两平台各连续3轮通过，单人方向审核为PASS。一名未参与开发者经1次配置说明后完成受控贡献流程，产物验收为PASS。13个故障场景在两平台各重复5次，130次状态断言全部通过且无`.part`残留。校园网内FTP与Zenodo的24次真实下载均通过大小和哈希核验，4个文件的FTP中位下载时间均低于Zenodo；两轮校外观察中Zenodo可达而FTP超时。两个内部压缩样本改为直接NetCDF后，暖缓存端到端中位时间在两平台均降低。14个真实陆面文件通过完整性核验，US-NR1参数字典成功生成，非植被格点按预期拒绝。Ubuntu持续集成另通过73项、63项包测试、29个生产案例、65次故障断言和40次小型确定性分发测量，支持核心路径的Linux兼容性。结果表明，新版以机器可检查契约连接了数据生产、分发和模型接口；Linux证据不包含Emerald、真实网络和真实陆面案例，真实气象和长期模拟不在当前结论内。
 
 **关键词：** 地球系统模型；全球网格数据；数据标准化；NetCDF；数据分发；模型初始化
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Earth system models rely on heterogeneous global gridded datasets, yet their production, distribution, reliable acquisition, and model adaptation still require repeated work. Building on the 2022 GriddingMachine release, this study establishes a verifiable workflow from data contribution to model use. A shared schema constrains YAML configuration and NetCDF production; an independently updated multi-mirror catalog uses isolated cache files and `SIZE/SHA256` checks before promotion; and `read_dataset`, `grid_dict`, and `grid_weather` organize data for Emerald. On Windows and macOS under Julia 1.12.6, all 73 production-package tests, 63 data-use tests, and five Emerald smoke checks passed. All 29 non-interactive production cases passed in three runs per platform, and a single-operator orientation audit passed. One participant not involved in development completed the controlled contribution workflow after one configuration clarification. Across 13 fault scenarios repeated five times per platform, all 130 state assertions passed with no residual `.part` files. In off-campus observations, Zenodo downloads matched registered sizes and SHA-256 hashes, whereas institutional FTP attempts timed out at the network boundary; one round recorded anomalous DNS resolution and one truncated probe before formal runs. Direct NetCDF reduced median warm-cache end-to-end time on both platforms for two internally compressed samples. Fourteen verified land files supported a parameter dictionary at US-NR1, while a non-vegetated cell was rejected as expected. Ubuntu CI additionally passed the 73 and 63 package tests, 29 production cases, 65 fault assertions, and 40 distribution measurements using small deterministic fixtures. The updated framework therefore connects production, distribution, and model interfaces through machine-checkable contracts. Linux evidence is limited to the tested core paths and excludes Emerald, real-network access, and real land files; campus-network comparison, real-weather validation, and long-term simulation remain outside the conclusions.
+Earth system models rely on heterogeneous global gridded datasets, yet their production, distribution, reliable acquisition, and model adaptation still require repeated work. Building on the 2022 GriddingMachine release, this study establishes a verifiable workflow from data contribution to model use. A shared schema constrains YAML configuration and NetCDF production; an independently updated multi-mirror catalog uses isolated cache files and `SIZE/SHA256` checks before promotion; and `read_dataset`, `grid_dict`, and `grid_weather` organize data for Emerald. On Windows and macOS under Julia 1.12.6, all 73 production-package tests, 63 data-use tests, and five Emerald smoke checks passed. All 29 non-interactive production cases passed in three runs per platform, and a single-operator orientation audit passed. One participant not involved in development completed the controlled contribution workflow after one configuration clarification. Across 13 fault scenarios repeated five times per platform, all 130 state assertions passed with no residual `.part` files. On the campus network, all 24 real FTP and Zenodo downloads matched registered sizes and SHA-256 hashes, and FTP had a lower median download time for each of the four files; in two off-campus observations, Zenodo was reachable whereas FTP timed out. Direct NetCDF reduced median warm-cache end-to-end time on both platforms for two internally compressed samples. Fourteen verified land files supported a parameter dictionary at US-NR1, while a non-vegetated cell was rejected as expected. Ubuntu CI additionally passed the 73 and 63 package tests, 29 production cases, 65 fault assertions, and 40 distribution measurements using small deterministic fixtures. The updated framework therefore connects production, distribution, and model interfaces through machine-checkable contracts. Linux evidence is limited to the tested core paths and excludes Emerald, real-network access, and real land files; real-weather validation and long-term simulation remain outside the conclusions.
 
 **Keywords:** Earth system modeling; global gridded data; data standardization; NetCDF; data distribution; model initialization
 
@@ -72,7 +72,7 @@ GriddingMachine 新版由数据生产、目录与分发、数据使用三个相�
 |---|---|---|---|
 | 分发单元 | NetCDF的`tar.gz` artifact | 可直接读取的`.nc` | 两类内部压缩文件的Windows与macOS支持实验已完成 |
 | 数据目录 | 软件内置`Artifacts.toml` | 外置`Artifacts.yaml`；schema校验、临时替换和上一版本备份 | 默认入口仍需解析Zenodo落地页 |
-| 下载 | artifact下载、哈希寻址和解包 | Windows `ping`辅助排序；全平台多URL回退、独立缓存及`SIZE/SHA256`校验后落盘 | Windows与macOS完整实测；Ubuntu CI验证受控核心路径；校园网FTP—Zenodo比较待完成 |
+| 下载 | artifact下载、哈希寻址和解包 | Windows `ping`辅助排序；全平台多URL回退、独立缓存及`SIZE/SHA256`校验后落盘 | Windows与macOS完整实测；Ubuntu CI验证受控核心路径；校园网FTP—Zenodo 24/24次完整性通过 |
 | 读取 | `read_LUT` | `read_dataset`，旧名称保留为别名 | 假设全球规则经纬网，不插值 |
 | 模型组织 | 标准化数据和通用读取 | `grid_dict`与`grid_weather` | 仅支持固定标签组合 |
 | 数据生产 | 数据源专用处理及贡献流程 | 共享YAML schema、配置构建器及显式源维度映射 | 自动矩阵、单人方向审核和1例受控贡献流程已完成 |
@@ -347,7 +347,7 @@ CI中的小型分发夹具只用于验证代码路径、文件状态和内容完
 
 ## 4 结果
 
-本节只报告固定提交和可追溯日志支持的结果。校园网镜像实验尚未完成，本文不据此作出校内FTP性能结论。Windows与macOS原始实验固定于`GriddingMachine@53bb0be`和`GriddingMachineDatasets@3926ae3`；依赖统一后的公开候选提交为`GriddingMachine@11631d6`（核心代码仍为`53bb0be`）、`GriddingMachineDatasets@5eac56a`、`Emerald@d79324f`和研究仓库实验冻结提交`8a23b5a`，Julia均为1.12.6。全部受控实验——生产编号矩阵、分发效率、故障注入与核心自动回归——在Windows与macOS（Apple Silicon）分别执行并通过；真实网络观察在两个平台的校外环境各完成一轮。相同固定依赖的Ubuntu CI已完成核心包、生产矩阵、故障矩阵、小型确定性分发测试和Emerald最小接口烟雾测试，但没有访问真实网络或真实陆面文件。核心平台覆盖汇总见表4。
+本节只报告固定提交和可追溯日志支持的结果。Windows与macOS原始实验固定于`GriddingMachine@53bb0be`和`GriddingMachineDatasets@3926ae3`；依赖统一后的公开候选提交为`GriddingMachine@11631d6`（核心代码仍为`53bb0be`）、`GriddingMachineDatasets@5eac56a`、`Emerald@d79324f`和研究仓库实验冻结提交`8a23b5a`，Julia均为1.12.6。全部受控实验——生产编号矩阵、分发效率、故障注入与核心自动回归——在Windows与macOS（Apple Silicon）分别执行并通过；真实网络观察在两个平台的校外环境各完成一轮，并在中科大校园网Windows实验电脑完成正式FTP—Zenodo比较。相同固定依赖的Ubuntu CI已完成核心包、生产矩阵、故障矩阵、小型确定性分发测试和Emerald最小接口烟雾测试，但没有访问真实网络或真实陆面文件。核心平台覆盖汇总见表4。
 
 **表4 核心验证结果与平台覆盖**
 
@@ -358,7 +358,8 @@ CI中的小型分发夹具只用于验证代码路径、文件状态和内容完
 | 直接NetCDF分发测量 | 2个真实样本×2种形式×10次 | 2个真实样本×2种形式×10次 | 2个小型确定性夹具×2种形式×10次 | Linux数值不与真实样本性能合并 |
 | M01～M13故障状态断言 | 65/65 | 65/65 | 65/65 | 注入ping分数与受控HTTP端点 |
 | Emerald最小烟雾 | 5/5 | 5/5 | 5/5 | 公开统一候选三平台CI；仅限合成输入接口断言 |
-| 校外FTP—Zenodo真实访问 | Zenodo 12/12；FTP 0/12 | Zenodo 12/12；FTP 0/12 | 未运行 | 仅表示对应校外网络；校园网待测 |
+| 校外FTP—Zenodo真实访问 | Zenodo 12/12；FTP 0/12 | Zenodo 12/12；FTP 0/12 | 未运行 | 仅表示对应校外网络 |
+| 校园网FTP—Zenodo真实访问 | FTP 12/12；Zenodo 12/12 | 未运行 | 未运行 | Windows实验电脑；4个文件、每镜像3次；仅表示本次网络及时段 |
 | 真实`gm2`陆面案例 | 14个文件完整性通过；US-NR1成功、非植被格点按预期拒绝 | 未独立重复 | 未运行 | 不构成逐字段科学金标准 |
 
 **Table 4 Core validation results and platform coverage.** Windows and macOS provide the complete controlled-experiment evidence. Ubuntu CI verifies the listed core paths and the five-assertion Emerald interface smoke test using fixed dependencies and deterministic fixtures; it does not cover real-network access, real land files, long-term simulations, or scientific validity.
@@ -403,7 +404,9 @@ Windows ping解析恢复后，提交`53bb0be`中的完整包在两个平台均�
 
 在两个非校园网环境中进一步实际访问4个标签的FTP和Zenodo地址，每个文件—镜像组合重复3次。Windows轮：ping对两个主机均返回`Inf`，FTP的12次尝试全部在10 s连接超时，Zenodo的12次下载全部达到登记字节数并通过SHA-256，中位下载时间随文件大小由6.639 s增至271.507 s；20 s预实验仅使最小文件通过，说明下载超时必须与文件规模和网络条件共同解释。macOS轮：该环境默认解析器把`zenodo.org`异常解析为`0.0.0.0`，默认配置下12次Zenodo连接全部失败；经8.8.8.8与1.1.1.1交叉核实地址后以显式IP解析重测，正式记录的12次下载全部通过SIZE与SHA-256核验，中位下载时间由3.8 s（91 KB）增至70.8 s（4.2 MB）。正式记录前的一次手动大文件探测发生中途截断，完整重传后哈希与登记值一致；该单次现象只说明当时网络路径存在传输中断，不足以估计发生率或归因于Zenodo。FTP的12次尝试同样全部超时。两轮均无远端写操作，临时下载文件在记录后清除。
 
-受控故障注入与真实镜像访问回答不同问题：前者验证失败时的文件状态，后者验证特定网络内FTP与Zenodo的真实可达性、ping顺序和下载表现。两轮校外结果证明ICMP无响应不等于HTTPS不可下载、域名解析故障不等于镜像故障，也支持保留`Inf`地址并实施失败回退；但FTP不可达主要由当前网络边界造成。校园网实验完成前，本文不报告校内最终镜像表现，也不声称ping选择吞吐率最优。
+校园网Windows实验电脑于2026年8月15日使用Julia 1.12.6和`GriddingMachine@11631d6`执行同一协议。FTP与Zenodo各12次下载全部达到登记字节数并通过SHA-256；4个文件的FTP中位下载时间依次为0.076、0.356、0.071和0.244 s，Zenodo依次为1.091、2.720、3.386和14.092 s。12次排序记录中FTP `ping`为1.0～13.5 ms，Zenodo均为`Inf`，当前实现每次均把FTP排在首位；在本次校园网、4个文件和执行时段内，该顺序与实际下载表现一致。完整依赖Manifest及其SHA-256已随原始CSV/TOML保存。
+
+受控故障注入与真实镜像访问回答不同问题：前者验证失败时的文件状态，后者验证特定网络内FTP与Zenodo的真实可达性、ping顺序和下载表现。两轮校外结果证明ICMP无响应不等于HTTPS不可下载、域名解析故障不等于镜像故障，也支持保留`Inf`地址并实施失败回退；校园网结果则表明校外FTP超时主要是对应网络边界现象，而不是文件缺失或完整性校验失败。单次校园网结果不能证明FTP长期更快，也不能把ping候选顺序等同于一般意义上的吞吐率最优。
 
 ### 4.4 统一读取与模型初始化接口
 
@@ -419,7 +422,7 @@ Windows ping解析恢复后，提交`53bb0be`中的完整包在两个平台均�
 
 为检查前述机制是否依赖单一操作系统，本研究在macOS 26.3.2（Apple Silicon）上以同一Julia 1.12.6和同一提交`GriddingMachine@53bb0be`、`GriddingMachineDatasets@3926ae3`复现全部受控实验：核心自动回归GriddingMachine 63项、GriddingMachineDatasets配置38项与包集成35项、Emerald最小烟雾5项全部通过，分组通过数与Windows逐项一致；31编号生产矩阵独立运行3次，每次29个非交互案例全部通过，网络请求数为0；直接NetCDF效率实验40次测量SHA-256全部一致，方向与Windows轮相同（4.2节）；M01～M13故障注入矩阵65次状态断言全部通过、`.part`残留为0。macOS环境的Emerald固定为`silicormosia/Emerald.jl`分支`wyujie`提交`9828b2a`，完整依赖锁已随原始日志归档。其中镜像测试组包含对Windows格式`ping`输出文本的解析断言，在macOS上同样通过，说明该解析为纯文本处理而不依赖本机`ping`实现；两轮效率实验使用SHA-256相同的输入文件，保证比较对象一致。
 
-真实网络观察在两个平台的校外环境各完成一轮（4.3节）：Zenodo在可达条件下均能完成下载并通过完整性核验，机构FTP在校外均不可达；macOS轮额外记录到DNS异常解析，以及正式记录前的一次大文件传输截断。校园网内的FTP—Zenodo正式比较仍待执行，校外观察不替代该实验。
+真实网络观察在两个平台的校外环境各完成一轮（4.3节）：Zenodo在可达条件下均能完成下载并通过完整性核验，机构FTP在校外均不可达；macOS轮额外记录到DNS异常解析，以及正式记录前的一次大文件传输截断。校园网Windows轮的FTP与Zenodo共24次下载全部通过完整性核验，补齐了机构镜像在校内网络的正式观察；该网络特定结果不作为macOS或Linux真实网络证据。
 
 四个公开仓库随后在固定Julia 1.12.6环境完成`ubuntu-latest`、`macos-latest`和`windows-latest`持续集成。Ubuntu任务中，GriddingMachine 63项、GriddingMachineDatasets配置38项与包集成35项全部通过；研究仓库的29个非交互生产案例、65次故障状态断言和40次分发测量也全部完成；Emerald统一候选的5项最小接口烟雾断言通过。研究仓库保存三平台实验输出，GriddingMachineDatasets和Emerald工作流分别保存三平台Manifest。CI分发实验为控制运行时间而使用小型确定性NetCDF夹具，因此只用于检查流程、哈希和文件状态，性能数值不与Windows和macOS真实ELEV/LAI样本合并。Ubuntu没有执行校外FTP—Zenodo访问、真实`gm2`案例或长期模型模拟，故Linux结论限定为表4所列核心代码路径与合成输入模型接口的兼容性验证。
 
@@ -429,7 +432,7 @@ Windows ping解析恢复后，提交`53bb0be`中的完整包在两个平台均�
 
 ### 5.1 从数据集合到可维护工作流
 
-2022版GriddingMachine的主要贡献是建立统一的网格和变量约定，并通过标签及Julia artifact降低多源全球数据的发现和调用成本[4]。当前更新进一步连接新数据贡献、目录与镜像维护、统一读取和模型初始化数据组织。其关键变化不是TOML换成YAML，也不是单纯增加数据数量，而是共享配置契约、独立可验证目录、失败不污染正式文件的下载状态机，以及可回归测试的模型输入接口。当前论文分支已补齐schema、显式维度重排、目录事务替换、`SIZE/SHA256`校验和主要函数回归，在Windows与macOS完成完整受控实验，完成一名操作者的方向审核和一名未参与开发者的受控贡献流程，并以14个真实陆面文件完成`gm2`链路预实验；Ubuntu CI进一步验证了核心包、生产、故障、小型分发路径和Emerald合成输入接口烟雾。尚未完成的是校园网真实FTP—Zenodo实验；历史目录迁移、真实气象链路及Linux上的真实数据和长期模型实验属于后续扩展。
+2022版GriddingMachine的主要贡献是建立统一的网格和变量约定，并通过标签及Julia artifact降低多源全球数据的发现和调用成本[4]。当前更新进一步连接新数据贡献、目录与镜像维护、统一读取和模型初始化数据组织。其关键变化不是TOML换成YAML，也不是单纯增加数据数量，而是共享配置契约、独立可验证目录、失败不污染正式文件的下载状态机，以及可回归测试的模型输入接口。当前论文分支已补齐schema、显式维度重排、目录事务替换、`SIZE/SHA256`校验和主要函数回归，在Windows与macOS完成完整受控实验，完成一名操作者的方向审核和一名未参与开发者的受控贡献流程，以14个真实陆面文件完成`gm2`链路预实验，并完成校园网FTP—Zenodo真实访问；Ubuntu CI进一步验证了核心包、生产、故障、小型分发路径和Emerald合成输入接口烟雾。真实气象链路及Linux上的真实数据和长期模型实验属于后续扩展。
 
 现有结果已经从四个层次支撑软件更新：生产端有逐点金标准矩阵、单人方向审核、单案例贡献流程和ELEV标准文件无损核对；分发端有两个直接NetCDF支持样本和两个平台各65次受控故障；读取端有公共接口回归；模型端有合成输入最小步进及真实`gm2`陆面链路。上述完整受控实验在Windows与macOS均通过，Ubuntu CI又独立检查核心代码路径和Emerald合成输入接口，说明主要流程并非只能在单一操作系统运行。P01需要一次说明，表明流程仍有文档改进空间，但不影响自动产物正确性的判断。Linux上的真实数据复核与长期Emerald模拟、原始ELEV重建、陆面逐字段科学金标准和真实ERA5属于不同强度的工程或科学验证；它们不是本文软件流程优化结论的前置条件。
 
@@ -449,7 +452,7 @@ Earth Engine把大规模地理空间数据与云端计算结合，适合服务�
 
 ### 5.4 局限与后续工作
 
-第一，共享schema和显式维度映射已经实现，但部分历史YAML尚未迁移；非规则网格、区域投影和复杂时间坐标仍需数据源专用预处理。第二，空间方向仍需要人工查看图片；本文审核脚本可独立记录判断，但自动坐标和值域断言仍是主检查，人工判断只作补充。第三，`ping`延迟不是FTP或Zenodo下载吞吐率，且ICMP策略与域名解析异常都可能造成可下载地址被排后或暂时不可达；真实校园网实验必须同时报告ping和实际下载，不能把当前排序称为最优选择。本文的完整受控实验和校外观察覆盖Windows与macOS；Ubuntu CI覆盖核心包、生产、故障、小型分发路径及Emerald合成输入接口烟雾，但不覆盖真实网络、真实陆面文件、长期模型模拟或科学过程验证。校园网内的FTP—Zenodo正式比较仍待执行。Emerald统一依赖候选已经公开并在三平台干净runner上通过5/5烟雾断言，但仍需不可变release和永久归档。
+第一，共享schema和显式维度映射已经实现，但部分历史YAML尚未迁移；非规则网格、区域投影和复杂时间坐标仍需数据源专用预处理。第二，空间方向仍需要人工查看图片；本文审核脚本可独立记录判断，但自动坐标和值域断言仍是主检查，人工判断只作补充。第三，`ping`延迟不是FTP或Zenodo下载吞吐率，且ICMP策略与域名解析异常都可能造成可下载地址被排后或暂时不可达；本文虽同时报告校园网ping和实际下载，但单个时段、4个文件和一台Windows电脑的结果不能证明当前排序长期或普遍最优。本文的完整受控实验和校外观察覆盖Windows与macOS；校园网真实网络结果仅来自Windows实验电脑；Ubuntu CI覆盖核心包、生产、故障、小型分发路径及Emerald合成输入接口烟雾，但不覆盖真实网络、真实陆面文件、长期模型模拟或科学过程验证。Emerald统一依赖候选已经公开并在三平台干净runner上通过5/5烟雾断言，但仍需不可变release和永久归档。
 
 第四，配置构建器输出已与共享schema对齐，但当前没有独立客户端，也未开展界面可用性实验；P01在一次说明后完成本地受控流程，暴露出夹具和YAML说明不够醒目。单案例只能发现明显流程中断点，不能证明面向所有用户的可用性，也不能证明修订后的指南可无帮助完成。第五，`read_dataset`仍按规则网格公式换算索引，不插值且不在接口层检查单位；真实陆面预实验验证了两个内部格点，但不构成逐字段科学金标准。第六，`grid_dict`和`grid_weather`依赖固定的`gm1/gm2`、`wd1`标签与内置系数；当前真实证据覆盖`gm2`陆面链路，气象接口只在合成夹具中验证。Emerald最小步进证明接口可接入，但不能证明真实气象、长期模拟结果或推广到其他模型。Server/Requestor远程子集服务可作为独立研究方向评估，但不纳入本文核心贡献。
 
@@ -457,9 +460,9 @@ Earth Engine把大规模地理空间数据与云端计算结合，适合服务�
 
 本文在2022版GriddingMachine基础上实现连接数据贡献、标准化生产、目录与镜像维护、统一读取和模型初始化的更新。论文分支已形成共享YAML schema和源维度映射、可独立更新且事务替换的目录、直接NetCDF多镜像分发、`SIZE/SHA256`校验后落盘，以及`read_dataset`、`grid_dict`和`grid_weather`接口。YAML格式变化本身不是核心贡献，核心在于配置、目录、下载和模型接口之间形成可机器检查的契约。
 
-在Windows与macOS、Julia 1.12.6两个环境中，GriddingMachineDatasets 73项、GriddingMachine 63项以及Emerald合成输入最小烟雾5项测试全部通过。数据生产31编号矩阵的29个非交互案例在两个平台各连续3次全部通过，一名操作者的V01/V02审核结果为PASS；一名未参与开发者在获得一次说明后完成受控贡献流程，自动产物验收为PASS。两个平台采用当前ping排序实现的65次受控故障断言均全部通过；两轮校外真实访问中Zenodo下载通过完整性核验，机构FTP因网络边界超时，macOS轮还记录到DNS异常解析和正式记录前的一次传输截断。两个内部压缩样本的直接NetCDF暖缓存实验在两个平台上均支持减少额外处理时间和逻辑临时占用。14个真实`gm2`陆面文件全部通过完整性核验，US-NR1参数字典成功生成，撒哈拉非植被格点按预期拒绝。Ubuntu CI进一步通过GriddingMachine 63项、GriddingMachineDatasets 73项、29个非交互生产案例、65次故障状态断言、40次小型确定性分发测量和Emerald 5项合成输入接口烟雾断言，支持核心代码路径及受控模型接口的Linux兼容性。本文不把Linux CI外推为真实网络、真实陆面文件、长期Emerald模拟或科学正确性验证，也不把单案例复现外推为用户研究，不声称效率数值适用于所有文件或冷缓存、ping排序等同于吞吐率最优、真实气象已经验证或真实参数已完成独立科学数值验证。投稿前关键剩余证据为校园网内实际FTP—Zenodo访问、正式release与永久归档。
+在Windows与macOS、Julia 1.12.6两个环境中，GriddingMachineDatasets 73项、GriddingMachine 63项以及Emerald合成输入最小烟雾5项测试全部通过。数据生产31编号矩阵的29个非交互案例在两个平台各连续3次全部通过，一名操作者的V01/V02审核结果为PASS；一名未参与开发者在获得一次说明后完成受控贡献流程，自动产物验收为PASS。两个平台采用当前ping排序实现的65次受控故障断言均全部通过；两轮校外真实访问中Zenodo下载通过完整性核验而机构FTP因网络边界超时，校园网Windows轮的FTP与Zenodo共24次下载则全部通过完整性核验，且本次4个文件的FTP中位下载时间均低于Zenodo。两个内部压缩样本的直接NetCDF暖缓存实验在两个平台上均支持减少额外处理时间和逻辑临时占用。14个真实`gm2`陆面文件全部通过完整性核验，US-NR1参数字典成功生成，撒哈拉非植被格点按预期拒绝。Ubuntu CI进一步通过GriddingMachine 63项、GriddingMachineDatasets 73项、29个非交互生产案例、65次故障状态断言、40次小型确定性分发测量和Emerald 5项合成输入接口烟雾断言，支持核心代码路径及受控模型接口的Linux兼容性。本文不把Linux CI外推为真实网络、真实陆面文件、长期Emerald模拟或科学正确性验证，也不把单案例复现外推为用户研究，不声称效率数值适用于所有文件或冷缓存、单次校园网FTP表现及ping排序可推广为长期吞吐率最优、真实气象已经验证、真实参数已完成独立科学数值验证或接口已验证长期模型模拟。投稿前关键剩余事项为正式release与永久归档。
 
-GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以可验证目录和模型数据接口连接数据发布者与使用者。完成校园网镜像实验和正式归档后，该框架可为全球规则网格数据的持续维护和可复用模型输入提供更完整的证据链。
+GriddingMachine的定位是面向地球系统模拟的轻量、可维护的数据基础设施：它通过固定数据约定减少重复适配，并以可验证目录和模型数据接口连接数据发布者与使用者。完成正式release和永久归档后，该框架可为全球规则网格数据的持续维护和可复用模型输入提供更完整的证据链。
 
 ## 数据和代码可用性声明
 

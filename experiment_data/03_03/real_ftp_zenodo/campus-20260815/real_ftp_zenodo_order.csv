@@ -1,0 +1,13 @@
+tag,repetition,ftp_ping_ms,zenodo_ping_ms,selected_first
+"SC_2X_1Y_V1","1","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SC_2X_1Y_V1.nc"
+"SC_2X_1Y_V1","2","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SC_2X_1Y_V1.nc"
+"SC_2X_1Y_V1","3","2.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SC_2X_1Y_V1.nc"
+"SLA_2X_1Y_V1","1","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SLA_2X_1Y_V1.nc"
+"SLA_2X_1Y_V1","2","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SLA_2X_1Y_V1.nc"
+"SLA_2X_1Y_V1","3","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/SLA_2X_1Y_V1.nc"
+"ELEV_4X_1Y_V1","1","13.5","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/ELEV_4X_1Y_V1.nc"
+"ELEV_4X_1Y_V1","2","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/ELEV_4X_1Y_V1.nc"
+"ELEV_4X_1Y_V1","3","3.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/ELEV_4X_1Y_V1.nc"
+"CH_20X_1Y_V1","1","1.5","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/CH_20X_1Y_V1.nc"
+"CH_20X_1Y_V1","2","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/CH_20X_1Y_V1.nc"
+"CH_20X_1Y_V1","3","1.0","Inf","ftp://114.214.212.145/GriddingMachine/public/old-gm1-gm2/CH_20X_1Y_V1.nc"

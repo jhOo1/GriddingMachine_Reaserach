@@ -58,5 +58,5 @@ GriddingMachineDatasets和Emerald的`Project.toml`均将GriddingMachine固定到
 1. 已完成：GriddingMachine、GriddingMachineDatasets、Emerald和研究仓库公开候选提交及三平台CI；正文、表4、讨论和结论已按证据边界回填Linux结果。
 2. 待完成：下载或重新生成最终冻结版本的日志、CSV、TOML和Manifest，并存入带DOI的永久归档；不能只依赖Actions临时工件。
 3. 已完成：Emerald候选`d79324f`已公开，修复后的仓库快照`b95d119`已在Windows、macOS和Ubuntu干净runner上通过5/5接口烟雾；仍需创建不可变release和永久归档。
-4. 待完成：在中科大校园网实际只读访问同内容FTP和Zenodo，记录ping、下载时间、字节数与SHA-256。
+4. 已完成：2026-08-15在中科大校园网实际只读访问同内容FTP和Zenodo，共24/24次通过字节数与SHA-256核验，并保存ping、下载时间和冻结环境。
 5. 正式release前创建不可变tag，并推动GriddingMachine 0.5.0注册，以消除Git source覆盖。

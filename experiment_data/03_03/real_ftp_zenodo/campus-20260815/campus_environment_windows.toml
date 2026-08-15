@@ -1,0 +1,12 @@
+network_context = "USTC campus network (user-confirmed at execution time)"
+preflight_ftp_tcp_port_21 = true
+preflight_zenodo_tcp_port_443 = true
+operating_system = "Microsoft Windows 10.0.26200"
+architecture = "x86_64"
+julia_version = "1.12.6"
+julia_official_archive_sha256 = "a63d991976e6893f508c512e3dc7bca1836c1a1f6ad1f3e4aedec159b6733e89"
+griddingmachine_commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+griddingmachine_project_sha256 = "53f26ca7cb3d8fa7ddbbb086c4b5a8a641b98b91ed43460ce9bceeeeebd3e941"
+griddingmachine_manifest_sha256 = "abd7dc50e9901b6a8fac67e1bb6058b70136710cb947a609ce93330bef26e024"
+temporary_downloads_removed = true
+remote_writes_or_deletes = false
