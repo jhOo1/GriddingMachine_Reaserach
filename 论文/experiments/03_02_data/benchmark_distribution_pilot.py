@@ -214,15 +214,15 @@ def main() -> None:
     if missing:
         raise FileNotFoundError(f"Missing pilot inputs: {missing}")
 
-    work_root = ROOT / "work"
-    work_root.mkdir(exist_ok=True)
+    work_root = Path(os.environ.get("PILOT_WORK_ROOT", ROOT / "work")).resolve()
+    work_root.mkdir(parents=True, exist_ok=True)
     archives: dict[str, Path] = {}
     package_times: dict[str, float] = {}
     source_hashes: dict[str, str] = {}
     metadata: dict[str, object] = {}
 
     for source in inputs:
-        archive = ROOT / f"{source.name}.tar.gz"
+        archive = INPUT_ROOT / f"{source.name}.tar.gz"
         package_times[source.name] = package(source, archive)
         archives[source.name] = archive
         source_hashes[source.name] = file_hash(source)
@@ -245,7 +245,7 @@ def main() -> None:
     ]
     rng.shuffle(cases)
 
-    with local_server(ROOT) as base_url:
+    with local_server(INPUT_ROOT) as base_url:
         # One unrecorded warm-up for every dataset/distribution combination.
         warm_sequence = 0
         for source in inputs:

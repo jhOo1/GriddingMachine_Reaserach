@@ -67,6 +67,7 @@ jobs:
         env:
           PILOT_PLATFORM: ${{ matrix.slug }}
           PILOT_INPUT_ROOT: ${{ github.workspace }}/ci-fixtures
+          PILOT_WORK_ROOT: ${{ github.workspace }}/ci-benchmark-work/${{ matrix.slug }}
         run: python benchmark_distribution_pilot.py
       - name: Archive controlled experiment outputs
         if: always()
