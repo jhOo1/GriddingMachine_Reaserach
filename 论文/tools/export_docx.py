@@ -11,7 +11,6 @@ import re
 from pathlib import Path
 
 from docx import Document
-from docx.enum.section import WD_SECTION
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -21,7 +20,9 @@ from docx.shared import Cm, Pt
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "GriddingMachine论文初稿_v0.1.md"
 OUTPUT = ROOT / "GriddingMachine论文初稿_导师审阅版.docx"
-FIGURE_PREVIEW = ROOT / "figures" / "figure1-preview.png"
+FIGURE_FALLBACKS = {
+    "图1_GriddingMachine总体架构.svg": ROOT / "figures" / "figure1-preview.png",
+}
 
 
 def set_run_font(run, east_asia: str = "宋体", latin: str = "Times New Roman") -> None:
@@ -137,10 +138,17 @@ def export() -> None:
             continue
 
         if line.startswith("!["):
-            if FIGURE_PREVIEW.exists():
+            image_match = re.match(r"^!\[.*?\]\((.*?)\)$", line)
+            image_path = None
+            if image_match:
+                source_path = (SOURCE.parent / image_match.group(1)).resolve()
+                image_path = FIGURE_FALLBACKS.get(source_path.name, source_path)
+                if source_path.suffix.lower() == ".svg" and source_path.name not in FIGURE_FALLBACKS:
+                    image_path = source_path.with_suffix(".png")
+            if image_path is not None and image_path.exists():
                 paragraph = document.add_paragraph()
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                paragraph.add_run().add_picture(str(FIGURE_PREVIEW), width=Cm(15.0))
+                paragraph.add_run().add_picture(str(image_path), width=Cm(15.0))
             i += 1
             continue
 
@@ -190,7 +198,6 @@ def export() -> None:
     core.title = "GriddingMachine：全球网格数据生产、分发与模型调用框架的更新与验证"
     core.author = "Hao Jiang; Yujie Wang"
     core.subject = "导师审阅版，由Markdown源稿自动生成"
-    document.add_section(WD_SECTION.NEW_PAGE)
     document.save(OUTPUT)
     print(OUTPUT)
 

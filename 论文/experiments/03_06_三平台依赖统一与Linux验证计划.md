@@ -37,26 +37,26 @@ GriddingMachineDatasets和Emerald的`Project.toml`均将GriddingMachine固定到
 
 结果证明三个工程在统一依赖组合下可以同时装载和运行。远程无Manifest实例化在当前Windows网络中停滞于GitHub提交获取，因此没有把该网络现象写成代码失败；远程可重复性由GitHub Actions三平台干净runner继续验证。
 
-## 4. 三平台CI与Linux通过标准
+## 4. 三平台CI完成情况与证据边界
 
-代码仓库CI均固定Julia 1.12.6，并覆盖`ubuntu-latest`、`macos-latest`和`windows-latest`：
+公开代码仓库CI固定Julia 1.12.6，并覆盖`ubuntu-latest`、`macos-latest`和`windows-latest`：
 
-- GriddingMachine：63项完整回归；
-- GriddingMachineDatasets：38项配置测试和35项包集成测试，并归档平台Manifest；
-- Emerald：使用固定GriddingMachine提交运行5项最小接入状态断言，并归档平台Manifest。
+- GriddingMachine：三平台均为63/63，运行记录为<https://github.com/CliMA/GriddingMachine.jl/actions/runs/31876825314>；
+- GriddingMachineDatasets：三平台均为38/38配置测试和35/35包集成测试，并归档平台Manifest，运行记录为<https://github.com/jhOo1/GriddingMachineDatasets/actions/runs/31876841675>；
+- Emerald：统一依赖候选`d79324f`按作者决定仅保留本地。Windows统一环境为5/5；macOS已归档的是基线`wyujie@9828b2a`配合临时兼容环境的5/5，不把它写成候选提交的三平台CI；Ubuntu未运行Emerald。
 
-研究仓库另运行三个平台相同的受控实验：
+研究仓库运行三平台受控CI，记录为<https://github.com/jhOo1/GriddingMachine_Reaserach/actions/runs/31877990092>：
 
-- 31编号生产矩阵中的29个非交互案例；
-- 两个数据样本、两种分发形式各10次，共40次效率测量；
-- M01--M13各5次，共65次故障状态断言。
+- 31编号生产矩阵中的29个非交互案例均通过；
+- 两个小型确定性NetCDF夹具、两种分发形式各10次，共40次分发测量，SHA-256检查均通过；
+- M01--M13各5次，共65次故障状态断言均通过。
 
-Linux是正式支持目标，但只有Ubuntu对应任务实际完成并保存日志后，正文才能把它写成“已验证平台”。在此之前，论文保留“Linux支持已进入CI、尚无实证”的边界。真实FTP/Zenodo结果按网络环境单独报告，不由GitHub runner代替校园网实验。
+三个平台工件名分别为`paper-controlled-windows`、`paper-controlled-macos`和`paper-controlled-linux`。Ubuntu结果可以支持“表4所列核心代码路径已通过Linux CI兼容性验证”，但不能外推为Emerald、真实ELEV/LAI性能、真实FTP/Zenodo或真实`gm2`陆面案例均在Linux完成。真实网络结果按网络环境单独报告，不由GitHub runner代替校园网实验。GitHub Actions工件存在保留期限，投稿前必须迁移到永久归档。
 
-## 5. 后续操作
+## 5. 剩余操作
 
-1. 已分别提交三个代码工作树和研究仓库的CI改动；
-2. 经作者允许后推送`paper-release`与研究仓库`main`，触发三平台CI；
-3. 下载并核验三个系统的日志、CSV、TOML和Manifest工件；
-4. 若Ubuntu全部通过，把Linux结果加入表4、结果章、讨论和结论；若失败，先修复后重跑，不写支持性结论；
+1. 已完成：GriddingMachine、GriddingMachineDatasets和研究仓库公开候选提交及三平台CI；正文、表4、讨论和结论已按证据边界回填Linux结果。
+2. 待完成：下载或重新生成最终冻结版本的日志、CSV、TOML和Manifest，并存入带DOI的永久归档；不能只依赖Actions临时工件。
+3. 待作者决定：是否公开Emerald候选`d79324f`。若不公开，正文继续把它限定为本地接口案例；若公开，则在macOS和Ubuntu干净runner上补跑统一候选。
+4. 待完成：在中科大校园网实际只读访问同内容FTP和Zenodo，记录ping、下载时间、字节数与SHA-256。
 5. 正式release前创建不可变tag，并推动GriddingMachine 0.5.0注册，以消除Git source覆盖。

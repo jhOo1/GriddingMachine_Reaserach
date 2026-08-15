@@ -158,5 +158,5 @@
 
   <line x1="56" y1="674" x2="1744" y2="674" class="guide"/>
   <text x="56" y="704" class="sans note">蓝色实线：新版核心数据路径　　橙色虚线：相对2022版的改进映射　　灰色：2022版基线</text>
-  <text x="56" y="730" class="sans note">范围：Windows工作流；Server/Requestor远程子集服务不属于本文核心内容。</text>
+  <text x="56" y="730" class="sans note">范围：本地数据生产、分发与模型调用；Server/Requestor远程子集服务不属于本文核心内容。</text>
 </svg>
