@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: jhOo1/GriddingMachineDatasets
-          ref: paper-release
+          ref: 5eac56af311fe511237ac2b1d7ef68b018fd7626
           path: GriddingMachineDatasets_paper
       - uses: julia-actions/setup-julia@v2
         with:
@@ -42,6 +42,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install benchmark reader
+        run: python -m pip install --disable-pip-version-check netCDF4
+      - name: Generate CI-only NetCDF fixtures
+        working-directory: research/论文/experiments/03_02_data
+        run: python prepare_ci_fixtures.py
       - name: Instantiate paper packages
         run: |
           julia --startup-file=no --project=GriddingMachine_paper -e 'using Pkg; Pkg.instantiate()'
@@ -56,14 +61,13 @@ jobs:
           FAULT_MATRIX_PLATFORM: ${{ matrix.slug }}
           GRIDDING_MACHINE_PAPER_REPO: ${{ github.workspace }}/GriddingMachine_paper
         run: julia --startup-file=no --project=GriddingMachine_paper "research/论文/experiments/03_03_data/fault_matrix_windows.jl"
-      - name: Install benchmark reader
-        run: python -m pip install --disable-pip-version-check netCDF4
       - name: Run direct NetCDF benchmark
         working-directory: research/论文/experiments/03_02_data
         env:
           PILOT_PLATFORM: ${{ matrix.slug }}
         run: python benchmark_distribution_pilot.py
       - name: Archive controlled experiment outputs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: paper-controlled-${{ matrix.slug }}
@@ -71,4 +75,3 @@ jobs:
             research/论文/experiments/03_01_data/matrix_${{ matrix.slug }}_runci_*
             research/论文/experiments/03_02_data/pilot_${{ matrix.slug }}_*
             research/论文/experiments/03_03_data/fault_matrix_${{ matrix.slug }}_package_*
-

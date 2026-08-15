@@ -408,7 +408,7 @@ function main()
     write_csv(joinpath(ROOT, "$(output_prefix)_summary.csv"), summaries)
     metadata = Dict(
         "created_utc" => string(now(UTC)),
-        "status" => "Windows $(BACKEND)-level controlled HTTP experiment",
+        "status" => "$(platform_slug) $(BACKEND)-level controlled HTTP experiment",
         "backend" => BACKEND,
         "platform" => Sys.MACHINE,
         "julia_version" => string(VERSION),
@@ -421,7 +421,7 @@ function main()
         "bootstrap_samples" => BOOTSTRAP_SAMPLES,
         "network_scope" => "127.0.0.1 only",
         "limitation" => BACKEND == "package" ?
-            "Windows package-level result with injected ping scores; actual ICMP and mirror performance require the campus-network experiment; Linux and macOS remain outside scope" :
+            "Cross-platform package-level result with injected ping scores; actual ICMP and mirror performance require the campus-network experiment" :
             "dataset-download.jl loaded through a minimal source harness",
     )
     open(joinpath(ROOT, "$(output_prefix)_metadata.toml"), "w") do io
