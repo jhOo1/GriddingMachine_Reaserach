@@ -15,9 +15,9 @@
 
 | 工程或依赖 | 冻结版本 |
 |---|---|
-| GriddingMachine | `0.5.0@53bb0be8b676f88d3d3dbe32f20aefdad883fcc2` |
-| GriddingMachineDatasets | `0.1.0@3926ae384690dac6a8ce57af87edc5ff210a40c0`基础上的依赖修复 |
-| Emerald | `1.0.0@9828b2acd594145dff2de5714a2793945ec734a5`基础上的独立`paper-release`工作树 |
+| GriddingMachine | 核心代码`0.5.0@53bb0be8b676f88d3d3dbe32f20aefdad883fcc2`；三平台CI提交`11631d6` |
+| GriddingMachineDatasets | 候选论文分支`0.1.0@5eac56a`，基于`3926ae3`完成依赖修复 |
+| Emerald | 候选论文分支`1.0.0@d79324f`，基于`wyujie@9828b2a`完成依赖修复 |
 | NetcdfIO | 注册表`0.3.0`，tree `0a876b43a8e35c8471bdcacc320e9697422722fd` |
 | PkgUtility | 注册表`0.3.1`，tree `f77541ed81df69f9b4c08a94b4fe2f7ef86b964a` |
 | Julia | `1.12.6` |
@@ -51,11 +51,11 @@ GriddingMachineDatasets和Emerald的`Project.toml`均将GriddingMachine固定到
 - 两个数据样本、两种分发形式各10次，共40次效率测量；
 - M01--M13各5次，共65次故障状态断言。
 
-只有Ubuntu对应任务实际完成并保存日志后，正文才能把“Linux支持”写成实证结论。在此之前，论文继续保留“Linux尚未验证”的边界。真实FTP/Zenodo结果按网络环境单独报告，不由GitHub runner代替校园网实验。
+Linux是正式支持目标，但只有Ubuntu对应任务实际完成并保存日志后，正文才能把它写成“已验证平台”。在此之前，论文保留“Linux支持已进入CI、尚无实证”的边界。真实FTP/Zenodo结果按网络环境单独报告，不由GitHub runner代替校园网实验。
 
 ## 5. 后续操作
 
-1. 分别提交三个代码工作树和研究仓库的CI改动；
+1. 已分别提交三个代码工作树和研究仓库的CI改动；
 2. 经作者允许后推送`paper-release`与研究仓库`main`，触发三平台CI；
 3. 下载并核验三个系统的日志、CSV、TOML和Manifest工件；
 4. 若Ubuntu全部通过，把Linux结果加入表4、结果章、讨论和结论；若失败，先修复后重跑，不写支持性结论；
