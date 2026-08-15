@@ -221,7 +221,9 @@ manual_case("V02","two reviewers reject deliberately reversed plot")
 
 run_id=get(ENV,"MATRIX_RUN_ID","")
 suffix=isempty(run_id) ? "" : "_run$(run_id)"
-csv_path=joinpath(ROOT,"matrix_windows$(suffix)_raw.csv")
+platform_slug=lowercase(get(ENV,"MATRIX_PLATFORM",Sys.iswindows() ? "windows" : Sys.isapple() ? "macos" : "linux"))
+platform_slug in ("windows","macos","linux") || error("Unsupported MATRIX_PLATFORM=$platform_slug")
+csv_path=joinpath(ROOT,"matrix_$(platform_slug)$(suffix)_raw.csv")
 open(csv_path,"w") do io
     println(io,"id,category,status,elapsed_ms,expectation,detail")
     esc(x)="\""*replace(string(x),'"'=>"\"\"")*"\""
@@ -231,7 +233,7 @@ passed=count(r->r.status=="PASS",RESULTS); failed=count(r->r.status=="FAIL",RESU
 summary=Dict("date"=>string(Dates.today()),"run_id"=>run_id,"julia_version"=>string(VERSION),"platform"=>Sys.MACHINE,
     "griddingmachine_commit"=>readchomp(`git -C $GM_REPO rev-parse HEAD`),"griddingmachinedatasets_commit"=>readchomp(`git -C $GMD_REPO rev-parse HEAD`),
     "total_cases"=>length(RESULTS),"automatic_cases"=>passed+failed,"passed"=>passed,"failed"=>failed,"manual_pending"=>manual,"work_root"=>WORK,"network_requests"=>0)
-open(joinpath(ROOT,"matrix_windows$(suffix)_summary.toml"),"w") do io
+open(joinpath(ROOT,"matrix_$(platform_slug)$(suffix)_summary.toml"),"w") do io
     for key in sort(collect(keys(summary))) println(io,key," = ",repr(summary[key])) end
 end
 println("Matrix: $passed passed, $failed failed, $manual manual of $(length(RESULTS)) cases")

@@ -1,0 +1,74 @@
+name: Paper full cross-platform matrix
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  controlled-experiments:
+    name: Julia 1.12.6 / ${{ matrix.slug }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            slug: linux
+          - os: macos-latest
+            slug: macos
+          - os: windows-latest
+            slug: windows
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: research
+      - uses: actions/checkout@v4
+        with:
+          repository: CliMA/GriddingMachine.jl
+          ref: 53bb0be8b676f88d3d3dbe32f20aefdad883fcc2
+          path: GriddingMachine_paper
+      - uses: actions/checkout@v4
+        with:
+          repository: jhOo1/GriddingMachineDatasets
+          ref: paper-release
+          path: GriddingMachineDatasets_paper
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1.12.6"
+      - uses: julia-actions/cache@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instantiate paper packages
+        run: |
+          julia --startup-file=no --project=GriddingMachine_paper -e 'using Pkg; Pkg.instantiate()'
+          julia --startup-file=no --project=GriddingMachineDatasets_paper -e 'using Pkg; Pkg.instantiate()'
+      - name: Run production matrix
+        env:
+          MATRIX_PLATFORM: ${{ matrix.slug }}
+          MATRIX_RUN_ID: ci
+        run: julia --startup-file=no --project=GriddingMachine_paper "research/论文/experiments/03_01_data/run_matrix_windows.jl"
+      - name: Run controlled mirror fault matrix
+        env:
+          FAULT_MATRIX_PLATFORM: ${{ matrix.slug }}
+          GRIDDING_MACHINE_PAPER_REPO: ${{ github.workspace }}/GriddingMachine_paper
+        run: julia --startup-file=no --project=GriddingMachine_paper "research/论文/experiments/03_03_data/fault_matrix_windows.jl"
+      - name: Install benchmark reader
+        run: python -m pip install --disable-pip-version-check netCDF4
+      - name: Run direct NetCDF benchmark
+        working-directory: research/论文/experiments/03_02_data
+        env:
+          PILOT_PLATFORM: ${{ matrix.slug }}
+        run: python benchmark_distribution_pilot.py
+      - name: Archive controlled experiment outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-controlled-${{ matrix.slug }}
+          path: |
+            research/论文/experiments/03_01_data/matrix_${{ matrix.slug }}_runci_*
+            research/论文/experiments/03_02_data/pilot_${{ matrix.slug }}_*
+            research/论文/experiments/03_03_data/fault_matrix_${{ matrix.slug }}_package_*
+

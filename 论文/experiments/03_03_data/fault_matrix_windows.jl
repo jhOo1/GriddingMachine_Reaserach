@@ -384,7 +384,9 @@ function main()
         end
         println("$id passed $REPETITIONS/$REPETITIONS")
     end
-    output_prefix = "fault_matrix_windows_$(BACKEND)"
+    platform_slug = lowercase(get(ENV, "FAULT_MATRIX_PLATFORM", Sys.iswindows() ? "windows" : Sys.isapple() ? "macos" : "linux"))
+    platform_slug in ("windows", "macos", "linux") || error("Unsupported FAULT_MATRIX_PLATFORM=$platform_slug")
+    output_prefix = "fault_matrix_$(platform_slug)_$(BACKEND)"
     write_csv(joinpath(ROOT, "$(output_prefix)_raw.csv"), rows)
 
     summaries = NamedTuple[]

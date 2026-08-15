@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Windows pilot for direct NetCDF versus an outer tar.gz package.
+"""Cross-platform pilot for direct NetCDF versus an outer tar.gz package.
 
 All network traffic is restricted to a temporary HTTP server bound to
 127.0.0.1. Large inputs and generated archives stay in this directory.
@@ -205,6 +205,9 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 def main() -> None:
+    platform_slug = os.environ.get("PILOT_PLATFORM", platform.system()).lower()
+    if platform_slug not in {"windows", "macos", "linux"}:
+        raise RuntimeError(f"Unsupported PILOT_PLATFORM={platform_slug}")
     inputs = [ROOT / name for name in INPUTS]
     missing = [str(path) for path in inputs if not path.is_file()]
     if missing:
@@ -274,7 +277,7 @@ def main() -> None:
                 )
             )
 
-    raw_path = ROOT / "pilot_windows_raw.csv"
+    raw_path = ROOT / f"pilot_{platform_slug}_raw.csv"
     write_csv(raw_path, rows)
 
     summaries: list[dict[str, object]] = []
@@ -311,14 +314,14 @@ def main() -> None:
                     }
                 )
 
-    write_csv(ROOT / "pilot_windows_summary.csv", summaries)
+    write_csv(ROOT / f"pilot_{platform_slug}_summary.csv", summaries)
     run_metadata = {
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "status": "pilot",
         "scope": "distribution format only; not a GriddingMachine API benchmark",
         "cache_condition": (
             "warm operating-system cache after one explicit application warm-up; "
-            "no privileged Windows cache eviction was performed"
+            f"no privileged {platform_slug} cache eviction was performed"
         ),
         "http": "127.0.0.1 ephemeral port; no external network traffic",
         "tar_gzip_level": 6,
@@ -331,7 +334,7 @@ def main() -> None:
         "processor": platform.processor(),
         "datasets": metadata,
     }
-    with (ROOT / "pilot_windows_metadata.json").open("w", encoding="utf-8") as stream:
+    with (ROOT / f"pilot_{platform_slug}_metadata.json").open("w", encoding="utf-8") as stream:
         json.dump(run_metadata, stream, ensure_ascii=False, indent=2)
         stream.write("\n")
 
