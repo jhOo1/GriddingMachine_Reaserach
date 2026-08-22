@@ -10,7 +10,7 @@
 
 ## 摘要
 
-多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上完成框架更新，形成贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期。新版以共享模式（schema）和YAML配置驱动源维度映射、坐标转换、数值变换与Gapfill，采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取，并以`read_dataset`、`grid_dict`和`grid_weather`提供模型就绪数据。应用结果表明，二维与三维产品可稳定转换为统一NetCDF；直接NetCDF使两个内部压缩产品的暖缓存端到端中位时间降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次内容一致的真实下载；14类真实陆面产品成功生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
+多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上完成框架更新，形成贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期。新版以共享模式（schema）和YAML配置驱动源维度映射、坐标转换、数值变换与Gapfill，采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取，并以`read_dataset`、`grid_dict`和`grid_weather`提供模型就绪数据。NOAA OISST V2.1真实产品由`time×zlev×lat×lon`四维源结构转换为1440×720标准网格，691 150个有效格点及345 650个缺失格点与独立参考逐点一致；直接NetCDF使两个内部压缩产品的暖缓存端到端中位时间降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次内容一致的真实下载；14类真实陆面产品成功生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
 
 **关键词：** 地球系统模型；全球网格数据；数据生命周期；NetCDF；可信分发；数据完整性
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study advances GriddingMachine into an integrated lifecycle for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; direct NetCDF and transactional caching support trustworthy acquisition; and `read_dataset`, `grid_dict`, and `grid_weather` provide model-ready access. Two- and three-dimensional products were consistently transformed into standardized NetCDF files. Direct NetCDF reduced median warm-cache end-to-end time by 48.3%–82.9% and 53.6%–69.2% for two internally compressed products. Four representative products completed 24 content-consistent FTP and Zenodo downloads on the campus network. Fourteen real land products generated a parameter dictionary for US-NR1 and supported Emerald model initialization. The updated GriddingMachine therefore provides a lightweight infrastructure for configurable production, trustworthy distribution, and model-ready use of global regular-grid data.
+Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study advances GriddingMachine into an integrated lifecycle for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; direct NetCDF and transactional caching support trustworthy acquisition; and `read_dataset`, `grid_dict`, and `grid_weather` provide model-ready access. A real NOAA OISST V2.1 product was transformed from a four-dimensional `time × zlev × lat × lon` source structure to a standardized 1440 × 720 grid, with 691,150 finite and 345,650 missing grid cells matching an independently decoded reference point by point. Direct NetCDF reduced median warm-cache end-to-end time by 48.3%–82.9% and 53.6%–69.2% for two internally compressed products. Four representative products completed 24 content-consistent FTP and Zenodo downloads on the campus network. Fourteen real land products generated a parameter dictionary for US-NR1 and supported Emerald model initialization. The updated GriddingMachine therefore provides a lightweight infrastructure for configurable production, trustworthy distribution, and model-ready use of global regular-grid data.
 
 **Keywords:** Earth system modeling; global gridded data; data lifecycle; NetCDF; trustworthy distribution; data integrity
 
@@ -271,6 +271,12 @@ parameters = Indexer.grid_dict("gm2", 2020, 40.0329, -105.5464)
 
 P01代表性贡献案例依次完成配置生成、标准化、自动与人工质量检查、产品发布、`Artifacts.yaml`登记以及下游更新、下载和读取，呈现数据贡献者使用新版工作流的完整路径。
 
+#### 3.1.5 真实OISST产品生产
+
+真实异构产品案例采用NOAA/NCEI 0.25°逐日最优插值海表温度OISST V2.1 AVHRR-only正式产品[9]，固定选取2022年2月25日文件。原始`sst`变量在NetCDF中声明为`time×zlev×lat×lon`，其中`zlev`和`time`均为单例维度；Julia读取后的数组顺序为`lon×lat×zlev×time`，形状为1440×720×1×1。经度覆盖0.125°～359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。版本化源适配器提取唯一的垂向层和时间层，共享YAML契约进一步完成维度声明、`0～360°`至`[-180°,180°)`的经度重排、有效范围控制和缺失值策略，生成`SST_OISST_4X_1D_20220225_V1`标准产品。
+
+独立参考流程直接读取未缩放的Int16存储值，根据原始`scale_factor`、`add_offset`和`_FillValue`构造物理值与缺失值掩膜，并独立计算目标经度索引。参考结果记录全场统计量、10个确定性有效格点和10个缺失格点。标准产品连续生成3次，逐点比较坐标、有效值掩膜和物理值；随后由本地权威文件生成包含`PATH/URL/SIZE/SHA256`的目录条目，通过回环HTTP执行事务式下载，并以`read_dataset`完成整场读取核对。
+
 ### 3.2 直接NetCDF分发效率评价
 
 直接NetCDF分发效率采用二维静态高程`ELEV_4X_1Y_V1`和三维8日叶面积指数`LAI_MODIS_2X_8D_2020_V1`进行分析，代表不同规模和维度的内部压缩产品。每个标准NetCDF分别以原始`.nc`和包含同一文件的`tar.gz`分发，对照归档采用gzip级别6。两种形式解包后的NetCDF具有相同SHA-256，据此量化省去外层打包与解包带来的时间和临时空间收益。
@@ -313,7 +319,7 @@ P01代表性贡献案例依次完成配置生成、标准化、自动与人工�
 
 | 功能模块 | 主要改进 | 应用表现 | 扩展方向 |
 |---|---|---|---|
-| 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | 二维/三维产品稳定生成；ELEV数组与坐标完整保持 | 扩展真实异构原始产品 |
+| 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST真实源数据与独立参考逐点一致；二维/三维产品稳定生成 | 扩展多时段真实产品 |
 | 数据制品 | 直接NetCDF替代外层`tar.gz` | 暖缓存端到端中位时间降低48.3%～82.9%和53.6%～69.2% | 扩展更多产品规模 |
 | 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo共24次下载内容一致 | 建立长期镜像运行统计 |
 | 模型就绪访问 | `read_dataset`、`grid_dict`和`grid_weather` | 14类`gm2`产品生成US-NR1参数字典并进入Emerald | 接入ERA5气象驱动与长期模拟 |
@@ -324,6 +330,16 @@ P01代表性贡献案例依次完成配置生成、标准化、自动与人工�
 ### 4.1 数据生产、配置契约与目录生成
 
 共享YAML schema成功组织二维和三维数据的源维度重排、坐标变换、线性缩放、有效范围过滤与Gapfill，并将处理结果保存为统一的`data/std`结构。配置构建器、生产流水线和目录生成器使用同一字段约定，使标准产品能够从源数据处理直接进入`Artifacts.yaml`登记；目录条目同步生成准确的`SIZE`与SHA-256，为后续多镜像发布提供完整性信息。
+
+OISST真实产品展示了共享生产契约对异构地学源数据的完整组织能力。原始`sst`变量在Julia读取路径中呈现为1440×720×1×1的`lon×lat×zlev×time`数组，经单例层提取、Int16物理值解码和经度重排后形成1440×720标准产品。输出经度由−179.875°递增至179.875°，纬度由−89.875°递增至89.875°；691 150个有效格点和345 650个缺失格点与独立参考逐点一致，海表温度范围为−1.80～32.39 ℃，全场平均值为14.013 ℃，最大绝对差为0。
+
+标准产品连续生成3次，科学数组、坐标和文件SHA-256均保持一致。生成文件为997 006字节，目录条目自动登记相同的`SIZE`和SHA-256；经回环HTTP事务式下载后，正式文件摘要与目录完全一致，缓存目录中无残留`.part`文件。`read_dataset`读取的整场数组与独立参考保持逐点一致，形成从真实原始产品、共享YAML生产、完整性目录到统一读取的端到端数据链路。
+
+![图2 OISST真实产品标准化结果](figures/图2_OISST真实产品标准化结果.png)
+
+**图2 OISST V2.1真实产品标准化结果** （a）2022年2月25日全球海表温度标准产品；（b）有效格点纬向平均海表温度；（c）各纬度有效格点比例。标准产品为1440×720规则网格，691 150个有效格点与独立参考逐点一致。
+
+**Figure 2 Standardization results for the real OISST V2.1 product.** (a) Global standardized sea-surface temperature on 25 February 2022; (b) zonal mean sea-surface temperature over finite grid cells; and (c) fraction of finite grid cells by latitude. The 1440 × 720 product contains 691,150 finite cells that agree point by point with the independently decoded reference.
 
 表3所列31个生产场景完整覆盖维度、坐标、数值、Gapfill、配置、输出和空间方向控制。各操作系统环境获得一致的产品结构和逐点数值结果，V01正向图与V02南北反转图得到准确区分，说明自动质量控制与人工空间检查能够共同维护标准产品的坐标语义。
 
@@ -379,33 +395,33 @@ GriddingMachine、GriddingMachineDatasets、Emerald及研究材料仓库在跨�
 
 2022版GriddingMachine建立了统一网格、变量约定和标签化数据访问[4]。当前更新进一步形成共享配置契约、显式源维度映射、与软件版本解耦的数据目录、事务式多镜像获取和模型就绪接口。14类真实陆面产品、校园网FTP—Zenodo获取和跨操作系统运行共同展示这些能力，GriddingMachine由此从标准数据集合演进为连接生产、分发、读取和模型调用的数据生命周期框架。
 
-新版框架在三个层次推进GriddingMachine：生产端以共享YAML契约连接维度、坐标、Gapfill和标准NetCDF；分发端以独立目录、直接NetCDF与事务缓存连接机构镜像和公共镜像；应用端以统一读取、Emerald最小步进和真实`gm2`陆面链路连接数据产品与模型。OISST等真实异构原始产品将进一步拓展源数据标准化和科学应用范围。
+新版框架在三个层次推进GriddingMachine：生产端以共享YAML契约连接维度、坐标、Gapfill和标准NetCDF，并由OISST真实产品展示异构维度、打包数值和经度体系的统一转换；分发端以独立目录、直接NetCDF与事务缓存连接机构镜像和公共镜像；应用端以统一读取、Emerald最小步进和真实`gm2`陆面链路连接数据产品与模型。真实海温与陆面产品共同呈现框架在全球规则网格数据生命周期中的适用性。
 
 ### 5.2 与相关地球科学数据基础设施的关系
 
-Earth Engine把大规模地理空间数据与云端计算结合，服务行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[9]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[10]，Pangeo Forge进一步以可复用配方和目录组织分析就绪数据生产[11]。GriddingMachine与这些基础设施形成互补，面向经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
+Earth Engine把大规模地理空间数据与云端计算结合，服务行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[10]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[11]，Pangeo Forge进一步以可复用配方和目录组织分析就绪数据生产[12]。GriddingMachine与这些基础设施形成互补，面向经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
 
-GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以`read_dataset`、`grid_dict`和`grid_weather`把标准数据组织为模型所需字段。Pangeo Forge侧重云端分析就绪数据生产的配方—基础设施分离[11]，本文流程侧重可直接下载的单体NetCDF、离线缓存、完整性落盘和固定模型接口。云优化分块格式适配超大规模近数据计算[10]，ESGF适配CMIP等机构联合治理[9]，GriddingMachine则服务可下载、可本地缓存的全球规则网格数据及其模型输入组织。
+GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以`read_dataset`、`grid_dict`和`grid_weather`把标准数据组织为模型所需字段。Pangeo Forge侧重云端分析就绪数据生产的配方—基础设施分离[12]，本文流程侧重可直接下载的单体NetCDF、离线缓存、完整性落盘和固定模型接口。云优化分块格式适配超大规模近数据计算[11]，ESGF适配CMIP等机构联合治理[10]，GriddingMachine则服务可下载、可本地缓存的全球规则网格数据及其模型输入组织。
 
-国内地球系统科学数据共享研究强调目录体系和规范关键词对数据管理与检索的作用[12]；Pooch以文件名、URL和SHA-256注册表实现远端文件获取、本地缓存和完整性校验[13]；STAC为广泛地理空间资产提供通用元数据结构与查询标准[14]。GriddingMachine进一步面向规则网格和模型标签，将上游生产配置、标准NetCDF、事务式多镜像落盘和下游模型字段组织置于同一机器可执行契约中，形成具有领域针对性的端到端整合。
+国内地球系统科学数据共享研究强调目录体系和规范关键词对数据管理与检索的作用[13]；Pooch以文件名、URL和SHA-256注册表实现远端文件获取、本地缓存和完整性校验[14]；STAC为广泛地理空间资产提供通用元数据结构与查询标准[15]。GriddingMachine进一步面向规则网格和模型标签，将上游生产配置、标准NetCDF、事务式多镜像落盘和下游模型字段组织置于同一机器可执行契约中，形成具有领域针对性的端到端整合。
 
 ### 5.3 FAIR与可复现性建设
 
-标签和外置目录提高数据的可发现性，多URL和直接NetCDF增强获取能力，统一网格与变量约定促进互操作，来源、许可、处理记录和版本信息支撑复用[1]。FAIR4RS强调科研软件的可执行性、复合依赖、持续演化和版本管理[15]；TRUST原则进一步提出透明度、责任、用户关注、可持续性和技术能力[16]。GriddingMachine以权威文件生成`SIZE/SHA256`、下载后校验、目录事务替换和版本化依赖落实技术可复现性。正式release将继续整合镜像登记、来源许可、配置哈希、代码版本和永久归档，形成完整的软件—目录—数据溯源链。
+标签和外置目录提高数据的可发现性，多URL和直接NetCDF增强获取能力，统一网格与变量约定促进互操作，来源、许可、处理记录和版本信息支撑复用[1]。FAIR4RS强调科研软件的可执行性、复合依赖、持续演化和版本管理[16]；TRUST原则进一步提出透明度、责任、用户关注、可持续性和技术能力[17]。GriddingMachine以权威文件生成`SIZE/SHA256`、下载后校验、目录事务替换和版本化依赖落实技术可复现性。正式release将继续整合镜像登记、来源许可、配置哈希、代码版本和永久归档，形成完整的软件—目录—数据溯源链。
 
 正式release将配置哈希、代码版本、文件大小和SHA-256连接为溯源链，并将实验结果关联到可识别的软件与数据版本[8]。ELEV标准文件已经完成完整性核验、统一读取和重复无损处理，后续元数据迁移将进一步统一来源、单位和修订标签。
 
 ### 5.4 后续拓展
 
-下一阶段将沿四条路线扩展。第一，迁移历史YAML，并为非规则网格、区域投影和复杂时间坐标增加数据源专用预处理模块。第二，将方向图复核与坐标单调性、值域和逐点数组断言进一步集成，形成统一质量报告。第三，扩大FTP与Zenodo的文件规模、观测时段和网络环境，建立延迟辅助排序与实际下载表现的长期统计。第四，将真实异构原始产品、2020年ERA5气象序列、长期模型运行和永久软件归档纳入后续版本，持续扩展科学应用与复现深度。
+下一阶段将沿四条路线扩展。第一，迁移历史YAML，并为非规则网格、区域投影和复杂时间坐标增加数据源专用预处理模块。第二，将方向图复核与坐标单调性、值域和逐点数组断言进一步集成，形成统一质量报告。第三，扩大FTP与Zenodo的文件规模、观测时段和网络环境，建立延迟辅助排序与实际下载表现的长期统计。第四，以OISST单日案例为基础扩展多时段真实产品，并将2020年ERA5气象序列、长期模型运行和永久软件归档纳入后续版本，持续拓展科学应用与复现深度。
 
 P01流程反馈已转化为固定输入路径和完整YAML示例；`read_dataset`的规则网格索引、植被与非植被入口以及`grid_dict/grid_weather`字段组织均形成自动回归。真实`gm2`陆面链路和Emerald最小步进为进一步开展逐字段科学核对、真实气象驱动、长期模拟和多模型适配提供了稳定接口基础。
 
 ## 6 结论
 
-本文在2022版GriddingMachine基础上形成了由共享YAML schema、显式源维度映射、Gapfill、独立目录、直接NetCDF、事务式缓存及统一读取接口组成的可执行数据生命周期。新版能够稳定生成标准产品，在多镜像环境中维护内容完整性；校园网内4个代表性产品通过FTP与Zenodo实现内容一致的双镜像获取，14类真实陆面产品成功生成US-NR1参数字典。
+本文在2022版GriddingMachine基础上形成了由共享YAML schema、显式源维度映射、Gapfill、独立目录、直接NetCDF、事务式缓存及统一读取接口组成的可执行数据生命周期。OISST V2.1真实产品从四维打包源数据生成1440×720标准海表温度产品，坐标、有效值掩膜和691 150个物理值与独立参考逐点一致；校园网内4个代表性产品通过FTP与Zenodo实现内容一致的双镜像获取，14类真实陆面产品成功生成US-NR1参数字典。
 
-GriddingMachine由此形成面向地球系统模型的轻量数据生产与可信分发基础设施。下一阶段将以真实异构原始产品和ERA5气象驱动扩展端到端科学核对，并通过镜像登记、完整性元数据、不可变release和永久归档持续完善证据链，为全球规则网格数据维护和可复用模型输入提供长期支撑。
+GriddingMachine由此形成面向地球系统模型的轻量数据生产与可信分发基础设施。真实海温生产、陆面参数组织与双镜像分发共同体现框架对全球规则网格数据的贯通能力；多时段产品、ERA5气象驱动、镜像登记、不可变release和永久归档将持续拓展其科学应用与长期复用价值。
 
 ## 数据和代码可用性声明
 
@@ -445,18 +461,20 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [8] SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
 
-[9] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
+[9] HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
 
-[10] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
+[10] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
 
-[11] STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
+[11] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
 
-[12] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. [WANG J L, LIN H, RAN Y Y, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
+[12] STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
 
-[13] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
+[13] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. [WANG J L, LIN H, RAN Y Y, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
 
-[14] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025[2026-08-15]. https://www.ogc.org/standards/stac/.
+[14] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
 
-[15] BARKER M, CHUE HONG N P, KATZ D S, et al. Introducing the FAIR Principles for research software[J]. Scientific Data, 2022, 9: 622. DOI: 10.1038/s41597-022-01710-x.
+[15] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025[2026-08-15]. https://www.ogc.org/standards/stac/.
 
-[16] LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
+[16] BARKER M, CHUE HONG N P, KATZ D S, et al. Introducing the FAIR Principles for research software[J]. Scientific Data, 2022, 9: 622. DOI: 10.1038/s41597-022-01710-x.
+
+[17] LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.

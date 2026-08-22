@@ -1,0 +1,38 @@
+SCHEMA_VERSION: 1
+GRIDDINGMACHINE:
+  TAG: "SST_OISST"
+DATA:
+  LABEL:
+    - "sst_source"
+  UNIT: "degree_Celsius"
+  CHANGE_LOGS:
+    - "The only time and zlev layers were extracted by the versioned OISST source adapter."
+    - "Packed source values were decoded using the source scale_factor and add_offset."
+    - "Source fill values were represented as NaN."
+    - "Source identity: oisst-avhrr-v02r01.20220225.nc; SHA-256: b5e91dacb3ed85819b47b516dd4edb7dab7fb6ae7bf67062cef03cd0333c9b73."
+  VERIFY_ONCE: false
+  LIMITS:
+    - -3.0
+    - 45.0
+  ABOUT: "NOAA/NCEI OISST v2.1 daily sea surface temperature for 2022-02-25."
+  GAPFILL: "KEEP_AS_IS"
+  DIMENSIONS:
+    sst_source:
+      - "lon"
+      - "lat"
+  FLIP_LON: true
+FILE:
+  PATTERN: "PREFIX_NX_X_MT_YYYY_VV.nc"
+  PREFIX:
+    - "OISST"
+  YYYY:
+    - 20220225
+  VV:
+    - "V1"
+  NX:
+    - 4
+  MT:
+    - "1D"
+FOLDER:
+  ORIGINAL: "oisst"
+  REPROCESSED: "oisst"

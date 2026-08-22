@@ -1,0 +1,36 @@
+run_sha256 = ["9acfa0d196d8ccbd9ed863d8a6e241a018e0c9278ae8b3d37304bbf656d44fe4", "9acfa0d196d8ccbd9ed863d8a6e241a018e0c9278ae8b3d37304bbf656d44fe4", "9acfa0d196d8ccbd9ed863d8a6e241a018e0c9278ae8b3d37304bbf656d44fe4"]
+
+[case]
+bytes = 997006
+file_hash_reproducible = true
+output = "experiment_data\\03_08\\gm_home\\reprocessed\\oisst\\SST_OISST_4X_1D_20220225_V1.nc"
+runs = 3
+scientific_array_reproducible = true
+sha256 = "9acfa0d196d8ccbd9ed863d8a6e241a018e0c9278ae8b3d37304bbf656d44fe4"
+tag = "SST_OISST_4X_1D_20220225_V1"
+
+[comparison]
+finite_count = 691150
+finite_mask_equal = true
+lat_first = -89.875
+lat_last = 89.875
+latitude_equal = true
+lon_first = -179.875
+lon_last = 179.875
+longitude_equal = true
+maximum = 32.38999938964844
+maximum_absolute_difference = 0.0
+mean = 14.013227018282482
+minimum = -1.7999999523162842
+missing_count = 345650
+shape = [1440, 720]
+
+[provenance]
+julia_version = "1.12.6"
+land_mask = "experiment_data\\03_08\\gm_home\\support\\LM_4X_1Y_V1.nc"
+land_mask_sha256 = "d71fb262797e32c2ea9567b99af25d00dadebd335a01bb1aa8b108df267b393e"
+platform = "x86_64-w64-mingw32"
+reference = "experiment_data\\03_08\\reference\\oisst_reference_20220225.nc"
+reference_sha256 = "32a514a5cf894bdeded0f6b1b54837177910aad6c9fd0d002556ebc29858fef8"
+yaml = "experiment_data\\03_08\\oisst_20220225.yaml"
+yaml_sha256 = "a5d200a3cfa0cf58eb112c03ea2d9b182b8cc3300d1e34eac8100939739435cf"
