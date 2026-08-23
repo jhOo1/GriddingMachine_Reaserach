@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1040" viewBox="0 0 1500 1040">
+  <defs>
+    <style>
+      .sans{font-family:Arial,"Microsoft YaHei","Noto Sans CJK SC",sans-serif}.serif{font-family:"Times New Roman","SimSun",serif}.mono{font-family:Consolas,"Courier New",monospace}.step{font-size:26px;font-style:italic;font-weight:700;fill:#26332c}.title{font-size:25px;font-weight:700;fill:#17231d}.sub{font-size:19px;fill:#35453d}.tiny{font-size:17px;fill:#4c5b54}.tag{font-size:18px;font-weight:700}.baseline{font-size:20px;font-weight:700;fill:#5f6963}.evidence{font-size:20px;font-weight:700;fill:#17372d}.node{fill:#fff;stroke:#315c4c;stroke-width:1.8}.node2{fill:#fffdf4;stroke:#746b35;stroke-width:1.8}.node3{fill:#fff;stroke:#3e6e61;stroke-width:1.8}.arrow{fill:#87978d;stroke:#26332c;stroke-width:1.5}.flow{fill:none;stroke:#2f443a;stroke-width:2.2;marker-end:url(#arrow)}.feedback{fill:none;stroke:#397761;stroke-width:2.4;stroke-dasharray:8 6;marker-end:url(#arrow-green)}.icon{fill:none;stroke:#26332c;stroke-width:2}.softline{stroke:#8fa096;stroke-width:1.4}.pill{fill:#eef5ef;stroke:#6d887a;stroke-width:1.3}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2f443a"/></marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#397761"/></marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#34443b" flood-opacity="0.13"/></filter>
+  </defs>
+  <rect width="1500" height="1040" fill="#f8faf7"/>
+
+  <!-- 2022 baseline -->
+  <rect x="28" y="20" width="1444" height="94" rx="14" fill="#edf1eb" stroke="#aeb9b1" stroke-width="1.5"/>
+  <text x="52" y="55" class="sans baseline">2022版基础路径</text>
+  <text x="52" y="86" class="sans tiny">面向全球网格数据的统一标签访问</text>
+  <g class="sans">
+    <rect x="310" y="42" width="205" height="50" rx="8" fill="#fff" stroke="#a4afa7"/><text x="412" y="74" text-anchor="middle" class="baseline">数据集专用脚本</text>
+    <path d="M526 67H566" class="flow"/>
+    <rect x="577" y="42" width="175" height="50" rx="8" fill="#fff" stroke="#a4afa7"/><text x="664" y="74" text-anchor="middle" class="baseline">tar.gz制品</text>
+    <path d="M763 67H803" class="flow"/>
+    <rect x="814" y="42" width="220" height="50" rx="8" fill="#fff" stroke="#a4afa7"/><text x="924" y="74" text-anchor="middle" class="baseline">包内数据目录</text>
+    <path d="M1045 67H1085" class="flow"/>
+    <rect x="1096" y="42" width="165" height="50" rx="8" fill="#fff" stroke="#a4afa7"/><text x="1178" y="74" text-anchor="middle" class="baseline mono">read_LUT</text>
+    <rect x="1290" y="38" width="150" height="58" rx="29" fill="#315c4c"/><text x="1365" y="63" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">新版</text><text x="1365" y="84" text-anchor="middle" font-size="16" fill="#fff">生命周期架构</text>
+  </g>
+
+  <!-- Step 1 -->
+  <text x="28" y="151" class="serif step">Step 1: 以共享契约生产标准数据产品</text>
+  <rect x="28" y="165" width="1444" height="250" rx="14" fill="#cfe6d3" stroke="#4e9671" stroke-width="1.8"/>
+  <g class="sans">
+    <!-- source data -->
+    <g transform="translate(64 222)">
+      <ellipse cx="69" cy="20" rx="55" ry="17" fill="#e5eef0" stroke="#26332c" stroke-width="2"/><path d="M14 20V91C14 101 39 109 69 109S124 101 124 91V20" fill="#e5eef0" stroke="#26332c" stroke-width="2"/><path d="M14 54C14 64 39 72 69 72S124 64 124 54M14 83C14 93 39 101 69 101S124 93 124 83" class="icon"/>
+      <text x="69" y="142" text-anchor="middle" class="title">异构源数据</text><text x="69" y="169" text-anchor="middle" class="sub mono">source NetCDF</text>
+    </g>
+    <!-- yaml -->
+    <g transform="translate(274 214)" filter="url(#shadow)">
+      <path d="M12 0H123L160 37V142H12Z" fill="#fff" stroke="#26332c" stroke-width="2"/><path d="M123 0V37H160" fill="#e5f0e7" stroke="#26332c" stroke-width="2"/>
+      <rect x="-2" y="-13" width="48" height="28" rx="14" fill="#397761"/><text x="22" y="7" text-anchor="middle" class="tag" fill="#fff">O1</text>
+      <text x="86" y="62" text-anchor="middle" class="title">共享YAML</text><text x="86" y="90" text-anchor="middle" class="sub">维度 · 坐标</text><text x="86" y="117" text-anchor="middle" class="sub">数值 · Gapfill</text>
+    </g>
+    <path d="M200 291H252" class="flow"/><path d="M446 291H493" class="flow"/>
+    <!-- processing -->
+    <g transform="translate(505 218)">
+      <rect width="232" height="144" rx="10" class="node" filter="url(#shadow)"/>
+      <circle cx="49" cy="58" r="27" fill="#9fc7b2" stroke="#26332c" stroke-width="2"/><circle cx="49" cy="58" r="10" fill="#fff" stroke="#26332c" stroke-width="2"/><path d="M49 22V32M49 84V94M13 58H23M75 58H85M24 33L31 40M67 76L74 83M24 83L31 76M67 40L74 33" class="icon"/>
+      <text x="155" y="51" text-anchor="middle" class="title">标准化流水线</text><text x="155" y="80" text-anchor="middle" class="sub">映射 · 转换 · 质控</text><text x="116" y="118" text-anchor="middle" class="sub mono">process_dataset!</text>
+    </g>
+    <path d="M748 290H797" class="flow"/>
+    <!-- standard nc -->
+    <g transform="translate(809 216)" filter="url(#shadow)">
+      <path d="M0 0H155L197 42V146H0Z" fill="#fff" stroke="#26332c" stroke-width="2"/><path d="M155 0V42H197" fill="#dbeadf" stroke="#26332c" stroke-width="2"/>
+      <rect x="-14" y="-13" width="48" height="28" rx="14" fill="#397761"/><text x="10" y="7" text-anchor="middle" class="tag" fill="#fff">O2</text>
+      <text x="98" y="67" text-anchor="middle" class="title">标准NetCDF</text><text x="98" y="98" text-anchor="middle" class="sub mono">TAG.nc</text><text x="98" y="126" text-anchor="middle" class="sub">直接分发</text>
+    </g>
+    <path d="M1018 290H1063" class="flow"/>
+    <!-- evidence -->
+    <g transform="translate(1075 205)">
+      <rect width="350" height="168" rx="12" fill="#edf7ef" stroke="#397761" stroke-width="2" filter="url(#shadow)"/>
+      <text x="175" y="34" text-anchor="middle" class="tiny" font-weight="700">STANDARD PRODUCT</text>
+      <g transform="translate(28 53)"><rect width="94" height="75" fill="#d9e8ef" stroke="#26332c" stroke-width="1.8"/><path d="M23 0V75M47 0V75M71 0V75M0 19H94M0 38H94M0 57H94" class="softline"/><path d="M0 53C18 31 32 61 47 37S75 15 94 30" fill="none" stroke="#397761" stroke-width="3"/></g>
+      <text x="235" y="79" text-anchor="middle" class="title">OISST V2.1</text><text x="235" y="108" text-anchor="middle" class="sub">1440×720标准网格</text><text x="235" y="137" text-anchor="middle" class="evidence">最大绝对差为0</text>
+    </g>
+  </g>
+
+  <!-- Step 2 -->
+  <text x="28" y="456" class="serif step">Step 2: 建立独立目录与可信分发链</text>
+  <rect x="28" y="470" width="1444" height="250" rx="14" fill="#e7dfad" stroke="#ae9231" stroke-width="1.8"/>
+  <g class="sans">
+    <!-- product + metadata -->
+    <g transform="translate(61 524)">
+      <path d="M6 0H126L158 32V132H6Z" class="node2"/><path d="M126 0V32H158" fill="#eee8c8" stroke="#26332c" stroke-width="2"/>
+      <text x="82" y="55" text-anchor="middle" class="title">NetCDF产品</text><text x="82" y="86" text-anchor="middle" class="sub mono">SIZE</text><text x="82" y="113" text-anchor="middle" class="sub mono">SHA-256</text>
+    </g>
+    <path d="M231 590H279" class="flow"/>
+    <!-- catalog -->
+    <g transform="translate(291 510)" filter="url(#shadow)">
+      <rect width="225" height="153" rx="10" class="node2"/><rect x="-13" y="-12" width="48" height="28" rx="14" fill="#a27714"/><text x="11" y="8" text-anchor="middle" class="tag" fill="#fff">O3</text>
+      <text x="112" y="39" text-anchor="middle" class="title">独立数据目录</text><line x1="25" y1="55" x2="200" y2="55" class="softline"/><text x="112" y="85" text-anchor="middle" class="sub mono">URL · SIZE</text><text x="112" y="114" text-anchor="middle" class="sub mono">SHA-256</text><text x="112" y="140" text-anchor="middle" class="tiny">版本与软件解耦</text>
+    </g>
+    <path d="M528 590H574" class="flow"/>
+    <!-- mirrors -->
+    <g transform="translate(586 509)">
+      <rect width="207" height="62" rx="9" class="node2"/><text x="103" y="39" text-anchor="middle" class="title">机构FTP</text>
+      <rect y="91" width="207" height="62" rx="9" class="node2"/><text x="103" y="130" text-anchor="middle" class="title">Zenodo</text>
+      <circle cx="-14" cy="76" r="9" fill="#ae9231" stroke="#26332c" stroke-width="1.5"/><path d="M-5 76H13M13 76V31H0M13 76V122H0" fill="none" stroke="#26332c" stroke-width="2"/>
+      <text x="103" y="181" text-anchor="middle" class="sub">多镜像候选</text>
+    </g>
+    <path d="M805 590H851" class="flow"/>
+    <!-- transactional download -->
+    <g transform="translate(863 510)" filter="url(#shadow)">
+      <rect width="238" height="153" rx="10" class="node2"/><rect x="-13" y="-12" width="48" height="28" rx="14" fill="#a27714"/><text x="11" y="8" text-anchor="middle" class="tag" fill="#fff">O4</text>
+      <text x="119" y="38" text-anchor="middle" class="title">事务式获取</text><text x="119" y="72" text-anchor="middle" class="sub mono">cache → .part</text><text x="119" y="101" text-anchor="middle" class="sub mono">verify → public</text>
+      <rect x="38" y="118" width="162" height="22" rx="11" fill="#e9e1b3" stroke="#746b35"/><rect x="39" y="119" width="162" height="20" rx="10" fill="#6f9e69"/><text x="119" y="135" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">VERIFIED</text>
+    </g>
+    <path d="M1113 590H1157" class="flow"/>
+    <!-- evidence -->
+    <g transform="translate(1169 510)">
+      <rect width="256" height="153" rx="12" fill="#f7f2d5" stroke="#8a7627" stroke-width="2" filter="url(#shadow)"/>
+      <circle cx="53" cy="68" r="34" fill="#7faf78" stroke="#26332c" stroke-width="2"/><path d="M34 67L47 80L74 50" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="164" y="45" text-anchor="middle" class="tiny" font-weight="700">MIRROR CONSISTENCY</text><text x="164" y="82" text-anchor="middle" class="title">24 / 24</text><text x="164" y="113" text-anchor="middle" class="evidence">SHA-256一致</text>
+    </g>
+  </g>
+
+  <!-- Step 3 -->
+  <text x="28" y="761" class="serif step">Step 3: 组织模型输入并持续更新数据生命周期</text>
+  <rect x="28" y="775" width="1444" height="240" rx="14" fill="#c9e2d6" stroke="#4b947a" stroke-width="1.8"/>
+  <g class="sans">
+    <!-- tag -->
+    <g transform="translate(57 829)">
+      <rect width="195" height="92" rx="12" class="node3" filter="url(#shadow)"/><text x="97" y="38" text-anchor="middle" class="title">统一标签访问</text><text x="97" y="69" text-anchor="middle" class="sub mono">TAG.nc</text>
+      <path d="M40 92V111H155V92" fill="none" stroke="#26332c" stroke-width="2"/><text x="97" y="139" text-anchor="middle" class="tiny">完整性确认</text>
+    </g>
+    <path d="M264 875H309" class="flow"/>
+    <!-- read -->
+    <g transform="translate(321 825)" filter="url(#shadow)">
+      <rect width="220" height="102" rx="10" class="node3"/><rect x="-13" y="-12" width="48" height="28" rx="14" fill="#397761"/><text x="11" y="8" text-anchor="middle" class="tag" fill="#fff">O5</text><text x="110" y="45" text-anchor="middle" class="title">统一读取</text><text x="110" y="76" text-anchor="middle" class="sub mono">read_dataset</text>
+    </g>
+    <path d="M553 875H598" class="flow"/>
+    <!-- organize -->
+    <g transform="translate(610 825)">
+      <rect width="235" height="102" rx="10" class="node3" filter="url(#shadow)"/><text x="117" y="43" text-anchor="middle" class="title">模型输入组织</text><text x="117" y="75" text-anchor="middle" class="sub mono">grid_dict</text><text x="117" y="96" text-anchor="middle" class="tiny mono">grid_weather</text>
+    </g>
+    <path d="M857 875H902" class="flow"/>
+    <!-- Emerald -->
+    <g transform="translate(914 817)">
+      <rect width="225" height="118" rx="10" class="node3" filter="url(#shadow)"/>
+      <path d="M42 83C20 49 42 22 78 25C82 55 66 81 42 83Z" fill="#7fb589" stroke="#26332c" stroke-width="2"/><path d="M42 82C51 61 60 46 77 27" class="icon"/>
+      <text x="148" y="47" text-anchor="middle" class="title">Emerald</text><text x="148" y="78" text-anchor="middle" class="sub">陆面模型</text><text x="148" y="104" text-anchor="middle" class="tiny">模型首步运行</text>
+    </g>
+    <path d="M1151 875H1196" class="flow"/>
+    <!-- evidence/model state -->
+    <g transform="translate(1208 817)">
+      <rect width="217" height="118" rx="12" fill="#edf7f2" stroke="#397761" stroke-width="2" filter="url(#shadow)"/>
+      <text x="108" y="32" text-anchor="middle" class="tiny" font-weight="700">MODEL-READY DATA</text><text x="108" y="67" text-anchor="middle" class="title">14类产品</text><text x="108" y="99" text-anchor="middle" class="evidence">34个模型字段</text>
+    </g>
+    <!-- lifecycle feedback -->
+    <path d="M1316 947V979H1450V190H365V202" class="feedback"/><rect x="682" y="963" width="365" height="28" rx="14" fill="#dcece4"/><text x="864" y="984" text-anchor="middle" class="tiny">版本反馈 · 元数据完善 · 新增数据需求</text>
+  </g>
+</svg>
