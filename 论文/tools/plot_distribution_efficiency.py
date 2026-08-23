@@ -76,22 +76,31 @@ def main() -> None:
                 error_kw={"elinewidth": 1, "ecolor": "#374957"},
                 zorder=3,
             )
-            for bar, value in zip(bars, medians):
-                axis.text(
-                    bar.get_x() + bar.get_width() / 2,
-                    bar.get_height(),
+            for bar, value, error_upper in zip(bars, medians, upper):
+                axis.annotate(
                     f"{value:.1f}",
+                    xy=(bar.get_x() + bar.get_width() / 2, bar.get_height() + error_upper),
+                    xytext=(0, 2),
+                    textcoords="offset points",
                     ha="center",
                     va="bottom",
                     fontsize=8,
                     color="#23313F",
                 )
 
+        panel_ymax = max(
+            records[platform][(dataset, distribution)]["ci95_high"]
+            for platform in PLATFORMS
+            for distribution in ("nc", "tar.gz")
+        )
         for position, platform in zip(x_positions, PLATFORMS):
             direct = records[platform][(dataset, "nc")]["median"]
             archived = records[platform][(dataset, "tar.gz")]["median"]
             reduction = (1 - direct / archived) * 100
-            y = max(direct, archived) * 1.18
+            y = max(
+                records[platform][(dataset, distribution)]["ci95_high"]
+                for distribution in ("nc", "tar.gz")
+            ) + panel_ymax * 0.08
             axis.text(
                 position,
                 y,
@@ -108,12 +117,7 @@ def main() -> None:
         axis.set_ylabel("Median end-to-end time (ms)")
         axis.grid(axis="y", color="#E5E9ED", linewidth=0.8, zorder=0)
         axis.spines[["top", "right"]].set_visible(False)
-        ymax = max(
-            records[platform][(dataset, distribution)]["ci95_high"]
-            for platform in PLATFORMS
-            for distribution in ("nc", "tar.gz")
-        )
-        axis.set_ylim(0, ymax * 1.38)
+        axis.set_ylim(0, panel_ymax * 1.38)
 
     handles, labels = axes[0].get_legend_handles_labels()
     figure.legend(
