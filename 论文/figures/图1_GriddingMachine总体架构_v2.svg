@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="930" viewBox="0 0 1600 930">
+  <defs>
+    <style>
+      .sans{font-family:Arial,"Microsoft YaHei","Noto Sans CJK SC",sans-serif}.mono{font-family:Consolas,"Courier New",monospace}.panel{font-size:29px;font-weight:700;fill:#17212b}.base-title{font-size:22px;font-weight:700;fill:#5f6b74}.base-sub{font-size:17px;fill:#7a858d}.group-title{font-size:25px;font-weight:700;fill:#fff}.node-title{font-size:23px;font-weight:700;fill:#17212b}.node-sub{font-size:18px;fill:#52616d}.step{font-size:16px;font-weight:700;fill:#6c7881}.metric{font-size:18px;font-weight:700}.opt-title{font-size:20px;font-weight:700;fill:#8f5311}.opt-sub{font-size:17px;fill:#45535d}.legend{font-size:16px;fill:#68757e}.guide{stroke:#d9dee2;stroke-width:1.2}.basebox{fill:#f7f8f9;stroke:#a9b2b9;stroke-width:1.5}.prod-bg{fill:#f4f8fb;stroke:#a9c5d7;stroke-width:1.4}.dist-bg{fill:#f3f8f6;stroke:#a7c9c1;stroke-width:1.4}.app-bg{fill:#f7f5fa;stroke:#c2b8d3;stroke-width:1.4}.prod-node{fill:#fff;stroke:#1b5e85;stroke-width:1.8}.dist-node{fill:#fff;stroke:#207567;stroke-width:1.8}.app-node{fill:#fff;stroke:#6b5b95;stroke-width:1.8}.base-flow{fill:none;stroke:#a9b2b9;stroke-width:1.7;marker-end:url(#arrow-gray)}.prod-flow{fill:none;stroke:#1b5e85;stroke-width:2.3;marker-end:url(#arrow-blue)}.dist-flow{fill:none;stroke:#207567;stroke-width:2.3;marker-end:url(#arrow-teal)}.app-flow{fill:none;stroke:#6b5b95;stroke-width:2.3;marker-end:url(#arrow-purple)}.cross-flow{fill:none;stroke:#315d7d;stroke-width:2.4;marker-end:url(#arrow-blue)}.feedback{fill:none;stroke:#667985;stroke-width:1.7;stroke-dasharray:7 6;marker-end:url(#arrow-slate)}.opt-card{fill:#fffaf5;stroke:#d58b45;stroke-width:1.3}
+    </style>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a9b2b9"/></marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#1b5e85"/></marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#207567"/></marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#6b5b95"/></marker>
+    <marker id="arrow-slate" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#667985"/></marker>
+  </defs>
+  <rect width="1600" height="930" fill="#fff"/>
+
+  <text x="42" y="45" class="sans panel">(a) 2022版工作流</text>
+  <line x1="42" y1="61" x2="1558" y2="61" class="guide"/>
+  <g class="sans">
+    <rect x="55" y="88" width="230" height="90" rx="5" class="basebox"/><text x="170" y="123" text-anchor="middle" class="base-title">多源网格数据</text><text x="170" y="151" text-anchor="middle" class="base-sub">数据集特定约定</text>
+    <rect x="370" y="88" width="230" height="90" rx="5" class="basebox"/><text x="485" y="123" text-anchor="middle" class="base-title">专用处理脚本</text><text x="485" y="151" text-anchor="middle" class="base-sub">逐产品预处理</text>
+    <rect x="685" y="88" width="230" height="90" rx="5" class="basebox"/><text x="800" y="123" text-anchor="middle" class="base-title">tar.gz 数据制品</text><text x="800" y="151" text-anchor="middle" class="base-sub">NetCDF外层归档</text>
+    <rect x="1000" y="88" width="230" height="90" rx="5" class="basebox"/><text x="1115" y="123" text-anchor="middle" class="base-title">包内数据目录</text><text x="1115" y="151" text-anchor="middle" class="base-sub mono">Artifacts.toml</text>
+    <rect x="1315" y="88" width="230" height="90" rx="5" class="basebox"/><text x="1430" y="123" text-anchor="middle" class="base-title">标签化数据读取</text><text x="1430" y="151" text-anchor="middle" class="base-sub mono">read_LUT</text>
+  </g>
+  <path d="M285 133H360" class="base-flow"/><path d="M600 133H675" class="base-flow"/><path d="M915 133H990" class="base-flow"/><path d="M1230 133H1305" class="base-flow"/>
+
+  <text x="42" y="235" class="sans panel">(b) 新版端到端数据生命周期</text>
+  <line x1="42" y1="251" x2="1558" y2="251" class="guide"/>
+  <rect x="42" y="280" width="720" height="430" rx="12" class="prod-bg"/><path d="M54 280H750Q762 280 762 292V332H42V292Q42 280 54 280Z" fill="#1b5e85"/><text x="72" y="315" class="sans group-title">Ⅰ 数据生产与质量控制</text>
+  <rect x="782" y="280" width="448" height="430" rx="12" class="dist-bg"/><path d="M794 280H1218Q1230 280 1230 292V332H782V292Q782 280 794 280Z" fill="#207567"/><text x="812" y="315" class="sans group-title">Ⅱ 目录与可信分发</text>
+  <rect x="1250" y="280" width="308" height="430" rx="12" class="app-bg"/><path d="M1262 280H1546Q1558 280 1558 292V332H1250V292Q1250 280 1262 280Z" fill="#6b5b95"/><text x="1280" y="315" class="sans group-title">Ⅲ 模型就绪应用</text>
+
+  <g class="sans">
+    <rect x="72" y="365" width="190" height="92" rx="7" class="prod-node"/><text x="88" y="389" class="step">01</text><text x="167" y="410" text-anchor="middle" class="node-title">异构源数据</text><text x="167" y="439" text-anchor="middle" class="node-sub mono">source NetCDF</text>
+    <rect x="72" y="493" width="190" height="92" rx="7" class="prod-node"/><text x="88" y="517" class="step">02 · O1</text><text x="167" y="538" text-anchor="middle" class="node-title">共享YAML契约</text><text x="167" y="567" text-anchor="middle" class="node-sub mono">schema · dimensions</text>
+    <rect x="315" y="405" width="205" height="140" rx="7" class="prod-node"/><text x="332" y="430" class="step">03</text><text x="418" y="463" text-anchor="middle" class="node-title">标准化与质控</text><text x="418" y="493" text-anchor="middle" class="node-sub">维度 · 坐标 · 数值</text><text x="418" y="521" text-anchor="middle" class="node-sub mono">process_dataset!</text>
+    <rect x="565" y="405" width="170" height="140" rx="7" class="prod-node"/><text x="582" y="430" class="step">04 · O2</text><text x="650" y="463" text-anchor="middle" class="node-title">标准NetCDF</text><text x="650" y="493" text-anchor="middle" class="node-sub mono">TAG.nc</text><text x="650" y="521" text-anchor="middle" class="node-sub">直接分发</text>
+    <rect x="72" y="627" width="663" height="50" rx="25" fill="#e6f1f7"/><text x="404" y="659" text-anchor="middle" class="metric" fill="#1b5e85">OISST V2.1　1440×720标准网格　最大绝对差为0</text>
+
+    <rect x="812" y="365" width="180" height="108" rx="7" class="dist-node"/><text x="829" y="390" class="step">05 · O3</text><text x="902" y="420" text-anchor="middle" class="node-title">独立数据目录</text><text x="902" y="449" text-anchor="middle" class="node-sub mono">URL · SIZE · SHA-256</text>
+    <rect x="812" y="500" width="180" height="86" rx="7" class="dist-node"/><text x="902" y="535" text-anchor="middle" class="node-title">多镜像</text><text x="902" y="563" text-anchor="middle" class="node-sub mono">FTP · Zenodo</text>
+    <rect x="1035" y="405" width="165" height="140" rx="7" class="dist-node"/><text x="1052" y="430" class="step">06 · O4</text><text x="1118" y="460" text-anchor="middle" class="node-title">事务式获取</text><text x="1118" y="490" text-anchor="middle" class="node-sub mono">cache → .part</text><text x="1118" y="518" text-anchor="middle" class="node-sub mono">verify → public</text>
+    <rect x="812" y="627" width="388" height="50" rx="25" fill="#e3f1ed"/><text x="1006" y="659" text-anchor="middle" class="metric" fill="#207567">FTP / Zenodo　24/24 SHA-256一致</text>
+
+    <rect x="1276" y="353" width="256" height="88" rx="7" class="app-node"/><text x="1293" y="378" class="step">07 · O5</text><text x="1404" y="402" text-anchor="middle" class="node-title">统一读取</text><text x="1404" y="430" text-anchor="middle" class="node-sub mono">read_dataset</text>
+    <rect x="1276" y="473" width="256" height="88" rx="7" class="app-node"/><text x="1404" y="508" text-anchor="middle" class="node-title">模型输入组织</text><text x="1404" y="536" text-anchor="middle" class="node-sub mono">grid_dict · grid_weather</text>
+    <rect x="1276" y="593" width="256" height="84" rx="7" class="app-node"/><text x="1404" y="627" text-anchor="middle" class="node-title">Emerald模型</text><text x="1404" y="655" text-anchor="middle" class="node-sub">14类产品 · 34个字段</text>
+  </g>
+
+  <path d="M262 411H288Q302 411 302 425V452Q302 466 315 466" class="prod-flow"/><path d="M262 539H288Q302 539 302 525V498Q302 484 315 484" class="prod-flow"/><path d="M520 475H555" class="prod-flow"/><path d="M735 475H778Q794 475 794 459V419Q794 419 802 419" class="cross-flow"/>
+  <path d="M992 419H1025" class="dist-flow"/><path d="M992 543H1012Q1025 543 1025 529V503Q1025 489 1035 489" class="dist-flow"/><path d="M1200 475H1237Q1253 475 1253 459V413Q1253 397 1266 397" class="cross-flow"/>
+  <path d="M1404 441V463" class="app-flow"/><path d="M1404 561V583" class="app-flow"/>
+  <path d="M1404 677V731H167V595" class="feedback"/><rect x="610" y="716" width="360" height="28" rx="14" fill="#fff"/><text x="790" y="736" text-anchor="middle" class="sans legend">版本反馈 · 元数据完善 · 新增数据需求</text>
+
+  <text x="42" y="778" class="sans panel">(c) 五项核心更新</text><line x1="42" y1="794" x2="1558" y2="794" class="guide"/>
+  <g class="sans">
+    <rect x="42" y="812" width="292" height="86" rx="9" class="opt-card"/><circle cx="72" cy="842" r="20" fill="#fff" stroke="#c87524" stroke-width="2"/><text x="72" y="849" text-anchor="middle" class="opt-title">O1</text><text x="104" y="838" class="opt-title">统一数据契约</text><text x="104" y="866" class="opt-sub">显式维度与处理语义</text>
+    <rect x="348" y="812" width="292" height="86" rx="9" class="opt-card"/><circle cx="378" cy="842" r="20" fill="#fff" stroke="#c87524" stroke-width="2"/><text x="378" y="849" text-anchor="middle" class="opt-title">O2</text><text x="410" y="838" class="opt-title">直接NetCDF</text><text x="410" y="866" class="opt-sub">简化制品与读取路径</text>
+    <rect x="654" y="812" width="292" height="86" rx="9" class="opt-card"/><circle cx="684" cy="842" r="20" fill="#fff" stroke="#c87524" stroke-width="2"/><text x="684" y="849" text-anchor="middle" class="opt-title">O3</text><text x="716" y="838" class="opt-title">目录独立演化</text><text x="716" y="866" class="opt-sub">版本与镜像解耦更新</text>
+    <rect x="960" y="812" width="292" height="86" rx="9" class="opt-card"/><circle cx="990" cy="842" r="20" fill="#fff" stroke="#c87524" stroke-width="2"/><text x="990" y="849" text-anchor="middle" class="opt-title">O4</text><text x="1022" y="838" class="opt-title">事务式获取</text><text x="1022" y="866" class="opt-sub">顺序回退与校验落盘</text>
+    <rect x="1266" y="812" width="292" height="86" rx="9" class="opt-card"/><circle cx="1296" cy="842" r="20" fill="#fff" stroke="#c87524" stroke-width="2"/><text x="1296" y="849" text-anchor="middle" class="opt-title">O5</text><text x="1328" y="838" class="opt-title">模型就绪接口</text><text x="1328" y="866" class="opt-sub">统一读取与输入组织</text>
+  </g>
+</svg>

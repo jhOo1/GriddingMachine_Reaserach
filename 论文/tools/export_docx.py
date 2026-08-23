@@ -22,6 +22,7 @@ SOURCE = ROOT / "GriddingMachine论文初稿_v0.1.md"
 OUTPUT = ROOT / "GriddingMachine论文初稿_导师审阅版.docx"
 FIGURE_FALLBACKS = {
     "图1_GriddingMachine总体架构.svg": ROOT / "figures" / "figure1-preview.png",
+    "图1_GriddingMachine总体架构_v2.svg": ROOT / "figures" / "figure1-preview-v2.png",
 }
 
 
