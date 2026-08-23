@@ -1,4 +1,4 @@
-"""Create Figure 2 directly from the archived Windows/macOS summary CSV files."""
+"""Create Figure 3 from summaries for two independent runtime environments."""
 
 from __future__ import annotations
 
@@ -11,11 +11,11 @@ import matplotlib.pyplot as plt
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "experiments" / "03_02_data"
 FIGURES = ROOT / "figures"
-STEM = FIGURES / "图2_直接NetCDF分发效率"
+STEM = FIGURES / "图3_直接NetCDF分发效率"
 
 PLATFORMS = {
-    "Windows": DATA / "pilot_windows_summary.csv",
-    "macOS": DATA / "pilot_macos_summary.csv",
+    "Environment A": DATA / "pilot_windows_summary.csv",
+    "Environment B": DATA / "pilot_macos_summary.csv",
 }
 DATASETS = [
     ("ELEV_4X_1Y_V1", "ELEV"),

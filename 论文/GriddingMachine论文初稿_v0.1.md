@@ -10,7 +10,7 @@
 
 ## 摘要
 
-多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上更新数据生产与分发框架，构建贯通质量控制、多镜像分发、统一读取和模型调用的数据生命周期。新版以共享配置模式（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取，并以`read_dataset`、`grid_dict`和`grid_weather`提供模型就绪数据。NOAA OISST V2.1产品由`time×zlev×lat×lon`四维源结构转换为1440×720标准网格，691 150个有效格点及345 650个缺失格点与独立参考逐点一致；在两个操作系统环境中，两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间分别较外层`tar.gz`归档降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
+多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上更新数据生产与分发框架，构建贯通质量控制、多镜像分发、统一读取和模型调用的数据生命周期。新版以共享配置规范（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取，并以`read_dataset`、`grid_dict`和`grid_weather`提供模型就绪数据。NOAA OISST V2.1产品由`time×zlev×lat×lon`四维源结构转换为1440×720标准网格，691 150个有效格点及345 650个缺失格点与独立参考逐点一致；在两个独立运行环境中，两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间分别较外层`tar.gz`归档降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
 
 **关键词：** 地球系统模型；全球网格数据；数据生命周期；NetCDF；可信分发；数据完整性
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study updates GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; direct NetCDF and transactional caching support verified acquisition; and `read_dataset`, `grid_dict`, and `grid_weather` provide model-ready access. A NOAA OISST V2.1 product was transformed from a four-dimensional `time × zlev × lat × lon` source structure to a standardized 1440 × 720 grid, with 691,150 finite and 345,650 missing grid cells matching an independently decoded reference point by point. Compared with external `tar.gz` archives, direct NetCDF reduced the median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two operating-system environments, respectively. Four representative products underwent 24 FTP and Zenodo downloads on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
+Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study updates GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; direct NetCDF and transactional caching support verified acquisition; and `read_dataset`, `grid_dict`, and `grid_weather` provide model-ready access. A NOAA OISST V2.1 product was transformed from a four-dimensional `time × zlev × lat × lon` source structure to a standardized 1440 × 720 grid, with 691,150 finite and 345,650 missing grid cells matching an independently decoded reference point by point. Compared with external `tar.gz` archives, direct NetCDF reduced the median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two independent runtime environments, respectively. Four representative products underwent 24 FTP and Zenodo downloads on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
 
 **Keywords:** Earth system modeling; global gridded data; data lifecycle; NetCDF; trustworthy distribution; data integrity
 
@@ -110,7 +110,7 @@ YAML 将数据源差异与通用处理代码分离。当前配置由四类顶层
 
 新版加入`SCHEMA_VERSION`并在数据读取前解析配置结构。字段分为必需项、具有明确默认值的可选项和互斥项，数组长度与变量前缀一一对应；`DIMENSIONS`、坐标变换、Gapfill和输出属性由共享schema统一约束。生产配置及配置构建器采用直接NetCDF方案，缺省`GAPFILL`规范化为`KEEP_AS_IS`。版本化schema同时承接历史配置，并持续扩展来源、许可、引用和输出NetCDF溯源属性。
 
-#### 2.2.3 最小YAML配置示例
+#### 2.2.3 YAML配置与维度转换示例
 
 数据贡献示例使用二维非对称参考数据呈现配置与处理操作的对应关系。源变量采用`(lat,lon)`顺序，纬度由北向南、经度范围为`0～360°`；配置中的关键映射为`DIMENSIONS: source: [lat, lon]`，并声明纬度翻转、经度半球转换和线性变换`2x+1`。处理后得到标准`(lon,lat)`顺序的`CONTRIB_SRC_2X_1Y_V1.nc`，逐点结果与独立参考数组一致。框1给出核心配置，完整字段字典、命令和目录说明保存在数据贡献指南中；产品配置还可记录来源、许可、引用和复杂时间坐标。
 
@@ -199,13 +199,13 @@ GRIDDINGMACHINE:
 
 该机制实现目录与软件版本分离，并以事务替换和备份恢复保护有效目录。目录入口同时支持直接YAML地址与Zenodo落地页解析，适配独立发布与持续更新的数据目录。
 
-#### 2.4.3 多镜像排序与稳健回退
+#### 2.4.3 多镜像排序与顺序获取
 
 `download_dataset!`接收数据标签；目录刷新、正式文件复用和远端获取由同一接口组织。下载阶段从每个FTP或HTTP(S) URL提取主机名，以可获得的平均往返延迟生成候选顺序；其余地址按目录顺序保留，全部URL共同组成完整回退队列。
 
 下载循环按候选顺序逐一尝试镜像，每次尝试均写入进程级唯一`.part`文件。程序核对文件生成状态、字节数和SHA-256；校验通过后以原子移动进入正式路径，各次尝试的临时内容随当前状态独立回收。`require_integrity=true`提供严格完整性模式，兼容模式承接历史目录。镜像遍历完成后返回包含数据标签和各候选状态的汇总信息，已有正式文件始终保持稳定。
 
-延迟探测用于优化镜像尝试顺序，完整文件下载与`SIZE/SHA256`核验决定最终可用性。本文进一步在中科大校园网对同一文件分别执行FTP和Zenodo只读下载，以实际下载时间和内容摘要共同评价镜像获取效果。
+延迟探测用于优化镜像尝试顺序，完整文件下载与`SIZE/SHA256`核验共同确定数据产品的一致性。本文进一步在中科大校园网对同一文件分别执行FTP和Zenodo只读下载，以实际传输表现和SHA-256一致性共同评价镜像获取效果。
 
 #### 2.4.4 缓存落盘与批量同步
 
@@ -213,7 +213,7 @@ GRIDDINGMACHINE:
 
 镜像状态分析覆盖候选顺序、字节数、SHA-256、缓存恢复和镜像遍历等分发环节。跨操作系统运行与校园网FTP—Zenodo实测共同呈现“事务安全—镜像获取—内容一致”的分发链路。
 
-#### 2.4.5 Collector公共操作
+#### 2.4.5 Collector目录管理接口
 
 除单标签下载外，Collector还提供目录更新、全库同步、旧数据或指定标签清理、目录树和数据集信息查询等操作，形成完整的数据维护工具链。`clean_database!("all")`管理所配置根目录下的`public`内容，按标签清理对应缓存和正式文件；`clean_database!("old")`依据当前有效目录识别历史文件，并支持在清理前刷新目录。路径检查将操作范围限定在托管数据目录，更新、同步、查询和清理共享统一的目录状态。
 
@@ -237,7 +237,7 @@ Indexer模块以`read_dataset`统一本地NetCDF路径和目录标签的读取�
 
 该接口围绕规则网格、既定单位和`wd1`标签完成模型就绪字段组织。确定性气象参考数据用于核对字段、形状和Emerald最小步进，`gm2`文件则贯通陆面参数链路。
 
-### 2.6 最小数据获取与模型输入示例
+### 2.6 数据获取与模型输入调用示例
 
 与2022版通过标签隐藏数据位置的思路一致[4]，新版继续支持以标签调用数据，并将目录更新、完整性校验和统一读取组织为清晰的公共接口。框2展示最小使用路径：设置数据根目录、更新目录、校验下载、读取US-NR1附近格点，并进一步生成2020年陆面参数字典。陆面案例采用同一公共接口完成数据获取与模型参数组织。
 
@@ -320,9 +320,9 @@ parameters = Indexer.grid_dict("gm2", 2020, 40.0329, -105.5464)
 
 各状态转换通过重复调用考察幂等行为，上一有效版本和事务缓存共同承接目录与下载状态。`sync_database!`使用确定性小型目录参考数据呈现全库遍历逻辑。
 
-#### 3.3.2 多镜像状态与事务安全
+#### 3.3.2 多镜像访问与事务式获取
 
-多镜像状态分析在两个独立环境中建立内容一致且状态可配置的HTTP端点，并通过延迟分数组织候选顺序，覆盖404、超时、连接重置、延迟探测状态、镜像遍历、缓存恢复、内容类型、哈希差异和传输完整性等场景。各场景重复5次，记录候选顺序、回退次数、最终状态以及cache/public文件的字节数和SHA-256变化。事务机制使目录摘要一致的文件进入正式路径，并在各类镜像状态下保持既有正式文件稳定。校园网FTP与Zenodo访问进一步呈现机构镜像和公共镜像的可达性与内容一致性。
+多镜像可靠性分析在两个独立环境中构建内容一致、访问状态可配置的镜像集合，通过延迟分数组织候选顺序，并组合响应延迟、访问中断、内容差异和传输完整性等条件。各类条件重复5次，记录候选选择、镜像遍历、正式文件状态及SHA-256，据此刻画事务式获取在不同镜像状态下的稳定性。校园网FTP与Zenodo访问进一步呈现机构镜像和公共镜像的互补分发特征与内容一致性。
 
 #### 3.3.3 FTP与Zenodo镜像访问
 
@@ -349,8 +349,8 @@ parameters = Indexer.grid_dict("gm2", 2020, 40.0329, -105.5464)
 | 功能模块 | 核心机制 | 应用成果 |
 |---|---|---|
 | 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST源数据与独立参考逐点一致，二维和三维产品实现稳定生成 |
-| 数据制品 | 直接NetCDF分发 | 缓存预热后的端到端中位时间在两个操作系统环境中分别降低48.3%～82.9%和53.6%～69.2% |
-| 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo完成24次同文件下载，内容摘要与目录登记值一致 |
+| 数据制品 | 直接NetCDF分发 | 缓存预热后的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2% |
+| 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo完成24次同文件下载，SHA-256摘要与目录登记值一致 |
 | 模型就绪访问 | `read_dataset`、`grid_dict`和`grid_weather` | 14类`gm2`产品生成US-NR1参数字典并进入Emerald模型流程 |
 | 跨操作系统运行 | 版本化依赖与持续集成 | 多个操作系统环境保持一致的软件路径、数据结构与模型接口 |
 
@@ -382,7 +382,13 @@ ELEV补充案例使用已通过文件大小和SHA-256校验的`ELEV_4X_1Y_V1.nc`
 
 新版采用直接NetCDF作为分发制品。本研究以通过来源MD5与SHA-256校验的`ELEV_4X_1Y_V1`和`LAI_MODIS_2X_8D_2020_V1`评价分发效率，并在相互独立的操作系统环境中采用一致协议。两文件的`data`变量均采用NetCDF内部zlib压缩级别4，对照归档采用gzip压缩级别6。回环HTTP条件下，各“数据×形式”组合经过缓存预热并按随机顺序重复测量，解包后内容均通过SHA-256校验。
 
-直接NetCDF相对外层`tar.gz`的缓存预热后端到端中位时间在两个环境中分别降低48.3%～82.9%和53.6%～69.2%；两个样本的传输字节分别增加6.43%和2.16%。80次内容摘要核验结果一致。对于已经采用NetCDF内部压缩的数据产品，直接分发减少了额外解包时间和逻辑临时占用。置信区间、绝对时间及完整图件保存在实验材料中。
+直接NetCDF相对外层`tar.gz`的缓存预热后端到端中位时间在两个环境中分别降低48.3%～82.9%和53.6%～69.2%；两个样本的传输字节分别增加6.43%和2.16%。80次SHA-256摘要核验结果一致。对于已经采用NetCDF内部压缩的数据产品，直接分发减少了额外解包时间和逻辑临时占用。置信区间、绝对时间及完整图件保存在实验材料中。
+
+![图3 直接NetCDF与外层tar.gz分发的端到端时间比较](figures/图3_直接NetCDF分发效率.svg)
+
+**图3 直接NetCDF与外层tar.gz分发的端到端时间比较** （a）二维高程产品ELEV；（b）三维叶面积指数产品LAI。柱高为缓存预热后端到端时间中位数，误差线为95% Bootstrap置信区间；独立环境A和B采用相同输入文件与测量协议。柱上百分比表示直接NetCDF相对于外层`tar.gz`归档的中位时间降幅。
+
+**Fig. 3 End-to-end time for direct NetCDF and externally archived `tar.gz` distribution.** (a) The two-dimensional ELEV product; (b) the three-dimensional LAI product. Bars show median warm-cache end-to-end time, and error bars show 95% bootstrap confidence intervals. Independent environments A and B used identical input files and measurement protocols. Percentages above the bars indicate the reduction in median time achieved by direct NetCDF relative to external `tar.gz` archives.
 
 ### 4.3 Collector与可信多镜像分发
 
@@ -392,7 +398,7 @@ Collector将目录初始化、事务更新、产品同步、镜像获取、状�
 
 同一下载接口在各操作系统环境中均实现延迟辅助排序、全候选保留和顺序回退，为不同网络条件提供一致的数据获取方式。
 
-公共网络环境下，4个标签经Zenodo完成24次下载，全部达到登记字节数并通过SHA-256核验。下载时间随文件规模呈梯度变化，重复传输的内容摘要与目录登记值一致，体现了公共镜像、事务缓存和完整性校验的协同作用。
+公共网络环境下，4个标签经Zenodo完成24次下载，全部达到登记字节数并通过SHA-256核验。下载时间随文件规模呈梯度变化，重复传输的SHA-256摘要与目录登记值一致，体现了公共镜像、事务缓存和完整性校验的协同作用。
 
 中科大校园网环境下，FTP与Zenodo各完成12次同文件下载，24次结果均达到登记字节数并通过SHA-256核验。4个文件的FTP中位下载时间为0.071～0.356 s，Zenodo为1.091～14.092 s；FTP往返延迟为1.0～13.5 ms，延迟辅助排序与实际传输表现一致。机构镜像与公共镜像提供内容一致的分发副本，多镜像目录据此适配不同访问环境。
 
@@ -408,7 +414,7 @@ GriddingMachine输出进入Emerald参数组织、气象组织、模型初始化�
 
 ### 4.5 跨操作系统运行表现
 
-各操作系统环境均可运行标准产品生产、直接NetCDF分发、多镜像获取和Emerald模型接口，并获得一致的数据结构、内容摘要和模型字段，体现了核心代码路径的可移植性与数据接口的一致性。
+各操作系统环境均可运行标准产品生产、直接NetCDF分发、多镜像获取和Emerald模型接口，并获得一致的数据结构、SHA-256摘要和模型字段，体现了核心代码路径的可移植性与数据接口的一致性。
 
 公共网络中的Zenodo下载和校园网中的FTP—Zenodo对照均通过完整性核验。多网络环境结果共同展示了公共镜像与机构镜像的互补价值，以及全URL回退机制对访问条件变化的适应能力。
 
@@ -448,7 +454,7 @@ GriddingMachine由此形成面向地球系统模型的轻量数据生产与可�
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。各仓库提供版本化依赖与持续集成配置，投稿版本将通过正式发布版本（release）和永久归档保存软件、数据目录、实验结果、环境文件和绘图脚本。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。GriddingMachine.jl和GriddingMachineDatasets的论文对应代码固定于`paper-release`分支，各仓库提供版本化依赖与持续集成配置；投稿版本将通过正式发布版本（release）和永久归档保存软件、数据目录、实验结果、环境文件和绘图脚本。
 
 ## 基金项目
 

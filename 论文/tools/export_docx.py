@@ -25,6 +25,7 @@ FIGURE_FALLBACKS = {
     "图1_GriddingMachine总体架构_v2.svg": ROOT / "figures" / "figure1-preview-v2.png",
     "图1_GriddingMachine数据生命周期_v3.svg": ROOT / "figures" / "figure1-preview-v3.png",
     "图1_GriddingMachine总体架构_终稿.svg": ROOT / "figures" / "图1_GriddingMachine总体架构_终稿.png",
+    "图3_直接NetCDF分发效率.svg": ROOT / "figures" / "图3_直接NetCDF分发效率.png",
 }
 
 
