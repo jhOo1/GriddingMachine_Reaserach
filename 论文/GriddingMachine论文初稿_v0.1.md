@@ -317,13 +317,13 @@ P01代表性贡献案例依次完成配置生成、标准化、自动与人工�
 
 **表4 新版GriddingMachine的主要改进与应用表现**
 
-| 功能模块 | 主要改进 | 应用表现 | 扩展方向 |
-|---|---|---|---|
-| 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST真实源数据与独立参考逐点一致；二维/三维产品稳定生成 | 扩展多时段真实产品 |
-| 数据制品 | 直接NetCDF替代外层`tar.gz` | 暖缓存端到端中位时间降低48.3%～82.9%和53.6%～69.2% | 扩展更多产品规模 |
-| 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo共24次下载内容一致 | 建立长期镜像运行统计 |
-| 模型就绪访问 | `read_dataset`、`grid_dict`和`grid_weather` | 14类`gm2`产品生成US-NR1参数字典并进入Emerald | 接入ERA5气象驱动与长期模拟 |
-| 跨操作系统运行 | 版本化依赖与持续集成 | 各操作系统环境保持一致的软件路径与数据接口 | 扩展真实案例自动化运行 |
+| 功能模块 | 核心机制 | 应用成果 |
+|---|---|---|
+| 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST真实源数据与独立参考逐点一致，二维和三维产品实现稳定生成 |
+| 数据制品 | 直接NetCDF分发 | 暖缓存端到端中位时间在两个操作系统环境中分别降低48.3%～82.9%和53.6%～69.2% |
+| 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo完成24次同文件下载，内容摘要与目录登记值一致 |
+| 模型就绪访问 | `read_dataset`、`grid_dict`和`grid_weather` | 14类`gm2`产品生成US-NR1参数字典并进入Emerald模型流程 |
+| 跨操作系统运行 | 版本化依赖与持续集成 | 多个操作系统环境保持一致的软件路径、数据结构与模型接口 |
 
 **Table 4 Major advances and application performance of the updated GriddingMachine.** The table summarizes standardized production, direct NetCDF distribution, multi-mirror acquisition, model-ready access, and cross-platform operation.
 
