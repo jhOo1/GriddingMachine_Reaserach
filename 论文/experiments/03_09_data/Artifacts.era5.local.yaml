@@ -5,7 +5,7 @@ PATM_ERA5_1X_1H_2020_V1:
   SHA256: "e6bac9ed86d8794b1e3f4a6ede9adf52d9818dbcb52d364ddfc2daceef0b93a2"
 PPT_ERA5_1X_1H_2020_V1:
   PATH: "public/wd1"
-  URL: ["ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1.nc"]
+  URL: ["ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R1.nc"]
   SIZE: 1102213097
   SHA256: "1ae6b80512fac97e6b3e609c02ea126858256cf9153ead1335b5bf8d59fe7725"
 RAD_SW_DIF_ERA5_1X_1H_2020_V1:

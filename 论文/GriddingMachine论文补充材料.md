@@ -13,7 +13,7 @@
 | 融合陆面参数 | `grid_dict` | 格点级模型参数字典 |
 | 组织气象驱动 | `grid_weather` | 格点级气象时间序列 |
 
-2026-08-29真实气象案例在US-NR1读取2020年8类ERA5标准产品。八文件共12 575 376 138字节，各字段包含8784个逐小时值；`grid_weather`与`NetcdfIO.read_nc`底层读取的最大绝对差均为0，FDOY与经度时区公式逐点一致。真实陆面参数和气象驱动共同通过Emerald初始化及60 s首步。单位审计发现PPT属性为`mm`，但历史数值尺度与Emerald换算约定需要按米水层解释，正式发布前必须统一。逐文件SHA-256、值域和环境见`experiment_data/03_09/real_era5_result.toml`及`论文/experiments/03_09_ERA5真实气象链路实验结果.md`。
+2026-08-29真实气象案例在US-NR1读取2020年8类ERA5标准产品。八文件共12 575 376 138字节，各字段包含8784个逐小时值；`grid_weather`与`NetcdfIO.read_nc`底层读取的最大绝对差均为0，FDOY与经度时区公式逐点一致。真实陆面参数和气象驱动共同通过Emerald初始化及60 s首步。单位审计确认PPT按米水层解释；2026-08-30修订制品以V1_R1物理文件发布到机构FTP，原V1保留，正式目录的V1逻辑标签指向R1。FTP回下载和全新Collector获取均通过SIZE/SHA-256与结构核验。逐文件SHA-256、值域和环境见`experiment_data/03_09/real_era5_result.toml`及`论文/experiments/03_09_ERA5真实气象链路实验结果.md`。
 
 ```julia
 using GriddingMachine

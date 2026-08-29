@@ -8,3 +8,6 @@ experiment_data/03_08/distribution_home/
 experiment_data/03_08/pipeline_catalog.yaml
 experiment_data/03_09/public/
 experiment_data/03_09/metadata_backup/
+experiment_data/03_09/ftp_release_candidate/
+experiment_data/03_09/ftp_release_validation/
+experiment_data/03_09/collector_ftp_r1_validation/

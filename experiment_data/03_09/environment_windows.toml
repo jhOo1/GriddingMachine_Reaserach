@@ -3,7 +3,7 @@ platform = "x86_64-w64-mingw32"
 julia_version = "1.12.6"
 network = "USTC campus network"
 ftp_base = "ftp://114.214.212.145/GriddingMachine/public/wd1/"
-download_mode = "read-only, sequential after server rejected parallel connections"
+download_mode = "initial ERA5 acquisition was read-only and sequential; R1 release used author-mediated SMB/UNC placement"
 experiment_network_requests = 0
 era5_year = 2020
 era5_file_count = 8
@@ -11,7 +11,7 @@ era5_total_bytes = 12575376138
 land_file_count = 14
 land_total_bytes = 184404953
 griddingmachine_commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
-griddingmachine_datasets_commit = "c116b6bd39f22d68104aac06d647a49ff1a1ca36"
+griddingmachine_datasets_commit = "b2d25b0544dca462168c7421d2c40dbbba652bce"
 emerald_paper_commit = "e56a57db9a9ba28eca8489061c92aa9c629f44c2"
 
 [server_inventory]
@@ -31,6 +31,20 @@ ppt_site_year_sum_as_stored = 0.4964092731862654
 ppt_site_year_sum_if_meters_to_mm = 496.40927318626535
 site_value_count = 8784
 site_values_bitwise_equal_to_backup = true
-formal_ftp_published = false
-formal_catalog_updated = false
-status = "local metadata repair verified; remote publication requires separate authorization"
+formal_ftp_published = true
+formal_catalog_updated = true
+status = "R1 published to institutional FTP and verified by independent download and Collector"
+
+[ftp_r1_release]
+release_date = "2026-08-30"
+logical_tag = "PPT_ERA5_1X_1H_2020_V1"
+original_physical_file = "PPT_ERA5_1X_1H_2020_V1.nc"
+original_physical_file_retained = true
+revised_physical_file = "PPT_ERA5_1X_1H_2020_V1_R1.nc"
+revised_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R1.nc"
+remote_part_file_present_after_release = false
+ftp_download_verified = true
+collector_first_download_verified = true
+collector_second_call_reused_cache = true
+zenodo_updated = false
+zenodo_status = "not uploaded because of large-file transfer time; can be added later"

@@ -27,6 +27,9 @@ const FIELD_TAGS = Dict(
     "VPD" => "VPD_ERA5_1X_1H_2020_V1",
     "WIND" => "WIND_ERA5_1X_1H_2020_V1",
 )
+const PPT_TAG = "PPT_ERA5_1X_1H_2020_V1"
+
+source_filename(tag) = tag == PPT_TAG ? "$(PPT_TAG)_R1.nc" : "$(tag).nc"
 
 file_sha256(path) = open(path, "r") do io
     bytes2hex(sha256(io))
@@ -131,7 +134,7 @@ function main()
         fields[field] = summary
         files[tag] = Dict(
             "path" => path,
-            "source_url" => "$(FTP_BASE)/$(tag).nc",
+            "source_url" => "$(FTP_BASE)/$(source_filename(tag))",
             "bytes" => filesize(path),
             "sha256" => file_sha256(path),
         )

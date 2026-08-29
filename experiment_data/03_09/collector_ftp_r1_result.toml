@@ -1,0 +1,12 @@
+bytes = 1102213097
+destination = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\collector_ftp_r1_validation\\public/wd1\\PPT_ERA5_1X_1H_2020_V1.nc"
+first_call_accessed_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R1.nc"
+first_call_download_count = 1
+logical_tag = "PPT_ERA5_1X_1H_2020_V1"
+part_files_after_first_call = 0
+part_files_after_second_call = 0
+physical_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R1.nc"
+second_call_network_count = 0
+second_call_reused_cache = true
+sha256 = "1ae6b80512fac97e6b3e609c02ea126858256cf9153ead1335b5bf8d59fe7725"
+units = "m"
