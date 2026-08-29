@@ -10,7 +10,7 @@
 
 ## 摘要
 
-多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上构建贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期框架。新版以共享配置规范（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取。应用端进一步提供标签驱动的标准网格数据访问、格点尺度陆面参数融合与气象驱动组织，实现标准产品向模型就绪输入的转换。NOAA OISST V2.1产品由四维源结构转换为1440×720标准网格，691 150个有效格点与独立参考逐点一致；两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
+多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上构建贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期框架。新版以共享配置规范（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取。应用端进一步提供标签驱动的标准网格数据访问、格点尺度陆面参数融合与气象驱动组织，实现标准产品向模型就绪输入的转换。NOAA最优插值海表温度（OISST）V2.1产品由四维源结构转换为1440×720标准网格，691 150个有效格点与独立参考逐点一致；两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
 
 **关键词：** 地球系统模型；全球网格数据；数据生命周期；NetCDF；可信分发；数据完整性
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study develops GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; and direct NetCDF with transactional caching supports verified acquisition. The application layer further provides tag-based access to standardized gridded data, grid-scale synthesis of land parameters, and assembly of meteorological forcing, converting standardized products into model-ready inputs. A NOAA OISST V2.1 product was transformed from a four-dimensional source structure to a standardized 1440 × 720 grid, with 691,150 finite cells matching an independently decoded reference point by point. Direct NetCDF reduced median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two independent runtime environments. Four representative products were downloaded 24 times from FTP and Zenodo on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
+Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study develops GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; and direct NetCDF with transactional caching supports verified acquisition. The application layer further provides tag-based access to standardized gridded data, grid-scale synthesis of land parameters, and assembly of meteorological forcing, converting standardized products into model-ready inputs. A NOAA Optimum Interpolation Sea Surface Temperature (OISST) V2.1 product was transformed from a four-dimensional source structure to a standardized 1440 × 720 grid, with 691,150 finite cells matching an independently decoded reference point by point. Direct NetCDF reduced median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two independent runtime environments. Four representative products were downloaded 24 times from FTP and Zenodo on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
 
 **Keywords:** Earth system modeling; global gridded data; data lifecycle; NetCDF; trustworthy distribution; data integrity
 
@@ -44,7 +44,7 @@ Multi-source global gridded data differ substantially in dimensional structure, 
 
 本研究将GriddingMachine由标准数据集合与标签化访问工具扩展为面向全球规则网格数据的可执行生命周期框架。其核心推进体现在三个相互衔接的层面：生产端以共享YAML契约统一表达源维度、坐标、数值变换、Gapfill和质量控制，形成可复用的标准NetCDF生产流程；分发端以独立目录连接机构FTP、Zenodo及其他社区镜像，并通过直接NetCDF、事务式缓存和`SIZE/SHA256`构建内容一致的可信分发链；应用端以统一读取和模型输入组织连接标准数据产品与Emerald。
 
-本文通过OISST产品转换、ELEV/LAI分发效率、FTP—Zenodo镜像访问和`gm2`陆面参数应用，分别呈现该框架的标准化正确性、数据获取效率、内容完整性和模型适配能力。
+本文通过OISST产品转换、高程（ELEV）与叶面积指数（LAI）产品分发效率、FTP—Zenodo镜像访问和由14类土壤、植被、地形及陆地掩膜产品组成的陆面参数集合应用，分别呈现该框架的标准化正确性、数据获取效率、内容完整性和模型适配能力。
 
 ## 2 框架设计与关键方法
 
@@ -58,13 +58,13 @@ GriddingMachine 新版由数据生产、目录与分发、数据使用三个相�
 
 **Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated end-to-end workflow.** (a) The 2022 release connected dataset-specific scripts, `tar.gz` artifacts, an in-package catalog, and `read_LUT` across data preprocessing, distribution, and access. (b) The updated workflow uses a shared YAML contract to connect heterogeneous source data, standardization and quality control, standard NetCDF products, an independent catalog, transactional acquisition, and unified reading and model invocation, thereby integrating data production, trusted distribution, and model application. (c) O1--O5 denote the unified data contract, simplified data artifacts, independent catalog evolution, transactional downloads, and model-ready interfaces. Orange dashed lines map these updates to the corresponding baseline components and core nodes in the updated workflow.
 
-在生产端，原始数据及其处理规则分别作为数据输入和YAML配置输入。新版使用共享schema描述原始文件组合、源变量、经纬度方向、源维度语义、数值变换、有效范围、Gapfill及输出元数据；配置构建器与处理流水线调用同一schema。`process_dataset!`根据配置枚举输入，依次完成读取、标准化、质量控制和保存，最终生成以统一标签命名的`TAG.nc`。维度、坐标、数值和空间方向检查嵌入生产流程，使标准产品在生成阶段即具有清晰的数据语义。
+在生产端，原始数据及其处理规则分别作为数据输入和YAML配置输入。新版使用共享schema描述原始文件组合、源变量、经纬度方向、源维度语义、数值变换、有效范围、Gapfill及输出元数据；配置构建器与处理流水线调用同一schema。生产引擎依据配置枚举输入，依次完成读取、标准化、质量控制和保存，最终生成以统一标签命名的NetCDF产品。维度、坐标、数值和空间方向检查嵌入生产流程，使标准产品在生成阶段即具有清晰的数据语义。
 
-通过质量控制的数据产品可发布到机构FTP、HTTP(S)服务或Zenodo等公共存储位置。一个标签可以对应多个镜像地址；独立的`Artifacts.yaml`登记相对路径、URL、文件字节数和SHA-256。`GriddingMachineDatasets`的目录生成函数从权威本地文件计算完整性字段并事务式写入YAML，数据发布与目录登记由清晰接口衔接。目录与`GriddingMachine.jl`分开维护，使数据列表能够独立演化。
+通过质量控制的数据产品可发布到机构FTP、HTTP(S)服务或Zenodo等公共存储位置。同一标签可对应多个内容相同的网络副本，本文将其称为多镜像分发。独立数据目录登记相对路径、镜像地址、文件字节数和SHA-256；目录生成过程从权威标准文件计算完整性元数据并以事务方式写入YAML。目录与访问软件分开维护，使数据产品列表及其分发位置能够独立演化。
 
-在数据使用端，Collector的`configure!`显式设置数据根目录与目录来源。目录下载经临时文件完成schema校验和事务式替换，并保留上一有效版本。`download_dataset!`提取各URL的主机名，以可获得的平均往返延迟辅助确定候选顺序，同时保留全部镜像并依次回退。每次调用创建独立`.part`文件，文件通过`SIZE`和`SHA256`核验后进入`public`，历史目录则通过兼容模式继续提供数据获取能力。
+在数据使用端，目录管理模块显式设置数据根目录与目录来源。目录更新经临时文件完成schema校验和事务式替换，并保留上一有效版本。产品获取模块提取各镜像地址的主机名，以可获得的平均往返延迟辅助确定候选顺序，同时保留全部镜像并依次回退。每次传输创建独立临时文件，文件通过字节数和SHA-256核验后进入正式数据目录。本文所称“可信分发”即由版本化目录、等价镜像、事务落盘和内容完整性校验共同构成的获取机制。
 
-Indexer提供标签驱动的整场、指定周期及站点读取，并进一步完成格点尺度陆面参数融合与气象驱动组织。14类`gm2`产品贯通陆面参数链路并进入Emerald初始化，使可信分发的数据产品直接进入模型应用。
+数据读取层提供标签驱动的整场、指定周期及站点读取，并进一步完成格点尺度陆面参数融合与气象驱动组织。由14类产品组成的第二套陆面参数集合（代码标识为`gm2`）贯通参数组织链路并进入Emerald初始化，使可信分发的数据产品直接进入模型应用。
 
 共享YAML、独立目录与统一读取接口共同改变了GriddingMachine的维护单元：数据处理规则由配置契约表达，数据产品与镜像由目录版本管理，模型应用继续使用稳定标签。数据产品、分发目录和访问软件由此能够在保持接口一致的条件下分别演化，形成贯通生产、发布和应用的可维护数据生命周期。
 
@@ -78,7 +78,7 @@ Indexer提供标签驱动的整场、指定周期及站点读取，并进一步�
 | 数据目录 | 软件内置`Artifacts.toml` | 独立`Artifacts.yaml`；schema校验、事务更新和版本备份 | 数据产品可独立于软件版本持续扩展 |
 | 下载 | artifact哈希寻址、多个URL和解包 | 延迟探测辅助排序；多URL回退、独立缓存及`SIZE/SHA256`校验后落盘 | 兼顾机构镜像速度、公共镜像可达性和内容完整性 |
 | 读取 | `read_LUT` | `read_dataset`，旧名称保留为别名 | 全球规则经纬网整场、周期和站点读取 |
-| 模型组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织（`grid_dict`与`grid_weather`） | 标准产品进入Emerald参数组织与模型初始化 |
+| 模型组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织 | 标准产品进入Emerald参数组织与模型初始化 |
 | 数据生产 | 数据源专用处理及贡献流程 | 共享YAML schema、程序化与交互式配置生成及显式源维度映射 | 形成可复用、可扩展的标准产品生产工作流 |
 
 **Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow advances, and application value across the data lifecycle.
@@ -108,7 +108,7 @@ GriddingMachine 以 NetCDF 作为标准数据格式，原因是该格式能够�
 
 缺失值处理由YAML中的`GAPFILL`字段驱动，并依据产品物理含义选择相应策略。数值常数和`MEAN`分别以给定值或分层`nanmean`填补陆地区域缺失值；`KEEP_AS_IS`保持原始数组；`INT_NAN_TO_1`将缺失值补为1并对数组整数化；`NO_LAND_NAN`和`NO_NAN`分别检查陆地区域与全域的数据完整性。Gapfill由此统一连接有效范围过滤、陆海掩膜、缺失值处置和输出精度，为不同地球系统数据产品提供可配置的数据完善方法。ELEV采用常数0填补策略，为统一读取和模型调用提供连续地形场。
 
-CF约定利用坐标变量和属性表达维度语义[2]。GriddingMachine进一步固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，并由`standardize_dimension_order`将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。规则经纬网数据进入通用标准化流程，非规则网格、区域投影和复杂坐标数据由数据源专用预处理模块完成适配。
+CF约定利用坐标变量和属性表达维度语义[2]。GriddingMachine进一步固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，维度标准化过程将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。规则经纬网数据进入通用标准化流程，非规则网格、区域投影和复杂坐标数据由数据源专用预处理模块完成适配。
 
 #### 2.2.2 YAML配置与转换示例
 
@@ -149,21 +149,21 @@ GRIDDINGMACHINE:
   TAG: "CONTRIB"
 ```
 
-`GriddingMachineDatasets`仓库中的`YamlBuilder`接收文件命名、变量标签、分辨率、时间尺度、版本、输入输出目录、单位、数值范围、缩放、坐标方向和GriddingMachine标签等结构化输入，并生成YAML配置。结构化构建方式统一字段名称、缩进和默认值，使贡献者能够将数据源约定稳定转换为可执行配置。
+配置构建器接收文件命名、变量标签、分辨率、时间尺度、版本、输入输出目录、单位、数值范围、缩放、坐标方向和GriddingMachine标签等结构化输入，并生成YAML配置。该构建器在代码中实现为`YamlBuilder`，通过统一字段名称、层级和默认值，使贡献者能够将数据源约定稳定转换为可执行配置。
 
-`YamlBuilder`与处理流水线调用同一schema；其输出采用`SCHEMA_VERSION`、`GAPFILL`与`DIMENSIONS`描述处理契约，输出位置由调用者配置。构建器生成的配置可直接交给`process_dataset!`，字段信息在源数据读取前完成解析。框架同时提供本地交互式配置生成界面，表单输入由`YamlBuilder`转换并交由共享schema解析，可直接预览和保存供生产流水线使用的YAML文件。框1、交互式生成器和版本化指南共同构成面向贡献者的配置范式。
+配置构建器与生产流水线调用同一schema；其输出采用`SCHEMA_VERSION`、`GAPFILL`与`DIMENSIONS`描述处理契约，字段信息在源数据读取前完成解析。框架同时提供本地交互式配置界面，支持表单输入、YAML预览与保存，生成结果可直接进入标准产品生产流程。框1、交互式生成器和版本化指南共同构成面向贡献者的配置范式。
 
 #### 2.2.3 生产流程与质量控制
 
-`process_dataset!`首先根据`FILE`和`FOLDER`定位输入与输出文件，再读取`DATA`和可选`STD`指定的源变量。当前流水线将数据转换为`Float32`，依次执行纬度翻转、经度翻转或从`0°～360°`到`−180°～180°`的循环平移、线性缩放、有效范围过滤和缺失值处理。各项转换追加为NetCDF变量属性中的变更记录；研究材料进一步将完整YAML、固定输入和版本化项目环境与输出产品共同归档。
+标准产品生产引擎（`process_dataset!`）首先根据`FILE`和`FOLDER`定位输入与输出文件，再读取`DATA`和可选`STD`指定的源变量。流水线将数据转换为`Float32`，依次执行纬度翻转、经度翻转或从`0°～360°`到`−180°～180°`的循环平移、线性缩放、有效范围过滤和缺失值处理。各项转换追加为NetCDF变量属性中的变更记录；研究材料进一步将完整YAML、固定输入和版本化项目环境与输出产品共同归档。
 
 生产流程在保存前检查维度、坐标、变量、数值范围和Gapfill结果，空间方向图进一步呈现坐标语义。质量控制完成后生成`data`，存在不确定性时追加同形的`std`，并按`TAG_(PREFIX_)NX_MT_(YYYY_)VV(_REVISION)`生成唯一文件名。文件级变更记录与发布级配置、输入和软件环境共同构成双层复现链，连接产品内容与其生成上下文。
 
-当前生产流水线在 `read_input` 完成经纬度翻转、经度范围调整、线性缩放、有效范围过滤和缺失值处理后，调用 `verify_data!` 对待保存数组进行方向检查。该函数把数组写入调用者指定或默认的NetCDF缓存文件，Python脚本依据变量维度名重排为`(lat,lon)`后生成带经纬度坐标轴的图件；二维数据输出PNG，三维数据沿`ind`维输出GIF。操作者查看图件并在终端记录接受或退回状态。YAML中的`VERIFY_ONCE`控制同一配置组合的首次确认，通过状态保存在该次处理使用的配置副本中。
+生产流水线完成维度与数值转换后，对待保存数组开展空间方向检查。检查过程依据变量维度名生成带经纬度坐标轴的方向图；二维数据以静态图呈现，三维数据沿周期维形成动态图。维护者据此确认南北方向、东西方向和经度平移结果，YAML中的`VERIFY_ONCE`用于管理同一配置组合的首次确认状态。
 
 这一过程用于识别南北方向、东西方向和经度平移状态。方向正确与南北反转的非对称位置编码图得到准确区分。人工空间判断与自动坐标、结构和逐点数值检查共同组成直观的方向质量控制体系。
 
-对于已经生成的NetCDF文件，`verify_processed_data!`提供独立的结构和数值检查。该函数首先确认文件及覆盖类型，支持全球陆地和海洋（`both`）与陆地（`land`）两类产品。随后检查`lon`、`lat`维度、坐标变量和主变量`data`，三维产品进一步检查`ind`，并验证各维长度的一致性。数值检查读取完整`data`数组，计算有效值的最小值和最大值，并评价其与给定范围的符合程度。
+对于已经生成的NetCDF文件，成品质量检查进一步核对空间覆盖类型、`lon`和`lat`维度、坐标变量及主变量`data`；三维产品同时核对周期维`ind`及各维长度的一致性。数值检查读取完整数组，统计有效值范围并与产品配置中的物理范围相互核对。
 
 缺失值检查根据覆盖类型执行。`both`要求整个数组具有完整有效值；`land`在经度长度为360、720或1 440时读取并重采样`LM_4X_1Y_V1`陆地掩膜，逐层检查陆地区域。其他空间分辨率由专用规则承接。结构、范围和陆地掩膜检查与生产阶段的坐标方向、变量属性和处理记录共同构成标准产品的质量信息。
 
@@ -171,15 +171,15 @@ GRIDDINGMACHINE:
 
 #### 2.3.1 标签生成与目录登记
 
-数据文件名由`griddingmachine_tag`生成，基本形式为`TAG_(PREFIX_)NX_MT_(YYYY_)VV(_REVISION)`。其中`NX`表示空间分辨率，`MT`表示时间分辨率，`YYYY`和`REVISION`为可选部分。生成输出路径时，代码读取当前`Artifacts.yaml`并识别标签状态，以保持数据产品标识的唯一性。
+标准产品标签由类别、可选前缀、空间分辨率、时间分辨率、可选年份、数据版本和可选修订号构成，基本形式为`TAG_(PREFIX_)NX_MT_(YYYY_)VV(_REVISION)`。生成输出路径时，标签生成器读取当前数据目录并识别已有产品状态，以保持产品标识的唯一性。
 
-数据发布与目录登记采用解耦设计。维护者在Zenodo、机构FTP或其他存储中发布标准产品，再将本地NetCDF路径和公开URL交给`update_yaml_library!`。该函数调用`build_catalog_entry`生成`PATH`、去重后的`URL`、`SIZE`和`SHA256`，按标签排序后通过临时文件更新`Artifacts.yaml`，从而形成职责清晰、内容可校验的目录生成流程。
+数据发布与目录登记采用解耦设计。维护者在Zenodo、机构FTP或其他存储中发布标准产品，目录生成器根据标准NetCDF路径和公开地址生成逻辑路径、去重后的镜像列表、文件字节数和SHA-256，并按标签排序后通过临时文件更新`Artifacts.yaml`，由此形成职责清晰、内容可校验的目录生成流程。
 
-目录生成器从本地标准文件计算字节数和SHA-256并写入YAML，下载端以相同字段确认实际内容，从而形成“本地标准文件—目录条目—下载文件”的完整性链。历史目录迁移以权威本地文件重新生成`SIZE/SHA256`，`verify_urls!`用于地址巡检，二者共同提升多镜像目录的可维护性。
+目录生成器从本地标准文件计算字节数和SHA-256并写入YAML，下载端以相同字段确认实际内容，从而形成“本地标准文件—目录条目—下载文件”的完整性链。历史目录迁移以权威标准文件重新生成完整性元数据，镜像地址巡检则持续维护各分发副本的可访问性。
 
 #### 2.3.2 数据贡献与发布流程
 
-一个新数据集进入GriddingMachine依次经历：准备原始文件；通过模板或配置构建器生成YAML；运行`process_dataset!`；检查维度、坐标、变量、数值范围、缺失值和方向图；将标准NetCDF至少上传至一个外部可访问位置，并按条件增加机构镜像；把标签、逻辑路径、URL、文件大小和SHA-256写入`Artifacts.yaml`；发布目录新版本；最后从`GriddingMachine.jl`执行目录更新、下载和读取。机构FTP可以提高校内访问速度，Zenodo或其他公共存储保证校外可用；其他维护者也可在目录条目中增加内容相同的镜像。
+一个新数据集进入GriddingMachine依次经历原始文件准备、YAML配置生成、标准产品生产、质量检查、NetCDF发布、目录登记以及下游更新与读取。质量检查覆盖维度、坐标、变量、数值范围、缺失值和空间方向；目录条目记录标签、逻辑路径、镜像地址、文件大小和SHA-256。机构FTP提高校内访问效率，Zenodo或其他公共存储面向社区提供长期访问，其他维护者也可在目录条目中增加内容相同的镜像。
 
 数据贡献流程依据版本化指南贯通配置生成、标准化、质量检查、发布、目录登记和下游读取。最终NetCDF与目录项保持一致，并形成包含固定输入路径和完整YAML示例的贡献模板。
 
@@ -187,49 +187,49 @@ GRIDDINGMACHINE:
 
 #### 2.4.1 目录初始化与更新
 
-`GriddingMachine.jl`通过Collector管理目录和本地文件。`configure!`可从参数或环境变量设置数据根目录、目录URL和本地目录文件；`cache`保存下载临时文件，`public`按条目中的`PATH`保存正式NetCDF。模块初始化负责配置内存状态，目录加载、更新和数据下载均由显式调用触发，使数据访问过程清晰可控。
+`GriddingMachine.jl`通过目录与数据获取模块（Collector）管理目录和标准产品。数据根目录、目录来源和本地目录文件均可显式配置；事务缓存区保存传输中的临时内容，正式数据区按照目录逻辑路径保存通过完整性校验的NetCDF。目录加载、版本更新和产品获取分别触发，使网络访问与科学数据读取保持清晰边界。
 
 目录条目以数据标签为键，核心字段包括安全相对路径`PATH`、一个或多个`URL`以及正整数字节数`SIZE`与64位十六进制`SHA256`。加载时对标签字符、路径、URL协议和完整性字段执行schema校验，并提供路径、URL、信息和本地状态查询。可配置根目录与显式网络访问共同支持独立工作环境、离线复现和正式数据管理。
 
-`update_database!` 调用 `download_database!` 获取目录，验证后再加载为内存状态。调用者可直接提供 YAML 文件 URL，也可使用 Zenodo 落地页；后者仍通过页面中的 `Artifacts.yaml` 链接解析实际下载地址。目录先写入同目录临时文件，解析根节点并执行 schema 校验；通过后备份当前目录为 `Artifacts.previous.yaml`，再替换正式文件。
+目录更新既支持直接YAML地址，也支持从Zenodo落地页解析目录文件。新目录先写入临时路径，完成根节点解析和schema校验后再替换正式文件，同时保留上一有效版本。该事务过程将远端目录获取、结构确认和版本切换连接为一个完整操作。
 
 该机制实现目录与软件版本分离，并以事务替换和备份恢复保护有效目录。目录入口同时支持直接YAML地址与Zenodo落地页解析，适配独立发布与持续更新的数据目录。
 
 #### 2.4.2 镜像选择与事务式缓存
 
-`download_dataset!`接收数据标签；目录刷新、正式文件复用和远端获取由同一接口组织。下载阶段从每个FTP或HTTP(S) URL提取主机名，以可获得的平均往返延迟生成候选顺序；其余地址按目录顺序保留，全部URL共同组成完整回退队列。
+产品获取接口（`download_dataset!`）以数据标签为入口，统一组织目录刷新、正式文件复用和远端传输。下载阶段从每个FTP或HTTP(S)地址提取主机名，以可获得的平均往返延迟生成候选顺序；其余地址按目录顺序保留，全部镜像共同组成完整回退队列。
 
-下载循环按候选顺序逐一尝试镜像，每次尝试均写入进程级唯一`.part`文件。程序核对文件生成状态、字节数和SHA-256；校验通过后以原子移动进入正式路径，各次尝试的临时内容随当前状态独立回收。`require_integrity=true`提供严格完整性模式，兼容模式承接历史目录。镜像遍历完成后返回包含数据标签和各候选状态的汇总信息，已有正式文件始终保持稳定。
+下载循环按候选顺序逐一尝试镜像，每次尝试均写入进程级唯一的临时文件。程序核对文件生成状态、字节数和SHA-256；校验通过后以原子移动进入正式路径，各次尝试的临时内容随当前状态独立回收。严格完整性模式要求目录同时提供字节数和摘要，兼容模式承接历史目录。镜像遍历完成后返回数据标签和各候选状态的汇总信息，已有正式文件始终保持稳定。
 
 延迟探测用于优化镜像尝试顺序，完整文件下载与`SIZE/SHA256`核验共同确定数据产品的一致性。本文进一步在中科大校园网对同一文件分别执行FTP和Zenodo只读下载，以实际传输表现和SHA-256一致性共同评价镜像获取效果。
 
-每次下载使用`cache/.<TAG>.<PID>.part`，通过完整性校验后移动到正式路径。`sync_database!`在更新目录后遍历标签并复用相同下载逻辑。小型目录参考数据呈现初始化、更新、同步、回退和清理行为，完整历史目录沿用同一事务机制开展批量运维。
+每次下载使用与标签和进程关联的独立临时文件，通过完整性校验后移动到正式路径。全库同步在更新目录后遍历标签并复用相同下载逻辑。小型目录参考数据呈现初始化、更新、同步、回退和清理行为，完整历史目录沿用同一事务机制开展批量维护。
 
 镜像状态分析覆盖候选顺序、字节数、SHA-256、缓存恢复和镜像遍历等分发环节。跨操作系统运行与校园网FTP—Zenodo实测共同呈现“事务安全—镜像获取—内容一致”的分发链路。
 
-Collector还提供全库同步、历史数据整理、目录树及数据集状态查询等维护接口。相关命令、参数和状态恢复方式集中列入补充材料与版本化用户指南，正文保留目录更新、镜像获取和内容完整性保障的核心机制。
+目录与数据获取模块还提供全库同步、历史数据整理、目录树及数据集状态查询等维护接口。相关命令、参数和状态恢复方式集中列入补充材料与版本化用户指南，正文保留目录更新、镜像获取和内容完整性保障的核心机制。
 
 ### 2.5 统一读取与模型就绪接口
 
-#### 2.5.1 `read_dataset` 统一读取接口
+#### 2.5.1 标准网格数据读取
 
-Indexer模块以`read_dataset`统一本地NetCDF路径和目录标签的读取，支持整场数组、指定周期切片、站点全部周期以及站点指定周期4种调用。目录标签在本地缺失时交由Collector下载；旧名称`read_LUT`保留为兼容别名。默认读取`data`，调用者也可显式请求`raw_data`或`std`。读取层直接保留生产端已经标准化的单位、缺失值和物理范围，使处理规则集中于共享生产契约。
+标准网格数据读取接口支持以本地NetCDF路径或数据标签访问产品，并提供整场数组、指定周期切片、站点全部周期和站点指定周期4种读取方式。标签对应的产品可由目录模块自动获取；默认返回标准变量`data`，也可读取原始数值或同形不确定性变量`std`。该接口在代码中实现为`read_dataset`，并以`read_LUT`兼容既有调用。读取层直接继承生产端统一的单位、缺失值和物理范围，使处理规则集中于共享生产契约。
 
 站点读取依据全球规则经纬网分辨率把经纬度映射为数组索引，并以标准文件的`(lon,lat[,ind])`顺序及西向东、南向北排列为输入契约。接口面向全球规则网格的原位索引，区域投影、非规则网格和空间插值可在生产端完成标准化；周期索引的月份、日期或小时含义由对应产品元数据解释。
 
 #### 2.5.2 模型参数与气象驱动组织
 
-`grid_dict`实现格点尺度陆面参数融合与模型初始化。该函数从`gm1`或`gm2`标签组提取土壤、冠层、叶片、地形、陆地掩膜和植物功能型产品，依据陆面状态组织相应参数，并对叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列执行Gapfill与逐日重采样。
+格点尺度陆面参数组织接口（`grid_dict`）从预定义产品集合中提取土壤、冠层、叶片、地形、陆地掩膜和植物功能型数据，依据陆面状态融合相应参数，并对叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列执行Gapfill与逐日重采样。第二套陆面参数集合`gm2`由14类标准产品组成，其中冠层聚集度采用月尺度产品，其余字段按各自空间与时间分辨率进入统一格点。
 
 植物功能型比例进一步用于融合C3/C4植被的叶片光学参数和Medlyn气孔参数，并由`VCMAX25`推导`JMAX25`和`B6F`。输出涵盖位置、分辨率、年份、CO₂、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数；字段完整性与`NaN`状态同步进入质量控制。多个标准产品由此形成结构一致的格点级模型输入。
 
-`grid_weather`实现格点尺度气象驱动组织与时间坐标构建。该函数按年份和格点读取`wd1`中的8个ERA5标签，分别提取地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速，并依据格点经度换算时区偏移、构建浮点年积日`FDOY`。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列，输出字段完整性与`NaN`状态同步进入质量控制。
+格点尺度气象驱动接口（`grid_weather`）按年份和格点读取气象驱动集合`wd1`中的8类ERA5产品，分别提取地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速，并依据格点经度换算时区偏移、构建浮点年积日`FDOY`。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列，输出字段完整性与`NaN`状态同步进入质量控制。
 
-上述标签驱动的数据访问、陆面参数融合与气象驱动组织能力分别由`read_dataset`、`grid_dict`和`grid_weather`实现。确定性气象参考数据用于核对字段、形状和Emerald最小步进，`gm2`文件则贯通陆面参数链路。
+标签驱动的数据访问、陆面参数融合与气象驱动组织共同构成模型就绪转换层。标准产品在这一层被组织为结构一致的陆面参数和逐时气象字段，并与Emerald模型的数据结构相衔接。
 
-### 2.6 端到端调用路径
+### 2.6 端到端数据流与公共接口
 
-与2022版通过标签组织数据访问的思路一致[4]，新版将目录配置、目录更新、完整性下载、统一读取和模型参数组织连接为稳定的公共调用路径。用户依次调用`configure!`、`update_database!`和`download_dataset!`获得经过`SIZE/SHA256`核验的标准产品，再通过`read_dataset`读取整场或格点数据，并由`grid_dict`或`grid_weather`形成模型输入。完整Julia示例、配置字段字典、目录登记及状态恢复命令集中列入补充材料与版本化用户指南，正文突出工作流结构及其科学应用方式。
+与2022版通过标签组织数据访问的思路一致[4]，新版将目录配置与更新、完整性下载、标准网格读取和模型输入组织连接为稳定的公共数据流。用户以数据标签发现产品，经镜像选择和内容校验获得标准NetCDF，再读取整场、周期或格点数据，并进一步形成陆面参数或气象驱动。公共接口依次对应环境配置（`configure!`）、目录更新（`update_database!`）、产品获取（`download_dataset!`）、标准读取（`read_dataset`）和模型输入组织（`grid_dict`、`grid_weather`）；完整Julia示例、配置字段字典、目录登记及状态恢复命令集中列入补充材料与版本化用户指南。
 
 ## 3 应用案例与评价方法
 
@@ -259,13 +259,13 @@ Indexer模块以`read_dataset`统一本地NetCDF路径和目录标签的读取�
 
 标准产品生产流程在各操作系统环境中保持一致行为。29组自动处理实例连续完成，正向图和南北反转图得到准确区分，体现了共享生产契约在数组变换、配置解析和空间方向控制方面的一致性。
 
-`YamlBuilder`面向二维数据、含`std`的三维数据和经纬度变换数据生成符合共享schema的配置，并将配置直接交给`process_dataset!`。数据贡献案例进一步贯通配置生成、标准化、自动与人工质量检查、产品发布、`Artifacts.yaml`登记以及下游更新、下载和读取，形成面向数据贡献者的完整生产入口。
+配置构建器面向二维数据、含不确定性变量的三维数据和经纬度变换数据生成符合共享schema的配置，并将其直接交给标准产品生产引擎。数据贡献案例进一步贯通配置生成、标准化、自动与人工质量检查、产品发布、目录登记以及下游更新、下载和读取，形成面向数据贡献者的完整生产入口。
 
-OISST真实产品用于进一步呈现共享生产契约对异构源结构的适配能力。案例采用NOAA/NCEI 0.25°逐日最优插值海表温度OISST V2.1中仅使用AVHRR数据的正式产品[9]，选取2022年2月25日文件。原始`sst`变量在NetCDF中声明为`time×zlev×lat×lon`，其中`zlev`和`time`均为单例维度；Julia读取后的数组顺序为`lon×lat×zlev×time`，形状为1440×720×1×1。经度覆盖0.125°～359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
+OISST实际产品用于进一步呈现共享生产契约对异构源结构的适配能力。案例采用NOAA/NCEI 0.25°逐日最优插值海表温度OISST V2.1中仅使用AVHRR数据的正式产品[9]，选取2022年2月25日文件。原始`sst`变量在NetCDF中声明为`time×zlev×lat×lon`，其中`zlev`和`time`均为单例维度；Julia读取后的数组顺序为`lon×lat×zlev×time`，形状为1440×720×1×1。经度覆盖0.125°～359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
 
 版本化源适配器提取唯一的垂向层和时间层，共享YAML契约进一步完成维度声明、`0°～360°`至`[−180°, 180°)`的经度重排、有效范围控制和缺失值策略，生成`SST_OISST_4X_1D_20220225_V1`标准产品。
 
-独立参考流程直接读取未缩放的Int16存储值，根据原始`scale_factor`、`add_offset`和`_FillValue`构造物理值与缺失值掩膜，并独立计算目标经度索引。参考结果记录全场统计量、10个确定性有效格点和10个缺失格点。标准产品连续生成3次，逐点比较坐标、有效值掩膜和物理值；随后由本地权威文件生成包含`PATH/URL/SIZE/SHA256`的目录条目，通过回环HTTP执行事务式下载，并以`read_dataset`完成整场读取核对。
+独立参考流程直接读取未缩放的Int16存储值，根据原始`scale_factor`、`add_offset`和`_FillValue`构造物理值与缺失值掩膜，并独立计算目标经度索引。参考结果记录全场统计量、10个确定性有效格点和10个缺失格点。标准产品连续生成3次，逐点比较坐标、有效值掩膜和物理值；随后由权威文件生成包含逻辑路径、镜像地址、字节数和SHA-256的目录条目，通过回环HTTP执行事务式下载，并以统一读取接口完成整场核对。
 
 ### 3.2 直接NetCDF分发效率评价
 
@@ -273,11 +273,11 @@ OISST真实产品用于进一步呈现共享生产契约对异构源结构的适
 
 性能分析基于回环HTTP服务，按随机顺序重复测量传输字节数、打包与解包时间、从请求开始到首次读取NetCDF值的端到端时间，以及下载文件与解包文件并存时的逻辑临时占用。两个独立环境使用一致的脚本和输入文件，时间指标以中位数、四分位距和95% Bootstrap置信区间表示。
 
-### 3.3 多镜像可靠性与真实镜像访问
+### 3.3 多镜像可靠性与网络访问
 
-数据目录生命周期涵盖首次建立、版本更新、目录同步、产品获取、状态查询和历史数据整理。代表性目录包含不同版本的`Artifacts.yaml`、多个NetCDF产品和两个镜像端点，并依次调用`update_database!`、`download_dataset!`、`sync_database!`、`clean_database!`及目录信息接口。cache与public目录分别承担事务缓存和正式产品保存，`read_dataset`的整场、周期和站点读取共同连接目录与数据使用环节。
+数据目录生命周期涵盖首次建立、版本更新、目录同步、产品获取、状态查询和历史数据整理。代表性目录包含不同版本的`Artifacts.yaml`、多个NetCDF产品和两个镜像端点，并覆盖目录更新、单产品获取、全库同步、历史整理和状态查询。事务缓存区与正式数据区分别承担传输状态隔离和标准产品保存，整场、周期和站点读取共同连接目录与数据使用环节。
 
-各状态转换通过重复调用考察幂等行为，上一有效版本和事务缓存共同承接目录与下载状态。`sync_database!`使用确定性小型目录参考数据呈现全库遍历逻辑。
+各状态转换通过重复调用考察幂等行为，上一有效版本和事务缓存共同承接目录与下载状态。确定性小型目录参考数据用于呈现全库同步与镜像遍历逻辑。
 
 多镜像可靠性分析在两个独立环境中构建内容一致、访问状态可配置的镜像集合，通过延迟分数组织候选顺序，并组合响应延迟、访问中断、内容差异和传输完整性等条件。各类镜像状态重复5次，记录候选选择、镜像遍历、正式文件状态及SHA-256，据此刻画事务式获取在镜像切换过程中的稳定性。校园网FTP与Zenodo访问进一步呈现机构镜像和公共镜像的互补分发特征与内容一致性。
 
@@ -285,15 +285,15 @@ OISST真实产品用于进一步呈现共享生产契约对异构源结构的适
 
 ### 3.4 统一读取与模型就绪应用
 
-模型就绪应用连接`read_dataset`、`grid_dict`、`grid_weather`与Emerald初始化。确定性参考数据用于核对字段名、形状、类型、时间索引和NaN处理；陆面案例采用2020年`gm2`产品，在US-NR1附近植被格点和典型非植被格点呈现不同陆面状态下的模型入口。
+模型就绪应用连接标准网格读取、陆面参数融合、气象驱动组织与Emerald初始化。确定性参考数据用于核对字段名、形状、类型、时间索引和缺失值处理；陆面案例采用2020年第二套陆面参数集合，在US-NR1附近植被格点和典型非植被格点呈现不同陆面状态下的模型入口。
 
-`grid_dict`和`grid_weather`输出可直接用于同一格点的Emerald初始化与首个气象时间步计算。字段映射、单位和维度在标准数据与模型接口之间保持一致，使GriddingMachine产品能够进入模型参数组织和时间步计算。
+陆面参数与气象驱动接口的输出可直接用于同一格点的Emerald初始化与首个气象时间步计算。字段映射、单位和维度在标准数据与模型接口之间保持一致，使GriddingMachine产品能够进入模型参数组织和时间步计算。
 
 ### 3.5 多操作系统环境运行与持续集成
 
 跨操作系统运行覆盖Windows、macOS和Linux，采用本地运行与持续集成相结合的方式，贯通标准产品生产、ELEV/LAI分发、多镜像获取、Emerald最小模型流程和核心软件路径。统一的项目依赖和参考数据使数据结构、数值内容、正式文件状态与临时缓存行为保持一致。
 
-持续集成使用确定性NetCDF参考数据维护代码路径、文件状态和内容完整性，本地环境进一步覆盖ELEV/LAI效率、FTP—Zenodo镜像访问和`gm2`陆面案例，共同形成从自动维护到数据应用的分层运行体系。
+持续集成使用确定性NetCDF参考数据维护代码路径、文件状态和内容完整性，独立运行环境进一步覆盖ELEV/LAI效率、FTP—Zenodo镜像访问和陆面参数集合应用，共同形成从自动维护到数据应用的分层运行体系。
 
 ## 4 结果与性能分析
 
@@ -306,7 +306,7 @@ OISST真实产品用于进一步呈现共享生产契约对异构源结构的适
 | 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST源数据与独立参考逐点一致，二维和三维产品实现稳定生成 |
 | 数据制品 | 直接NetCDF分发 | 缓存预热后的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2% |
 | 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo完成24次同文件下载，SHA-256摘要与目录登记值一致 |
-| 模型就绪访问 | 标签驱动的数据访问、陆面参数融合和气象驱动组织 | 14类`gm2`产品生成US-NR1参数字典并进入Emerald模型流程 |
+| 模型就绪访问 | 标签驱动的数据访问、陆面参数融合和气象驱动组织 | 14类陆面产品生成US-NR1参数字典并进入Emerald模型流程 |
 | 跨操作系统运行 | 版本化依赖与持续集成 | 多个操作系统环境保持一致的软件路径、数据结构与模型接口 |
 
 **Table 4 Major advances and application performance of the updated GriddingMachine.** The table summarizes standardized production, direct NetCDF distribution, multi-mirror acquisition, model-ready access, and cross-platform operation.
@@ -317,9 +317,9 @@ OISST真实产品用于进一步呈现共享生产契约对异构源结构的适
 
 OISST案例展示了共享生产契约对异构地学源数据的组织能力。原始`sst`变量在Julia读取路径中呈现为1440×720×1×1的`lon×lat×zlev×time`数组，经单例层提取、Int16物理值解码和经度重排后形成1440×720标准产品。输出经度由−179.875°递增至179.875°，纬度由−89.875°递增至89.875°；691 150个有效格点和345 650个缺失格点与独立参考逐点一致，海表温度范围为−1.80～32.39 ℃，全场平均值为14.013 ℃，最大绝对差为0。
 
-标准产品连续生成3次，科学数组、坐标和文件SHA-256均保持一致。生成文件为997 006字节，目录条目自动登记相同的`SIZE`和SHA-256；经回环HTTP事务式下载后，正式文件摘要与目录完全一致，缓存目录中的`.part`文件回收率为100%。`read_dataset`读取的整场数组与独立参考逐点一致，形成从源产品、共享YAML生产、完整性目录到统一读取的端到端数据链路。
+标准产品连续生成3次，科学数组、坐标和文件SHA-256均保持一致。生成文件为997 006字节，目录条目自动登记相同的字节数和SHA-256；经回环HTTP事务式下载后，正式文件摘要与目录完全一致，传输临时文件全部完成回收。统一读取接口获得的整场数组与独立参考逐点一致，形成从源产品、共享YAML生产、完整性目录到标准读取的端到端数据链路。
 
-![图2 OISST真实产品标准化结果](figures/图2_OISST真实产品标准化结果.png)
+![图2 OISST产品标准化结果](figures/图2_OISST真实产品标准化结果.png)
 
 **图2 OISST V2.1产品标准化结果** （a）2022年2月25日全球海表温度标准产品；（b）有效格点纬向平均海表温度；（c）各纬度有效格点比例。标准产品为1440×720规则网格，691 150个有效格点与独立参考逐点一致。
 
@@ -327,7 +327,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 表3所列31组处理实例覆盖维度、坐标、数值、Gapfill、配置、输出和空间方向控制。各操作系统环境获得一致的产品结构和逐点数值结果，正向图与南北反转图得到准确区分，自动质量控制与人工空间检查共同维护标准产品的坐标语义。
 
-数据贡献案例贯通YAML配置、标准产品生成、目录登记和下游读取，生成产品与参考数组逐点一致，目录中的`SIZE`和SHA-256与文件相符。NetcdfIO接口迁移与配置对象复用机制进一步统一文件访问和批量生产行为，使二维/三维输出、坐标变换、数值处理、Gapfill和目录生成由同一工作流连接；完整YAML示例和固定输入路径共同构成可复用的数据贡献模板。
+数据贡献案例贯通YAML配置、标准产品生成、目录登记和下游读取，生成产品与参考数组逐点一致，目录中的文件字节数和SHA-256与产品相符。统一NetCDF读写层与配置对象复用机制进一步协调文件访问和批量生产，使二维/三维输出、坐标变换、数值处理、Gapfill和目录生成由同一工作流连接；完整YAML示例和固定输入路径共同构成可复用的数据贡献模板。
 
 ELEV补充案例使用已通过文件大小和SHA-256校验的`ELEV_4X_1Y_V1.nc`。该文件为1440×720、全域有效，有限值范围为−415.5～5 357.7002 m；GriddingMachine整场读取与NetCDF底层Float32数组逐点一致。使用显式标准维度、`KEEP_AS_IS`和原值保持配置连续处理3次，三次`data/lon/lat`均与输入一致，输出文件SHA-256也彼此相同，表明标准产品经过统一读取和生产流水线后保持科学数组及坐标。
 
@@ -343,11 +343,11 @@ ELEV补充案例使用已通过文件大小和SHA-256校验的`ELEV_4X_1Y_V1.nc`
 
 **Fig. 3 End-to-end time for direct NetCDF and externally archived `tar.gz` distribution.** (a) The two-dimensional ELEV product; (b) the three-dimensional LAI product. Bars show median warm-cache end-to-end time, and error bars show 95% bootstrap confidence intervals. Independent environments A and B used identical input files and measurement protocols. Percentages above the bars indicate the reduction in median time achieved by direct NetCDF relative to external `tar.gz` archives.
 
-### 4.3 Collector与可信多镜像分发
+### 4.3 目录管理与可信多镜像分发
 
-Collector将目录初始化、事务更新、产品同步、镜像获取、状态查询和历史数据整理组织为统一的数据维护接口。独立目录使数据产品能够随镜像和版本持续更新，cache与public分层保存机制则将传输过程与正式数据分离，使上一有效目录和已发布产品在目录更新与镜像切换过程中保持稳定。
+目录与数据获取模块将目录初始化、事务更新、产品同步、镜像获取、状态查询和历史数据整理组织为统一的数据维护接口。独立目录使数据产品能够随镜像和版本持续更新，事务缓存区与正式数据区的分层机制则将传输过程与标准产品分离，使上一有效目录和已发布产品在目录更新与镜像切换过程中保持稳定。
 
-由13类镜像状态构成的可靠性分析表明，Collector能够优先选择延迟较低的候选，同时保留全部URL并依次回退。每次获取采用独立`.part`文件，内容经字节数和SHA-256确认后进入正式路径；130次获取记录均完成临时文件回收，既有正式文件摘要保持一致。
+由13类镜像状态构成的可靠性分析表明，目录与数据获取模块能够优先选择延迟较低的候选，同时保留全部镜像并依次回退。每次获取采用独立临时文件，内容经字节数和SHA-256确认后进入正式路径；130次获取记录均完成临时文件回收，既有正式文件摘要保持一致。
 
 公共网络环境下，4个标签经Zenodo完成24次下载，全部达到登记字节数并通过SHA-256核验。下载时间随文件规模呈梯度变化，重复传输的SHA-256摘要与目录登记值一致，体现了公共镜像、事务缓存和完整性校验的协同作用。
 
@@ -355,9 +355,9 @@ Collector将目录初始化、事务更新、产品同步、镜像获取、状�
 
 ### 4.4 统一读取与模型就绪应用
 
-标签驱动的数据访问支持整场、周期和站点读取以及经纬度索引，并由`read_dataset`统一实现；`read_LUT`作为兼容别名延续原有调用方式。格点尺度陆面参数融合和气象驱动组织分别由`grid_dict`与`grid_weather`实现，支持植被、裸土和时间序列等模型输入场景。GriddingMachine输出由此进入Emerald参数组织、气象组织、模型初始化和60 s单步计算，建立从标准数据读取到模型首个时间步的直接连接。
+标签驱动的数据访问实现整场、周期和站点读取以及经纬度索引；格点尺度陆面参数融合和气象驱动组织进一步覆盖植被、裸土和时间序列等模型输入场景。对应的公共接口分别为`read_dataset`、`grid_dict`和`grid_weather`，并以`read_LUT`兼容原有读取方式。GriddingMachine输出由此进入Emerald参数组织、气象组织、模型初始化和60 s单步计算，建立从标准数据读取到模型首个时间步的直接连接。
 
-陆面案例使用2020年`gm2`的14类标准产品，文件大小、来源摘要和SHA-256均通过核验。US-NR1站点映射至相应规则格点，`grid_dict`组织34个模型字段、366日季节序列、4个土壤层和17个植物功能型，高程、陆地掩膜与叶面积指数得到一致读取。撒哈拉案例返回非植被格点状态，体现了接口根据陆面特征组织模型入口的能力。`gm2`文件由此贯通完整性目录、统一读取和陆面参数组织，并覆盖植被与非植被入口。
+陆面案例使用2020年第二套陆面参数集合的14类标准产品，文件大小、来源摘要和SHA-256均通过核验。US-NR1站点映射至40.5°N、105.5°W的规则格点，参数融合接口组织34个模型字段、366日季节序列、4个土壤层和17个植物功能型，高程、陆地掩膜与叶面积指数得到一致读取。撒哈拉案例被识别为非植被格点并进入相应的陆面状态分流，体现了参数组织前的场景识别能力。该参数集合由此贯通完整性目录、统一读取和陆面参数组织，并覆盖植被与非植被场景。
 
 ### 4.5 多操作系统环境运行表现
 
@@ -373,11 +373,11 @@ GriddingMachine、GriddingMachineDatasets、Emerald及研究材料仓库的跨�
 
 2022版GriddingMachine建立了统一网格、变量约定和标签化数据访问[4]。当前更新进一步形成共享配置契约、显式源维度映射、与软件版本解耦的数据目录、事务式多镜像获取和模型就绪接口。14类陆面产品、校园网FTP—Zenodo获取和跨操作系统运行共同展示这些能力，GriddingMachine由此从标准数据集合演进为连接生产、分发、读取和模型调用的数据生命周期框架。
 
-新版框架在三个层次推进GriddingMachine：生产端以共享YAML契约连接维度、坐标、Gapfill和标准NetCDF，并由OISST产品展示异构维度、打包数值和经度体系的统一转换；分发端以独立目录、直接NetCDF与事务缓存连接机构镜像和公共镜像；应用端以统一读取、Emerald最小步进和`gm2`陆面链路连接数据产品与模型。海温与陆面产品共同呈现框架在全球规则网格数据生命周期中的适用性。
+新版框架在三个层次推进GriddingMachine：生产端以共享YAML契约连接维度、坐标、Gapfill和标准NetCDF，并由OISST产品展示异构维度、打包数值和经度体系的统一转换；分发端以独立目录、直接NetCDF与事务缓存连接机构镜像和公共镜像；应用端以统一读取、Emerald最小步进和14类陆面产品链路连接数据产品与模型。海温与陆面产品共同呈现框架在全球规则网格数据生命周期中的适用性。
 
 ### 5.2 与相关地球科学数据基础设施的关系
 
-Earth Engine把大规模地理空间数据与云端计算结合，服务行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[10]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[11]，Pangeo Forge进一步以可复用配方和目录组织分析就绪数据生产[12]。GriddingMachine与这些基础设施形成互补，面向经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
+Earth Engine把大规模地理空间数据与云端计算结合，服务行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[10]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[11]，Pangeo Forge进一步以可复用配方和目录组织分析就绪数据生产[12]。GriddingMachine与这些基础设施形成互补，面向经过选择和统一的全球规则网格产品，以及需要在Julia科学计算工作流中按固定标签复现参数与气象驱动的模型使用场景。
 
 GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以标签驱动的数据访问、格点尺度陆面参数融合和气象驱动组织把标准产品转换为模型所需字段。Pangeo Forge侧重云端分析就绪数据生产的配方—基础设施分离[12]，本文流程侧重可直接下载的单体NetCDF、离线缓存、完整性落盘和固定模型接口。云优化分块格式适配超大规模近数据计算[11]，ESGF适配CMIP等机构联合治理[10]，GriddingMachine则服务可下载、可本地缓存的全球规则网格数据及其模型输入组织。
 
@@ -393,7 +393,7 @@ GriddingMachine以权威文件生成`SIZE/SHA256`，通过下载后校验、目�
 
 共享YAML契约为历史产品迁移以及非规则网格、区域投影和复杂时间坐标的源适配提供统一入口；坐标单调性、值域、逐点数组断言与方向图能够进一步汇入同一质量报告。独立目录和多镜像机制也便于积累不同文件规模、网络条件与持续时间下的传输观测，从而持续优化候选排序和镜像组织。围绕OISST建立的异构产品生产链可自然扩展至多时段海洋与气象数据，结构化目录服务和永久软件归档则将增强数据发现、版本引用及跨团队复用能力。
 
-现有数据贡献模板、规则网格索引、植被与非植被入口、陆面参数融合及气象驱动组织能力，已经为长期模拟和多模型适配形成稳定接口。`gm2`陆面链路与Emerald模型初始化进一步表明，GriddingMachine可以作为数据产品与地球系统模型之间的轻量中间层，在保持标准产品独立性的同时支持模型参数、边界条件和驱动数据的统一组织。
+现有数据贡献模板、规则网格索引、植被与非植被入口、陆面参数融合及气象驱动组织能力，已经为长期模拟和多模型适配形成稳定接口。14类陆面产品与Emerald模型初始化的衔接进一步表明，GriddingMachine可以作为数据产品与地球系统模型之间的轻量中间层，在保持标准产品独立性的同时支持模型参数、边界条件和驱动数据的统一组织。
 
 ## 6 结论
 
