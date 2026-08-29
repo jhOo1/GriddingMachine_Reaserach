@@ -1,0 +1,36 @@
+name = "Emerald"
+uuid = "fc6e11eb-0395-4a1f-b22e-d645b12bbd20"
+version = "1.0.0"
+authors = ["Yujie Wang <jesiner@gmail.com>"]
+
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+GriddingMachine = "f20cf718-bf4d-4727-bc8f-485b1f283ac6"
+LazyArtifacts = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NetcdfIO = "6a36f34d-89cf-423a-87c4-84549e82f670"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+PkgUtility = "0d262f2c-28e9-492c-8e19-d7a5c4f11611"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[sources]
+GriddingMachine = {rev = "53bb0be8b676f88d3d3dbe32f20aefdad883fcc2", url = "https://github.com/CliMA/GriddingMachine.jl.git"}
+
+[compat]
+DataFrames = "1.8.1"
+DocStringExtensions = "0.9.5"
+GriddingMachine = "0.5.0"
+NetcdfIO = "0.3.0"
+OrderedCollections = "1.8.1"
+PkgUtility = "0.3.1"
+ProgressMeter = "1.11.0"
+QuadGK = "2.11.2"
+Revise = "3.12.3"
+SpecialFunctions = "2.6.1"
+julia = "1.12"

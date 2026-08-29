@@ -1,0 +1,175 @@
+[case]
+field_count = 8
+grid_center_latitude = 40.5
+grid_center_longitude = -105.5
+requested_latitude = 40.0329
+requested_longitude = -105.5464
+time_steps = 8784
+total_bytes = 12575376138
+year = 2020
+
+[environment]
+julia_version = "1.12.6"
+network_requests = 0
+platform = "x86_64-w64-mingw32"
+
+[fields.PATM]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 77663.859375
+mean = 76487.69564424665
+minimum = 74472.578125
+shape = [360, 180, 8784]
+units = "Pa"
+
+[fields.PPT]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 0.002293635858222842
+mean = 5.6512895399165e-5
+minimum = 6.938893903907228e-18
+shape = [360, 180, 8784]
+units = "mm"
+
+[fields.RAD_LW]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 373.0020751953125
+mean = 251.07803797244156
+minimum = 140.46484375
+shape = [360, 180, 8784]
+units = "W m⁻²"
+
+[fields.RAD_SW_DIF]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 493.9734191894531
+mean = 58.07932502052382
+minimum = 2.2737367544323206e-13
+shape = [360, 180, 8784]
+units = "W m⁻²"
+
+[fields.RAD_SW_DIR]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 945.1919555664062
+mean = 162.95604248930692
+minimum = -1.1368683772161603e-13
+shape = [360, 180, 8784]
+units = "W m⁻²"
+
+[fields.TAIR]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 303.8687438964844
+mean = 278.44868820829686
+minimum = 248.7549285888672
+shape = [360, 180, 8784]
+units = "K"
+
+[fields.VPD]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 3917.401611328125
+mean = 622.825951173223
+minimum = 12.016921997070312
+shape = [360, 180, 8784]
+units = "Pa"
+
+[fields.WIND]
+dimension_names = ["lon", "lat", "ind"]
+finite_count = 8784
+finite_fraction = 1.0
+length = 8784
+max_abs_difference = 0.0
+maximum = 9.216678619384766
+mean = 2.2595734956741285
+minimum = 0.039237018674612045
+shape = [360, 180, 8784]
+units = "m s⁻¹"
+
+[files.PATM_ERA5_1X_1H_2020_V1]
+bytes = 1708634958
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\PATM_ERA5_1X_1H_2020_V1.nc"
+sha256 = "e6bac9ed86d8794b1e3f4a6ede9adf52d9818dbcb52d364ddfc2daceef0b93a2"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PATM_ERA5_1X_1H_2020_V1.nc"
+
+[files.PPT_ERA5_1X_1H_2020_V1]
+bytes = 1102213097
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\PPT_ERA5_1X_1H_2020_V1.nc"
+sha256 = "3a4f28ca035fabff26a424979c2e12ebfaea0bde7062f7c9fa4c949c6a757195"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1.nc"
+
+[files.RAD_LW_ERA5_1X_1H_2020_V1]
+bytes = 1893303194
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\RAD_LW_ERA5_1X_1H_2020_V1.nc"
+sha256 = "4b696a25e23dac77e3184f1e15e24a1ce279c0d497c02a2494a6813ebb3b89af"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/RAD_LW_ERA5_1X_1H_2020_V1.nc"
+
+[files.RAD_SW_DIF_ERA5_1X_1H_2020_V1]
+bytes = 1102705871
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\RAD_SW_DIF_ERA5_1X_1H_2020_V1.nc"
+sha256 = "50a692cbbfbd9014f84185397b0f8ef876a0905e1c37ccc3f6cde740da349fe1"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/RAD_SW_DIF_ERA5_1X_1H_2020_V1.nc"
+
+[files.RAD_SW_DIR_ERA5_1X_1H_2020_V1]
+bytes = 1072438369
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\RAD_SW_DIR_ERA5_1X_1H_2020_V1.nc"
+sha256 = "c448c6015fbd478c9bcf0f22a868ec546c81cf7ed8dd9de06d046fa6d3f598b8"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/RAD_SW_DIR_ERA5_1X_1H_2020_V1.nc"
+
+[files.TAIR_ERA5_1X_1H_2020_V1]
+bytes = 1707775062
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\TAIR_ERA5_1X_1H_2020_V1.nc"
+sha256 = "168fe98291d9e1e4f2859df0705fd8e0e5de68d1e89c12b5e4cac1f47acceb7a"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/TAIR_ERA5_1X_1H_2020_V1.nc"
+
+[files.VPD_ERA5_1X_1H_2020_V1]
+bytes = 1973000140
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\VPD_ERA5_1X_1H_2020_V1.nc"
+sha256 = "e5defc512c51a69706a4e4c734aab11160ee38c963e8736dead26914d97e4abd"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/VPD_ERA5_1X_1H_2020_V1.nc"
+
+[files.WIND_ERA5_1X_1H_2020_V1]
+bytes = 2015305447
+path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\WIND_ERA5_1X_1H_2020_V1.nc"
+sha256 = "322d724fe2afdb330e7a66dce5650e465d9052fbfc209fbc3e13fa18f262a38c"
+source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/WIND_ERA5_1X_1H_2020_V1.nc"
+
+[model]
+first_step_finite = true
+first_step_seconds = 60
+initialization_finite = true
+land_parameter_count = 34
+model_driver_field_count = 16
+weather_input_field_count = 9
+
+[time_axis]
+finite_fraction = 1.0
+first_fdoy = -0.27235111111111115
+formula_max_abs_difference = 0.0
+last_fdoy = 365.6859822222222
+length = 8784
+strictly_increasing = true
+timezone_offset_hours = -7.036426666666667

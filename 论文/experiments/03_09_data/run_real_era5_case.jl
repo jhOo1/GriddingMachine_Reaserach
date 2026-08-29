@@ -15,6 +15,7 @@ const YEAR = 2020
 const LAT = 40.0329
 const LON = -105.5464
 const EXPECTED_STEPS = 366 * 24
+const FTP_BASE = "ftp://114.214.212.145/GriddingMachine/public/wd1"
 
 const FIELD_TAGS = Dict(
     "PATM" => "PATM_ERA5_1X_1H_2020_V1",
@@ -85,6 +86,12 @@ function main()
         error("ERA5 time dimension is not $EXPECTED_STEPS")
     all(isfinite, drivers["FDOY"]) || error("FDOY contains non-finite values")
     all(diff(drivers["FDOY"]) .> 0) || error("FDOY is not strictly increasing")
+    weather_input_field_count = length(drivers)
+    fdoy = copy(drivers["FDOY"])
+    timezone_offset_hours = LON / 15
+    expected_fdoy = (Float64.(collect(1:EXPECTED_STEPS)) .- 0.5 .+ timezone_offset_hours) ./ 24
+    fdoy_max_abs_difference = maximum(abs.(fdoy .- expected_fdoy))
+    fdoy_max_abs_difference == 0 || error("FDOY timezone conversion mismatch")
 
     ilat = GriddingMachine.Indexer.lat_ind(LAT, 1)
     ilon = GriddingMachine.Indexer.lon_ind(LON, 1)
@@ -104,9 +111,19 @@ function main()
         max_abs_difference == 0 || error("Direct-read mismatch for $tag: $max_abs_difference")
         summary = finite_summary(via_interface)
         summary["max_abs_difference"] = max_abs_difference
+        attributes = NetcdfIO.read_attributes(path, "data")
+        _, variable_shape = NetcdfIO.read_dims(path, "data")
+        summary["units"] = string(get(attributes, "units", ""))
+        summary["dimension_names"] = collect(String.(NetcdfIO.read_dimnames(path)))
+        summary["shape"] = collect(variable_shape)
+        summary["dimension_names"] == ["lon", "lat", "ind"] ||
+            error("Unexpected dimensions for $tag: $(summary["dimension_names"])")
+        summary["shape"] == [360, 180, EXPECTED_STEPS] ||
+            error("Unexpected shape for $tag: $(summary["shape"])")
         fields[field] = summary
         files[tag] = Dict(
             "path" => path,
+            "source_url" => "$(FTP_BASE)/$(tag).nc",
             "bytes" => filesize(path),
             "sha256" => file_sha256(path),
         )
@@ -116,6 +133,7 @@ function main()
     config.CONFIG_INFO.MESSAGE_LEVEL = 0
     spac = Emerald.Land.site_spac(config, grid)
     driver = Emerald.Land.site_driver_tuple(grid, drivers)
+    model_driver_field_count = length(drivers)
     Emerald.Land.prescribe!(config, spac, driver, 1; initialize_state = true)
     initialization_finite = all(isfinite, spac.airs[1].state.ns) && isfinite(spac.airs[1].state.p_air)
     initialization_finite || error("Emerald initialization produced non-finite atmospheric state")
@@ -137,9 +155,19 @@ function main()
         ),
         "fields" => fields,
         "files" => files,
+        "time_axis" => Dict(
+            "length" => length(fdoy),
+            "finite_fraction" => count(isfinite, fdoy) / length(fdoy),
+            "strictly_increasing" => all(diff(fdoy) .> 0),
+            "timezone_offset_hours" => timezone_offset_hours,
+            "first_fdoy" => first(fdoy),
+            "last_fdoy" => last(fdoy),
+            "formula_max_abs_difference" => fdoy_max_abs_difference,
+        ),
         "model" => Dict(
             "land_parameter_count" => length(grid),
-            "weather_field_count" => length(drivers),
+            "weather_input_field_count" => weather_input_field_count,
+            "model_driver_field_count" => model_driver_field_count,
             "initialization_finite" => initialization_finite,
             "first_step_seconds" => 60,
             "first_step_finite" => first_step_finite,

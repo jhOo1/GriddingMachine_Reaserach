@@ -1,0 +1,27 @@
+run_date = "2026-08-29"
+platform = "x86_64-w64-mingw32"
+julia_version = "1.12.6"
+network = "USTC campus network"
+ftp_base = "ftp://114.214.212.145/GriddingMachine/public/wd1/"
+download_mode = "read-only, sequential after server rejected parallel connections"
+experiment_network_requests = 0
+era5_year = 2020
+era5_file_count = 8
+era5_total_bytes = 12575376138
+land_file_count = 14
+land_total_bytes = 184404953
+griddingmachine_commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+griddingmachine_datasets_commit = "5eac56af311fe511237ac2b1d7ef68b018fd7626"
+emerald_paper_commit = "b95d119204b2d1d6f82fd51ed5cffd4c5345af75"
+
+[server_inventory]
+year_2020_complete = true
+year_2024_complete = true
+year_2024_executed = false
+year_selection_reason = "pre-registered 2020 leap-year case matched the archived 2020 land-parameter collection"
+
+[unit_audit]
+ppt_attribute_units = "mm"
+ppt_site_year_sum_as_stored = 0.4964092731862654
+ppt_site_year_sum_if_meters_to_mm = 496.40927318626535
+status = "metadata/model-adapter contract requires author confirmation before release"
