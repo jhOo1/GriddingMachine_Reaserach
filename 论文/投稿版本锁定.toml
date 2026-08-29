@@ -1,0 +1,35 @@
+schema_version = 1
+freeze_date = "2026-08-30"
+manuscript_tag = "griddingmachine-manuscript-2026-v1"
+purpose = "GriddingMachine manuscript submission version freeze"
+
+[repositories.GriddingMachine]
+url = "https://github.com/CliMA/GriddingMachine.jl"
+branch = "paper-release"
+tag = "griddingmachine-paper-2026-v1"
+commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+
+[repositories.GriddingMachineDatasets]
+url = "https://github.com/jhOo1/GriddingMachineDatasets"
+branch = "paper-release"
+tag = "griddingmachine-datasets-paper-2026-v1"
+commit = "b2d25b0544dca462168c7421d2c40dbbba652bce"
+
+[repositories.Emerald]
+url = "https://github.com/jhOo1/Emerald-paper"
+branch = "main"
+tag = "emerald-paper-2026-v1"
+commit = "e56a57db9a9ba28eca8489061c92aa9c629f44c2"
+
+[repositories.ResearchMaterials]
+url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
+branch = "main"
+tag = "griddingmachine-manuscript-2026-v1"
+commit_resolution = "Resolve the annotated tag to obtain the immutable submission commit."
+
+[data.ERA5_PPT]
+logical_tag = "PPT_ERA5_1X_1H_2020_V1"
+physical_file = "PPT_ERA5_1X_1H_2020_V1_R1.nc"
+bytes = 1102213097
+sha256 = "1ae6b80512fac97e6b3e609c02ea126858256cf9153ead1335b5bf8d59fe7725"
+url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R1.nc"
