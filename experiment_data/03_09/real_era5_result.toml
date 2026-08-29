@@ -26,6 +26,8 @@ shape = [360, 180, 8784]
 units = "Pa"
 
 [fields.PPT]
+annual_total_m = 0.4964092731862654
+annual_total_mm = 496.40927318626535
 dimension_names = ["lon", "lat", "ind"]
 finite_count = 8784
 finite_fraction = 1.0
@@ -35,7 +37,7 @@ maximum = 0.002293635858222842
 mean = 5.6512895399165e-5
 minimum = 6.938893903907228e-18
 shape = [360, 180, 8784]
-units = "mm"
+units = "m"
 
 [fields.RAD_LW]
 dimension_names = ["lon", "lat", "ind"]
@@ -118,7 +120,7 @@ source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PATM_ERA5_1X_1H_2
 [files.PPT_ERA5_1X_1H_2020_V1]
 bytes = 1102213097
 path = "D:\\jh\\code\\paper\\GriddingMachine_Reaserach\\experiment_data\\03_09\\public/wd1\\PPT_ERA5_1X_1H_2020_V1.nc"
-sha256 = "3a4f28ca035fabff26a424979c2e12ebfaea0bde7062f7c9fa4c949c6a757195"
+sha256 = "1ae6b80512fac97e6b3e609c02ea126858256cf9153ead1335b5bf8d59fe7725"
 source_url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1.nc"
 
 [files.RAD_LW_ERA5_1X_1H_2020_V1]

@@ -11,8 +11,8 @@ era5_total_bytes = 12575376138
 land_file_count = 14
 land_total_bytes = 184404953
 griddingmachine_commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
-griddingmachine_datasets_commit = "5eac56af311fe511237ac2b1d7ef68b018fd7626"
-emerald_paper_commit = "b95d119204b2d1d6f82fd51ed5cffd4c5345af75"
+griddingmachine_datasets_commit = "c116b6bd39f22d68104aac06d647a49ff1a1ca36"
+emerald_paper_commit = "e56a57db9a9ba28eca8489061c92aa9c629f44c2"
 
 [server_inventory]
 year_2020_complete = true
@@ -21,7 +21,16 @@ year_2024_executed = false
 year_selection_reason = "pre-registered 2020 leap-year case matched the archived 2020 land-parameter collection"
 
 [unit_audit]
-ppt_attribute_units = "mm"
+ppt_original_attribute_units = "mm"
+ppt_repaired_attribute_units = "m"
+ppt_original_bytes = 1102213097
+ppt_repaired_bytes = 1102213097
+ppt_original_sha256 = "3a4f28ca035fabff26a424979c2e12ebfaea0bde7062f7c9fa4c949c6a757195"
+ppt_repaired_sha256 = "1ae6b80512fac97e6b3e609c02ea126858256cf9153ead1335b5bf8d59fe7725"
 ppt_site_year_sum_as_stored = 0.4964092731862654
 ppt_site_year_sum_if_meters_to_mm = 496.40927318626535
-status = "metadata/model-adapter contract requires author confirmation before release"
+site_value_count = 8784
+site_values_bitwise_equal_to_backup = true
+formal_ftp_published = false
+formal_catalog_updated = false
+status = "local metadata repair verified; remote publication requires separate authorization"
