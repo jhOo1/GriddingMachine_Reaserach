@@ -14,9 +14,9 @@
 
 **关键词：** 地球系统模型；全球网格数据；数据生命周期；NetCDF；可信分发；数据完整性
 
-**English title:** Production and Trustworthy Distribution of Global Gridded Data for Earth System Models: Framework Advances and Applications of GriddingMachine
+**Production and Trustworthy Distribution of Global Gridded Data for Earth System Models: Framework Advances and Applications of GriddingMachine**
 
-**Authors:** Hao Jiang^1, Yujie Wang^1*
+**Hao JIANG^1, Yujie WANG^1\***
 
 1. School of Earth and Space Sciences, University of Science and Technology of China, Hefei 230026, China
 
@@ -323,7 +323,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 **图2 OISST V2.1产品标准化结果** （a）2022年2月25日全球海表温度标准产品；（b）有效格点纬向平均海表温度；（c）各纬度有效格点比例。标准产品为1440×720规则网格，691 150个有效格点与独立参考逐点一致。
 
-**Figure 2 Standardization results for the OISST V2.1 product.** (a) Global standardized sea-surface temperature on 25 February 2022; (b) zonal mean sea-surface temperature over finite grid cells; and (c) fraction of finite grid cells by latitude. The 1440 × 720 product contains 691,150 finite cells that agree point by point with the independently decoded reference.
+**Fig. 2 Standardization results for the OISST V2.1 product.** (a) Global standardized sea-surface temperature on 25 February 2022; (b) zonal mean sea-surface temperature over finite grid cells; and (c) fraction of finite grid cells by latitude. The 1440 × 720 product contains 691,150 finite cells that agree point by point with the independently decoded reference.
 
 表3所列31组处理实例覆盖维度、坐标、数值、Gapfill、配置、输出和空间方向控制。各操作系统环境获得一致的产品结构和逐点数值结果，正向图与南北反转图得到准确区分，自动质量控制与人工空间检查共同维护标准产品的坐标语义。
 
@@ -449,7 +449,7 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [12] STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
 
-[13] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. [WANG J L, LIN H, RAN Y Y, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
+[13] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. [WANG Juanle, LIN Hai, RAN Yingying, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
 
 [14] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
 
@@ -459,4 +459,4 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [17] LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
 
-[18] 李楠楠, 刘筱敏. 我国国家科学数据中心FAIR原则的实践现状调查与分析[J]. 图书与情报, 2023, 43(2): 137-144. DOI: 10.11968/tsyqb.1003-6938.2023032. [LI N N, LIU X M. Survey and analysis on the practice of FAIR principle in National Science Data Center of China[J]. Library and Information, 2023, 43(2): 137-144.]
+[18] 李楠楠, 刘筱敏. 我国国家科学数据中心FAIR原则的实践现状调查与分析[J]. 图书与情报, 2023, 43(2): 137-144. DOI: 10.11968/tsyqb.1003-6938.2023032. [LI Nannan, LIU Xiaomin. Survey and analysis on the practice of FAIR principle in National Science Data Center of China[J]. Library and Information, 2023, 43(2): 137-144.]

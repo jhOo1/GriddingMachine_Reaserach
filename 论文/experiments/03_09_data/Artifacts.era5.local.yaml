@@ -1,0 +1,24 @@
+PATM_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/PATM_ERA5_1X_1H_2020_V1.nc"]
+PPT_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/PPT_ERA5_1X_1H_2020_V1.nc"]
+RAD_SW_DIF_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/RAD_SW_DIF_ERA5_1X_1H_2020_V1.nc"]
+RAD_SW_DIR_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/RAD_SW_DIR_ERA5_1X_1H_2020_V1.nc"]
+RAD_LW_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/RAD_LW_ERA5_1X_1H_2020_V1.nc"]
+TAIR_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/TAIR_ERA5_1X_1H_2020_V1.nc"]
+VPD_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/VPD_ERA5_1X_1H_2020_V1.nc"]
+WIND_ERA5_1X_1H_2020_V1:
+  PATH: "public/wd1"
+  URL: ["https://example.invalid/WIND_ERA5_1X_1H_2020_V1.nc"]
