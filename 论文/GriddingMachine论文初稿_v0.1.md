@@ -10,7 +10,7 @@
 
 ## 摘要
 
-多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上构建贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期框架。新版以共享配置规范（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取，并以`read_dataset`、`grid_dict`和`grid_weather`提供模型就绪数据。NOAA OISST V2.1产品由四维源结构转换为1440×720标准网格，691 150个有效格点与独立参考逐点一致；两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
+多源全球网格数据在维度结构、坐标方向、数值缩放、缺失值处理和分发位置等方面具有显著差异，对地球系统模型输入的标准化生产与稳定获取提出了统一化需求。本文在2022版GriddingMachine基础上构建贯通数据生产、质量控制、多镜像分发、统一读取和模型调用的数据生命周期框架。新版以共享配置规范（schema）和YAML驱动源维度映射、坐标转换、数值变换与缺失值填补（Gapfill），采用独立目录管理逻辑路径、镜像地址及完整性元数据，通过直接NetCDF和事务式缓存实现可信获取。应用端进一步提供标签驱动的标准网格数据访问、格点尺度陆面参数融合与气象驱动组织，实现标准产品向模型就绪输入的转换。NOAA OISST V2.1产品由四维源结构转换为1440×720标准网格，691 150个有效格点与独立参考逐点一致；两个内部压缩产品采用直接NetCDF后，缓存预热的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2%；校园网内4个代表性产品经FTP和Zenodo完成24次下载，文件大小与SHA-256均与目录登记值一致；14类陆面产品生成US-NR1参数字典并进入Emerald模型初始化。新版GriddingMachine由此形成面向全球规则网格数据的可配置生产、可信分发和模型就绪应用框架，为地球系统数据产品的持续维护与复用提供轻量化基础设施。
 
 **关键词：** 地球系统模型；全球网格数据；数据生命周期；NetCDF；可信分发；数据完整性
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study develops GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; direct NetCDF and transactional caching support verified acquisition; and `read_dataset`, `grid_dict`, and `grid_weather` provide model-ready access. A NOAA OISST V2.1 product was transformed from a four-dimensional source structure to a standardized 1440 × 720 grid, with 691,150 finite cells matching an independently decoded reference point by point. Direct NetCDF reduced median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two independent runtime environments. Four representative products were downloaded 24 times from FTP and Zenodo on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
+Multi-source global gridded data differ substantially in dimensional structure, coordinate orientation, numerical scaling, missing-value treatment, and distribution location, creating a demand for standardized production and reliable access to Earth system model inputs. Building on the 2022 release, this study develops GriddingMachine as an integrated lifecycle framework for data production, quality control, multi-mirror distribution, unified reading, and model use. A shared schema and YAML configuration drive source-dimension mapping, coordinate and numerical transformations, and gap filling; an independent catalog manages logical paths, mirrors, and integrity metadata; and direct NetCDF with transactional caching supports verified acquisition. The application layer further provides tag-based access to standardized gridded data, grid-scale synthesis of land parameters, and assembly of meteorological forcing, converting standardized products into model-ready inputs. A NOAA OISST V2.1 product was transformed from a four-dimensional source structure to a standardized 1440 × 720 grid, with 691,150 finite cells matching an independently decoded reference point by point. Direct NetCDF reduced median warm-cache end-to-end time for two internally compressed products by 48.3%–82.9% and 53.6%–69.2% in two independent runtime environments. Four representative products were downloaded 24 times from FTP and Zenodo on the campus network, with file sizes and SHA-256 digests matching their catalog records. Fourteen land products generated a parameter dictionary for US-NR1 and entered Emerald model initialization. The updated GriddingMachine provides a lightweight infrastructure for configurable production, integrity-aware distribution, and model-ready use of global regular-grid data.
 
 **Keywords:** Earth system modeling; global gridded data; data lifecycle; NetCDF; trustworthy distribution; data integrity
 
@@ -64,7 +64,7 @@ GriddingMachine 新版由数据生产、目录与分发、数据使用三个相�
 
 在数据使用端，Collector的`configure!`显式设置数据根目录与目录来源。目录下载经临时文件完成schema校验和事务式替换，并保留上一有效版本。`download_dataset!`提取各URL的主机名，以可获得的平均往返延迟辅助确定候选顺序，同时保留全部镜像并依次回退。每次调用创建独立`.part`文件，文件通过`SIZE`和`SHA256`核验后进入`public`，历史目录则通过兼容模式继续提供数据获取能力。
 
-Indexer通过`read_dataset`提供整场、指定周期及站点读取，`grid_dict`和`grid_weather`进一步组织Emerald所需参数和气象驱动。14类`gm2`产品贯通陆面参数链路并进入Emerald初始化，使可信分发的数据产品直接进入模型应用。
+Indexer提供标签驱动的整场、指定周期及站点读取，并进一步完成格点尺度陆面参数融合与气象驱动组织。14类`gm2`产品贯通陆面参数链路并进入Emerald初始化，使可信分发的数据产品直接进入模型应用。
 
 共享YAML、独立目录与统一读取接口共同改变了GriddingMachine的维护单元：数据处理规则由配置契约表达，数据产品与镜像由目录版本管理，模型应用继续使用稳定标签。数据产品、分发目录和访问软件由此能够在保持接口一致的条件下分别演化，形成贯通生产、发布和应用的可维护数据生命周期。
 
@@ -78,8 +78,8 @@ Indexer通过`read_dataset`提供整场、指定周期及站点读取，`grid_di
 | 数据目录 | 软件内置`Artifacts.toml` | 独立`Artifacts.yaml`；schema校验、事务更新和版本备份 | 数据产品可独立于软件版本持续扩展 |
 | 下载 | artifact哈希寻址、多个URL和解包 | 延迟探测辅助排序；多URL回退、独立缓存及`SIZE/SHA256`校验后落盘 | 兼顾机构镜像速度、公共镜像可达性和内容完整性 |
 | 读取 | `read_LUT` | `read_dataset`，旧名称保留为别名 | 全球规则经纬网整场、周期和站点读取 |
-| 模型组织 | 标准化数据和通用读取 | `grid_dict`与`grid_weather` | 陆面产品进入Emerald参数组织与模型初始化 |
-| 数据生产 | 数据源专用处理及贡献流程 | 共享YAML schema、配置构建器及显式源维度映射 | 形成可复用、可扩展的标准产品生产工作流 |
+| 模型组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织（`grid_dict`与`grid_weather`） | 标准产品进入Emerald参数组织与模型初始化 |
+| 数据生产 | 数据源专用处理及贡献流程 | 共享YAML schema、程序化与交互式配置生成及显式源维度映射 | 形成可复用、可扩展的标准产品生产工作流 |
 
 **Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow advances, and application value across the data lifecycle.
 
@@ -151,7 +151,7 @@ GRIDDINGMACHINE:
 
 `GriddingMachineDatasets`仓库中的`YamlBuilder`接收文件命名、变量标签、分辨率、时间尺度、版本、输入输出目录、单位、数值范围、缩放、坐标方向和GriddingMachine标签等结构化输入，并生成YAML配置。结构化构建方式统一字段名称、缩进和默认值，使贡献者能够将数据源约定稳定转换为可执行配置。
 
-`YamlBuilder`与处理流水线调用同一schema；其输出采用`SCHEMA_VERSION`、`GAPFILL`与`DIMENSIONS`描述处理契约，输出位置由调用者配置。构建器生成的配置可直接交给`process_dataset!`，字段信息在源数据读取前完成解析。框1和版本化指南共同构成面向贡献者的配置范式。
+`YamlBuilder`与处理流水线调用同一schema；其输出采用`SCHEMA_VERSION`、`GAPFILL`与`DIMENSIONS`描述处理契约，输出位置由调用者配置。构建器生成的配置可直接交给`process_dataset!`，字段信息在源数据读取前完成解析。框架同时提供本地交互式配置生成界面，表单输入由`YamlBuilder`转换并交由共享schema解析，可直接预览和保存供生产流水线使用的YAML文件。框1、交互式生成器和版本化指南共同构成面向贡献者的配置范式。
 
 #### 2.2.3 生产流程与质量控制
 
@@ -219,13 +219,13 @@ Indexer模块以`read_dataset`统一本地NetCDF路径和目录标签的读取�
 
 #### 2.5.2 模型参数与气象驱动组织
 
-`grid_dict`把`gm1`或`gm2`标签组中的土壤、冠层、叶片、地形、陆地掩膜和植物功能型产品组织为单个格点的模型参数字典。年份用于选择叶面积指数并组织逐日序列。函数先检查陆地掩膜和叶面积指数；植被格点进入参数读取与季节序列组织，其他格点返回清晰的状态信息。
+`grid_dict`实现格点尺度陆面参数融合与模型初始化。该函数从`gm1`或`gm2`标签组提取土壤、冠层、叶片、地形、陆地掩膜和植物功能型产品，依据陆面状态组织相应参数，并对叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列执行Gapfill与逐日重采样。
 
-输出包括位置、分辨率、年份、CO₂、土壤水力参数、冠层结构、植物功能型比例、叶片生物物理和光合参数；启用质量控制时同步检查字段完整性和`NaN`状态。该接口把多个已标准化产品稳定组织为模型入口，内置经验系数、标签组合及陆面类型状态共同构成清晰的模型输入契约。
+植物功能型比例进一步用于融合C3/C4植被的叶片光学参数和Medlyn气孔参数，并由`VCMAX25`推导`JMAX25`和`B6F`。输出涵盖位置、分辨率、年份、CO₂、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数；字段完整性与`NaN`状态同步进入质量控制。多个标准产品由此形成结构一致的格点级模型输入。
 
-`grid_weather`按年份和格点读取`wd1`中的8个ERA5标签，分别组织地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。输出统一为含时间索引`FDOY`及8个气象字段的字典，启用质量控制时同步检查字段完整性和`NaN`状态。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列。
+`grid_weather`实现格点尺度气象驱动组织与时间坐标构建。该函数按年份和格点读取`wd1`中的8个ERA5标签，分别提取地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速，并依据格点经度换算时区偏移、构建浮点年积日`FDOY`。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列，输出字段完整性与`NaN`状态同步进入质量控制。
 
-该接口围绕规则网格、既定单位和`wd1`标签完成模型就绪字段组织。确定性气象参考数据用于核对字段、形状和Emerald最小步进，`gm2`文件则贯通陆面参数链路。
+上述标签驱动的数据访问、陆面参数融合与气象驱动组织能力分别由`read_dataset`、`grid_dict`和`grid_weather`实现。确定性气象参考数据用于核对字段、形状和Emerald最小步进，`gm2`文件则贯通陆面参数链路。
 
 ### 2.6 端到端调用路径
 
@@ -306,7 +306,7 @@ OISST真实产品用于进一步呈现共享生产契约对异构源结构的适
 | 标准产品生产 | 共享YAML schema、显式维度映射和Gapfill | OISST源数据与独立参考逐点一致，二维和三维产品实现稳定生成 |
 | 数据制品 | 直接NetCDF分发 | 缓存预热后的端到端中位时间在两个独立运行环境中分别降低48.3%～82.9%和53.6%～69.2% |
 | 目录与镜像 | 独立目录、延迟辅助排序、多URL回退和事务缓存 | 校园网FTP与Zenodo完成24次同文件下载，SHA-256摘要与目录登记值一致 |
-| 模型就绪访问 | `read_dataset`、`grid_dict`和`grid_weather` | 14类`gm2`产品生成US-NR1参数字典并进入Emerald模型流程 |
+| 模型就绪访问 | 标签驱动的数据访问、陆面参数融合和气象驱动组织 | 14类`gm2`产品生成US-NR1参数字典并进入Emerald模型流程 |
 | 跨操作系统运行 | 版本化依赖与持续集成 | 多个操作系统环境保持一致的软件路径、数据结构与模型接口 |
 
 **Table 4 Major advances and application performance of the updated GriddingMachine.** The table summarizes standardized production, direct NetCDF distribution, multi-mirror acquisition, model-ready access, and cross-platform operation.
@@ -355,7 +355,7 @@ Collector将目录初始化、事务更新、产品同步、镜像获取、状�
 
 ### 4.4 统一读取与模型就绪应用
 
-`read_dataset`统一支持整场、周期和站点读取以及经纬度索引，`read_LUT`作为兼容别名延续原有调用方式。`grid_dict`和`grid_weather`进一步将标准产品组织为Emerald可直接使用的参数与气象字典，并支持植被、裸土和时间序列等模型输入场景。GriddingMachine输出由此进入Emerald参数组织、气象组织、模型初始化和60 s单步计算，建立从标准数据读取到模型首个时间步的直接连接。
+标签驱动的数据访问支持整场、周期和站点读取以及经纬度索引，并由`read_dataset`统一实现；`read_LUT`作为兼容别名延续原有调用方式。格点尺度陆面参数融合和气象驱动组织分别由`grid_dict`与`grid_weather`实现，支持植被、裸土和时间序列等模型输入场景。GriddingMachine输出由此进入Emerald参数组织、气象组织、模型初始化和60 s单步计算，建立从标准数据读取到模型首个时间步的直接连接。
 
 陆面案例使用2020年`gm2`的14类标准产品，文件大小、来源摘要和SHA-256均通过核验。US-NR1站点映射至相应规则格点，`grid_dict`组织34个模型字段、366日季节序列、4个土壤层和17个植物功能型，高程、陆地掩膜与叶面积指数得到一致读取。撒哈拉案例返回非植被格点状态，体现了接口根据陆面特征组织模型入口的能力。`gm2`文件由此贯通完整性目录、统一读取和陆面参数组织，并覆盖植被与非植被入口。
 
@@ -379,7 +379,7 @@ GriddingMachine、GriddingMachineDatasets、Emerald及研究材料仓库的跨�
 
 Earth Engine把大规模地理空间数据与云端计算结合，服务行星尺度分析[3]；ESGF通过分布式节点、搜索和联合身份基础设施支撑气候模式数据的发现与访问[10]；Pangeo倡导分析就绪、云优化数据以及计算与数据邻近的云原生模式[11]，Pangeo Forge进一步以可复用配方和目录组织分析就绪数据生产[12]。GriddingMachine与这些基础设施形成互补，面向经过选择和统一的全球规则网格产品，以及需要在本地Julia工作流中按固定标签复现参数与气象驱动的模型使用场景。
 
-GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以`read_dataset`、`grid_dict`和`grid_weather`把标准数据组织为模型所需字段。Pangeo Forge侧重云端分析就绪数据生产的配方—基础设施分离[12]，本文流程侧重可直接下载的单体NetCDF、离线缓存、完整性落盘和固定模型接口。云优化分块格式适配超大规模近数据计算[11]，ESGF适配CMIP等机构联合治理[10]，GriddingMachine则服务可下载、可本地缓存的全球规则网格数据及其模型输入组织。
+GriddingMachine的互补性体现在三个层次：以YAML保留从异构源数据到标准NetCDF的处理意图；以轻量目录连接机构镜像和通用存储；以标签驱动的数据访问、格点尺度陆面参数融合和气象驱动组织把标准产品转换为模型所需字段。Pangeo Forge侧重云端分析就绪数据生产的配方—基础设施分离[12]，本文流程侧重可直接下载的单体NetCDF、离线缓存、完整性落盘和固定模型接口。云优化分块格式适配超大规模近数据计算[11]，ESGF适配CMIP等机构联合治理[10]，GriddingMachine则服务可下载、可本地缓存的全球规则网格数据及其模型输入组织。
 
 国内地球系统科学数据共享研究强调目录体系和规范关键词对数据管理与检索的作用[13]；Pooch以文件名、URL和SHA-256注册表实现远端文件获取、本地缓存和完整性校验[14]；STAC为广泛地理空间资产提供通用元数据结构与查询标准[15]。GriddingMachine进一步面向规则网格和模型标签，将上游生产配置、标准NetCDF、事务式多镜像落盘和下游模型字段组织置于同一机器可执行契约中，形成具有领域针对性的端到端整合。
 
@@ -393,7 +393,7 @@ GriddingMachine以权威文件生成`SIZE/SHA256`，通过下载后校验、目�
 
 共享YAML契约为历史产品迁移以及非规则网格、区域投影和复杂时间坐标的源适配提供统一入口；坐标单调性、值域、逐点数组断言与方向图能够进一步汇入同一质量报告。独立目录和多镜像机制也便于积累不同文件规模、网络条件与持续时间下的传输观测，从而持续优化候选排序和镜像组织。围绕OISST建立的异构产品生产链可自然扩展至多时段海洋与气象数据，结构化目录服务和永久软件归档则将增强数据发现、版本引用及跨团队复用能力。
 
-现有数据贡献模板、规则网格索引、植被与非植被入口以及`grid_dict/grid_weather`字段组织，已经为气象驱动、长期模拟和多模型适配形成稳定接口。`gm2`陆面链路与Emerald模型初始化进一步表明，GriddingMachine可以作为数据产品与地球系统模型之间的轻量中间层，在保持标准产品独立性的同时支持模型参数、边界条件和驱动数据的统一组织。
+现有数据贡献模板、规则网格索引、植被与非植被入口、陆面参数融合及气象驱动组织能力，已经为长期模拟和多模型适配形成稳定接口。`gm2`陆面链路与Emerald模型初始化进一步表明，GriddingMachine可以作为数据产品与地球系统模型之间的轻量中间层，在保持标准产品独立性的同时支持模型参数、边界条件和驱动数据的统一组织。
 
 ## 6 结论
 
