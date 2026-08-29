@@ -114,6 +114,14 @@ function main()
         attributes = NetcdfIO.read_attributes(path, "data")
         _, variable_shape = NetcdfIO.read_dims(path, "data")
         summary["units"] = string(get(attributes, "units", ""))
+        if field == "PPT"
+            ppt_units = summary["units"]
+            ppt_units == "m" ||
+                error("PPT units must be m after the ERA5 metadata correction; found $ppt_units")
+            annual_total_m = sum(via_interface)
+            summary["annual_total_m"] = annual_total_m
+            summary["annual_total_mm"] = annual_total_m * 1000
+        end
         summary["dimension_names"] = collect(String.(NetcdfIO.read_dimnames(path)))
         summary["shape"] = collect(variable_shape)
         summary["dimension_names"] == ["lon", "lat", "ind"] ||
