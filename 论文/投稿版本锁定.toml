@@ -6,7 +6,7 @@ purpose = "GriddingMachine manuscript pre-submission freeze after repository rev
 title_zh = "面向地球系统模型的全球网格数据生命周期：GriddingMachine框架更新与应用"
 title_en = "A Lifecycle Framework for Global Gridded Data in Earth System Models: Advances and Applications of GriddingMachine"
 file = "论文/GriddingMachine论文初稿_v0.3.md"
-content_commit = "65c5e19623846de42d59b8996ea7601f60df8374"
+content_commit = "cb30c3589dea268ea4f2d2b437c0b2c09758cf5b"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 recommended_tag = "griddingmachine-manuscript-2026-v4"
 tag_status = "pending_repository_tag_before_submission"
@@ -40,7 +40,7 @@ commit = "f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f"
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
 review_merge_commit = "1051241e497a363a50d083abccc80040014dc33c"
-manuscript_content_commit = "65c5e19623846de42d59b8996ea7601f60df8374"
+manuscript_content_commit = "cb30c3589dea268ea4f2d2b437c0b2c09758cf5b"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 
 [data.ERA5_PPT]
