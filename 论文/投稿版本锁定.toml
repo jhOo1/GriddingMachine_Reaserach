@@ -6,7 +6,7 @@ purpose = "GriddingMachine manuscript pre-submission freeze after repository rev
 title_zh = "面向地球系统模型的全球网格数据生命周期：GriddingMachine框架更新与应用"
 title_en = "A Lifecycle Framework for Global Gridded Data in Earth System Models: Advances and Applications of GriddingMachine"
 file = "论文/GriddingMachine论文初稿_v0.3.md"
-content_commit = "f55ccc91d32937139c438e0100f888636910bb08"
+content_commit = "65c5e19623846de42d59b8996ea7601f60df8374"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 recommended_tag = "griddingmachine-manuscript-2026-v4"
 tag_status = "pending_repository_tag_before_submission"
@@ -40,7 +40,7 @@ commit = "f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f"
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
 review_merge_commit = "1051241e497a363a50d083abccc80040014dc33c"
-manuscript_content_commit = "f55ccc91d32937139c438e0100f888636910bb08"
+manuscript_content_commit = "65c5e19623846de42d59b8996ea7601f60df8374"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 
 [data.ERA5_PPT]
@@ -52,6 +52,6 @@ url = "ftp://114.214.212.145/GriddingMachine/public/wd1/PPT_ERA5_1X_1H_2020_V1_R
 
 [scope]
 strict_integrity = "Claims apply to catalog entries carrying SIZE and SHA256 and evaluated under strict verification."
-multi_mirror = "Real multi-mirror conclusions apply to the representative FTP-Zenodo products tested in the manuscript."
+multi_mirror = "Real multi-mirror conclusions apply to the representative FTP-Zenodo products tested in the manuscript; lower current catalog coverage reflects mirror upload/registration progress rather than a framework capacity limit."
 model_ready = "Means model-input organization plus Emerald initialization and a 60 s first step, not full scientific validation."
 cross_platform = "Means fixed-dependency runtime consistency for tested paths, not general scientific reproducibility."
