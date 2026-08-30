@@ -30,8 +30,9 @@
 
 - GitHub：`https://github.com/jhOo1/GriddingMachineDatasets`
 - 论文分支：`paper-release`
-- 标签：`griddingmachine-datasets-paper-2026-v1`
-- 精确提交：`b2d25b0544dca462168c7421d2c40dbbba652bce`
+- 代码冻结标签：`griddingmachine-datasets-paper-2026-v1`
+- 代码冻结提交：`b2d25b0544dca462168c7421d2c40dbbba652bce`
+- `paper-release`文档同步提交：`6a17834f70082ea7297c8929e41a750397a6dffa`（相对代码冻结仅修改`README.md`，生产代码未改变）
 - 关键实现：`SCHEMA_VERSION=1`、共享配置schema、显式`DIMENSIONS`、Gapfill、YAML构建器、生产流水线、产品校验、目录条目`SIZE`/SHA-256生成。
 
 ### Emerald接口环境
@@ -45,9 +46,10 @@
 
 - 上一不可变研究材料标签：`griddingmachine-manuscript-2026-v3`
 - 对应精确提交：`f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f`
-- 当前审稿前修订分支：`manuscript/lifecycle-review-2026-08-30`
-- 当前分支用途：根据仓库复审结果重写论文主线、收紧完整性和模型接口结论边界、同步补充材料及投稿说明。
-- 最终投稿研究材料标签：**待本轮PR合并后重新冻结**。不要把旧v3标签描述为本轮修订后的最终稿。
+- 仓库复审PR已合并至`main`；合并提交：`1051241e497a363a50d083abccc80040014dc33c`。
+- 合并后术语与状态一致性修正后的正文内容提交：`f55ccc91d32937139c438e0100f888636910bb08`。
+- 冻结分支：`freeze/griddingmachine-manuscript-2026-v4`（指向本轮最终冻结清单提交）。
+- 建议最终稿件标签：`griddingmachine-manuscript-2026-v4`；由于标签需作为仓库级不可变标记单独创建，在正式投稿前从冻结分支当前提交创建，不移动既有v3标签。
 
 ## 当前实现核对结论
 
@@ -107,7 +109,7 @@
 
 ## 投稿前剩余门槛
 
-1. 本轮PR合并后重新创建研究材料不可变标签，并更新`论文/投稿版本锁定.toml`中的最终研究材料commit。
+1. 已完成本轮PR合并、内容一致性修正和冻结清单更新；正式投稿前从`freeze/griddingmachine-manuscript-2026-v4`创建不可变标签`griddingmachine-manuscript-2026-v4`。
 2. 将冻结代码、目录、实验结果、Manifest和绘图材料完成永久归档；获得DOI后同步正文与数据/代码可用性声明。
 3. 作者确认基金、CRediT、利益冲突、作者顺序和单位信息。
 4. 使用最终冻结版本执行“正文Markdown—Word—补充材料—实验记录—版本锁定—图表”一致性核对。
