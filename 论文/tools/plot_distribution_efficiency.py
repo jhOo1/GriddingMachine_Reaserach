@@ -17,6 +17,10 @@ PLATFORMS = {
     "Environment A": DATA / "pilot_windows_summary.csv",
     "Environment B": DATA / "pilot_macos_summary.csv",
 }
+RAW_PLATFORMS = {
+    "Environment A": DATA / "pilot_windows_raw.csv",
+    "Environment B": DATA / "pilot_macos_raw.csv",
+}
 DATASETS = [
     ("ELEV_4X_1Y_V1", "ELEV"),
     ("LAI_MODIS_2X_8D_2020_V1", "LAI"),
@@ -37,8 +41,21 @@ def load_end_to_end(path: Path) -> dict[tuple[str, str], dict[str, float]]:
     return selected
 
 
+def load_raw_end_to_end(path: Path) -> dict[tuple[str, str], list[float]]:
+    selected: dict[tuple[str, str], list[float]] = {}
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        for row in csv.DictReader(stream):
+            selected.setdefault((row["dataset"], row["distribution"]), []).append(
+                float(row["end_to_end_ms"])
+            )
+    return selected
+
+
 def main() -> None:
     records = {platform: load_end_to_end(path) for platform, path in PLATFORMS.items()}
+    raw_records = {
+        platform: load_raw_end_to_end(path) for platform, path in RAW_PLATFORMS.items()
+    }
     plt.rcParams.update(
         {
             "font.family": "DejaVu Sans",
@@ -76,6 +93,25 @@ def main() -> None:
                 error_kw={"elinewidth": 1, "ecolor": "#374957"},
                 zorder=3,
             )
+            for position, platform in zip(x_positions, PLATFORMS):
+                observations = raw_records[platform][(dataset, distribution)]
+                if len(observations) == 1:
+                    jitter = [0.0]
+                else:
+                    jitter = [
+                        -0.055 + index * 0.11 / (len(observations) - 1)
+                        for index in range(len(observations))
+                    ]
+                axis.scatter(
+                    [position + offset + value for value in jitter],
+                    observations,
+                    s=10,
+                    facecolor="white",
+                    edgecolor=COLORS[distribution],
+                    linewidth=0.6,
+                    alpha=0.9,
+                    zorder=4,
+                )
             for bar, value, error_upper in zip(bars, medians, upper):
                 axis.annotate(
                     f"{value:.1f}",
@@ -90,6 +126,11 @@ def main() -> None:
 
         panel_ymax = max(
             records[platform][(dataset, distribution)]["ci95_high"]
+            for platform in PLATFORMS
+            for distribution in ("nc", "tar.gz")
+        )
+        raw_ymax = max(
+            max(raw_records[platform][(dataset, distribution)])
             for platform in PLATFORMS
             for distribution in ("nc", "tar.gz")
         )
@@ -117,7 +158,7 @@ def main() -> None:
         axis.set_ylabel("Median end-to-end time (ms)")
         axis.grid(axis="y", color="#E5E9ED", linewidth=0.8, zorder=0)
         axis.spines[["top", "right"]].set_visible(False)
-        axis.set_ylim(0, panel_ymax * 1.38)
+        axis.set_ylim(0, max(panel_ymax * 1.38, raw_ymax * 1.12))
 
     handles, labels = axes[0].get_legend_handles_labels()
     figure.legend(

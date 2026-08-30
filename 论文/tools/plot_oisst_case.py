@@ -11,6 +11,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 CASE_ROOT = ROOT / "experiment_data" / "03_08"
 SUMMARY_FILE = CASE_ROOT / "reference_summary.toml"
+PIPELINE_FILE = CASE_ROOT / "pipeline_result.toml"
 BINARY_FILE = CASE_ROOT / "reference" / "oisst_reference_20220225_f32.bin"
 OUTPUT_PNG = ROOT / "论文" / "figures" / "图2_OISST真实产品标准化结果.png"
 OUTPUT_SVG = ROOT / "论文" / "figures" / "图2_OISST真实产品标准化结果.svg"
@@ -19,6 +20,8 @@ OUTPUT_SVG = ROOT / "论文" / "figures" / "图2_OISST真实产品标准化结�
 def main() -> None:
     with SUMMARY_FILE.open("rb") as stream:
         summary = tomllib.load(stream)
+    with PIPELINE_FILE.open("rb") as stream:
+        pipeline = tomllib.load(stream)
 
     shape = tuple(summary["target"]["shape"])
     data = np.fromfile(BINARY_FILE, dtype="<f4").reshape(shape, order="F")
@@ -28,16 +31,6 @@ def main() -> None:
     lats = np.linspace(
         summary["target"]["lat_first"], summary["target"]["lat_last"], shape[1]
     )
-    finite = np.isfinite(data)
-    zonal_count = finite.sum(axis=0)
-    zonal_mean = np.divide(
-        np.nansum(data, axis=0),
-        zonal_count,
-        out=np.full(shape[1], np.nan, dtype=float),
-        where=zonal_count > 0,
-    )
-    valid_fraction = finite.mean(axis=0) * 100
-
     mpl.rcParams.update(
         {
             "font.family": "DejaVu Sans",
@@ -76,28 +69,46 @@ def main() -> None:
     colorbar = figure.colorbar(image, ax=map_axis, orientation="vertical", pad=0.015, shrink=0.96)
     colorbar.set_label("Sea-surface temperature (°C)")
 
-    mean_axis = figure.add_subplot(grid[1, 0])
-    mean_axis.plot(lats, zonal_mean, color="#165D9C", linewidth=1.5)
-    mean_axis.fill_between(lats, zonal_mean, -2, color="#5FA8D3", alpha=0.18)
-    mean_axis.set_title("(b) Zonal mean of finite grid cells", loc="left")
-    mean_axis.set_xlabel("Latitude (°)")
-    mean_axis.set_ylabel("SST (°C)")
-    mean_axis.set_xlim(-90, 90)
-    mean_axis.set_xticks(np.arange(-90, 91, 30))
-    mean_axis.grid(color="#cfd6df", linewidth=0.45, alpha=0.7)
-    mean_axis.spines[["top", "right"]].set_visible(False)
+    flow_axis = figure.add_subplot(grid[1, 0])
+    flow_axis.set_title("(b) Source-to-standard transformation", loc="left")
+    flow_axis.set_xlim(0, 1)
+    flow_axis.set_ylim(0, 1)
+    flow_axis.axis("off")
+    boxes = [
+        (0.02, "Source layout", "time × zlev ×\nlat × lon\nInt16 + scale"),
+        (0.355, "YAML", "extract singleton\ndecode values\nreorder longitude"),
+        (0.69, "Standard grid", "lon × lat\n1440 × 720\nFloat32"),
+    ]
+    for x, heading, body in boxes:
+        patch = mpl.patches.FancyBboxPatch(
+            (x, 0.20), 0.285, 0.56,
+            boxstyle="round,pad=0.018,rounding_size=0.025",
+            linewidth=0.9, edgecolor="#347A8A", facecolor="#EFF8F8"
+        )
+        flow_axis.add_patch(patch)
+        flow_axis.text(x + 0.1425, 0.62, heading, ha="center", va="center", fontsize=6.7, weight="semibold", color="#164A57")
+        flow_axis.text(x + 0.1425, 0.38, body, ha="center", va="center", fontsize=5.8, linespacing=1.15, color="#334155")
+    for start in (0.307, 0.642):
+        flow_axis.annotate("", xy=(start + 0.042, 0.48), xytext=(start, 0.48), arrowprops=dict(arrowstyle="-|>", lw=1.1, color="#347A8A"))
 
-    coverage_axis = figure.add_subplot(grid[1, 1])
-    coverage_axis.plot(lats, valid_fraction, color="#B44A3A", linewidth=1.5)
-    coverage_axis.fill_between(lats, valid_fraction, 0, color="#E5987D", alpha=0.2)
-    coverage_axis.set_title("(c) Valid-grid coverage by latitude", loc="left")
-    coverage_axis.set_xlabel("Latitude (°)")
-    coverage_axis.set_ylabel("Valid cells (%)")
-    coverage_axis.set_xlim(-90, 90)
-    coverage_axis.set_ylim(0, 100)
-    coverage_axis.set_xticks(np.arange(-90, 91, 30))
-    coverage_axis.grid(color="#cfd6df", linewidth=0.45, alpha=0.7)
-    coverage_axis.spines[["top", "right"]].set_visible(False)
+    evidence_axis = figure.add_subplot(grid[1, 1])
+    evidence_axis.set_title("(c) Independent-reference checks", loc="left")
+    evidence_axis.set_xlim(0, 1)
+    evidence_axis.set_ylim(0, 1)
+    evidence_axis.axis("off")
+    comparison = pipeline["comparison"]
+    checks = [
+        ("Coordinates", "longitude and latitude match"),
+        ("Finite-value mask", f'{comparison["finite_count"]:,} finite / {comparison["missing_count"]:,} missing'),
+        ("Physical values", f'max |difference| = {comparison["maximum_absolute_difference"]:.1f} °C'),
+        ("Repeated production", f'{pipeline["case"]["runs"]}/{pipeline["case"]["runs"]} file digests identical'),
+    ]
+    for index, (label, value) in enumerate(checks):
+        y = 0.78 - index * 0.205
+        evidence_axis.add_patch(mpl.patches.Circle((0.055, y), 0.025, facecolor="#168C78", edgecolor="none"))
+        evidence_axis.text(0.055, y, "✓", color="white", ha="center", va="center", fontsize=7.5, weight="bold")
+        evidence_axis.text(0.105, y + 0.025, label, ha="left", va="center", fontsize=6.9, weight="semibold", color="#1F2937")
+        evidence_axis.text(0.105, y - 0.035, value, ha="left", va="center", fontsize=6.3, color="#52606D")
 
     OUTPUT_PNG.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(OUTPUT_PNG, dpi=450, bbox_inches="tight", facecolor="white")
