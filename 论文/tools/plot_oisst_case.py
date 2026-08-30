@@ -92,23 +92,30 @@ def main() -> None:
         flow_axis.annotate("", xy=(start + 0.042, 0.48), xytext=(start, 0.48), arrowprops=dict(arrowstyle="-|>", lw=1.1, color="#347A8A"))
 
     evidence_axis = figure.add_subplot(grid[1, 1])
-    evidence_axis.set_title("(c) Independent-reference checks", loc="left")
+    evidence_axis.set_title("(c) Reference agreement", loc="left")
     evidence_axis.set_xlim(0, 1)
     evidence_axis.set_ylim(0, 1)
     evidence_axis.axis("off")
     comparison = pipeline["comparison"]
     checks = [
-        ("Coordinates", "longitude and latitude match"),
-        ("Finite-value mask", f'{comparison["finite_count"]:,} finite / {comparison["missing_count"]:,} missing'),
-        ("Physical values", f'max |difference| = {comparison["maximum_absolute_difference"]:.1f} °C'),
-        ("Repeated production", f'{pipeline["case"]["runs"]}/{pipeline["case"]["runs"]} file digests identical'),
+        ("Coordinates", "lon / lat matched"),
+        ("Finite mask", f'{comparison["finite_count"]:,} / {comparison["missing_count"]:,}'),
+        ("Physical values", f'max |Δ| = {comparison["maximum_absolute_difference"]:.1f} °C'),
+        ("Reproducibility", f'{pipeline["case"]["runs"]}/{pipeline["case"]["runs"]} digests identical'),
     ]
-    for index, (label, value) in enumerate(checks):
-        y = 0.78 - index * 0.205
-        evidence_axis.add_patch(mpl.patches.Circle((0.055, y), 0.025, facecolor="#168C78", edgecolor="none"))
-        evidence_axis.text(0.055, y, "✓", color="white", ha="center", va="center", fontsize=7.5, weight="bold")
-        evidence_axis.text(0.105, y + 0.025, label, ha="left", va="center", fontsize=6.9, weight="semibold", color="#1F2937")
-        evidence_axis.text(0.105, y - 0.035, value, ha="left", va="center", fontsize=6.3, color="#52606D")
+    card_positions = [(0.02, 0.54), (0.515, 0.54), (0.02, 0.15), (0.515, 0.15)]
+    for (label, value), (x, y) in zip(checks, card_positions):
+        evidence_axis.add_patch(
+            mpl.patches.FancyBboxPatch(
+                (x, y), 0.455, 0.28,
+                boxstyle="round,pad=0.014,rounding_size=0.025",
+                linewidth=0.75, edgecolor="#A7D8D0", facecolor="#F2FAF8"
+            )
+        )
+        evidence_axis.add_patch(mpl.patches.Circle((x + 0.055, y + 0.14), 0.027, facecolor="#168C78", edgecolor="none"))
+        evidence_axis.text(x + 0.055, y + 0.14, "✓", color="white", ha="center", va="center", fontsize=7.2, weight="bold")
+        evidence_axis.text(x + 0.105, y + 0.175, label, ha="left", va="center", fontsize=6.2, weight="semibold", color="#1F2937")
+        evidence_axis.text(x + 0.105, y + 0.09, value, ha="left", va="center", fontsize=5.6, color="#52606D")
 
     OUTPUT_PNG.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(OUTPUT_PNG, dpi=450, bbox_inches="tight", facecolor="white")

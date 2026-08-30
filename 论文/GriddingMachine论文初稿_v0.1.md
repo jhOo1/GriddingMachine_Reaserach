@@ -387,7 +387,7 @@ GriddingMachine由此形成面向地球系统模型的轻量数据生产与完�
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模型状态保存在`experiment_data/03_09/real_era5_result.toml`，标准NetCDF产品由中科大机构FTP提供；PPT修订制品以V1_R1物理文件发布，逻辑标签保持V1。独立目录支持在同一逻辑标签下继续登记Zenodo等内容一致的公共镜像。投稿代码分别固定于`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签，本轮审稿修订后的论文与复现材料固定于`griddingmachine-manuscript-2026-v2`标签；`论文/投稿版本锁定.toml`记录对应提交、数据摘要及发布地址。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模型状态保存在`experiment_data/03_09/real_era5_result.toml`，标准NetCDF产品由中科大机构FTP提供；PPT修订制品以V1_R1物理文件发布，逻辑标签保持V1。独立目录支持在同一逻辑标签下继续登记Zenodo等内容一致的公共镜像。投稿代码分别固定于`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签，本轮审稿修订后的论文与复现材料固定于`griddingmachine-manuscript-2026-v3`标签；`论文/投稿版本锁定.toml`记录对应提交、数据摘要及发布地址。
 
 ## 基金项目
 

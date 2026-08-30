@@ -1,6 +1,6 @@
 schema_version = 1
 freeze_date = "2026-08-30"
-manuscript_tag = "griddingmachine-manuscript-2026-v2"
+manuscript_tag = "griddingmachine-manuscript-2026-v3"
 purpose = "GriddingMachine manuscript submission version freeze"
 
 [repositories.GriddingMachine]
@@ -24,7 +24,7 @@ commit = "e56a57db9a9ba28eca8489061c92aa9c629f44c2"
 [repositories.ResearchMaterials]
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
-tag = "griddingmachine-manuscript-2026-v2"
+tag = "griddingmachine-manuscript-2026-v3"
 commit_resolution = "Resolve the annotated tag to obtain the immutable submission commit."
 
 [data.ERA5_PPT]
