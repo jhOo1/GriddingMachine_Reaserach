@@ -47,7 +47,7 @@
 - 上一不可变研究材料标签：`griddingmachine-manuscript-2026-v3`
 - 对应精确提交：`f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f`
 - 仓库复审PR已合并至`main`；合并提交：`1051241e497a363a50d083abccc80040014dc33c`。
-- 合并后术语与状态一致性修正后的正文内容提交：`f55ccc91d32937139c438e0100f888636910bb08`。
+- 合并后术语、投稿状态以及“镜像/完整性覆盖属于发布进度而非能力上限”说明修正后的正文内容提交：`01f1e4c5042fd903c046b3aed2d992de12d246ec`。
 - 冻结分支：`freeze/griddingmachine-manuscript-2026-v4`（指向本轮最终冻结清单提交）。
 - 建议最终稿件标签：`griddingmachine-manuscript-2026-v4`；由于标签需作为仓库级不可变标记单独创建，在正式投稿前从冻结分支当前提交创建，不移动既有v3标签。
 
