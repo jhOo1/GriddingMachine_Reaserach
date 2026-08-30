@@ -1,7 +1,6 @@
-schema_version = 1
+schema_version = 2
 freeze_date = "2026-08-30"
-manuscript_tag = "griddingmachine-manuscript-2026-v3"
-purpose = "GriddingMachine manuscript submission version freeze"
+purpose = "GriddingMachine manuscript code freeze plus active pre-submission manuscript revision"
 
 [repositories.GriddingMachine]
 url = "https://github.com/CliMA/GriddingMachine.jl"
@@ -21,11 +20,18 @@ branch = "main"
 tag = "emerald-paper-2026-v1"
 commit = "e56a57db9a9ba28eca8489061c92aa9c629f44c2"
 
-[repositories.ResearchMaterials]
+[repositories.ResearchMaterialsPreviousFreeze]
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
 tag = "griddingmachine-manuscript-2026-v3"
-commit_resolution = "Resolve the annotated tag to obtain the immutable submission commit."
+commit = "f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f"
+
+[manuscript_revision]
+branch = "manuscript/lifecycle-review-2026-08-30"
+status = "pre-submission repository review"
+final_tag = "pending_after_merge"
+final_commit = "pending_after_merge"
+note = "Do not treat the previous v3 manuscript tag as the final revision. Re-freeze after this branch is reviewed and merged."
 
 [data.ERA5_PPT]
 logical_tag = "PPT_ERA5_1X_1H_2020_V1"
