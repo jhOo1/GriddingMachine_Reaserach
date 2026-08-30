@@ -253,7 +253,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 **Fig. 3 End-to-end distribution time for the ELEV and LAI products using direct NetCDF and external `tar.gz` archives.** (a) The two-dimensional ELEV product; (b) the three-dimensional LAI product. Open circles show the 10 measurements for each combination, bars show median warm-cache end-to-end time, and error bars show 95% bootstrap confidence intervals. Environment A (Windows) and environment B (macOS) used identical input files and measurement protocols. Percentages above the bars indicate the reduction in median time achieved by direct NetCDF relative to external `tar.gz` archives.
 
-### 4.3 目录管理与可信多镜像分发
+### 4.3 目录管理与事务式多镜像分发
 
 目录与数据获取模块将目录初始化、事务更新、产品同步、镜像获取、状态查询和历史数据整理组织为统一的数据维护接口。独立目录使数据产品能够随镜像和版本持续更新，事务缓存区与正式数据区的分层机制则将传输过程与标准产品分离，使上一有效目录和已发布产品在目录更新与镜像切换过程中保持稳定。
 
@@ -327,7 +327,7 @@ Windows、macOS和Linux持续集成中的一致结果用于检查固定依赖条
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模型状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订制品以V1_R1物理文件发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。论文所对应的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。当前稿件处于审稿前修订分支，研究材料的最终不可变提交与稿件标签将在本轮修改合并后重新冻结，并统一写入`论文/投稿版本锁定.toml`；永久归档与DOI信息在正式投稿前按最终归档结果补充。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模型接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模型状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订制品以V1_R1物理文件发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。论文所对应的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。研究材料的审稿前修订已合并至主线，其内容冻结提交、冻结分支及后续不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息将在正式投稿前按最终归档结果补充。
 
 ## 基金项目
 
