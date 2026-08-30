@@ -18,8 +18,8 @@ from docx.shared import Cm, Pt
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "GriddingMachine论文初稿_v0.1.md"
-OUTPUT = ROOT / "GriddingMachine论文初稿_导师审阅版.docx"
+SOURCE = ROOT / "GriddingMachine论文初稿_v0.3.md"
+OUTPUT = ROOT / "GriddingMachine论文初稿_v0.3_语言优化版.docx"
 FIGURE_FALLBACKS = {
     "图1_GriddingMachine总体架构.svg": ROOT / "figures" / "figure1-preview.png",
     "图1_GriddingMachine总体架构_v2.svg": ROOT / "figures" / "figure1-preview-v2.png",
@@ -109,6 +109,8 @@ def add_table(document: Document, lines: list[str]) -> None:
 
 def configure(document: Document) -> None:
     section = document.sections[0]
+    section.page_width = Cm(21.0)
+    section.page_height = Cm(29.7)
     section.top_margin = Cm(2.54)
     section.bottom_margin = Cm(2.54)
     section.left_margin = Cm(2.8)
@@ -199,7 +201,7 @@ def export() -> None:
         i += 1
 
     core = document.core_properties
-    core.title = "面向地球系统模型的全球网格数据生产与可信分发：GriddingMachine框架更新与应用"
+    core.title = "面向地球系统模型的全球网格数据生命周期：GriddingMachine框架更新与应用"
     core.author = "Hao Jiang; Yujie Wang"
     core.subject = "导师审阅版，由Markdown源稿自动生成"
     document.save(OUTPUT)
