@@ -12,7 +12,7 @@
     <marker id="arrowTeal" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#087a78"/></marker>
     <marker id="arrowOrange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#dd6818"/></marker>
     <style>
-      .sans{font-family:Arial,"Microsoft YaHei","Noto Sans CJK SC",sans-serif}.mono{font-family:Consolas,"Courier New",monospace}.panel-title{font-size:31px;font-weight:700;fill:#10213a}.base-title{font-size:23px;font-weight:700;fill:#17243a}.base-sub{font-size:17px;fill:#354254}.step-title{font-size:22px;font-weight:700;fill:#11252e}.step-sub{font-size:17px;fill:#243640}.code{font-size:16px;fill:#25323c}.opt-title{font-size:22px;font-weight:700;fill:#8d3507}.opt-sub{font-size:17px;fill:#47392e}.legend{font-size:17px;fill:#27323a}.base-card{fill:#fff;stroke:#5e82b9;stroke-width:1.5}.flow-card{fill:#fff;stroke:#147b82;stroke-width:1.6}.opt-card{fill:#fff;stroke:#e28a45;stroke-width:1.4}.flow-gray{fill:none;stroke:#788087;stroke-width:4;marker-end:url(#arrowGray)}.flow-teal{fill:none;stroke:#087a78;stroke-width:4;marker-end:url(#arrowTeal)}.map{fill:none;stroke:#dd6818;stroke-width:1.8;stroke-dasharray:6 6;marker-end:url(#arrowOrange)}.icon-blue{fill:none;stroke:#1457a4;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-teal{fill:none;stroke:#087a78;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-orange{fill:none;stroke:#cc5b10;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+      .sans{font-family:Arial,"Microsoft YaHei","Noto Sans CJK SC",sans-serif}.mono{font-family:Consolas,"Courier New",monospace}.panel-title{font-size:31px;font-weight:700;fill:#10213a}.layer-label{font-size:16px;font-weight:700;fill:#086b67}.base-title{font-size:23px;font-weight:700;fill:#17243a}.base-sub{font-size:17px;fill:#354254}.step-title{font-size:22px;font-weight:700;fill:#11252e}.step-sub{font-size:17px;fill:#243640}.code{font-size:16px;fill:#25323c}.opt-title{font-size:22px;font-weight:700;fill:#8d3507}.opt-sub{font-size:17px;fill:#47392e}.legend{font-size:17px;fill:#27323a}.base-card{fill:#fff;stroke:#5e82b9;stroke-width:1.5}.flow-card{fill:#fff;stroke:#147b82;stroke-width:1.6}.opt-card{fill:#fff;stroke:#e28a45;stroke-width:1.4}.flow-gray{fill:none;stroke:#788087;stroke-width:4;marker-end:url(#arrowGray)}.flow-teal{fill:none;stroke:#087a78;stroke-width:4;marker-end:url(#arrowTeal)}.map{fill:none;stroke:#dd6818;stroke-width:1.8;stroke-dasharray:6 6;marker-end:url(#arrowOrange)}.icon-blue{fill:none;stroke:#1457a4;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-teal{fill:none;stroke:#087a78;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-orange{fill:none;stroke:#cc5b10;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
     </style>
   </defs>
   <rect width="1680" height="945" fill="#fff"/>
@@ -55,7 +55,16 @@
   <!-- (b) updated workflow -->
   <rect x="10" y="270" width="1660" height="316" rx="18" fill="url(#tealPanel)" stroke="#a8d4d3" stroke-width="1.8"/>
   <rect x="28" y="291" width="21" height="24" rx="3" fill="url(#tealIcon)" stroke="#076d68"/>
-  <text x="60" y="315" class="sans panel-title">(b) 新版端到端工作流</text>
+  <text x="60" y="315" class="sans panel-title">(b) 新版数据生命周期</text>
+  <g class="sans">
+    <path d="M27 331H950M988 331H1416M1450 331H1648" fill="none" stroke="#6fb5b2" stroke-width="2"/>
+    <rect x="393" y="311" width="190" height="24" rx="12" fill="#f5fbfb"/>
+    <text x="488" y="329" text-anchor="middle" class="layer-label">数据生产与标准化层</text>
+    <rect x="1089" y="311" width="226" height="24" rx="12" fill="#f5fbfb"/>
+    <text x="1202" y="329" text-anchor="middle" class="layer-label">数据目录与可信分发层</text>
+    <rect x="1462" y="311" width="174" height="24" rx="12" fill="#f5fbfb"/>
+    <text x="1549" y="329" text-anchor="middle" class="layer-label">模型输入组织层</text>
+  </g>
   <g class="sans">
     <!-- step 01 -->
     <g transform="translate(27 336)" filter="url(#shadow)"><rect width="205" height="226" rx="11" class="flow-card"/><circle cx="31" cy="29" r="18" fill="url(#tealIcon)"/><text x="31" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">01</text>
@@ -78,7 +87,7 @@
     <!-- step 04 -->
     <g transform="translate(754 336)" filter="url(#shadow)"><rect width="196" height="226" rx="11" class="flow-card"/><circle cx="29" cy="29" r="18" fill="url(#tealIcon)"/><text x="29" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">04</text>
       <g transform="translate(59 53)"><path d="M0 19L34 0H78L94 16L58 54H20Z" fill="url(#tealIcon)" stroke="#086b67" stroke-width="2"/><circle cx="70" cy="15" r="6" fill="#eaf8f7" stroke="#075f5b" stroke-width="2"/></g>
-      <text x="98" y="145" text-anchor="middle" class="step-title">标准数据产品</text><text x="98" y="178" text-anchor="middle" class="code mono">TAG.nc</text><text x="98" y="207" text-anchor="middle" class="step-sub">直接分发</text>
+      <text x="98" y="145" text-anchor="middle" class="step-title" style="font-size:20px">标准NetCDF数据</text><text x="98" y="178" text-anchor="middle" class="code mono">TAG.nc</text><text x="98" y="207" text-anchor="middle" class="step-sub">直接分发</text>
     </g>
     <path d="M952 447H982" class="flow-teal"/>
     <!-- step 05 -->
@@ -119,6 +128,6 @@
     <text x="82" y="897" class="legend"><tspan fill="#14648d" font-weight="700">青绿色实线：</tspan>新版核心数据路径　|　<tspan fill="#d65f13" font-weight="700">橙色虚线：</tspan>相对2022版的改进映射　|　<tspan fill="#687078" font-weight="700">灰色：</tspan>2022版基线</text>
     <rect x="921" y="858" width="743" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <path d="M944 875H967V909L956 902L944 909Z" fill="url(#tealIcon)"/><path d="M950 884H961M950 890H961" stroke="#fff" stroke-width="2"/>
-    <text x="979" y="897" class="legend"><tspan font-weight="700">端到端流程：</tspan>数据生产、质量控制、可信分发、统一读取与模型调用。</text>
+    <text x="979" y="897" class="legend"><tspan font-weight="700">三层架构：</tspan>数据生产与标准化层、数据目录与可信分发层、模型输入组织层。</text>
   </g>
 </svg>
