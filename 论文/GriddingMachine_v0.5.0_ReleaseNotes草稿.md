@@ -66,6 +66,25 @@ compiled and are not part of the public API.
   silently producing a dictionary.
 - Fixed a bug in the bare-soil branch of `grid_dict` that passed a scalar to `resample`.
 
+### Query server
+
+`Server` now serves a query page at `/` alongside three JSON endpoints: `/sitedata.json`
+(one dataset value at one grid cell), `/gmdict.json` (land parameter dictionary) and
+`/weather.json` (weather driver series). The page queries those same endpoints from the
+browser, so the interface and the API share one code path and there are no form-post routes.
+
+- `/sitedata.json` accepts an optional `include_std` flag; when it is false the `Stdv` key is
+  set to `null` rather than removed, so `Requestor.request_site_data` keeps working.
+- The stray `Nothing` field has been removed from `/sitedata.json` responses.
+- Every response encodes `NaN` as `-9999`. A query whose datasets are not registered in the
+  local catalog returns them under `MissingTags` instead of raising.
+- Failures report a stable `Reason` category; exception text stays in the server log.
+- Query parameters are parsed leniently, so `include_std=1` no longer aborts the request.
+- `Collector.remove_empty_folders!` removes empty directories left behind by `clean_database!`.
+
+The server binds `0.0.0.0` and performs no access control. The `user` parameter is a log
+label, not a credential. It is meant for a local or trusted intranet network.
+
 ### Dependencies and CI
 
 - NetcdfIO 0.3.0 and PkgUtility 0.3.1.
@@ -73,9 +92,15 @@ compiled and are not part of the public API.
 
 ### Testing
 
-63 tests, all passing, grouped as: catalog initialization and schema (5), transactional catalog
-update (6), mirror fallback, cache isolation and integrity (10), sync/info/tree/cleanup (8),
-`read_dataset` (18), and model input dictionaries (15).
+317 tests, all passing, at 97.5% line coverage. Grouped as: catalog initialization, schema,
+transactional update, mirror fallback, cache isolation, integrity and cleanup (62),
+`read_dataset` (18), model input dictionaries (15), land datasets and CO2 (32), grid
+dictionaries from tags (46), shared server helpers (44), query endpoints (39), the query page
+(18), and the server and requestor end to end (43).
+
+The land parameter and weather endpoints are covered offline: the fixtures stage tiny NetCDF
+files and register them in a temporary catalog, so no test downloads a real dataset or
+touches the network.
 
 ---
 
