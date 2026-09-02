@@ -90,7 +90,17 @@ browser, so the interface and the API share one code path and there are no form-
 - The stray `Nothing` field has been removed from `/sitedata.json` responses.
 - Every response encodes `NaN` as `-9999`. A query whose datasets are not registered in the
   local catalog returns them under `MissingTags` instead of raising.
-- Failures report a stable `Reason` category; exception text stays in the server log.
+- Failures report a stable `Reason` category; exception text stays in the server log. The
+  categories are `unsupported version`, `missing coordinates`, `dataset unavailable`,
+  `no land at target grid`, `grid is not vegetated` and `internal error`.
+- Fixed an information disclosure in `/sitedata.json`. A dataset whose mirrors are all
+  unreachable used to raise, so the request was answered with HTTP 500 and a plain-text body
+  carrying the full Julia stacktrace, the absolute source paths of the installation, and every
+  mirror url that had been tried, including institutional hosts. The endpoint now answers with
+  HTTP 200 and `Reason: "dataset unavailable"`, and the exception only reaches the server log.
+  The other two endpoints already behaved this way; `/sitedata.json` had been missed.
+- The query page reads the response body as text before parsing it, so a non-JSON reply from a
+  proxy or from a genuine server fault reports the HTTP status instead of a JSON syntax error.
 - `lat` and `lon` are required on every endpoint. Optional settings such as `cycle`, `year` and
   `include_std` are parsed leniently and fall back to a default, so `include_std=1` no longer aborts
   the request, but coordinates are never defaulted: reporting a different grid cell than the one
@@ -114,15 +124,16 @@ label, not a credential. It is meant for a local or trusted intranet network.
 
 ### Testing
 
-359 tests, all passing, at 97.6% line coverage. Grouped as: catalog initialization, schema,
+369 tests, all passing, at 97.6% line coverage. Grouped as: catalog initialization, schema,
 transactional update, mirror fallback, cache isolation, integrity and cleanup (65),
 `read_dataset` (18), model input dictionaries (15), land datasets and CO2 (32), grid
-dictionaries from tags (46), shared server helpers (46), query endpoints (39), the query page
+dictionaries from tags (46), shared server helpers (48), query endpoints (47), the query page
 (20), and the server and requestor end to end (78).
 
 The land parameter and weather endpoints are covered offline: the fixtures stage tiny NetCDF
 files and register them in a temporary catalog, so no test downloads a real dataset or
-touches the network. Every file under `src/Server` is fully covered.
+touches the network. Every file under `src/Server` is fully covered. The failure paths assert
+that a response body carries no stacktrace, no mirror url, and no local path.
 
 ---
 
