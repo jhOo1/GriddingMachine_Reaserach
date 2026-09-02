@@ -32,6 +32,13 @@ The package code in this release is identical to the snapshot used for the accom
 - `using GriddingMachine` no longer creates directories under `~/GriddingMachine` and no longer
   downloads the catalog as an import side effect. Call `Collector.initialize_database!()` or
   `Collector.update_database!()` explicitly.
+- The query endpoints now require `lat` and `lon`. Earlier versions substituted a fixed default when
+  either was missing, so a request with no coordinates was answered with data for an unrelated grid
+  cell. Callers that relied on that default must pass coordinates explicitly.
+- `Server.setup_url_input_routes!` no longer refuses a request whose `user` is outside
+  `allowed_users`. That check could never work: `user` arrives as a query parameter, so any caller
+  could set it to a permitted value. The argument is now only used for the startup log line, and the
+  server must be treated as unauthenticated.
 - Minimum supported Julia is now 1.10.
 
 `Indexer.read_LUT` is kept as an alias of `read_dataset` and is covered by tests.
@@ -54,6 +61,11 @@ compiled and are not part of the public API.
   unanswered ICMP probe does not mean the file cannot be downloaded over HTTP(S) or FTP.
 - The probe parses both Windows and macOS `ping` output.
 - Datasets are distributed as plain `.nc` files, so no outer archive has to be unpacked before use.
+- Fixed `Collector.update_database!` failing with a `MethodError` on Julia 1.12 whenever the catalog
+  URL had to be resolved from a landing page, which is the default path. The resolver returned the
+  regex match itself, a `SubString`, and `Downloads.download` hands the url straight to libcurl, which
+  has no `Cstring` conversion for `SubString`. This made the primary way of fetching the catalog
+  unusable; it now returns a `String` on every branch.
 
 ### Reading data and preparing model inputs
 
@@ -79,8 +91,18 @@ browser, so the interface and the API share one code path and there are no form-
 - Every response encodes `NaN` as `-9999`. A query whose datasets are not registered in the
   local catalog returns them under `MissingTags` instead of raising.
 - Failures report a stable `Reason` category; exception text stays in the server log.
-- Query parameters are parsed leniently, so `include_std=1` no longer aborts the request.
+- `lat` and `lon` are required on every endpoint. Optional settings such as `cycle`, `year` and
+  `include_std` are parsed leniently and fall back to a default, so `include_std=1` no longer aborts
+  the request, but coordinates are never defaulted: reporting a different grid cell than the one
+  asked about would be worse than refusing. A request without usable coordinates returns
+  `Reason: "missing coordinates"`.
+- An unknown tag no longer refreshes the catalog before answering. A single typo against a catalog
+  of over a thousand entries used to re-download the whole catalog, which took about twelve seconds
+  where the answer now takes a tenth of a second. Call `Collector.update_database!()` to pick up new
+  publications.
 - `Collector.remove_empty_folders!` removes empty directories left behind by `clean_database!`.
+  Permission and not-found failures are reported through `Base.IOError`, not `SystemError`, and an
+  unreadable subdirectory no longer aborts the walk.
 
 The server binds `0.0.0.0` and performs no access control. The `user` parameter is a log
 label, not a credential. It is meant for a local or trusted intranet network.
@@ -92,15 +114,15 @@ label, not a credential. It is meant for a local or trusted intranet network.
 
 ### Testing
 
-317 tests, all passing, at 97.5% line coverage. Grouped as: catalog initialization, schema,
-transactional update, mirror fallback, cache isolation, integrity and cleanup (62),
+359 tests, all passing, at 97.6% line coverage. Grouped as: catalog initialization, schema,
+transactional update, mirror fallback, cache isolation, integrity and cleanup (65),
 `read_dataset` (18), model input dictionaries (15), land datasets and CO2 (32), grid
-dictionaries from tags (46), shared server helpers (44), query endpoints (39), the query page
-(18), and the server and requestor end to end (43).
+dictionaries from tags (46), shared server helpers (46), query endpoints (39), the query page
+(20), and the server and requestor end to end (78).
 
 The land parameter and weather endpoints are covered offline: the fixtures stage tiny NetCDF
 files and register them in a temporary catalog, so no test downloads a real dataset or
-touches the network.
+touches the network. Every file under `src/Server` is fully covered.
 
 ---
 
