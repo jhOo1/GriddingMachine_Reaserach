@@ -39,7 +39,9 @@ The package code in this release is identical to the snapshot used for the accom
   `allowed_users`. That check could never work: `user` arrives as a query parameter, so any caller
   could set it to a permitted value. The argument is now only used for the startup log line, and the
   server must be treated as unauthenticated.
-- Minimum supported Julia is now 1.10.
+- Minimum supported Julia is now 1.12. The `julia` compat bound was previously declared as 1.10,
+  but `PkgUtility` 0.3 requires 1.12, so the package could never have been installed on 1.10 or
+  1.11. The declaration now matches what actually resolves.
 
 `Indexer.read_LUT` is kept as an alias of `read_dataset` and is covered by tests.
 
