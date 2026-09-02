@@ -144,7 +144,7 @@ that a response body carries no stacktrace, no mirror url, and no local path.
 
 1. Release 标题与 tag 名：建议 tag `v0.5.0`，标题 `v0.5.0`（与既有 23 个 release 的命名一致）。
 2. 是否在 release 正文里链接论文（论文尚未投稿/无 DOI，当前草稿只提到了内部 tag 名，未给外部链接）。
-3. `Requestor` / `Server` 在 README 中标为 `Experimental`：论文明确把 Server/Requestor 排除在验证范围外，所以这里没有声称它们已验证。若你认为应标注为可用，需要补相应测试。
+3. `Requestor` / `Server` 在 README 中已标为 `v0.5`（原为 `Experimental`）。二者现在都是 100% 测试覆盖，成熟度一致；论文不涉及 Server，该标记与论文验证范围无关。
 4. 仓库里有 `TagBot.yml`。TagBot 通常在 Julia General registry 注册成功后自动建 GitHub release。若本包仍在 General registry 中，手工建 release 与 TagBot 可能重复；发布前需确认走哪条路径（见下）。
 
 ## 关于 release 与 registry 的关系（需要你决定）
