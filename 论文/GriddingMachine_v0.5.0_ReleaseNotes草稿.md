@@ -110,9 +110,10 @@ browser, so the interface and the API share one code path and there are no form-
   of over a thousand entries used to re-download the whole catalog, which took about twelve seconds
   where the answer now takes a tenth of a second. Call `Collector.update_database!()` to pick up new
   publications.
-- `Collector.remove_empty_folders!` removes empty directories left behind by `clean_database!`.
-  Permission and not-found failures are reported through `Base.IOError`, not `SystemError`, and an
-  unreadable subdirectory no longer aborts the walk.
+- `Collector.remove_empty_folders!` removes empty directories, and `clean_database!` now calls it:
+  deleting a dataset used to leave the directory that held it behind. Permission and not-found
+  failures are reported through `Base.IOError`, not `SystemError`, and an unreadable subdirectory
+  no longer aborts the walk.
 
 The server binds `0.0.0.0` and performs no access control. The `user` parameter is a log
 label, not a credential. It is meant for a local or trusted intranet network.
@@ -124,8 +125,8 @@ label, not a credential. It is meant for a local or trusted intranet network.
 
 ### Testing
 
-369 tests, all passing, at 97.6% line coverage. Grouped as: catalog initialization, schema,
-transactional update, mirror fallback, cache isolation, integrity and cleanup (65),
+377 tests, all passing, at 97.6% line coverage. Grouped as: catalog initialization, schema,
+transactional update, mirror fallback, cache isolation, integrity and cleanup (73),
 `read_dataset` (18), model input dictionaries (15), land datasets and CO2 (32), grid
 dictionaries from tags (46), shared server helpers (48), query endpoints (47), the query page
 (20), and the server and requestor end to end (78).
