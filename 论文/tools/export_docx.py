@@ -29,7 +29,7 @@ FIGURE_FALLBACKS = {
 }
 
 
-def set_run_font(run, east_asia: str = "宋体", latin: str = "Times New Roman") -> None:
+def set_run_font(run, east_asia: str = "Songti SC", latin: str = "Times New Roman") -> None:
     run.font.name = latin
     run._element.rPr.rFonts.set(qn("w:eastAsia"), east_asia)
 
@@ -45,7 +45,7 @@ def add_inline(paragraph, text: str) -> None:
         elif part.startswith("`") and part.endswith("`"):
             run = paragraph.add_run(part[1:-1])
             run.font.name = "Consolas"
-            run._element.rPr.rFonts.set(qn("w:eastAsia"), "等线")
+            run._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
         else:
             run = paragraph.add_run(part)
         if not (part.startswith("`") and part.endswith("`")):
@@ -83,7 +83,7 @@ def add_code_block(document: Document, lines: list[str]) -> None:
     run = paragraph.add_run("\n".join(lines))
     run.font.name = "Consolas"
     run.font.size = Pt(8.5)
-    run._element.rPr.rFonts.set(qn("w:eastAsia"), "等线")
+    run._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
 
 
 def add_table(document: Document, lines: list[str]) -> None:
@@ -119,7 +119,7 @@ def configure(document: Document) -> None:
     normal = document.styles["Normal"]
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(10.5)
-    normal._element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
+    normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
     normal.paragraph_format.line_spacing = 1.5
     normal.paragraph_format.first_line_indent = Cm(0.74)
     normal.paragraph_format.space_after = Pt(0)
@@ -128,7 +128,7 @@ def configure(document: Document) -> None:
         style = document.styles[name]
         style.font.name = "Times New Roman"
         style.font.size = Pt(size)
-        style._element.rPr.rFonts.set(qn("w:eastAsia"), "黑体")
+        style._element.rPr.rFonts.set(qn("w:eastAsia"), "Heiti SC")
         style.paragraph_format.first_line_indent = Cm(0)
 
 
