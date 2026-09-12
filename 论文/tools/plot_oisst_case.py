@@ -34,6 +34,9 @@ def main() -> None:
     mpl.rcParams.update(
         {
             "font.family": "DejaVu Sans",
+            "axes.labelcolor": "#243447",
+            "xtick.color": "#52606d",
+            "ytick.color": "#52606d",
             "font.size": 8.2,
             "axes.linewidth": 0.7,
             "axes.titleweight": "semibold",
@@ -47,7 +50,7 @@ def main() -> None:
     grid = figure.add_gridspec(2, 2, height_ratios=(2.35, 1.0), hspace=0.08)
 
     map_axis = figure.add_subplot(grid[0, :])
-    colormap = mpl.colormaps["turbo"].copy()
+    colormap = mpl.colormaps["Spectral_r"].copy()
     colormap.set_bad("#e8ebef")
     image = map_axis.imshow(
         data.T,

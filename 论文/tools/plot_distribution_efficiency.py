@@ -25,7 +25,7 @@ DATASETS = [
     ("ELEV_4X_1Y_V1", "ELEV"),
     ("LAI_MODIS_2X_8D_2020_V1", "LAI"),
 ]
-COLORS = {"nc": "#1F5A85", "tar.gz": "#C56A16"}
+COLORS = {"nc": "#2878B5", "tar.gz": "#D98C3F"}
 
 
 def load_end_to_end(path: Path) -> dict[tuple[str, str], dict[str, float]]:
@@ -66,7 +66,7 @@ def main() -> None:
             "ytick.color": "#425466",
         }
     )
-    figure, axes = plt.subplots(1, 2, figsize=(7.2, 3.25), constrained_layout=True)
+    figure, axes = plt.subplots(1, 2, figsize=(7.4, 3.45), constrained_layout=True)
     width = 0.32
     x_positions = [0, 1]
 
@@ -149,6 +149,7 @@ def main() -> None:
                 ha="center",
                 va="bottom",
                 fontsize=8.5,
+                bbox=dict(boxstyle="round,pad=0.18", facecolor="#fff7ed", edgecolor="none"),
                 fontweight="bold",
                 color="#6A3A0E",
             )
