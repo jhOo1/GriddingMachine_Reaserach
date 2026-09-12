@@ -63,7 +63,7 @@
     <rect x="1089" y="311" width="226" height="24" rx="12" fill="#f5fbfb"/>
     <text x="1202" y="329" text-anchor="middle" class="layer-label">数据目录与可信分发层</text>
     <rect x="1462" y="311" width="174" height="24" rx="12" fill="#f5fbfb"/>
-    <text x="1549" y="329" text-anchor="middle" class="layer-label">模型输入组织层</text>
+    <text x="1549" y="329" text-anchor="middle" class="layer-label">模式输入组织层</text>
   </g>
   <g class="sans">
     <!-- step 01 -->
@@ -105,7 +105,7 @@
     <!-- step 07 -->
     <g transform="translate(1450 336)" filter="url(#shadow)"><rect width="198" height="226" rx="11" class="flow-card"/><circle cx="29" cy="29" r="18" fill="url(#tealIcon)"/><text x="29" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">07</text>
       <g transform="translate(65 49)"><path d="M34 0L68 18V58L34 77L0 58V18Z" fill="#eefafa" stroke="#087a78" stroke-width="2"/><path d="M34 10L57 23L34 36L11 23ZM11 23V52L34 66V36M57 23V52L34 66" class="icon-teal"/></g>
-      <text x="99" y="145" text-anchor="middle" class="step-title" style="font-size:19px">统一读取与模型调用</text><text x="99" y="178" text-anchor="middle" class="code">整场·周期·格点</text><text x="99" y="207" text-anchor="middle" class="step-sub">模型输入组织</text>
+      <text x="99" y="145" text-anchor="middle" class="step-title" style="font-size:19px">统一读取与模式调用</text><text x="99" y="178" text-anchor="middle" class="code">整场·周期·格点</text><text x="99" y="207" text-anchor="middle" class="step-sub">模式输入组织</text>
     </g>
   </g>
 
@@ -115,7 +115,7 @@
   <text x="55" y="658" class="sans panel-title" fill="#6f2805">(c) 关键优化</text>
   <g class="sans">
     <g transform="translate(24 688)" filter="url(#shadow)"><rect width="350" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O1</text><g transform="translate(62 22)"><rect x="0" y="8" width="49" height="67" rx="4" class="icon-orange"/><rect x="13" y="0" width="23" height="16" rx="5" fill="#fff" stroke="#cc5b10" stroke-width="3"/><path d="M11 31L17 37L26 26M32 32H40M11 49L17 55L26 44M32 50H40M11 67L17 73L26 62M32 68H40" class="icon-orange"/></g><text x="230" y="45" text-anchor="middle" class="opt-title">统一数据契约</text><text x="230" y="79" text-anchor="middle" class="opt-sub">显式声明维度与处理语义</text></g>
-    <g transform="translate(400 688)" filter="url(#shadow)"><rect width="309" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O2</text><g transform="translate(63 25)"><path d="M0 20L33 0L66 20L33 40Z" fill="#ef954e" stroke="#cc5b10"/><path d="M0 38L33 58L66 38M0 54L33 74L66 54" class="icon-orange"/></g><text x="207" y="42" text-anchor="middle" class="opt-title">简化数据制品</text><text x="207" y="74" text-anchor="middle" class="opt-sub">直接发布标准NetCDF</text></g>
+    <g transform="translate(400 688)" filter="url(#shadow)"><rect width="309" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O2</text><g transform="translate(63 25)"><path d="M0 20L33 0L66 20L33 40Z" fill="#ef954e" stroke="#cc5b10"/><path d="M0 38L33 58L66 38M0 54L33 74L66 54" class="icon-orange"/></g><text x="207" y="42" text-anchor="middle" class="opt-title">简化数据文件</text><text x="207" y="74" text-anchor="middle" class="opt-sub">直接发布标准NetCDF</text></g>
     <g transform="translate(739 688)" filter="url(#shadow)"><rect width="272" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O3</text><g transform="translate(59 25)"><path d="M46 9C24 -6 0 10 0 34C0 57 23 73 44 61" class="icon-orange"/><path d="M40 0L48 10L37 16M8 66L0 56L11 50" class="icon-orange"/><path d="M20 27H39L44 33H65L60 55H20Z" fill="#f4a25e" stroke="#cc5b10" stroke-width="2"/></g><text x="192" y="42" text-anchor="middle" class="opt-title">目录独立演化</text><text x="192" y="74" text-anchor="middle" class="opt-sub">版本更新与镜像校验</text></g>
     <g transform="translate(1037 688)" filter="url(#shadow)"><rect width="292" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O4</text><g transform="translate(66 19)"><path d="M30 0L59 12V37C59 58 44 72 30 80C16 72 1 58 1 37V12Z" class="icon-orange"/><path d="M30 19V52M20 42L30 52L40 42M17 63H43" class="icon-orange"/></g><text x="204" y="42" text-anchor="middle" class="opt-title">事务式获取</text><text x="204" y="74" text-anchor="middle" class="opt-sub">顺序回退与校验落盘</text></g>
     <g transform="translate(1351 688)" filter="url(#shadow)"><rect width="297" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O5</text><g transform="translate(55 23)"><rect x="0" y="0" width="13" height="13" class="icon-orange"/><rect x="52" y="29" width="13" height="13" class="icon-orange"/><rect x="7" y="63" width="13" height="13" class="icon-orange"/><rect x="54" y="63" width="13" height="13" class="icon-orange"/><path d="M13 7H46V35H52M32 35H52M13 7V62H7M32 35V68H54" class="icon-orange"/><rect x="23" y="27" width="25" height="17" rx="4" fill="#f4a25e" stroke="#cc5b10" stroke-width="2"/></g><text x="211" y="42" text-anchor="middle" class="opt-title">模型就绪接口</text><text x="211" y="74" text-anchor="middle" class="opt-sub" style="font-size:16px">统一读取并组织模型输入</text></g>
@@ -128,6 +128,6 @@
     <text x="82" y="897" class="legend"><tspan fill="#14648d" font-weight="700">青绿色实线：</tspan>新版核心数据路径　|　<tspan fill="#d65f13" font-weight="700">橙色虚线：</tspan>相对2022版的改进映射　|　<tspan fill="#687078" font-weight="700">灰色：</tspan>2022版基线</text>
     <rect x="921" y="858" width="743" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <path d="M944 875H967V909L956 902L944 909Z" fill="url(#tealIcon)"/><path d="M950 884H961M950 890H961" stroke="#fff" stroke-width="2"/>
-    <text x="979" y="897" class="legend"><tspan font-weight="700">三层架构：</tspan>数据生产与标准化层、数据目录与可信分发层、模型输入组织层。</text>
+    <text x="979" y="897" class="legend"><tspan font-weight="700">三层架构：</tspan>数据生产与标准化层、数据目录与可信分发层、模式输入组织层。</text>
   </g>
 </svg>
