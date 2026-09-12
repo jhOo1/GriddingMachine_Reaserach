@@ -10,7 +10,7 @@
 
 ## 摘要
 
-地球系统模式依赖区域至全球尺度的网格数据进行参数初始化和结果验证。尽管当前数据大多采用NetCDF、HDF或GeoTIFF等标准格式，源数据处理规则、单位换算、数据标识和网络分发方式仍存在差异，使得每个模式不得不单独维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，完善数据预处理、数据分发和数据读取流程：以共享YAML配置描述源数据结构及转换规则，以独立目录管理标准化数据的标签、镜像和完整性信息，并通过统一接口组织陆面参数和气象驱动。除Julia外，我们适配了MATLAB、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran的自动获取入口。这些更新使研究人员能够在 MATLAB、Octave、Python、R、C 和 Fortran 程序中调用统一的数据获取接口，自动下载新版网格数据，并通过 Julia 接口完成标准化数据的读取和模式输入组织，减少不同地球系统模式重复整理和维护数据的工作，为科学研究与应用提供便利。
+地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，源数据处理规则、单位换算、标准数据标识和网络分发方式不同等问题，使得每个模式不得不单独维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，在数据预处理、数据分发及数据读取方面作出优化：增加数据处理标准化流程，改进数据文件分发方式，完善数据目录与模式输入组织，并添加新的标准化数据及数据集。除Julia语言外，还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并添加了C语言和Fortran语言的自动下载支持，以更好地服务科学研究与应用。
 
 **关键词：** 地球系统模式；全球网格数据库；数据标准化；NetCDF；数据完整性；模式输入
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, or GeoTIFF, differences in source-processing rules, unit conversion, data identification, and distribution methods require each model to maintain its own database, creating unnecessary difficulties for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and data reading. Shared YAML configurations describe source data structures and transformation rules; an independent catalog manages dataset tags, mirrors, and integrity metadata; and unified interfaces organize land parameters and meteorological forcing. In addition to Julia, we have adapted automatic downloading of the updated data for MATLAB, Octave, Python, and R, and added automatic data retrieval entry points for C and Fortran. These updates enable researchers to process, retrieve, and access gridded data through a consistent workflow, reducing repeated data preparation and maintenance across Earth system modeling workflows and facilitating scientific research and applications.
+Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, differences in source-processing rules, unit conversion, standardized data identifiers, and distribution methods require each model to maintain its own database, creating unnecessary difficulties for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and data reading by introducing a standardized processing workflow, improving data-file distribution, strengthening catalog and model-input organization, and adding new standardized datasets and dataset collections. In addition to Julia, automatic downloading of the updated data is supported in MATLAB, Octave, Python, and R, with new automatic-download entry points for C and Fortran, to better serve scientific research and applications.
 
 **Keywords:** Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
 
