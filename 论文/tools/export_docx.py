@@ -201,7 +201,7 @@ def export() -> None:
         i += 1
 
     core = document.core_properties
-    core.title = "面向地球系统模型的全球网格数据生命周期：GriddingMachine框架更新与应用"
+    core.title = lines[0].removeprefix("# ").strip()
     core.author = "Hao Jiang; Yujie Wang"
     core.subject = "导师审阅版，由Markdown源稿自动生成"
     document.save(OUTPUT)
