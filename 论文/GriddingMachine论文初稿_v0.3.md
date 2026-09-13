@@ -44,21 +44,21 @@ Wang等[4]于2022年发布了基于Julia语言的GriddingMachine数据库和软�
 
 ## 2 框架设计与关键方法
 
-### 2.1 总体架构与数据生命周期
+### 2.1 总体架构与数据流程
 
-GriddingMachine新版由三个相互衔接的数据生命周期环节构成（图1）：数据生产与标准化层负责把来源、结构和数值约定不同的全球网格数据转换为标准NetCDF；数据目录与可信分发层负责维护标签、版本、镜像和完整性元数据，并使数据目录能够独立于`GriddingMachine.jl`软件包版本更新；模式输入组织层负责数据发现、获取、读取以及陆面参数和气象驱动组织。数据生产与标准化层主要由`GriddingMachineDatasets`承担，数据目录与可信分发层及模式输入组织层主要由`GriddingMachine.jl`承担。三层共同形成从生产、质控、发布、发现、下载、读取到模式调用的完整数据流程，其中各层通过标准NetCDF和稳定标签衔接，同时保留独立演化的维护边界。
+GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）：数据生产与标准化层负责把来源、结构和数值约定不同的全球网格数据转换为标准NetCDF；数据目录与可信分发层负责维护标签、版本、镜像和完整性元数据，并使数据目录能够独立于`GriddingMachine.jl`软件包版本更新；模式输入组织层负责数据发现、获取、读取以及陆面参数和气象驱动组织。数据生产与标准化层主要由`GriddingMachineDatasets`承担，数据目录与可信分发层及模式输入组织层主要由`GriddingMachine.jl`承担。三层共同形成从生产、质控、发布、发现、下载、读取到模式调用的完整数据流程，其中各层通过标准NetCDF和稳定标签衔接，同时保留独立演化的维护边界。
 
-![图1 GriddingMachine从2022版基线到新版数据生命周期的架构更新](figures/图1_GriddingMachine总体架构_终稿.svg)
+![图1 GriddingMachine从2022版基线到新版数据流程的架构更新](figures/图1_GriddingMachine总体架构_终稿.svg)
 
-**图1 GriddingMachine从2022版基线到新版数据生命周期的架构更新** （a）2022版以数据集专用脚本、`tar.gz`文件、包内数据目录和读取函数`read_LUT`构成数据预处理、分发与读取路径；（b）新版由数据生产与标准化层、数据目录与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML契约、标准化与质量控制、标准NetCDF、独立数据目录、完整性获取以及统一读取和模式调用；（c）O1—O5依次表示统一数据契约、简化数据文件、目录独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系。
+**图1 GriddingMachine从2022版基线到新版数据流程的架构更新** （a）2022版以数据集专用脚本、`tar.gz`文件、包内数据目录和读取函数`read_LUT`构成数据预处理、分发与读取路径；（b）新版由数据生产与标准化层、数据目录与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML契约、标准化与质量控制、标准NetCDF、独立数据目录、完整性获取以及统一读取和模式调用；（c）O1—O5依次表示统一数据契约、简化数据文件、目录独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系。
 
-**Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data lifecycle.** (a) The 2022 release connected dataset-specific scripts, `tar.gz` archive files, an in-package catalog, and `read_LUT` across data preprocessing, distribution, and access. (b) The updated lifecycle comprises a data production and standardization layer, a catalog and trusted-distribution layer, and a model-input organization layer, connecting heterogeneous source data, a shared YAML contract, standardization and quality control, standard NetCDF data, an independent catalog, integrity-verified acquisition, and unified reading and model invocation. (c) O1--O5 denote the unified data contract, simplified data files, independent catalog evolution, transactional acquisition, and Earth-system-model-ready interfaces. Orange dashed lines map these updates to the corresponding baseline components and core nodes in the updated workflow.
+**Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data workflow.** (a) The 2022 release connected dataset-specific scripts, `tar.gz` archive files, an in-package catalog, and `read_LUT` across data preprocessing, distribution, and access. (b) The updated lifecycle comprises a data production and standardization layer, a catalog and trusted-distribution layer, and a model-input organization layer, connecting heterogeneous source data, a shared YAML contract, standardization and quality control, standard NetCDF data, an independent catalog, integrity-verified acquisition, and unified reading and model invocation. (c) O1--O5 denote the unified data contract, simplified data files, independent catalog evolution, transactional acquisition, and Earth-system-model-ready interfaces. Orange dashed lines map these updates to the corresponding baseline components and core nodes in the updated workflow.
 
-三层之间以标准NetCDF和数据标签衔接。源数据与YAML配置共同进入预处理流程，经维度、坐标和数值检查后生成标准化文件；数据目录登记文件位置、镜像与完整性信息，数据获取模块据此下载和核验；读取接口再将多个数据集组织为格点参数和气象驱动。本文以“数据生命周期”描述这一从源数据整理到模式调用的连续过程。
+三层之间以标准NetCDF和数据标签衔接。源数据与YAML配置共同进入预处理流程，经维度、坐标和数值检查后生成标准化文件；数据目录登记文件位置、镜像与完整性信息，数据获取模块据此下载和核验；读取接口再将多个数据集组织为格点参数和气象驱动。本文以“数据流程”描述这一从源数据整理到模式调用的连续过程。
 
 这种组织方式将数据处理规则、数据目录和访问软件分开维护。数据源发生变化时可调整配置，分发位置发生变化时可更新目录，模式侧则通过标签保持调用方式一致。各环节的具体方法分别见第2.2—2.4节。
 
-表1概括2022版与新版的主要差异及其在数据生命周期中的作用。
+表1概括2022版与新版的主要差异及其在数据流程中的作用。
 
 **表1 2022版与新版GriddingMachine的功能和技术路线比较**
 
