@@ -93,7 +93,7 @@ GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数�
 | 处理记录 | YAML声明维度、坐标、数值与缺失值填补规则；NetCDF属性写入逐项变更记录 | 配置意图与数据集处理历史相互对应 |
 | 处理复现 | `SCHEMA_VERSION`、完整YAML、固定输入和版本化项目环境共同归档 | 配置、输入与代码版本共同重建标准化数据 |
 | 标签与版本 | 标签表达类别、空间/时间分辨率、年份、版本和可选修订号 | 标签与文件名共同形成稳定数据集标识 |
-| 分发完整性 | 新登记或严格完整性条目记录文件字节数和SHA-256；同一标签的受控镜像指向相同内容 | 对带完整性元数据的条目下载后核验并以事务方式进入正式目录；历史条目由兼容模式承接 |
+| 分发完整性 | 新登记的条目或纳入严格完整性管理的条目记录文件字节数和SHA-256；同一标签的受控镜像指向相同内容 | 对带完整性元数据的条目下载后核验并以事务方式进入正式目录；历史条目由兼容模式承接 |
 
 **Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** The specification connects grid structure, gap filling, metadata, provenance, versioning, and distribution integrity within a unified production contract.
 
