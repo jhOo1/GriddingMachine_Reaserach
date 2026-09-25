@@ -331,11 +331,6 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 作者声明不存在利益冲突。
 
-## AI 工具使用声明
-
-本文准备过程中使用OpenAI Codex辅助整理研究材料与代码差异、检查论文结构、修订部分文字、审查分析脚本、汇总结果并辅助图件制作。研究目标、分析方法和结论由作者确定；作者核验软件版本、数据、文件摘要、图件数值和正文表述，并对研究设计、数据真实性、结果解释及全文承担责任。
-
-
 ## 参考文献
 
 [1] WILKINSON M D, DUMONTIER M, AALBERSBERG I J, et al. The FAIR Guiding Principles for scientific data management and stewardship[J]. Scientific Data, 2016, 3: 160018. DOI: 10.1038/sdata.2016.18.
