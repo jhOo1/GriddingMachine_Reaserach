@@ -32,9 +32,9 @@ Earth system models rely on gridded data at regional to global scales for parame
 
 ## 1 引言
 
-地球系统模式以数值方法描述大气、海洋及其相互作用，其参数初始化、边界条件、气象驱动和结果验证均依赖区域至全球尺度的网格数据。此类数据由多个研究团队和业务机构提供，在文件格式、空间投影、维度顺序、经纬度方向、时间组织、单位、缩放方式、缺失值表示和元数据结构等方面存在差异。研究人员需要完成数据发现、下载、重排或重投影、数值转换、质量检查和模式接口适配，才能将可获得的数据用于可重复的模式计算。因此，科学数据管理正在由单纯的数据公开转向强调可发现（**F**indable）、可获取（**A**ccessible）、可互操作（**I**nteroperable）和可复用（**R**eusable）的 FAIR 原则[1]。NetCDF具有自描述、跨系统和适合多维数组等特点，便于保存多维网格及其坐标信息[2]。Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[3]。然而，对于面向固定版本、离线缓存和模式直接调用的工作流，研究人员仍需要把数据转换规则、标准数据标识、网络获取内容和下游模式接口连接起来。建立适用于本地运行的标准化科研数据库，可以将这些环节组织为可追溯、可复用的数据流程，减少重复整理，保证模式输入的一致性，并便于研究人员在不同计算环境中复现实验。
+地球系统模式以数值方法描述大气、海洋及其相互作用，其参数初始化、边界条件、气象驱动和结果验证均依赖区域至全球尺度的网格数据。此类数据由多个研究团队和业务机构提供，在文件格式、空间投影、维度顺序、经纬度方向、时间组织、单位、缩放方式、缺失值表示和元数据结构等方面存在差异。研究人员需要完成数据发现、下载、重排或重投影、数值转换、质量检查和模式接口适配，才能将可获得的数据用于可重复的模式计算。因此，科学数据管理正在由单纯的数据公开转向强调可发现（**F**indable）、可获取（**A**ccessible）、可互操作（**I**nteroperable）和可复用（**R**eusable）的 FAIR 原则[1]。NetCDF适合组织多维科学数据及其坐标信息[5]，CF元数据约定进一步规范变量、坐标和时空属性[2]。Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[3]。然而，对于面向固定版本、离线缓存和模式直接调用的工作流，研究人员仍需要把数据转换规则、标准数据标识、网络获取内容和下游模式接口连接起来。建立适用于本地运行的标准化科研数据库，可以将这些环节组织为可追溯、可复用的数据流程，减少重复整理，保证模式输入的一致性，并便于研究人员在不同计算环境中复现实验。
 
-Wang等[4]于2022年发布了基于Julia语言的GriddingMachine数据库和软件，旨在将常用于陆面和地球系统模拟的全球数据处理为具有统一空间和变量约定的NetCDF文件，并通过标签、数据库文件Artifacts.toml和Julia语言的 artifact 机制（构建产物管理机制）实现数据管理与自动下载，同时提供Julia、Matlab、Octave、Python和R接口。2022版已经建立了统一网格约定、数据标签和多语言访问基础，但仍存在三方面局限：数据生产主要依赖数据集专用脚本，处理规则难以共享；标准化数据以带有标签文件的`tar.gz`归档分发，增加了获取和读取环节；数据目录随软件包维护，数据更新与软件发布耦合。随着数据类型、分发位置和模式应用链条扩展，源数据处理、数据分发和模式输入之间需要进一步统一。
+Wang等[4]于2022年发布了基于Julia语言的GriddingMachine数据库和软件，旨在将常用于陆面和地球系统模拟的全球数据处理为具有统一空间和变量约定的NetCDF文件，并通过标签、数据库文件Artifacts.toml和Julia语言的构建产物管理机制实现数据管理与自动下载，同时提供Julia、Matlab、Octave、Python和R接口。2022版已经建立了统一网格约定、数据标签和多语言访问基础，但仍存在三方面局限：数据生产主要依赖数据集专用脚本，处理规则难以共享；标准化数据以带有标签文件的`tar.gz`归档分发，增加了获取和读取环节；数据目录随软件包维护，数据更新与软件发布耦合。随着数据类型、分发位置和模式应用链条扩展，源数据处理、数据分发和模式输入之间需要进一步统一。
 
 针对上述问题，改进方向应当同时覆盖数据生产和模式使用两个环节：用共享配置显式记录源数据维度、坐标、数值变换和缺失值处理，用独立目录维护数据标签、版本、镜像及可核验的完整性信息，并用统一读取接口把标准化数据组织为模式需要的参数、驱动和时间序列。这样的设计可以使数据处理规则、数据目录和访问软件分别维护，同时通过稳定标签和标准 NetCDF 保持衔接。
 
@@ -52,7 +52,7 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 
 **图1 GriddingMachine从2022版基线到新版数据流程的架构更新** （a）2022版以数据集专用脚本、`tar.gz`文件、包内数据目录和读取函数`read_LUT`构成数据预处理、分发与读取路径；（b）新版由数据生产与标准化层、数据目录与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML契约、标准化与质量控制、标准NetCDF、独立数据目录、完整性获取以及统一读取和模式调用；（c）O1—O5依次表示统一数据契约、简化数据文件、目录独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系。
 
-**Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data workflow.** (a) The 2022 release connected dataset-specific scripts, `tar.gz` archive files, an in-package catalog, and `read_LUT` across data preprocessing, distribution, and access. (b) The updated lifecycle comprises a data production and standardization layer, a catalog and trusted-distribution layer, and a model-input organization layer, connecting heterogeneous source data, a shared YAML contract, standardization and quality control, standard NetCDF data, an independent catalog, integrity-verified acquisition, and unified reading and model invocation. (c) O1--O5 denote the unified data contract, simplified data files, independent catalog evolution, transactional acquisition, and Earth-system-model-ready interfaces. Orange dashed lines map these updates to the corresponding baseline components and core nodes in the updated workflow.
+**Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data workflow.** (a) The 2022 release connected dataset-specific scripts, `tar.gz` archive files, an in-package catalog, and `read_LUT` across data preprocessing, distribution, and access. (b) The updated data workflow comprises a data production and standardization layer, a catalog and trusted-distribution layer, and a model-input organization layer, connecting heterogeneous source data, a shared YAML contract, standardization and quality control, standard NetCDF data, an independent catalog, integrity-verified acquisition, and unified reading and model invocation. (c) O1--O5 denote the unified data contract, simplified data files, independent catalog evolution, transactional acquisition, and Earth-system-model-ready interfaces. Orange dashed lines map these updates to the corresponding baseline components and core nodes in the updated workflow.
 
 三层之间以标准NetCDF和数据标签衔接。源数据与YAML配置共同进入预处理流程，经维度、坐标和数值检查后生成标准化文件；数据目录登记文件位置、镜像与完整性信息，数据获取模块据此下载和核验；读取接口再将多个数据集组织为格点参数和气象驱动。本文以“数据流程”描述这一从源数据整理到模式调用的连续过程。
 
@@ -66,13 +66,13 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 |---|---|---|---|
 | 分发单元 | NetCDF的`tar.gz`归档文件 | 可直接读取的`.nc` | 简化数据获取并降低端到端读取时间 |
 | 数据目录 | 软件内置`Artifacts.toml` | 独立`Artifacts.yaml`，支持目录校验和独立更新 | 数据目录可独立于软件版本维护 |
-| 数据获取 | artifact 哈希寻址、多个 URL 和解包 | 多镜像回退、临时文件下载和完整性校验 | 提高数据获取的可靠性和可追溯性 |
+| 数据获取 | 构建产物哈希寻址、多个 URL 和解包 | 多镜像回退、临时文件下载和完整性校验 | 提高数据获取的可靠性和可追溯性 |
 | 数据读取接口 | 以`read_LUT`读取已登记数据 | 以`read_dataset`统一提供全域网格、周期切片和指定格点读取，并保留`read_LUT`作为兼容调用名称 | 统一数据发现、读取和模式输入组织，降低旧接口迁移成本 |
 | 多语言访问 | 提供Julia、Matlab、Octave、Python和R接口 | 在保留原有接口的基础上完善Matlab、Octave、Python和R自动下载，并新增C和Fortran自动下载入口 | 扩展科研人员获取新版网格数据的编程环境 |
 | 模式组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织 | 标准化数据进入Emerald参数组织与模式初始化 |
 | 数据生产 | 数据源专用处理及贡献流程 | 共享YAML配置规范、程序化与交互式配置生成及显式源维度映射 | 形成共享的标准化数据生产工作流 |
 
-**Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow changes, and their implications for scientific data use across the data lifecycle.
+**Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow changes, and their implications for scientific data use across the data workflow.
 
 ### 2.2 YAML驱动的数据生产与标准化
 
@@ -241,7 +241,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 ### 4.2 ELEV与LAI的直接NetCDF分发效率
 
-按照第3.2节的相同输入和测量协议，环境A中直接NetCDF相对外层`tar.gz`将ELEV和LAI的端到端中位时间分别降低48.3%和82.9%；环境B中的相应降幅分别为53.6%和69.2%（图3）。两个数据文件的传输字节分别增加6.43%和2.16%，逻辑临时占用分别减少约48%和49%。80次SHA-256摘要核验结果一致。
+按照第3.2节的相同输入和测量协议，环境A中直接NetCDF相对外层`tar.gz`将ELEV和LAI的端到端中位时间分别由40.503和222.297 ms降至20.929和38.100 ms，降幅为48.3%和82.9%；环境B中的相应降幅分别为53.6%和69.2%（图3）。两个数据文件的传输字节分别增加6.43%和2.16%，逻辑临时占用分别减少约48%和49%。80次SHA-256摘要核验结果一致。
 
 两文件均已采用NetCDF内部zlib压缩级别4，对照归档采用gzip级别6。在所测文件和缓存预热条件下，直接NetCDF以较小的传输字节增量减少了解包及临时文件共存开销，缩短了从请求到首次读取数据的路径。
 
@@ -281,7 +281,7 @@ Windows和macOS本地环境进一步完成ELEV/LAI性能测量及镜像故障场
 
 ### 5.1 相对2022版的更新与科研用途
 
-2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[4]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。其科研用途在于减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，使数据修订能够在明确的配置、目录和文件记录下进行。
+2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[4]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。目录审计时共登记1179个数据条目，均配置机构FTP地址，部分条目另有Zenodo镜像；本文的模式输入案例使用14类陆面数据和8类ERA5数据，实验覆盖框架关键路径和代表性数据集，不将这些案例等同于全目录数据集的逐项验证。其科研用途在于减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，使数据修订能够在明确的配置、目录和文件记录下进行。
 
 OISST案例说明，共享流程可以通过源适配器处理单例维度、存储缩放和经度范围差异，并保留与独立参考逐点核对的路径。ERA5降水修订则表明，逻辑标签可以继续供下游调用，实际文件位置和完整性信息在目录中更新。为重现某次模式计算，研究人员需要同时保存当时的目录、文件摘要和代码版本；稳定标签用于简化调用，版本记录用于确定实际使用的数据。
 
@@ -317,7 +317,7 @@ Google Earth Engine侧重云端遥感数据访问与计算[3]，ESGF侧重分布
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应提交`e0ee0051ba1e51826f494d03f4a411187477cc61`；该新增代码与既有实验冻结版本分别记录。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应提交`e0ee0051ba1e51826f494d03f4a411187477cc61`；该客户端提交作为新增下载入口单独记录，既有主体实验仍按冻结版本固定。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
 
 ## 基金项目
 
