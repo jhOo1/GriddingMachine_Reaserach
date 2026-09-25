@@ -13,9 +13,10 @@ tag_status = "pending_repository_tag_before_submission"
 
 [repositories.GriddingMachine]
 url = "https://github.com/CliMA/GriddingMachine.jl"
-branch = "merge-cross-language-download-clients"
+branch = "paper-release"
 tag = "griddingmachine-paper-2026-v1"
 commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+cross_language_clients_branch = "merge-cross-language-download-clients"
 cross_language_clients_commit = "a06d5d4d9e8e46d85fc27e63ffcc070bbced8dbb"
 cross_language_clients_validation = "C compiled with Apple clang and Python/file fixture checks passed; Fortran awaits gfortran runtime validation."
 
