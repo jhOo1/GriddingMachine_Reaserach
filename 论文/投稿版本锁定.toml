@@ -1,21 +1,23 @@
 schema_version = 3
-freeze_date = "2026-08-30"
+freeze_date = "2026-09-25"
 purpose = "GriddingMachine manuscript pre-submission freeze after repository review"
 
 [manuscript]
-title_zh = "面向地球系统模型的全球网格数据生命周期：GriddingMachine框架更新与应用"
-title_en = "A Lifecycle Framework for Global Gridded Data in Earth System Models: Advances and Applications of GriddingMachine"
+title_zh = "面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用"
+title_en = "A Global Gridded Database for Earth System Models: Updates and Applications of GriddingMachine"
 file = "论文/GriddingMachine论文初稿_v0.3.md"
-content_commit = "cb30c3589dea268ea4f2d2b437c0b2c09758cf5b"
+content_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 recommended_tag = "griddingmachine-manuscript-2026-v4"
 tag_status = "pending_repository_tag_before_submission"
 
 [repositories.GriddingMachine]
 url = "https://github.com/CliMA/GriddingMachine.jl"
-branch = "paper-release"
+branch = "merge-cross-language-download-clients"
 tag = "griddingmachine-paper-2026-v1"
 commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
+cross_language_clients_commit = "a06d5d4d9e8e46d85fc27e63ffcc070bbced8dbb"
+cross_language_clients_validation = "C compiled with Apple clang and Python/file fixture checks passed; Fortran awaits gfortran runtime validation."
 
 [repositories.GriddingMachineDatasets]
 url = "https://github.com/jhOo1/GriddingMachineDatasets"
@@ -39,8 +41,8 @@ commit = "f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f"
 [repositories.ResearchMaterialsCurrent]
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
-review_merge_commit = "1051241e497a363a50d083abccc80040014dc33c"
-manuscript_content_commit = "cb30c3589dea268ea4f2d2b437c0b2c09758cf5b"
+review_merge_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
+manuscript_content_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
 freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
 
 [data.ERA5_PPT]
