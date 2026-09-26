@@ -321,10 +321,6 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 姜皓：概念设计、方法设计、软件、数据整理、可视化、初稿撰写。王玉杰：概念设计、研究指导、项目管理、论文审阅与修改。
 
-## 利益冲突声明
-
-作者声明不存在利益冲突。
-
 ## 参考文献
 
 [1] WILKINSON M D, DUMONTIER M, AALBERSBERG I J, et al. The FAIR Guiding Principles for scientific data management and stewardship[J]. Scientific Data, 2016, 3: 160018. DOI: 10.1038/sdata.2016.18.
