@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="526.736004pt" height="353.99952pt" viewBox="0 0 526.736004 353.99952" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="550.736004pt" height="377.999520pt" viewBox="0 0 550.736004 377.999520" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -19,7 +19,7 @@
  <defs>
   <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
  </defs>
- <g id="figure_1">
+ <g id="figure_1" transform="translate(12,12)">
   <g id="patch_1">
    <path d="M 0 353.99952
 L 526.736004 353.99952
@@ -693,4 +693,5 @@ z
    <rect x="309.366914" y="258.948534" width="166.03906" height="87.850986"/>
   </clipPath>
  </defs>
+</g>
 </svg>
