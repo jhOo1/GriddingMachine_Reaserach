@@ -10,7 +10,7 @@
 
 ## 摘要
 
-地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，源数据处理规则、单位换算、标准数据标识和网络分发方式不同等问题，使得每个模式不得不单独维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，在数据预处理、数据分发及数据读取方面做出优化：增加数据处理标准化流程，改进数据文件分发方式，完善数据目录与模式输入组织，并增加真实异构数据的标准化处理案例，完善数据集的组织与应用。除Julia语言外，还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并添加了C语言和Fortran语言的自动下载支持，以更好地服务科学研究与应用。
+地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，源数据处理规则、单位换算、标准数据标识和网络分发方式不同等问题，使得每个模式不得不单独维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，在数据预处理、数据分发及数据读取方面做出优化：增加数据处理标准化流程，改进数据文件分发方式，完善数据目录与模式输入组织，并增加真实异构数据的标准化处理案例，完善数据集的组织与应用。结果表明，标准化数据与独立参考保持一致，直接NetCDF分发降低了访问开销，多源网格数据能够统一组织为模式输入。除Julia语言外，还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并添加了C语言和Fortran语言的自动下载支持，以更好地服务科学研究与应用。
 
 **关键词：** 地球系统模式；全球网格数据库；数据标准化；NetCDF；数据完整性；模式输入
 
@@ -26,15 +26,15 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, differences in source-processing rules, unit conversion, standardized data identifiers, and distribution methods require each model to maintain its own database, creating unnecessary difficulties for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and data reading by introducing a standardized processing workflow, improving data-file distribution, strengthening catalog and model-input organization, and adding a real heterogeneous-data standardization case while improving dataset organization and application. In addition to Julia, automatic downloading of the updated data is supported in MATLAB, Octave, Python, and R, with new automatic-download entry points for C and Fortran, to better serve scientific research and applications.
+Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, differences in source-processing rules, unit conversion, standardized data identifiers, and distribution methods require each model to maintain its own database, creating unnecessary difficulties for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and data reading by introducing a standardized processing workflow, improving data-file distribution, strengthening catalog and model-input organization, and adding a real heterogeneous-data standardization case while improving dataset organization and application. The results show that standardized data agree with independent references, direct NetCDF distribution reduces access overhead, and gridded data from multiple sources can be organized into model inputs through a unified workflow. In addition to Julia, automatic downloading of the updated data is supported in MATLAB, Octave, Python, and R, with new automatic-download entry points for C and Fortran, to better serve scientific research and applications.
 
 **Keywords:** Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
 
 ## 1 引言
 
-地球系统模式以数值方法描述大气、海洋及其相互作用，其参数初始化、边界条件、气象驱动和结果验证均依赖区域至全球尺度的网格数据。此类数据由多个研究团队和业务机构提供，在文件格式、空间投影、维度顺序、经纬度方向、时间组织、单位、缩放方式、缺失值表示和元数据结构等方面存在差异。研究人员需要完成数据发现、下载、重排或重投影、数值转换、质量检查和模式接口适配，才能将可获得的数据用于可重复的模式计算。因此，科学数据管理正在由单纯的数据公开转向强调可发现（**F**indable）、可获取（**A**ccessible）、可互操作（**I**nteroperable）和可复用（**R**eusable）的 FAIR 原则[1]。NetCDF适合组织多维科学数据及其坐标信息[5]，CF元数据约定进一步规范变量、坐标和时空属性[2]。Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[3]。然而，对于面向固定版本、离线缓存和模式直接调用的工作流，研究人员仍需要把数据转换规则、标准数据标识、网络获取内容和下游模式接口连接起来。建立适用于本地运行的标准化科研数据库，可以将这些环节组织为可追溯、可复用的数据流程，减少重复整理，保证模式输入的一致性，并便于研究人员在不同计算环境中复现实验。
+地球系统模式以数值方法描述大气、海洋及其相互作用，其参数初始化、边界条件、气象驱动和结果验证均依赖区域至全球尺度的网格数据。此类数据由多个研究团队和业务机构提供，在文件格式、空间投影、维度顺序、经纬度方向、时间组织、单位、缩放方式、缺失值表示和元数据结构等方面存在差异。研究人员需要完成数据发现、下载、重排或重投影、数值转换、质量检查和模式接口适配，才能将可获得的数据用于可重复的模式计算。因此，科学数据管理正在由单纯的数据公开转向强调可发现（**F**indable）、可获取（**A**ccessible）、可互操作（**I**nteroperable）和可复用（**R**eusable）的 FAIR 原则[1]。NetCDF适合组织多维科学数据及其坐标信息[2]，CF元数据约定进一步规范变量、坐标和时空属性[3]。Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[4]。然而，对于面向固定版本、离线缓存和模式直接调用的工作流，研究人员仍需要把数据转换规则、标准数据标识、网络获取内容和下游模式接口连接起来。建立适用于本地运行的标准化科研数据库，可以将这些环节组织为可追溯、可复用的数据流程，减少重复整理，保证模式输入的一致性，并便于研究人员在不同计算环境中复现实验。
 
-Wang等[4]于2022年发布了基于Julia语言的GriddingMachine数据库和软件，旨在将常用于陆面和地球系统模拟的全球数据处理为具有统一空间和变量约定的NetCDF文件，并通过标签、数据库文件Artifacts.toml和Julia语言的构建产物管理机制实现数据管理与自动下载，同时提供Julia、Matlab、Octave、Python和R接口。2022版已经建立了统一网格约定、数据标签和多语言访问基础，但仍存在三方面局限：数据生产主要依赖数据集专用脚本，处理规则难以共享；标准化数据以带有标签文件的`tar.gz`归档分发，增加了获取和读取环节；数据目录随软件包维护，数据更新与软件发布耦合。随着数据类型、分发位置和模式应用链条扩展，源数据处理、数据分发和模式输入之间需要进一步统一。
+Wang等[5]于2022年发布了基于Julia语言的GriddingMachine数据库和软件，旨在将常用于陆面和地球系统模拟的全球数据处理为具有统一空间和变量约定的NetCDF文件，并通过标签、数据库文件Artifacts.toml和Julia语言的构建产物管理机制实现数据管理与自动下载，同时提供Julia、Matlab、Octave、Python和R接口。2022版已经建立了统一网格约定、数据标签和多语言访问基础，但仍存在三方面局限：数据生产主要依赖数据集专用脚本，处理规则难以共享；标准化数据以带有标签文件的`tar.gz`归档分发，增加了获取和读取环节；数据目录随软件包维护，数据更新与软件发布耦合。随着数据类型、分发位置和模式应用链条扩展，源数据处理、数据分发和模式输入之间需要进一步统一。
 
 针对上述问题，改进方向应当同时覆盖数据生产和模式使用两个环节：用共享配置显式记录源数据维度、坐标、数值变换和缺失值处理，用独立目录维护数据标签、版本、镜像及可核验的完整性信息，并用统一读取接口把标准化数据组织为模式需要的参数、驱动和时间序列。这样的设计可以使数据处理规则、数据目录和访问软件分别维护，同时通过稳定标签和标准 NetCDF 保持衔接。
 
@@ -78,7 +78,7 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 
 #### 2.2.1 数据契约与维度映射
 
-GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数据，便于不同地球科学软件读取[5]。2022 年版本已经规定数据采用二维或三维规则经纬网，前两维依次为经度和纬度，可选第三维表示周期；经度自西向东、纬度自南向北，输出保存为实际物理值，缺失值在读取后统一表示为 `NaN`，主变量和不确定性变量分别命名为 `data` 和 `std`[4]。新版延续这些核心约定，并将源维度映射、处理记录、版本化配置和分发完整性纳入相互衔接的机器可读规范（表2）。
+GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数据，便于不同地球科学软件读取[2]。2022 年版本已经规定数据采用二维或三维规则经纬网，前两维依次为经度和纬度，可选第三维表示周期；经度自西向东、纬度自南向北，输出保存为实际物理值，缺失值在读取后统一表示为 `NaN`，主变量和不确定性变量分别命名为 `data` 和 `std`[5]。新版延续这些核心约定，并将源维度映射、处理记录、版本化配置和分发完整性纳入相互衔接的机器可读规范（表2）。
 
 **表2 GriddingMachine 标准 NetCDF 数据与元数据规范**
 
@@ -139,11 +139,11 @@ YAML将数据源差异与通用处理代码分离。配置字段分别描述输�
 
 格点尺度陆面参数组织接口从预定义数据集合中提取土壤、冠层、叶片、地形、陆地掩膜和植物功能型数据，依据陆面状态融合相应参数，并对叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列执行缺失值填补与逐日重采样。第二套陆面参数集合`gm2`由14类标准化数据组成，其中冠层聚集度采用月尺度数据集，其余字段按各自空间与时间分辨率进入统一格点。
 
-植物功能型比例进一步用于融合 C3 和 C4 植物的叶片光学参数与 Medlyn 气孔导度模型参数，并由 25 ℃下最大羧化速率 `VCMAX25` 推导最大电子传递速率 `JMAX25` 和细胞色素 b6f 复合体参数 `B6F`。输出涵盖位置、分辨率、年份、二氧化碳（CO₂）、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数；字段完整性与缺失值标记 `NaN` 状态同步进入质量控制。多个标准化数据由此形成结构一致的格点级模式输入。本文关注数据组织和接口衔接，不对Emerald的模式性能或科学模拟结果作独立评价。
+植物功能型比例用于融合 C3 和 C4 植物的叶片光学参数与 Medlyn 气孔导度模型参数[6,7]。光合参数组织参考叶片羧化能力与电子传递能力的协调关系[8]，并按当前模式参数化关系由 25 ℃下最大羧化速率 `VCMAX25` 计算最大电子传递速率 `JMAX25` 和细胞色素 b6f 复合体参数 `B6F`。输出涵盖位置、分辨率、年份、二氧化碳（CO₂）、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数；字段完整性与缺失值标记 `NaN` 状态同步进入质量控制。多个标准化数据由此形成结构一致的格点级模式输入。
 
-格点尺度气象驱动接口按年份和格点读取气象驱动集合`wd1`中的8类第五代全球再分析数据（ERA5）[6]，分别提取地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速，并依据格点经度换算时区偏移、构建浮点年积日（fractional day of year，`FDOY`）。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列，输出字段完整性与`NaN`状态同步进入质量控制。
+格点尺度气象驱动接口按年份和格点读取气象驱动集合`wd1`中的8类第五代全球再分析数据（ERA5）[9]，分别提取地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速，并依据格点经度换算时区偏移、构建浮点年积日（fractional day of year，`FDOY`）。接口既可直接按经纬度读取，也可从已经加载的全局气象数组提取格点序列，输出字段完整性与`NaN`状态同步进入质量控制。
 
-标签驱动的数据访问、陆面参数融合与气象驱动组织共同构成模式输入组织层。本文将“模式就绪”界定为：标准化数据经过格点索引、字段组织、时间轴构建和量纲衔接后，形成满足Emerald初始化接口的数据结构。与2022版通过标签组织数据访问的思路一致[4]，新版进一步把目录配置与更新、完整性获取、标准网格读取和模式输入组织连接为连续公共数据流。用户以数据标签发现数据集，经镜像获取，并在目录提供完整性元数据时执行内容核验，再读取全域网格、周期或格点数据，并形成陆面参数或气象驱动；具体公共接口、调用参数和完整Julia示例列入补充材料与版本化用户指南。
+标签驱动的数据访问、陆面参数融合与气象驱动组织共同构成模式输入组织层。本文将“模式就绪”界定为：标准化数据经过格点索引、字段组织、时间轴构建和量纲衔接后，形成满足Emerald初始化接口的数据结构。与2022版通过标签组织数据访问的思路一致[5]，新版进一步把目录配置与更新、完整性获取、标准网格读取和模式输入组织连接为连续公共数据流。用户以数据标签发现数据集，经镜像获取，并在目录提供完整性元数据时执行内容核验，再读取全域网格、周期或格点数据，并形成陆面参数或气象驱动；具体公共接口、调用参数和完整Julia示例列入补充材料与版本化用户指南。
 
 ### 2.5 多语言数据下载接口
 
@@ -175,15 +175,13 @@ YAML将数据源差异与通用处理代码分离。配置字段分别描述输�
 
 代表性处理实例包括`(lon,lat)`与`(lon,lat,ind)`标准输入、`(lat,lon)`与`(ind,lat,lon)`源排列、纬度和经度翻转、`0～360°`经度平移、线性缩放、范围过滤、缺失值填补、`data/std`保存和标签生成。配置字段、变量数量、已有数据集和标签状态共同覆盖标准化数据从源数据到目录登记的主要环节。
 
-共享生产契约围绕维度、坐标、数值、缺失值填补、配置、输出和空间方向组织31组处理实例，按结构、逐点数值、属性、数值范围和缺失值状态进行验收；完整分类矩阵见补充材料S4。
-
-29组非交互处理实例在Windows、macOS和Linux持续集成环境中采用相同判据运行，空间方向测试V01和V02分别对应正确方向与南北反转；自动检查和人工空间审核共同评价数组变换、配置解析和方向控制。
+共享生产契约围绕维度、坐标、数值、缺失值填补、配置、输出和空间方向组织31组处理实例，其中29组非交互实例在Windows、macOS和Linux持续集成环境中采用相同判据运行；空间方向测试V01和V02分别呈现正确方向和南北反转，用于核对方向控制。完整分类矩阵见补充材料S4。
 
 配置构建器面向二维数据、含不确定性变量的三维数据和经纬度变换数据生成符合共享配置规范的YAML，并将其直接交给标准化数据生产引擎。数据贡献案例进一步贯通配置生成、标准化、自动与人工质量检查、数据集发布、目录登记以及下游更新、下载和读取，形成覆盖主要环节的数据贡献入口。
 
 #### 3.1.2 OISST异构数据集标准化
 
-OISST案例用于检验共享配置对真实异构源数据的适配。采用美国国家海洋和大气管理局国家环境信息中心（NOAA/NCEI）发布的0.25°逐日OISST V2.1数据，选用仅使用甚高分辨率辐射计（AVHRR）数据的版本[7]，选取2022年2月25日文件。原始`sst`变量在NetCDF中声明为`time×zlev×lat×lon`，其中`zlev`和`time`均为单例维度；Julia读取后的数组顺序为`lon×lat×zlev×time`，形状为1440×720×1×1。经度覆盖0.125°～359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
+OISST案例用于检验共享配置对真实异构源数据的适配。采用美国国家海洋和大气管理局国家环境信息中心（NOAA/NCEI）发布的0.25°逐日OISST V2.1数据，选用仅使用甚高分辨率辐射计（AVHRR）数据的版本[10]，选取2022年2月25日文件。原始`sst`变量在NetCDF中声明为`time×zlev×lat×lon`，其中`zlev`和`time`均为单例维度；Julia读取后的数组顺序为`lon×lat×zlev×time`，形状为1440×720×1×1。经度覆盖0.125°～359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
 
 版本化源适配器提取唯一的垂向层和时间层，共享YAML契约进一步完成维度声明、`0°～360°`至`[−180°, 180°)`的经度重排、有效范围控制和缺失值策略，生成`SST_OISST_4X_1D_20220225_V1`标准化数据。
 
@@ -199,7 +197,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 数据目录管理流程涵盖首次建立、版本更新、目录同步、数据集获取、状态查询和历史数据整理。代表性目录包含不同版本的`Artifacts.yaml`、多个NetCDF数据集和两个镜像端点，并覆盖目录更新、单数据集获取、全库同步、历史整理和状态查询。各状态转换通过重复调用考察幂等行为，确定性小型目录参考数据用于呈现事务缓存、正式数据区、全库同步与镜像遍历逻辑。
 
-多镜像分析在两个独立环境中构建内容一致、访问状态可配置的镜像集合，通过延迟分数组织候选顺序，并设置13类受控状态场景，覆盖候选排序、镜像回退、网络访问异常、缓存命中、内容完整性异常和候选耗尽过程。每类场景在各环境中重复5次，记录候选选择、镜像遍历、正式文件状态及SHA-256，据此刻画事务式获取在镜像切换过程中的文件选择、校验与落盘行为。中科大校内网机构 FTP与Zenodo公共存储的访问进一步呈现机构镜像和公共镜像的互补分发特征与内容一致性；完整场景矩阵列于补充材料S6。
+多镜像分析在两个独立环境中构建内容一致、访问状态可配置的镜像集合，通过延迟分数组织候选顺序，并以13类受控状态场景检验镜像回退、缓存复用、内容核验和正式文件状态。每类场景在各环境中重复5次，记录候选选择、获取结果和文件状态；中科大校内网机构FTP与Zenodo公共存储的访问进一步呈现两类镜像的互补分发特征与内容一致性。完整场景矩阵列于补充材料S6。
 
 镜像访问实验选取4个同时具有FTP和Zenodo地址且已登记`SIZE`与`SHA256`字段的代表性标签，对各文件—镜像组合开展重复下载，记录候选顺序、传输时间、字节数和SHA-256。公共网络场景刻画Zenodo镜像获取特征；中科大校内网实验对FTP与Zenodo执行同文件只读下载，共形成24次完整性记录。实验数据与环境信息随可复现材料归档。
 
@@ -207,7 +205,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 模式输入组织案例连接标准网格读取、陆面参数融合、气象驱动组织与Emerald初始化。确定性参考数据用于核对字段名、形状、类型、时间索引和缺失值处理；陆面案例采用2020年第二套陆面参数集合，在US-NR1研究站点附近植被格点和典型非植被格点呈现不同陆面状态下的模式入口。
 
-真实气象案例使用同一年度的8类ERA5标准化数据[6]：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。八文件从中科大机构FTP只读获取，总大小为12 575 376 138字节，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、105.5464°W）由规则索引映射到40.5°N、105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个`data`变量的`lon×lat×ind`维度、360×180×8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较；`FDOY`另按经度/15计算时区偏移并独立重建。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、土壤状态是否均为有限值。
+真实气象案例使用同一年度的8类ERA5标准化数据[9]：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。八文件从中科大机构FTP只读获取，总大小为12 575 376 138字节，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、105.5464°W）由规则索引映射到40.5°N、105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个`data`变量的`lon×lat×ind`维度、360×180×8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较；`FDOY`另按经度/15计算时区偏移并独立重建。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、土壤状态是否均为有限值。
 
 ### 3.5 跨操作系统运行一致性设计
 
@@ -223,7 +221,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 #### 4.1.1 共享生产契约与质量控制结果
 
-29组非交互实例在三系统持续集成环境中获得一致的数据集结构和逐点数值结果；人工空间审核接受正向图并识别南北反转图，与预设方向结果一致。数据贡献案例贯通YAML配置、标准化生成、目录登记和下游读取，生成数据集与参考数组逐点一致。
+三系统持续集成中的29组非交互实例获得一致的数据集结构和逐点数值；V01和V02的空间方向结果与预设一致。配置贡献案例进一步贯通YAML配置、标准化生成、目录登记和下游读取，生成数据集与参考数组逐点一致。
 
 ELEV补充案例使用已通过文件大小和SHA-256校验的`ELEV_4X_1Y_V1.nc`。该文件为1440×720、全域有效，有限值范围为−415.5～5 357.7002 m；GriddingMachine全域网格读取与NetCDF底层Float32数组逐点一致。使用显式标准维度、`KEEP_AS_IS`和原值保持配置连续处理3次，三次`data/lon/lat`均与输入一致，输出文件SHA-256也彼此相同，表明标准化数据经过统一读取和生产流水线后保持科学数组及坐标。
 
@@ -255,7 +253,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 目录与数据获取模块将目录初始化、事务更新、数据集同步、镜像获取、状态查询和历史数据整理组织为统一接口。独立目录支持数据集随镜像和版本更新，事务缓存区与正式数据区分离传输过程和已发布数据。
 
-13类受控状态场景在两个独立操作系统环境中分别重复5次，共形成130次获取记录。在具有可用延迟分数的场景中，目录与数据获取模块按照延迟辅助排序候选，并在首选镜像访问或内容校验状态变化时依次遍历其余地址。每次获取采用独立临时文件，内容经字节数和SHA-256确认后进入正式路径；所有记录均完成临时文件回收，既有正式文件摘要保持一致。
+13类受控状态场景在两个独立操作系统环境中各重复5次。目录与数据获取模块按照延迟辅助排序候选，并在访问或内容核验状态变化时遍历其余地址；每次获取均以独立临时文件完成传输，内容核验通过后进入正式路径，既有正式文件摘要保持一致。
 
 在公共网络场景中，两个独立环境分别对4个Zenodo标签重复获取3次，共形成24次下载记录，全部达到登记字节数并通过SHA-256核验。下载时间随文件规模呈梯度变化，重复传输的SHA-256摘要与目录登记值一致，体现了公共镜像、事务式获取和完整性校验的协同作用。
 
@@ -269,11 +267,11 @@ ERA5降水数据的单位修订进一步呈现逻辑标签与物理文件的解�
 
 真实气象案例读取2020年8类ERA5标准化数据，八文件合计12 575 376 138字节；各`data`变量均为`lon×lat×ind`、360×180×8784，并带有单位属性。US-NR1格点的地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速均得到8784个逐小时值，有限值比例均为100%；模式输入组织层输出与底层NetCDF逐点读取的8个字段最大绝对差均为0。按站点经度计算的时区偏移为−7.0364 h，`FDOY`严格递增且与独立公式逐点一致。气象驱动组织形成`FDOY`和8类气象共9个字段，Emerald适配后扩展为16个模式驱动字段；真实陆面参数与真实气象共同完成模式初始化和60 s首步计算，大气与土壤关键状态均保持有限值。
 
-量纲审计进一步表明，PPT全年累计值为0.496409 m水层，即496.409 mm。该数值尺度与ERA5逐小时累计降水的米制表达[8]及Emerald由水层厚度转换为摩尔通量的适配关系一致。据此，标准NetCDF中的降水单位属性统一为`m`，使数据元信息、数值尺度和模式换算形成一致的量纲链条。真实年度案例由此覆盖格点提取、时间轴构建、量纲衔接和模式首步计算等主要接口环节。
+量纲审计进一步表明，PPT全年累计值为0.496409 m水层，即496.409 mm。该数值尺度与ERA5逐小时累计降水的米制表达[11]及Emerald由水层厚度转换为摩尔通量的适配关系一致。据此，标准NetCDF中的降水单位属性统一为`m`，使数据元信息、数值尺度和模式换算形成一致的量纲链条。真实年度案例由此覆盖格点提取、时间轴构建、量纲衔接和模式首步计算等主要接口环节。
 
 ### 4.5 跨操作系统运行一致性结果
 
-Windows、macOS和Linux持续集成环境分别完成29组非交互生产实例、40次确定性分发测量和65次镜像状态核对，数据集结构、逐点数值、SHA-256摘要、正式文件状态和临时文件回收结果一致。GriddingMachine与GriddingMachineDatasets核心功能以及Emerald合成输入最小接口也在三个系统环境中完成，呈现固定依赖下核心数据路径的跨系统一致性。
+跨系统测试显示，核心数据结构、逐点结果、文件摘要和接口状态在Windows、macOS和Linux的既定运行路径中保持一致；GriddingMachine、GriddingMachineDatasets及Emerald合成输入接口均通过相应测试。详细测试矩阵见补充材料S5。
 
 Windows和macOS本地环境进一步完成ELEV/LAI性能测量及镜像故障场景，独立公共网络记录完成Zenodo内容核验；中科大校内网环境完成FTP—Zenodo同文件对照，US-NR1案例完成真实陆面与气象数据集的模式输入组织。持续集成、独立环境观测和真实数据案例共同构成分层复现证据，具体系统—模块对应关系列于补充材料S5。
 
@@ -281,9 +279,9 @@ Windows和macOS本地环境进一步完成ELEV/LAI性能测量及镜像故障场
 
 ### 5.1 相对2022版的更新与科研用途
 
-2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[4]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。目录审计时共登记1179个数据条目，均配置机构FTP地址，部分条目另有Zenodo镜像；框架设计可覆盖这些按统一规范登记的数据条目，本文以14类陆面数据、8类ERA5数据和OISST等代表性案例展示其关键路径。其科研用途在于减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，使数据修订能够在明确的配置、目录和文件记录下进行。
+2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[5]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。目录审计时共登记1179个数据条目，均配置机构FTP地址，部分条目另有Zenodo镜像；统一的数据规范与目录结构支持这些条目采用相同的获取和读取流程。这样的组织方式可减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，并使数据修订能够沿配置、目录和文件记录持续更新。
 
-OISST案例说明，共享流程可以通过源适配器处理单例维度、存储缩放和经度范围差异，并保留与独立参考逐点核对的路径。ERA5降水修订则表明，逻辑标签可以继续供下游调用，实际文件位置和完整性信息在目录中更新。为重现某次模式计算，研究人员需要同时保存当时的目录、文件摘要和代码版本；稳定标签用于简化调用，版本记录用于确定实际使用的数据。
+本文案例从数据结构与应用方式两个方面覆盖主要流程：OISST检验单例维度、存储缩放和经度范围差异的标准化处理，ELEV和LAI比较直接NetCDF与外层归档的分发效率，14类陆面数据与8类ERA5数据则贯通标准网格读取和模式输入组织。共享配置、数据标签与接口约定使这些处理方法能够用于其他符合相同规范的数据。ERA5降水修订进一步表明，逻辑标签可以继续供下游调用，实际文件位置和完整性信息在目录中更新。为重现某次模式计算，研究人员需要同时保存当时的目录、文件摘要和代码版本；稳定标签用于简化调用，版本记录用于确定实际使用的数据。
 
 ### 5.2 分发效率与科学数据质量
 
@@ -295,21 +293,17 @@ OISST案例说明，共享流程可以通过源适配器处理单例维度、存
 
 统一NetCDF格式为数据复用提供基础，模式运行还需要格点对应、参数字段组合、时间轴构建和单位换算。US-NR1案例中，多类陆面数据和逐时气象驱动经过这些步骤形成Emerald所需的输入，应用层字段与底层读取逐点一致，并完成初始化与60 s首步计算。这些结果说明本文数据组织方法能够与既定模式接口衔接。
 
-这一流程可作为其他站点、年份和模式的数据接入参考。迁移时应根据目标模式重新确认空间代表性、时间分辨率、变量定义和单位关系；长期模拟与观测比较则用于进一步评价模式运行效果。Julia主流程与非Julia下载入口分别服务输入组织和跨语言文件获取，研究人员可按已有科研程序的需求选择调用方式。
+这一流程也可用于其他站点、年份和模式的数据接入；根据目标模式的空间、时间和变量约定调整配置与接口适配，即可复用标准网格读取和数据组织方法。Julia主流程与非Julia下载入口分别服务输入组织和跨语言文件获取，研究人员可按已有科研程序的需求选择调用方式。
 
 ### 5.4 与相关数据基础设施的关系及扩展方向
 
-NetCDF/CF提供多维数据表达与元数据约定[2,5]，地球系统数据立方体强调多变量时空数据的联合组织与分析[9]。GriddingMachine在这些基础上固定规则网格、变量命名和数据标签，使不同来源的数据能够进入一致的本地读取流程。其核心实现使用Julia[10]，通过可组合的数据处理与读取接口连接标准化过程和模式程序。
+NetCDF/CF提供多维数据表达与元数据约定[2,3]，地球系统数据立方体强调多变量时空数据的联合组织与分析[12]。GriddingMachine在这些基础上固定规则网格、变量命名和数据标签，使不同来源的数据能够进入一致的本地读取流程；其核心实现使用Julia[13]，通过可组合的数据处理与读取接口连接标准化过程和模式程序。Google Earth Engine侧重云端遥感数据访问与计算[4]，ESGF侧重分布式气候模式数据发现和访问[14]，Pangeo及Pangeo Forge支持云端数据组织与可复用的处理配方[15,16]。GriddingMachine面向固定版本、离线缓存和本地模式调用，以共享配置、独立目录和模式输入接口把标准化数据接入本地科研程序。
 
-Google Earth Engine侧重云端遥感数据访问与计算[3]，ESGF侧重分布式气候模式数据发现和访问[11]，Pangeo及Pangeo Forge支持云端数据组织与可复用的处理配方[12,13]。GriddingMachine面向固定版本、离线缓存和本地模式调用，利用共享配置、数据目录和模式输入接口衔接这些环节。与上述平台的关系主要体现为科研工作流中的分工；本文的本地分发实验也不构成与云端平台的性能比较。
-
-国内地球系统科学数据共享研究强调规范分类和目录建设[14]。Pooch和STAC分别提供科研文件获取及地理空间数据目录描述工具[15,16]，这些通用工具可与GriddingMachine的标签目录和标准网格组织方式衔接，为多源数据进入模式输入提供补充。
-
-持续维护需要兼顾软件版本、数据出处和可引用性。科研软件引用原则[17]、FAIR4RS[18]和TRUST[19]为软件识别、复用和资源库维护提供参考，国内国家科学数据中心的FAIR实践也强调元数据与使用信息的重要性[20]。后续将继续完善数据目录、镜像登记和永久归档，并扩展更多模式接口。
+国内地球系统科学数据共享研究强调规范分类和目录建设[17]。Pooch和STAC分别提供科研文件获取及地理空间数据目录描述工具[18,19]，可为GriddingMachine的标签目录和标准网格组织提供补充。持续维护围绕数据目录、镜像登记、归档和模式接口展开，软件引用、科研软件 FAIR 原则（FAIR4RS）和数字资源库 TRUST 原则为软件复用、资源维护和长期科研协作提供参考[20-22]；在此基础上还可扩展更多数据源和模式。
 
 ## 6 结论
 
-本文面向地球系统模式对全球网格数据的使用需求，在2022版GriddingMachine基础上完善了数据预处理、分发和读取流程。共享YAML配置统一描述源数据转换规则，数据目录集中记录标签、镜像和完整性信息，统一读取接口将标准化数据组织为陆面参数和气象驱动；同时，完善Matlab、Octave、Python和R对新版数据的自动下载支持，并新增C和Fortran下载入口，相关接口已完成编译与文件完整性测试，扩展了不同科研编程环境下的数据获取方式。
+本文面向地球系统模式对全球网格数据的使用需求，在2022版GriddingMachine基础上完善了数据预处理、分发和读取流程。共享YAML配置统一描述源数据转换规则，数据目录集中记录标签、镜像和完整性信息，统一读取接口将标准化数据组织为陆面参数和气象驱动；同时，完善Matlab、Octave、Python和R对新版数据的自动下载支持，并新增C和Fortran下载入口，扩展了不同科研编程环境下的数据获取方式。
 
 受控实例和真实数据案例表明，新版流程能够保持标准化数据与独立参考的一致性，支持直接NetCDF文件分发和FTP—Zenodo镜像内容核验，并将陆面参数与ERA5逐时数据组织为US-NR1模式输入，完成Emerald初始化和60 s首步计算。这些结果验证了新版GriddingMachine在数据转换、文件获取和模式输入组织之间的衔接能力。
 
@@ -335,40 +329,44 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [1] WILKINSON M D, DUMONTIER M, AALBERSBERG I J, et al. The FAIR Guiding Principles for scientific data management and stewardship[J]. Scientific Data, 2016, 3: 160018. DOI: 10.1038/sdata.2016.18.
 
-[2] CF CONVENTIONS COMMITTEE. CF Metadata Conventions[EB/OL]. [2026-09-26]. https://cfconventions.org/.
+[2] REW R, DAVIS G. NetCDF: An interface for scientific data access[J]. IEEE Computer Graphics and Applications, 1990, 10(4): 76-82. DOI: 10.1109/38.56302.
 
-[3] GORELICK N, HANCHER M, DIXON M, et al. Google Earth Engine: Planetary-scale geospatial analysis for everyone[J]. Remote Sensing of Environment, 2017, 202: 18-27. DOI: 10.1016/j.rse.2017.06.031.
+[3] CF CONVENTIONS COMMITTEE. CF Metadata Conventions[EB/OL]. [2026-09-26]. https://cfconventions.org/.
 
-[4] WANG Y, KÖHLER P, BRAGHIERE R K, et al. GriddingMachine, a database and software for Earth system modeling at global and regional scales[J]. Scientific Data, 2022, 9: 258. DOI: 10.1038/s41597-022-01346-x.
+[4] GORELICK N, HANCHER M, DIXON M, et al. Google Earth Engine: Planetary-scale geospatial analysis for everyone[J]. Remote Sensing of Environment, 2017, 202: 18-27. DOI: 10.1016/j.rse.2017.06.031.
 
-[5] REW R, DAVIS G. NetCDF: An interface for scientific data access[J]. IEEE Computer Graphics and Applications, 1990, 10(4): 76-82. DOI: 10.1109/38.56302.
+[5] WANG Y, KÖHLER P, BRAGHIERE R K, et al. GriddingMachine, a database and software for Earth system modeling at global and regional scales[J]. Scientific Data, 2022, 9: 258. DOI: 10.1038/s41597-022-01346-x.
 
-[6] HERSBACH H, BELL B, BERRISFORD P, et al. The ERA5 global reanalysis[J]. Quarterly Journal of the Royal Meteorological Society, 2020, 146(730): 1999-2049. DOI: 10.1002/qj.3803.
+[6] MEDLYN B E, DUURSMA R A, EAMUS D, et al. Reconciling the optimal and empirical approaches to modelling stomatal conductance[J]. Global Change Biology, 2011, 17(6): 2134-2144. DOI: 10.1111/j.1365-2486.2010.02375.x.
 
-[7] HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
+[7] LIN Y S, MEDLYN B E, DUURSMA R A, et al. Optimal stomatal behaviour around the world[J]. Nature Climate Change, 2015, 5: 459-464. DOI: 10.1038/nclimate2550.
 
-[8] COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-26]. https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790.
+[8] WALKER A P, BECKERMAN A P, GU L, et al. The relationship of leaf photosynthetic traits—Vcmax and Jmax—to leaf nitrogen, leaf phosphorus, and specific leaf area: A meta-analysis and modeling study[J]. Ecology and Evolution, 2014, 4(16): 3218-3235. DOI: 10.1002/ece3.1173.
 
-[9] MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
+[9] HERSBACH H, BELL B, BERRISFORD P, et al. The ERA5 global reanalysis[J]. Quarterly Journal of the Royal Meteorological Society, 2020, 146(730): 1999-2049. DOI: 10.1002/qj.3803.
 
-[10] BEZANSON J, EDELMAN A, KARPINSKI S, et al. Julia: A fresh approach to numerical computing[J]. SIAM Review, 2017, 59(1): 65-98. DOI: 10.1137/141000671.
+[10] HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
 
-[11] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
+[11] COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-26]. https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790.
 
-[12] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
+[12] MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
 
-[13] STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
+[13] BEZANSON J, EDELMAN A, KARPINSKI S, et al. Julia: A fresh approach to numerical computing[J]. SIAM Review, 2017, 59(1): 65-98. DOI: 10.1137/141000671.
 
-[14] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. DOI: 10.11867/j.issn.1001-8166.2014.02.0265. [WANG Juanle, LIN Hai, RAN Yingying, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
+[14] CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
 
-[15] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
+[15] ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science & Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
 
-[16] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025[2026-09-26]. https://www.ogc.org/standards/stac/.
+[16] STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
 
-[17] SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
+[17] 王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. DOI: 10.11867/j.issn.1001-8166.2014.02.0265. [WANG Juanle, LIN Hai, RAN Yingying, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
 
-[18] BARKER M, CHUE HONG N P, KATZ D S, et al. Introducing the FAIR Principles for research software[J]. Scientific Data, 2022, 9: 622. DOI: 10.1038/s41597-022-01710-x.
+[18] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
 
-[19] LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
+[19] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025 [2026-09-26]. https://www.ogc.org/standards/stac/.
 
-[20] 李楠楠, 刘筱敏. 我国国家科学数据中心FAIR原则的实践现状调查与分析[J]. 图书与情报, 2023, 43(2): 137-144. DOI: 10.11968/tsyqb.1003-6938.2023032. [LI Nannan, LIU Xiaomin. Survey and analysis on the practice of FAIR principle in National Science Data Center of China[J]. Library and Information, 2023, 43(2): 137-144.]
+[20] SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
+
+[21] BARKER M, CHUE HONG N P, KATZ D S, et al. Introducing the FAIR Principles for research software[J]. Scientific Data, 2022, 9: 622. DOI: 10.1038/s41597-022-01710-x.
+
+[22] LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
