@@ -34,22 +34,40 @@ def set_run_font(run, east_asia: str = "Songti SC", latin: str = "Times New Roma
     run._element.rPr.rFonts.set(qn("w:eastAsia"), east_asia)
 
 
+def add_text_segments(paragraph, text: str, bold: bool = False) -> None:
+    """Add ordinary text while rendering author markers as Word superscripts."""
+    for part in re.split(r"(\^\d+|\\?\*)", text):
+        if not part:
+            continue
+        marker = part.startswith("^") or part in {"*", r"\*"}
+        if part.startswith("^"):
+            display = part[1:]
+        elif part == r"\*":
+            display = "*"
+        else:
+            display = part
+        run = paragraph.add_run(display)
+        run.bold = bold
+        run.font.superscript = marker
+        set_run_font(run)
+
+
 def add_inline(paragraph, text: str) -> None:
     parts = re.split(r"(\*\*.*?\*\*|`.*?`)", text)
     for part in parts:
         if not part:
             continue
         if part.startswith("**") and part.endswith("**"):
-            run = paragraph.add_run(part[2:-2])
-            run.bold = True
+            content = part[2:-2]
+            if content.endswith("\\"):
+                content = content[:-1]
+            add_text_segments(paragraph, content, bold=True)
         elif part.startswith("`") and part.endswith("`"):
             run = paragraph.add_run(part[1:-1])
             run.font.name = "Consolas"
             run._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
         else:
-            run = paragraph.add_run(part)
-        if not (part.startswith("`") and part.endswith("`")):
-            set_run_font(run)
+            add_text_segments(paragraph, part)
 
 
 def table_cells(line: str) -> list[str]:
