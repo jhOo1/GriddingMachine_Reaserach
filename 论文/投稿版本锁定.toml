@@ -1,24 +1,24 @@
 schema_version = 3
-freeze_date = "2026-09-25"
+freeze_date = "2026-09-26"
 purpose = "GriddingMachine manuscript pre-submission freeze after repository review"
 
 [manuscript]
 title_zh = "面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用"
 title_en = "A Global Gridded Database for Earth System Models: Updates and Applications of GriddingMachine"
 file = "论文/GriddingMachine论文初稿_v0.3.md"
-content_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
-freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
+content_commit = "fc19abf"
+freeze_branch = "main"
 recommended_tag = "griddingmachine-manuscript-2026-v4"
 tag_status = "pending_repository_tag_before_submission"
 
 [repositories.GriddingMachine]
 url = "https://github.com/CliMA/GriddingMachine.jl"
-branch = "paper-release"
-tag = "griddingmachine-paper-2026-v1"
-commit = "11631d624f4847c5e34d2c4ff3cd762359a80c05"
-cross_language_clients_branch = "merge-cross-language-download-clients"
-cross_language_clients_commit = "a06d5d4d9e8e46d85fc27e63ffcc070bbced8dbb"
-cross_language_clients_validation = "C compiled with Apple clang and Python/file fixture checks passed; Fortran awaits gfortran runtime validation."
+branch = "release/v0.5.0"
+tag = "release/v0.5.0"
+commit = "8b3ff703e14f1a387281f4c814f2620438e8f9aa"
+cross_language_clients_branch = "release/v0.5.0"
+cross_language_clients_commit = "8b3ff703e14f1a387281f4c814f2620438e8f9aa"
+cross_language_clients_validation = "C and Fortran compiled and completed checksum-verified download tests through the shared Python downloader."
 
 [repositories.GriddingMachineDatasets]
 url = "https://github.com/jhOo1/GriddingMachineDatasets"
@@ -42,9 +42,9 @@ commit = "f9f4cbbfb2a7e8668ebb6734c20ff9237adbcd6f"
 [repositories.ResearchMaterialsCurrent]
 url = "https://github.com/jhOo1/GriddingMachine_Reaserach"
 branch = "main"
-review_merge_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
-manuscript_content_commit = "ea3d22e95c86da917e5046946e141ee2c7934e97"
-freeze_branch = "freeze/griddingmachine-manuscript-2026-v4"
+review_merge_commit = "fc19abf"
+manuscript_content_commit = "fc19abf"
+freeze_branch = "main"
 
 [data.ERA5_PPT]
 logical_tag = "PPT_ERA5_1X_1H_2020_V1"

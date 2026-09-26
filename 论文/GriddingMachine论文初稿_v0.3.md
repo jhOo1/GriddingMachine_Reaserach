@@ -99,7 +99,7 @@ GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数�
 
 缺失值填补由YAML中的`GAPFILL`字段驱动，并依据数据集物理含义选择相应策略。数值常数和`MEAN`分别以给定值或分层`nanmean`填补陆地区域缺失值；`KEEP_AS_IS`保持原始数组；`INT_NAN_TO_1`将缺失值补为1并对数组整数化；`NO_LAND_NAN`和`NO_NAN`分别检查陆地区域与全域的数据完整性。缺失值填补由此统一连接有效范围过滤、陆海掩膜、缺失值处置和输出精度，为不同地球系统数据集提供可配置的数据完善方法。高程数据（ELEV）采用常数0填补策略，为统一读取和模式调用提供连续地形场。
 
-GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，维度标准化过程将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。规则经纬网数据进入通用标准化流程，非规则网格、区域投影和复杂坐标数据由数据源专用预处理模块完成适配。
+GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，维度标准化过程将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。目录中的全球网格数据均可通过统一标准化流程进入发布和读取环节；对于非规则网格、区域投影和复杂坐标源数据，先由数据源专用预处理模块完成坐标适配，再按同一标准输出。
 
 #### 2.2.2 YAML配置与转换示例
 
@@ -175,9 +175,9 @@ YAML将数据源差异与通用处理代码分离。配置字段分别描述输�
 
 代表性处理实例包括`(lon,lat)`与`(lon,lat,ind)`标准输入、`(lat,lon)`与`(ind,lat,lon)`源排列、纬度和经度翻转、`0～360°`经度平移、线性缩放、范围过滤、缺失值填补、`data/std`保存和标签生成。配置字段、变量数量、已有数据集和标签状态共同覆盖标准化数据从源数据到目录登记的主要环节。
 
-共享生产契约的受控评价围绕维度、坐标、数值、缺失值填补、配置、输出和空间方向7个方面组织31组处理实例，并进一步检查变量、形状、属性、数值范围和缺失值状态。各组以结构、逐点数值或数据集状态表征标准化结果；输出数组与位置编码参照逐点对应，Float32转换采用统一的绝对和相对容差，质量报告同步保存误差、处理历史和重复生产一致性。完整分类矩阵见补充材料S4。
+共享生产契约围绕维度、坐标、数值、缺失值填补、配置、输出和空间方向组织31组处理实例，按结构、逐点数值、属性、数值范围和缺失值状态进行验收；完整分类矩阵见补充材料S4。
 
-29组非交互处理实例在Windows、macOS和Linux持续集成环境中采用相同判据运行；空间方向测试 V01（方向正确）和 V02（南北反转）分别设置相应预期。自动结构与数值检查和人工空间审核共同评价生产契约在数组变换、配置解析和空间方向控制方面的跨系统一致性。
+29组非交互处理实例在Windows、macOS和Linux持续集成环境中采用相同判据运行，空间方向测试V01和V02分别对应正确方向与南北反转；自动检查和人工空间审核共同评价数组变换、配置解析和方向控制。
 
 配置构建器面向二维数据、含不确定性变量的三维数据和经纬度变换数据生成符合共享配置规范的YAML，并将其直接交给标准化数据生产引擎。数据贡献案例进一步贯通配置生成、标准化、自动与人工质量检查、数据集发布、目录登记以及下游更新、下载和读取，形成覆盖主要环节的数据贡献入口。
 
@@ -211,7 +211,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 ### 3.5 跨操作系统运行一致性设计
 
-跨操作系统运行一致性采用本地运行与持续集成相结合的设计。Windows和macOS本地环境运行生产矩阵、ELEV/LAI分发效率、13类受控状态场景以及核心软件与Emerald接口；Linux与另外两个系统的干净持续集成环境运行29组非交互生产实例、40次确定性分发测量、65次镜像状态核对、核心软件功能和Emerald最小接口。统一项目依赖与参考数据用于比较数据结构、逐点数值、正式文件摘要和接口状态。
+跨操作系统运行一致性采用本地运行与持续集成相结合的设计。Windows和macOS本地环境运行生产矩阵、ELEV/LAI分发效率、13类受控状态场景以及核心软件与Emerald接口；Linux与另外两个系统的持续集成环境运行非交互生产、确定性分发、镜像状态和核心接口测试。统一项目依赖与参考数据用于比较数据结构、逐点数值、正式文件摘要和接口状态。
 
 真实FTP—Zenodo访问按照实际网络环境单独记录，US-NR1真实陆面和ERA5链路作为应用案例归档。由此形成“多系统确定性核心路径—独立环境性能观测—真实网络与数据应用”三个层次的复现设计；完整系统—模块—证据矩阵见补充材料S5。
 
@@ -223,7 +223,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 #### 4.1.1 共享生产契约与质量控制结果
 
-31组处理实例覆盖维度、坐标、数值、缺失值填补、配置、输出和空间方向控制，其中29组非交互实例在三系统持续集成环境中获得一致的数据集结构和逐点数值结果；人工空间审核分别接受正向图并识别南北反转图，与预设方向结果一致。数据贡献案例进一步贯通YAML配置、标准化数据生成、目录登记和下游读取，生成数据集与参考数组逐点一致，目录中的文件字节数和SHA-256与数据集相符。
+29组非交互实例在三系统持续集成环境中获得一致的数据集结构和逐点数值结果；人工空间审核接受正向图并识别南北反转图，与预设方向结果一致。数据贡献案例贯通YAML配置、标准化生成、目录登记和下游读取，生成数据集与参考数组逐点一致。
 
 ELEV补充案例使用已通过文件大小和SHA-256校验的`ELEV_4X_1Y_V1.nc`。该文件为1440×720、全域有效，有限值范围为−415.5～5 357.7002 m；GriddingMachine全域网格读取与NetCDF底层Float32数组逐点一致。使用显式标准维度、`KEEP_AS_IS`和原值保持配置连续处理3次，三次`data/lon/lat`均与输入一致，输出文件SHA-256也彼此相同，表明标准化数据经过统一读取和生产流水线后保持科学数组及坐标。
 
@@ -253,7 +253,7 @@ OISST案例展示了共享生产契约对异构地学源数据的组织能力。
 
 ### 4.3 目录管理与事务式多镜像分发
 
-目录与数据获取模块将目录初始化、事务更新、数据集同步、镜像获取、状态查询和历史数据整理组织为统一的数据维护接口。独立目录使数据集能够随镜像和版本持续更新，事务缓存区与正式数据区的分层机制则将传输过程与标准化数据分离，使上一有效目录和已发布数据集在目录更新与镜像切换过程中保持稳定。
+目录与数据获取模块将目录初始化、事务更新、数据集同步、镜像获取、状态查询和历史数据整理组织为统一接口。独立目录支持数据集随镜像和版本更新，事务缓存区与正式数据区分离传输过程和已发布数据。
 
 13类受控状态场景在两个独立操作系统环境中分别重复5次，共形成130次获取记录。在具有可用延迟分数的场景中，目录与数据获取模块按照延迟辅助排序候选，并在首选镜像访问或内容校验状态变化时依次遍历其余地址。每次获取采用独立临时文件，内容经字节数和SHA-256确认后进入正式路径；所有记录均完成临时文件回收，既有正式文件摘要保持一致。
 
@@ -281,7 +281,7 @@ Windows和macOS本地环境进一步完成ELEV/LAI性能测量及镜像故障场
 
 ### 5.1 相对2022版的更新与科研用途
 
-2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[4]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。目录审计时共登记1179个数据条目，均配置机构FTP地址，部分条目另有Zenodo镜像；本文的模式输入案例使用14类陆面数据和8类ERA5数据，实验覆盖框架关键路径和代表性数据集，不将这些案例等同于全目录数据集的逐项验证。其科研用途在于减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，使数据修订能够在明确的配置、目录和文件记录下进行。
+2022版GriddingMachine已建立统一网格、变量约定、标签访问和多语言接口[4]。本轮更新进一步把数据源专用处理规则整理为共享配置，将数据目录与软件包分开维护，并将标准网格读取延伸到陆面参数和气象驱动组织。目录审计时共登记1179个数据条目，均配置机构FTP地址，部分条目另有Zenodo镜像；框架设计可覆盖这些按统一规范登记的数据条目，本文以14类陆面数据、8类ERA5数据和OISST等代表性案例展示其关键路径。其科研用途在于减少不同数据集和模式之间重复编写转换、下载与接口程序的工作，使数据修订能够在明确的配置、目录和文件记录下进行。
 
 OISST案例说明，共享流程可以通过源适配器处理单例维度、存储缩放和经度范围差异，并保留与独立参考逐点核对的路径。ERA5降水修订则表明，逻辑标签可以继续供下游调用，实际文件位置和完整性信息在目录中更新。为重现某次模式计算，研究人员需要同时保存当时的目录、文件摘要和代码版本；稳定标签用于简化调用，版本记录用于确定实际使用的数据。
 
@@ -303,9 +303,9 @@ NetCDF/CF提供多维数据表达与元数据约定[2,5]，地球系统数据立
 
 Google Earth Engine侧重云端遥感数据访问与计算[3]，ESGF侧重分布式气候模式数据发现和访问[11]，Pangeo及Pangeo Forge支持云端数据组织与可复用的处理配方[12,13]。GriddingMachine面向固定版本、离线缓存和本地模式调用，利用共享配置、数据目录和模式输入接口衔接这些环节。与上述平台的关系主要体现为科研工作流中的分工；本文的本地分发实验也不构成与云端平台的性能比较。
 
-国内地球系统科学数据共享研究强调规范分类和目录建设[14]；Pooch提供科研文件获取与管理工具[15]，STAC提供地理空间数据的目录描述规范[16]。GriddingMachine进一步约定标准网格数据和模式输入的组织方式，为模式研究中的多源数据组合提供统一入口。后续可在保留现有读取方式的同时，加强与通用目录和数据获取工具的衔接。
+国内地球系统科学数据共享研究强调规范分类和目录建设[14]。Pooch和STAC分别提供科研文件获取及地理空间数据目录描述工具[15,16]，这些通用工具可与GriddingMachine的标签目录和标准网格组织方式衔接，为多源数据进入模式输入提供补充。
 
-持续维护需要兼顾软件版本、数据出处和可引用性。科研软件引用原则[17]、FAIR4RS[18]和TRUST[19]分别为软件识别、复用和资源库维护提供参考，国内国家科学数据中心的FAIR实践也强调元数据与使用信息的重要性[20]。当前跨系统测试提供了固定依赖下的运行一致性证据；后续重点是完善数据目录与镜像登记、归档配置和实验环境，并扩展非规则网格源适配及更多模式接口，使数据更新和科研复用保持可追溯。
+持续维护需要兼顾软件版本、数据出处和可引用性。科研软件引用原则[17]、FAIR4RS[18]和TRUST[19]为软件识别、复用和资源库维护提供参考，国内国家科学数据中心的FAIR实践也强调元数据与使用信息的重要性[20]。后续将继续完善数据目录、镜像登记和永久归档，并扩展更多模式接口。
 
 ## 6 结论
 
@@ -317,7 +317,7 @@ Google Earth Engine侧重云端遥感数据访问与计算[3]，ESGF侧重分布
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应提交`e0ee0051ba1e51826f494d03f4a411187477cc61`；该客户端提交作为新增下载入口单独记录，既有主体实验仍按冻结版本固定。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应发布分支提交`8b3ff703e14f1a387281f4c814f2620438e8f9aa`；该提交包含跨语言下载入口及其完整性验证记录。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
 
 ## 基金项目
 
@@ -335,7 +335,7 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [1] WILKINSON M D, DUMONTIER M, AALBERSBERG I J, et al. The FAIR Guiding Principles for scientific data management and stewardship[J]. Scientific Data, 2016, 3: 160018. DOI: 10.1038/sdata.2016.18.
 
-[2] CF CONVENTIONS COMMITTEE. CF Metadata Conventions[EB/OL]. [2026-08-07]. https://cfconventions.org/.
+[2] CF CONVENTIONS COMMITTEE. CF Metadata Conventions[EB/OL]. [2026-09-26]. https://cfconventions.org/.
 
 [3] GORELICK N, HANCHER M, DIXON M, et al. Google Earth Engine: Planetary-scale geospatial analysis for everyone[J]. Remote Sensing of Environment, 2017, 202: 18-27. DOI: 10.1016/j.rse.2017.06.031.
 
@@ -347,7 +347,7 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [7] HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
 
-[8] COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-25]. https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790.
+[8] COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-26]. https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790.
 
 [9] MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
 
@@ -363,7 +363,7 @@ GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl�
 
 [15] UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
 
-[16] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025[2026-08-15]. https://www.ogc.org/standards/stac/.
+[16] OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025[2026-09-26]. https://www.ogc.org/standards/stac/.
 
 [17] SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
 
