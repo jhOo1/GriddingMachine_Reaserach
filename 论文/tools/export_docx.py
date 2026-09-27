@@ -97,7 +97,7 @@ def set_cell_margins(cell, top: int = 70, start: int = 90, bottom: int = 70, end
 
 
 def set_table_borders(table) -> None:
-    """Use a light full grid so adjacent columns remain visually distinct."""
+    """Use the journal-style three-line table: top, header, and bottom rules."""
     tbl_pr = table._tbl.tblPr
     borders = tbl_pr.first_child_found_in("w:tblBorders")
     if borders is None:
@@ -112,16 +112,26 @@ def set_table_borders(table) -> None:
             node.set(qn("w:val"), "single")
             node.set(qn("w:sz"), "8")
             node.set(qn("w:color"), "6B7280")
-        elif edge in {"insideH", "insideV"}:
-            node.set(qn("w:val"), "single")
-            node.set(qn("w:sz"), "4")
-            node.set(qn("w:color"), "D1D5DB")
-        elif edge in {"left", "right"}:
-            node.set(qn("w:val"), "single")
-            node.set(qn("w:sz"), "6")
-            node.set(qn("w:color"), "9CA3AF")
+        elif edge in {"left", "right", "insideH", "insideV"}:
+            node.set(qn("w:val"), "nil")
         else:
             node.set(qn("w:val"), "nil")
+
+
+def set_cell_bottom_border(cell, size: int = 6, color: str = "6B7280") -> None:
+    """Draw the single horizontal rule beneath the table header."""
+    tc_pr = cell._tc.get_or_add_tcPr()
+    borders = tc_pr.first_child_found_in("w:tcBorders")
+    if borders is None:
+        borders = OxmlElement("w:tcBorders")
+        tc_pr.append(borders)
+    bottom = borders.find(qn("w:bottom"))
+    if bottom is None:
+        bottom = OxmlElement("w:bottom")
+        borders.append(bottom)
+    bottom.set(qn("w:val"), "single")
+    bottom.set(qn("w:sz"), str(size))
+    bottom.set(qn("w:color"), color)
 
 
 def table_widths(column_count: int, table_index: int) -> list[float]:
@@ -202,7 +212,17 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
                 run.font.size = Pt(9.2 if i == 0 else 9)
                 run.bold = i == 0 or run.bold
             if i == 0:
-                shade_cell(cell, "D9EAF7")
+                set_cell_bottom_border(cell)
+
+
+def add_table_caption(document: Document, line: str) -> None:
+    paragraph = document.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    paragraph.paragraph_format.first_line_indent = Cm(0)
+    paragraph.paragraph_format.space_before = Pt(4)
+    paragraph.paragraph_format.space_after = Pt(4)
+    paragraph.paragraph_format.line_spacing = 1.0
+    add_inline(paragraph, line)
 
 
 def configure(document: Document) -> None:
@@ -296,7 +316,13 @@ def export() -> None:
             paragraph.style = "List Bullet"
             line = line[2:]
         add_inline(paragraph, line)
-        if line.startswith("**表") or line.startswith("**Table") or line.startswith("**图") or line.startswith("**Fig."):
+        if line.startswith("**表"):
+            paragraph._element.getparent().remove(paragraph._element)
+            add_table_caption(document, line)
+        elif line.startswith("**Table"):
+            paragraph._element.getparent().remove(paragraph._element)
+            add_table_caption(document, line)
+        elif line.startswith("**图") or line.startswith("**Fig."):
             paragraph.paragraph_format.first_line_indent = Cm(0)
         i += 1
 

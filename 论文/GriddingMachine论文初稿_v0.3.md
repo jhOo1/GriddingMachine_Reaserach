@@ -62,6 +62,8 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 
 **表1 2022版与新版GriddingMachine的功能和技术路线比较**
 
+**Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow changes, and their implications for scientific data use across the data workflow.
+
 | 环节 | 2022版 | 新版 | 对科研流程的作用 |
 |---|---|---|---|
 | 分发单元 | NetCDF的`tar.gz`归档文件 | 可直接读取的`.nc` | 简化数据获取并降低端到端读取时间 |
@@ -72,8 +74,6 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 | 模式组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织 | 标准化数据进入Emerald参数组织与模式初始化 |
 | 数据生产 | 数据源专用处理及贡献流程 | 共享YAML配置规范、程序化与交互式配置生成及显式源维度映射 | 形成共享的标准化数据生产工作流 |
 
-**Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow changes, and their implications for scientific data use across the data workflow.
-
 ### 2.2 YAML驱动的数据生产与标准化
 
 #### 2.2.1 数据契约与维度映射
@@ -81,6 +81,8 @@ GriddingMachine新版由三个相互衔接的数据流程环节构成（图1）�
 GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数据，便于不同地球科学软件读取[2]。2022 年版本已经规定数据采用二维或三维规则经纬网，前两维依次为经度和纬度，可选第三维表示周期；经度自西向东、纬度自南向北，输出保存为实际物理值，缺失值在读取后统一表示为 `NaN`，主变量和不确定性变量分别命名为 `data` 和 `std`[5]。新版延续这些核心约定，并将源维度映射、处理记录、版本化配置和分发完整性纳入相互衔接的机器可读规范（表2）。
 
 **表2 GriddingMachine 标准 NetCDF 数据与元数据规范**
+
+**Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** The specification connects grid structure, gap filling, metadata, provenance, versioning, and distribution integrity within a unified production contract.
 
 | 类别 | 新版规范 | 实现方式 |
 |---|---|---|
@@ -94,8 +96,6 @@ GriddingMachine采用NetCDF格式组织多维数组、坐标和自描述元数�
 | 处理复现 | `SCHEMA_VERSION`、完整YAML、固定输入和版本化项目环境共同归档 | 配置、输入与代码版本共同重建标准化数据 |
 | 标签与版本 | 标签表达类别、空间/时间分辨率、年份、版本和可选修订号 | 标签与文件名共同形成稳定数据集标识 |
 | 分发完整性 | 新登记的条目或纳入严格完整性管理的条目记录文件字节数和SHA-256；同一标签的受控镜像指向相同内容 | 对带完整性元数据的条目下载后核验并以事务方式进入正式目录；历史条目由兼容模式承接 |
-
-**Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** The specification connects grid structure, gap filling, metadata, provenance, versioning, and distribution integrity within a unified production contract.
 
 缺失值填补由YAML中的`GAPFILL`字段驱动，并依据数据集物理含义选择相应策略。数值常数和`MEAN`分别以给定值或分层`nanmean`填补陆地区域缺失值；`KEEP_AS_IS`保持原始数组；`INT_NAN_TO_1`将缺失值补为1并对数组整数化；`NO_LAND_NAN`和`NO_NAN`分别检查陆地区域与全域的数据完整性。缺失值填补由此统一连接有效范围过滤、陆海掩膜、缺失值处置和输出精度，为不同地球系统数据集提供可配置的数据完善方法。高程数据（ELEV）采用常数0填补策略，为统一读取和模式调用提供连续地形场。
 
@@ -157,14 +157,14 @@ YAML将数据源差异与通用处理代码分离。配置字段分别描述输�
 
 **表3 GriddingMachine框架核心贡献、证据层级与主要评价指标**
 
+**Table 3 Core contributions, evidence levels, and evaluation metrics for the GriddingMachine framework.** Controlled experiments and real-data or real-network applications are listed separately, and the final column summarizes the principal metrics used for each contribution.
+
 | 核心贡献 | 受控或确定性证据 | 真实数据/网络应用 | 主要评价指标 |
 |---|---|---|---|
 | 数据生产与标准化层将异构源数据转换为标准NetCDF | 31组受控实例、ELEV重复生产与逐点核对 | OISST V2.1真实异构源数据 | 维度与坐标、有效值掩膜、逐点物理值、重复生成摘要 |
 | 数据目录与可信分发层组织高效且内容可核验的数据获取 | ELEV/LAI回环HTTP对照；13类受控状态场景 | Zenodo公共网络记录；中国科学技术大学（以下简称中科大）校内网 FTP—Zenodo同文件获取 | 端到端时间、传输字节、候选遍历、`SIZE`/SHA-256、临时与正式文件状态 |
 | 模式输入组织层将标准化数据组织为模式就绪输入 | 确定性读取、字段、时间轴与接口核对 | US-NR1的14类陆面数据集、8类ERA5及Emerald初始化和60 s首步 | 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 |
 | 核心实现具有跨操作系统运行一致性 | Windows、macOS、Linux持续集成 | Windows/macOS独立性能观测及按实际环境记录的真实网络案例 | 数据集结构、逐点数值、文件摘要、缓存状态和接口状态 |
-
-**Table 3 Core contributions, evidence levels, and evaluation metrics for the GriddingMachine framework.** Controlled experiments and real-data or real-network applications are listed separately, and the final column summarizes the principal metrics used for each contribution.
 
 
 ### 3.1 数据生产与标准化及OISST案例
