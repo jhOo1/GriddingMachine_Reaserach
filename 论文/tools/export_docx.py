@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 from docx import Document
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
@@ -79,6 +80,58 @@ def is_separator(line: str) -> bool:
     return bool(cells) and all(re.fullmatch(r":?-{3,}:?", c) for c in cells)
 
 
+def set_cell_margins(cell, top: int = 70, start: int = 90, bottom: int = 70, end: int = 90) -> None:
+    tc = cell._tc
+    tc_pr = tc.get_or_add_tcPr()
+    tc_mar = tc_pr.first_child_found_in("w:tcMar")
+    if tc_mar is None:
+        tc_mar = OxmlElement("w:tcMar")
+        tc_pr.append(tc_mar)
+    for side, value in (("top", top), ("start", start), ("bottom", bottom), ("end", end)):
+        node = tc_mar.find(qn(f"w:{side}"))
+        if node is None:
+            node = OxmlElement(f"w:{side}")
+            tc_mar.append(node)
+        node.set(qn("w:w"), str(value))
+        node.set(qn("w:type"), "dxa")
+
+
+def set_table_borders(table) -> None:
+    """Use a light full grid so adjacent columns remain visually distinct."""
+    tbl_pr = table._tbl.tblPr
+    borders = tbl_pr.first_child_found_in("w:tblBorders")
+    if borders is None:
+        borders = OxmlElement("w:tblBorders")
+        tbl_pr.append(borders)
+    for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        node = borders.find(qn(f"w:{edge}"))
+        if node is None:
+            node = OxmlElement(f"w:{edge}")
+            borders.append(node)
+        if edge in {"top", "bottom"}:
+            node.set(qn("w:val"), "single")
+            node.set(qn("w:sz"), "8")
+            node.set(qn("w:color"), "6B7280")
+        elif edge in {"insideH", "insideV"}:
+            node.set(qn("w:val"), "single")
+            node.set(qn("w:sz"), "4")
+            node.set(qn("w:color"), "D1D5DB")
+        elif edge in {"left", "right"}:
+            node.set(qn("w:val"), "single")
+            node.set(qn("w:sz"), "6")
+            node.set(qn("w:color"), "9CA3AF")
+        else:
+            node.set(qn("w:val"), "nil")
+
+
+def table_widths(column_count: int, table_index: int) -> list[float]:
+    if column_count == 3:
+        return [3.4, 7.0, 5.2]
+    if table_index == 3:
+        return [4.0, 4.2, 4.3, 3.1]
+    return [2.5, 4.1, 4.7, 4.3]
+
+
 def shade_cell(cell, fill: str) -> None:
     tc_pr = cell._tc.get_or_add_tcPr()
     shd = OxmlElement("w:shd")
@@ -104,23 +157,50 @@ def add_code_block(document: Document, lines: list[str]) -> None:
     run._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
 
 
-def add_table(document: Document, lines: list[str]) -> None:
+def add_table(document: Document, lines: list[str], table_index: int) -> None:
     rows = [table_cells(line) for line in lines if not is_separator(line)]
     if not rows:
         return
     width = max(len(row) for row in rows)
     table = document.add_table(rows=len(rows), cols=width)
-    table.style = "Table Grid"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.autofit = False
+    widths = table_widths(width, table_index)
+    tbl_pr = table._tbl.tblPr
+    tbl_layout = tbl_pr.first_child_found_in("w:tblLayout")
+    if tbl_layout is None:
+        tbl_layout = OxmlElement("w:tblLayout")
+        tbl_pr.append(tbl_layout)
+    tbl_layout.set(qn("w:type"), "fixed")
+    # python-docx sets equal grid columns by default. Update the table grid as
+    # well as each cell width so Word and LibreOffice use the intended layout.
+    for grid_col, width_cm in zip(table._tbl.tblGrid.gridCol_lst, widths):
+        grid_col.set(qn("w:w"), str(int(Cm(width_cm).twips)))
+    set_table_borders(table)
     for i, row in enumerate(rows):
         for j in range(width):
             text = row[j] if j < len(row) else ""
             cell = table.cell(i, j)
             cell.text = ""
+            cell.width = Cm(widths[j])
+            cell.vertical_alignment = (
+                WD_CELL_VERTICAL_ALIGNMENT.CENTER
+                if i == 0 or j == 0
+                else WD_CELL_VERTICAL_ALIGNMENT.TOP
+            )
+            set_cell_margins(cell)
             add_inline(cell.paragraphs[0], text)
+            paragraph = cell.paragraphs[0]
+            paragraph.paragraph_format.first_line_indent = Cm(0)
+            paragraph.paragraph_format.left_indent = Cm(0)
+            paragraph.paragraph_format.right_indent = Cm(0)
+            paragraph.paragraph_format.space_before = Pt(0)
+            paragraph.paragraph_format.space_after = Pt(0)
+            paragraph.paragraph_format.line_spacing = 1.0
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 or j == 0 else WD_ALIGN_PARAGRAPH.LEFT
             for run in cell.paragraphs[0].runs:
-                run.font.size = Pt(9)
-                if i == 0:
-                    run.bold = True
+                run.font.size = Pt(9.2 if i == 0 else 9)
+                run.bold = i == 0 or run.bold
             if i == 0:
                 shade_cell(cell, "D9EAF7")
 
@@ -155,6 +235,7 @@ def export() -> None:
     configure(document)
     lines = SOURCE.read_text(encoding="utf-8").splitlines()
     i = 0
+    table_index = 0
     while i < len(lines):
         line = lines[i].strip()
         if not line:
@@ -192,7 +273,8 @@ def export() -> None:
             while i < len(lines) and lines[i].strip().startswith("|"):
                 block.append(lines[i].strip())
                 i += 1
-            add_table(document, block)
+            table_index += 1
+            add_table(document, block, table_index)
             continue
 
         match = re.match(r"^(#{1,4})\s+(.*)$", line)
