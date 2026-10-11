@@ -15,7 +15,7 @@ from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Cm, Pt
+from docx.shared import Cm, Pt, RGBColor
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,7 +62,14 @@ def add_inline(paragraph, text: str) -> None:
             content = part[2:-2]
             if content.endswith("\\"):
                 content = content[:-1]
-            add_text_segments(paragraph, content, bold=True)
+            for segment in re.split(r"(`.*?`)", content):
+                if segment.startswith("`") and segment.endswith("`"):
+                    run = paragraph.add_run(segment[1:-1])
+                    run.bold = True
+                    run.font.name = "Consolas"
+                    run._element.rPr.rFonts.set(qn("w:eastAsia"), "Songti SC")
+                else:
+                    add_text_segments(paragraph, segment, bold=True)
         elif part.startswith("`") and part.endswith("`"):
             run = paragraph.add_run(part[1:-1])
             run.font.name = "Consolas"
@@ -187,7 +194,11 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
     for grid_col, width_cm in zip(table._tbl.tblGrid.gridCol_lst, widths):
         grid_col.set(qn("w:w"), str(int(Cm(width_cm).twips)))
     set_table_borders(table)
+    header = OxmlElement("w:tblHeader")
+    table.rows[0]._tr.get_or_add_trPr().append(header)
     for i, row in enumerate(rows):
+        # Keep each table row intact while allowing the table to span pages.
+        table.rows[i]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
         for j in range(width):
             text = row[j] if j < len(row) else ""
             cell = table.cell(i, j)
@@ -222,6 +233,7 @@ def add_table_caption(document: Document, line: str) -> None:
     paragraph.paragraph_format.space_before = Pt(4)
     paragraph.paragraph_format.space_after = Pt(4)
     paragraph.paragraph_format.line_spacing = 1.0
+    paragraph.paragraph_format.keep_with_next = True
     add_inline(paragraph, line)
 
 
@@ -246,6 +258,12 @@ def configure(document: Document) -> None:
         style = document.styles[name]
         style.font.name = "Times New Roman"
         style.font.size = Pt(size)
+        style.font.color.rgb = RGBColor(0, 0, 0)
+        # The default Word title theme may add a decorative blue rule.
+        p_pr = style._element.find(qn("w:pPr"))
+        if p_pr is not None:
+            for node in list(p_pr.findall(qn("w:pBdr"))):
+                p_pr.remove(node)
         style._element.rPr.rFonts.set(qn("w:eastAsia"), "Heiti SC")
         style.paragraph_format.first_line_indent = Cm(0)
 
@@ -273,6 +291,8 @@ def export() -> None:
             if image_path is not None and image_path.exists():
                 paragraph = document.add_paragraph()
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                paragraph.paragraph_format.first_line_indent = Cm(0)
+                paragraph.paragraph_format.keep_with_next = True
                 paragraph.add_run().add_picture(str(image_path), width=Cm(15.0))
             i += 1
             continue
@@ -324,6 +344,12 @@ def export() -> None:
             add_table_caption(document, line)
         elif line.startswith("**图") or line.startswith("**Fig."):
             paragraph.paragraph_format.first_line_indent = Cm(0)
+            paragraph.paragraph_format.keep_with_next = line.startswith("**图")
+            paragraph.paragraph_format.keep_together = True
+            paragraph.paragraph_format.line_spacing = 1.1
+            paragraph.paragraph_format.space_after = Pt(4)
+            for run in paragraph.runs:
+                run.font.size = Pt(9)
         i += 1
 
     core = document.core_properties

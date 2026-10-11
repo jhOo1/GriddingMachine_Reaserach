@@ -38,7 +38,50 @@ Collector在单标签获取之外提供目录更新、全库同步、历史数�
 
 ## S3 配置与贡献材料
 
-完整YAML字段字典、数据贡献目录结构、数据集登记步骤及状态恢复命令随论文对应的软件release归档。正文仅保留解释生产契约所需的字段类别与转换示例；完整YAML、字段字典和版本化指南在补充材料及release中提供，覆盖二维和三维数据集、`data/std`组合及批量数据集配置。
+YAML以`SCHEMA_VERSION`标明配置规范版本，`FILE`描述文件命名及批量组合，`FOLDER`指定原始数据和输出目录，`DATA`及可选`STD`描述源变量与处理规则，`GRIDDINGMACHINE`记录数据标签和可选修订号。`DIMENSIONS`明确每个源变量的维度顺序；坐标方向、缩放、有效范围和`GAPFILL`缺失值策略均由相应字段表达。配置校验在执行前检查字段类型、必需项、数值范围、互斥关系及批量参数长度。字段说明和贡献步骤见GriddingMachineDatasets的配置规范及贡献指南。
+
+以下为本文OISST案例实际使用的完整配置，对应`experiment_data/03_08/oisst_20220225.yaml`。源适配器已提取单例时间与垂向维度并解码存储值，配置进一步声明源维度、经度变换、有效范围和原值保持策略。
+
+```yaml
+SCHEMA_VERSION: 1
+GRIDDINGMACHINE:
+  TAG: "SST_OISST"
+DATA:
+  LABEL:
+    - "sst_source"
+  UNIT: "degree_Celsius"
+  CHANGE_LOGS:
+    - "The only time and zlev layers were extracted by the versioned OISST source adapter."
+    - "Packed source values were decoded using the source scale_factor and add_offset."
+    - "Source fill values were represented as NaN."
+    - "Source identity: oisst-avhrr-v02r01.20220225.nc; SHA-256: b5e91dacb3ed85819b47b516dd4edb7dab7fb6ae7bf67062cef03cd0333c9b73."
+  VERIFY_ONCE: false
+  LIMITS:
+    - -3.0
+    - 45.0
+  ABOUT: "NOAA/NCEI OISST v2.1 daily sea surface temperature for 2022-02-25."
+  GAPFILL: "KEEP_AS_IS"
+  DIMENSIONS:
+    sst_source:
+      - "lon"
+      - "lat"
+  FLIP_LON: true
+FILE:
+  PATTERN: "PREFIX_NX_X_MT_YYYY_VV.nc"
+  PREFIX:
+    - "OISST"
+  YYYY:
+    - 20220225
+  VV:
+    - "V1"
+  NX:
+    - 4
+  MT:
+    - "1D"
+FOLDER:
+  ORIGINAL: "oisst"
+  REPROCESSED: "oisst"
+```
 
 本地交互式配置生成器提供表单化输入、YAML预览与保存功能。界面提交的结构化参数由`YamlBuilder`转换为配置对象，并使用与`process_dataset!`相同的schema完成字段解析。交互界面与程序化构建方式由此生成结构一致、可直接进入标准化数据生产流水线的YAML配置。
 
