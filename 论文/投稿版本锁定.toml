@@ -17,8 +17,11 @@ branch = "release/v0.5.0"
 tag = "release/v0.5.0"
 commit = "8b3ff703e14f1a387281f4c814f2620438e8f9aa"
 cross_language_clients_branch = "release/v0.5.0"
-cross_language_clients_commit = "8b3ff703e14f1a387281f4c814f2620438e8f9aa"
-cross_language_clients_validation = "C and Fortran compiled and completed checksum-verified download tests through the shared Python downloader."
+# Pin the expanded clients independently of the original core experiments.
+cross_language_clients_commit = "a2baba10e5bb3498d8a2a4114f19c58b8937ddbc"
+cross_language_clients_validation = "Matlab, Octave, Python, R, C and Fortran completed native download validation, including URL/tag access, mirror fallback and integrity checks."
+cross_language_clients_run = "https://github.com/CliMA/GriddingMachine.jl/actions/runs/38398605480"
+matlab_clients_run = "https://github.com/CliMA/GriddingMachine.jl/actions/runs/38398605598"
 
 [repositories.GriddingMachineDatasets]
 url = "https://github.com/jhOo1/GriddingMachineDatasets"

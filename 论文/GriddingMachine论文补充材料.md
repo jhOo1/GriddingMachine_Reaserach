@@ -156,9 +156,23 @@ FOLDER:
 
 持续集成记录、平台Manifest及原始输出随冻结研究材料归档。真实网络观测按照网络环境记录，真实数据应用按照数据和模式链路记录，使运行一致性、网络访问和科学数据应用分别具有对应证据。
 
-### S5.1 C与Fortran下载入口评价
+### S5.1 多语言数据自动下载
 
-C和Fortran入口分别编译后，通过回环HTTP下载同一确定性参考文件，核对程序退出状态、文件字节数、SHA-256及临时文件残留。测试另采用含空格的源URL与本地输出路径，以检查参数传递至共享Python下载器后能否正确处理。编译、实际下载、摘要一致性和临时文件检查均通过，详细环境与输出记录保存在GriddingMachine.jl的`clients/VALIDATION.md`及其验证材料中。
+Matlab、Octave、Python、R、C和Fortran接口均支持文件URL和数据标签下载。各接口通过同一Python程序解析本地Artifacts.yaml、尝试目录中的候选镜像，并在提供文件大小或SHA-256信息时核验内容。以下为调用方式示例，其中URL、TAG、FILE、BYTE_COUNT和DIGEST分别表示文件地址、数据标签、本地输出路径、文件字节数和SHA-256摘要。
+
+| 语言 | URL下载 | 标签下载 |
+|---|---|---|
+| Matlab / Octave | `gm_download(url, output, 'Size', byte_count, 'SHA256', digest)` | `gm_download('', output, 'Tag', tag, 'Catalog', catalog_path)` |
+| Python | `python3 clients/download.py --url URL --output FILE --size BYTE_COUNT --sha256 DIGEST` | `python3 clients/download.py --tag TAG --catalog Artifacts.yaml --output FILE` |
+| R | `gm_download(url, output, size = byte_count, sha256 = digest)` | `gm_download(output = output, tag = tag, catalog = catalog_path)` |
+| C | `gm_c --url URL --output FILE --size BYTE_COUNT --sha256 DIGEST` | `gm_c --tag TAG --catalog Artifacts.yaml --output FILE` |
+| Fortran | `gm_fortran --url URL --output FILE --size BYTE_COUNT --sha256 DIGEST` | `gm_fortran --tag TAG --catalog Artifacts.yaml --output FILE` |
+
+文件URL调用中的大小和摘要参数可按所需核验信息提供；标签调用使用目录登记的完整性信息。C和Fortran入口先编译为可执行程序，各语言均可指定Python运行路径及下载脚本位置。Windows的Python命令使用`python`；完整安装与调用说明见GriddingMachine.jl的`clients/README.md`。
+
+独立运行记录覆盖原有URL调用、文件大小与摘要核验、标签下载及首镜像不可用时的回退、错误SHA-256、错误目录文件大小和指定下载脚本六类情形。成功下载的二进制内容、字节数和摘要与参考文件一致；错误完整性信息得到明确返回，原文件保持不变且无临时文件残留。运行采用与源码不同的工作目录，路径包含空格和特殊字符；Linux案例还包含中文文件名。
+
+Python的13项回归用例在Linux和Windows完成；C、Fortran和R在两类环境分别完成六项接口用例，Octave在Linux完成六项。Matlab使用R2025b Update 7的真实会话独立完成六项调用。详细版本、逐项结果及云端日志见`clients/VALIDATION.md`、跨语言运行记录https://github.com/CliMA/GriddingMachine.jl/actions/runs/38398605480与Matlab运行记录https://github.com/CliMA/GriddingMachine.jl/actions/runs/38398605598。
 
 ## S6 多镜像受控状态场景
 
@@ -211,4 +225,4 @@ ERA5降水数据集提供真实修订案例。逻辑标签保持`PPT_ERA5_1X_1H_
 
 ## S8 代码版本、数据修订与实验记录
 
-ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应发布分支提交`8b3ff703e14f1a387281f4c814f2620438e8f9aa`；该提交包含跨语言下载入口及其完整性验证记录。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
+ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应发布分支提交`a2baba10e5bb3498d8a2a4114f19c58b8937ddbc`；该提交包含六种语言的下载接口、调用说明及实际运行验证记录。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
