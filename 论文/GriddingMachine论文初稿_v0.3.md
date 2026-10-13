@@ -10,7 +10,7 @@
 
 ## 摘要
 
-地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，源数据处理规则、单位换算、标准数据标识和网络分发方式不同等问题，使得各模式仍需分别整理和维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，优化数据预处理、数据分发及数据读取：以共享配置组织数据处理规则，建立统一的标准化流程；采用直接NetCDF分发和独立数据目录，简化文件获取与数据更新；在统一读取基础上组织陆面参数和气象驱动，衔接多源数据与模式输入。应用案例表明，标准化数据的坐标和物理值与独立参考一致，直接NetCDF分发减少解包开销、缩短获取至首次读取的时间，多源数据经统一组织形成满足模式接口要求的输入。除Julia语言外，还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并添加了C语言和Fortran语言的自动下载支持，为不同科研编程环境和地球系统模式提供可复用的网格数据基础。
+地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，源数据处理规则、单位换算、标准数据标识和网络分发方式不同等问题，使得各模式仍需分别整理和维护数据库，给模式持续更新和验证带来不必要的困难。本文在2022版GriddingMachine基础上，优化数据预处理、数据分发及数据读取：以共享配置组织数据处理规则，建立统一的标准化流程；采用直接NetCDF分发和独立数据目录，简化文件获取与数据更新；在统一读取基础上组织陆面参数和气象驱动，衔接多源数据与模式输入。应用案例表明，标准化数据与独立参考一致，直接NetCDF分发缩短获取至首次读取的时间，独立目录在数据修订后保持标签调用，多源数据经统一组织形成模式所需输入。除Julia语言外，还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并添加了C语言和Fortran语言的自动下载支持，为不同科研编程环境和地球系统模式提供可复用的网格数据基础。
 
 **关键词：** 地球系统模式；全球网格数据库；数据标准化；NetCDF；数据完整性；模式输入
 
@@ -26,7 +26,7 @@ Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-000
 
 ## Abstract
 
-Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, differences in source-processing rules, unit conversion, standardized data identifiers, and distribution methods require researchers to organize and maintain databases for individual models, complicating continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and reading. A shared configuration organizes processing rules within a standardized workflow; direct NetCDF distribution and an independent catalog simplify file acquisition and data updates; and land parameters and meteorological forcing from multiple sources are assembled into model inputs on the basis of unified reading. Application cases show that standardized coordinates and physical values agree with independent references, direct NetCDF distribution reduces unpacking overhead and the time from acquisition to the first read, and unified organization of data from multiple sources yields inputs that meet model-interface requirements. In addition to Julia, automatic downloading of the updated data is supported in MATLAB, Octave, Python, and R, with new automatic-download entry points for C and Fortran, providing a reusable gridded-data basis for different scientific programming environments and Earth system models.
+Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, differences in source-processing rules, unit conversion, standardized data identifiers, and distribution methods require researchers to organize and maintain databases for individual models, complicating continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and reading. A shared configuration organizes processing rules within a standardized workflow; direct NetCDF distribution and an independent catalog simplify file acquisition and data updates; and land parameters and meteorological forcing from multiple sources are assembled into model inputs on the basis of unified reading. Application cases show that standardized data agree with independent references, direct NetCDF distribution shortens the time from acquisition to the first read, the independent catalog preserves label-based access after data revisions, and data from multiple sources are organized into the inputs required by the model. In addition to Julia, automatic downloading of the updated data is supported in MATLAB, Octave, Python, and R, with new automatic-download entry points for C and Fortran, providing a reusable gridded-data basis for different scientific programming environments and Earth system models.
 
 **Keywords:** Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
 
@@ -38,7 +38,7 @@ Earth system models rely on gridded data at regional to global scales for parame
 
 Wang等[5]于2022年发布了基于Julia语言的GriddingMachine数据库和软件，将常用于陆面和地球系统模拟的全球数据整理为具有统一空间和变量约定的NetCDF文件，并通过数据标签和软件包内的Artifacts.toml目录实现管理与自动下载，同时提供Julia、Matlab、Octave、Python和R接口。该版本为多源数据的统一访问奠定了基础。随着数据类型和应用需求扩展，原有流程在数据维护和模式接入方面面临新的需求：处理规则主要保存在数据源专用脚本中，新增数据需分别适配；标准NetCDF经外层tar.gz归档后分发，使用时仍需解包，Julia包内的数据目录随软件版本更新，新增或修订数据时需同步维护软件内置目录；在获得标准网格数据后，具体模式所需的参数和气象序列仍由应用程序进一步组合，并完成时间与单位衔接。
 
-上述需求涉及源数据处理、分发信息与模式应用之间的分工。以配置表达数据源特有的结构和数值约定，可使同类转换复用通用程序；由独立目录维护分发位置和内容标识，可使数据更新不必伴随访问软件发布。标准网格数据进入具体模式时，还需依据变量的空间、时间和量纲关系组织输入。以标准NetCDF和数据标签连接这些环节，有助于在保持统一访问方式的同时，分别维护处理规则、分发信息和模式适配。
+针对这些需求，改进应围绕数据转换规则的复用、分发信息的独立维护及模式输入的组织展开。源数据特有的转换规则与通用程序分开，可使新增数据沿用已有处理方法；数据目录独立维护并直接分发NetCDF，可减少更新与获取时的附加步骤；在标准网格读取之后统一处理参数组合、时间轴和单位关系，则可减少各模式重复编写数据接入程序。标准NetCDF和数据标签为这些环节提供共同约定，使处理结果能够持续用于模式试验。
 
 本文从数据预处理、分发与读取三个方面更新2022版GriddingMachine，以共享处理规则和独立数据目录减少重复整理与维护，并在统一读取基础上组织模式输入；同时完善Matlab、Octave、Python和R对新版数据的自动下载支持，新增C和Fortran下载入口。研究通过受控处理实例和真实海表温度数据检验标准化结果，通过高程与叶面积指数数据的分发比较和网络镜像获取评价访问效率与内容一致性，并以Emerald陆面过程模式为应用载体，展示陆面参数与逐时气象数据向模式输入的衔接。
 
@@ -103,11 +103,9 @@ GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新�
 
 #### 2.2.2 YAML配置与转换示例
 
-YAML配置集中描述各数据源的输入文件、变量及转换规则，使源数据差异与通用处理程序分开维护。配置规范在执行前检查必需信息、字段类型及相互关系；程序化和交互式生成的配置均通过同一规范解析，使数据贡献者能够复用已有方法，并为新增数据明确相应转换规则。
+YAML配置集中描述各数据源的输入文件、变量及转换规则，使源数据差异与通用处理程序分开维护。框架提供程序化和本地交互式配置生成方式，二者均在执行前检查必需信息、字段类型及相互关系，再由标准化处理函数`process_dataset!`执行，使数据贡献者能够复用通用流程，并为新增数据明确相应转换规则。
 
 以二维源数据为例，源维度按纬度、经度排列，纬度由北向南，经度范围为0°～360°。配置声明维度语义和坐标转换规则，处理程序据此重排数据、翻转纬度并调整经度范围，输出经度在前、纬度在后且坐标递增的标准网格；需要数值转换时，按配置执行相应变换。该示例说明不同源排列如何进入同一输出结构，结果核对见第4.1节。完整配置与字段说明见补充材料S3。
-
-框架同时提供程序化和本地交互式配置生成方式。二者输出均通过同一配置规范校验，再由标准化处理函数`process_dataset!`执行，使数据贡献者可以复用通用流程，集中描述各数据源的转换规则。
 
 #### 2.2.3 生产流程与质量控制
 
@@ -162,7 +160,7 @@ YAML配置集中描述各数据源的输入文件、变量及转换规则，使�
 | 数据生产与标准化层将异构源数据转换为标准NetCDF | 31组受控实例、ELEV重复生产与逐点核对 | OISST V2.1真实异构源数据 | 维度与坐标、有效值掩膜、逐点物理值、重复生成摘要 |
 | 数据目录与可信分发层组织高效且内容可核验的数据获取 | ELEV/LAI回环HTTP对照；13类受控状态场景 | Zenodo公共网络记录；中国科学技术大学（以下简称中科大）校内网 FTP—Zenodo同文件获取 | 端到端时间、传输字节、候选遍历、`SIZE`/SHA-256、临时与正式文件状态 |
 | 模式输入组织层将标准化数据组织为模式就绪输入 | 确定性读取、字段、时间轴与接口核对 | US-NR1的14类陆面数据集、8类ERA5及Emerald初始化和60 s首步 | 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 |
-| 跨操作系统运行一致性与多语言下载 | Windows、macOS、Linux持续集成；C与Fortran编译及下载测试 | Windows/macOS独立性能观测及按实际环境记录的真实网络案例 | 数据集结构、逐点数值、文件摘要、缓存状态和接口状态 |
+| 跨操作系统运行一致性与多语言下载 | Windows、macOS、Linux持续集成；C与Fortran编译及下载测试 | Windows/macOS独立性能观测；真实网络与数据案例 | 数据集结构、逐点数值、文件摘要、缓存状态和接口状态 |
 
 
 ### 3.1 数据生产与标准化及OISST案例
@@ -189,13 +187,13 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 ### 3.2 ELEV与LAI的直接NetCDF分发效率评价
 
-直接NetCDF分发效率采用二维静态高程（ELEV）`ELEV_4X_1Y_V1`和三维8日叶面积指数（LAI）`LAI_MODIS_2X_8D_2020_V1`进行分析，代表不同规模和维度的内部压缩数据集。每个标准NetCDF分别以原始`.nc`和包含同一文件的`tar.gz`分发，对照归档采用gzip级别6。两种形式解包后的NetCDF具有相同SHA-256，据此量化省去外层打包与解包带来的时间和临时空间收益。
+直接NetCDF分发效率采用二维静态高程数据集`ELEV_4X_1Y_V1`和三维8日尺度叶面积指数数据集`LAI_MODIS_2X_8D_2020_V1`进行分析，代表不同规模和维度的内部压缩数据集。每个标准NetCDF分别以原始`.nc`和包含同一文件的`tar.gz`分发，对照归档采用gzip级别6。两种形式解包后的NetCDF具有相同SHA-256，据此量化省去外层打包与解包带来的时间收益和文件存储占用变化。
 
 性能分析在Windows（环境A）和macOS（环境B）中采用回环HTTP服务。每个“数据×分发形式”组合经过缓存预热后按随机顺序测量10次，记录传输字节数、打包与解包时间、从请求开始到首次读取NetCDF值的端到端时间，以及获取过程中的文件存储占用（下载文件与解包文件并存时的合计大小）。两个独立环境使用一致的脚本和输入文件，时间指标以中位数、四分位距和95% Bootstrap置信区间表示。
 
 ### 3.3 多镜像获取与内容完整性
 
-目录管理评价考察目录更新后能否继续通过数据标签获取一致内容。实验采用不同版本的Artifacts.yaml、多个NetCDF文件和两个镜像端点，覆盖目录首次建立与更新、单数据集获取、全库同步、历史整理和状态查询。通过重复调用比较获取结果、文件摘要与缓存状态，并与小型参考目录的预设结果核对；完整操作和文件状态记录见补充材料S2与S6。
+目录管理评价围绕数据更新与重复获取展开：目录修订后，同一标签能否连接相应文件；获取异常时已有有效文件能否保留，重复获取时文件内容能否与目录记录一致。实验采用不同版本的Artifacts.yaml、多个NetCDF文件和两个镜像端点，通过目录更新与重复调用比较获取结果、文件摘要和缓存状态，并与小型参考目录的预设结果核对。目录首次建立、全库同步、历史整理和状态查询等操作及其文件状态记录见补充材料S2与S6。
 
 多镜像分析在两个独立环境中构建内容一致、访问状态可配置的镜像集合，通过延迟分数组织候选顺序，并以13类受控状态场景检验镜像回退、缓存复用、内容核验和正式文件状态。每类场景在各环境中重复5次，记录候选选择、获取结果和文件状态；中科大校内网机构FTP与Zenodo公共存储的访问进一步呈现两类镜像的互补分发特征与内容一致性。完整场景矩阵列于补充材料S6。
 
@@ -205,11 +203,11 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 模式输入组织案例连接标准网格读取、陆面参数融合、气象驱动组织与Emerald初始化。确定性参考数据用于核对字段名、形状、类型、时间索引和缺失值处理；陆面案例采用2020年第二套陆面参数集合，在US-NR1研究站点附近植被格点和典型非植被格点呈现不同陆面状态下的模式入口。
 
-真实气象案例使用同一年度的8类ERA5标准化数据[9]：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。八文件从中科大机构FTP只读获取，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、105.5464°W）由规则索引映射到40.5°N、105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个`data`变量的`lon×lat×ind`维度、360×180×8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较；`FDOY`另按输入站点经度−105.5464°除以15计算时间偏移并独立重建，数据取样位置与时间计算位置分别记录。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、土壤状态是否均为有限值。
+真实气象案例使用同一年度的8类ERA5标准化数据[9]：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。八文件从中科大机构FTP获取，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、105.5464°W）由规则索引映射到40.5°N、105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个`data`变量的`lon×lat×ind`维度、360×180×8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较；`FDOY`另按输入站点经度−105.5464°除以15计算时间偏移并独立重建，数据取样位置与时间计算位置分别记录。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、土壤状态是否均为有限值。
 
 ### 3.5 跨操作系统运行一致性与多语言下载评价
 
-跨操作系统测试采用一致的项目依赖、参考数据和判据，比较核心流程的数据结构、逐点数值、文件摘要及接口状态。Windows和macOS本地环境开展生产、分发效率、镜像状态和模式接口测试，Windows、macOS和Linux持续集成环境运行非交互处理与确定性核心流程。真实网络获取和US-NR1应用案例按实际运行环境分别记录；完整的系统与测试项目对应关系见补充材料S5。
+跨操作系统测试采用一致的项目依赖、参考数据和判据，比较核心流程的数据结构、逐点数值、文件摘要及接口状态。Windows和macOS本地环境开展生产、分发效率、镜像状态和模式接口测试，Windows、macOS和Linux持续集成环境运行非交互处理与确定性核心流程。各系统的测试项目及真实网络、US-NR1案例的运行环境见补充材料S5。
 
 多语言下载评价考察科研程序能否通过C和Fortran入口获取与参考内容一致的文件。两种入口编译后，通过回环HTTP下载同一确定性参考文件，核对获取结果、文件字节数和SHA-256；含空格的地址与输出路径另用于检查参数传递。程序状态及临时文件记录见补充材料S5。
 
@@ -229,7 +227,7 @@ ELEV在重复处理后保持原有数据值与坐标。1440×720网格全域有�
 
 OISST标准化结果的坐标、有效值掩膜和物理值均与独立参考逐点一致（图2）。输出为1440×720规则网格，经度由−179.875°递增至179.875°，纬度由−89.875°递增至89.875°；691 150个有效格点和345 650个缺失格点与参考掩膜一致。海表温度范围为−1.80～32.39 ℃，有效海洋格点的平均海表温度为14.013 ℃，物理值最大绝对差为0。经度重排改变了数组中的位置顺序，但保留了各位置对应的温度与缺失状态。
 
-3次生成的OISST数据值、坐标和文件SHA-256保持一致。标准文件为997 006字节，目录登记与回环HTTP获取均通过字节数和SHA-256核验，下载未遗留临时文件；统一读取结果与独立参考逐点一致。标准化过程形成的空间与数值约定由此在登记、获取和读取之后得到保持，可供下游程序按同一标签重复调用。
+3次生成的OISST数据值、坐标和文件SHA-256保持一致。标准文件为997 006字节，目录登记与回环HTTP获取均通过字节数和SHA-256核验；统一读取结果与独立参考逐点一致。标准化过程形成的空间与数值约定由此在登记、获取和读取之后得到保持，可供下游程序按同一标签重复调用。
 
 ![图2 OISST数据标准化结果](figures/图2_OISST真实产品标准化结果.png)
 
@@ -257,19 +255,19 @@ OISST标准化结果的坐标、有效值掩膜和物理值均与独立参考逐
 
 中科大校内网场景中，4个数据集分别从FTP和Zenodo重复获取3次，两类镜像各形成12次下载，共24次结果。两类镜像提供的同一数据集均与目录登记的字节数和SHA-256一致，说明机构镜像与公共镜像能够提供内容一致的分发副本。延迟辅助排序与本组实际传输顺序一致；分数据集传输时间与网络记录列于补充材料。
 
-ERA5降水单位修订后，下游仍可使用原逻辑标签获取修订文件。目录中`PPT_ERA5_1X_1H_2020_V1`指向`V1_R1.nc`，并登记修订后的字节数与SHA-256，原V1和R1文件分别保留。修订文件首次获取通过完整性核验，再次调用复用缓存。目录因而能够承接数据修订并保持调用入口稳定，试验所用的具体文件则由目录版本与摘要确定。
+以ERA5降水单位属性由`mm`修订为`m`为例，独立目录将原逻辑标签`PPT_ERA5_1X_1H_2020_V1`指向`V1_R1.nc`，并登记修订后的字节数与SHA-256；原V1和R1文件分别保留。修订文件首次获取通过完整性核验，再次调用复用缓存。下游因而能够沿用原标签获取修订数据，试验所用的具体文件由目录版本与摘要确定。单位修订依据及模式换算见第4.4节。
 
 ### 4.4 统一读取与模式输入组织
 
-2020年14类陆面数据组合后形成US-NR1格点的34个模式字段，包含366日季节序列、4个土壤层和17个植物功能型。各文件的大小、来源摘要和SHA-256通过核验，站点索引映射至40.5°N、105.5°W，高程、陆地掩膜与叶面积指数读取一致。撒哈拉案例被识别为非植被格点，并按相应陆面状态组织参数。相同数据集合因而能够根据格点状态提供植被与非植被条件下的模式输入。
+不同空间分辨率和时间尺度的14类陆面数据经统一组织，形成2020年US-NR1格点的34个模式字段，包含366日季节序列、4个土壤层和17个植物功能型。站点索引映射至40.5°N、105.5°W，高程、陆地掩膜与叶面积指数读取一致。撒哈拉案例被识别为非植被格点，并按相应陆面状态组织参数，说明同一数据集合能够根据格点状态提供植被与非植被条件下的模式输入。各输入文件的大小、来源摘要和SHA-256均通过核验。
 
-2020年8类ERA5数据的各变量均为360×180×8784的经度、纬度和逐小时数组，并带有单位属性。US-NR1格点的8类变量各得到8784个逐小时值，有限值比例均为100%，与底层NetCDF读取结果的最大绝对差均为0。地方平太阳时偏移为−7.0364 h，浮点年积日严格递增且与独立公式逐点一致。输出由时间轴和8类气象变量共9个字段组成，经Emerald适配后形成16个模式驱动字段，保持了数据取样、年度时间组织与模式字段之间的对应关系。逐文件大小与字段信息见补充材料S1。
+8类ERA5气象变量经统一读取，形成US-NR1格点2020年连续的年度逐小时序列。各源变量均为360×180×8784的经度、纬度和逐小时数组，并带有单位属性；站点的每类变量均得到8784个逐小时值，有限值比例为100%，与底层NetCDF读取结果的最大绝对差为0。地方平太阳时偏移为−7.0364 h，浮点年积日严格递增且与独立公式逐点一致。时间轴和8类气象变量共9个字段经Emerald适配后形成16个模式驱动字段，使格点取样、年度时间组织与模式字段相互对应。逐文件大小与字段信息见补充材料S1。
 
 依据ERA5逐小时总降水的变量定义[11]，降水输入表示每小时累计的米制水层，标准NetCDF单位属性据此修订为`m`，数据值保持不变。US-NR1年度累计降水为0.496409 m，即496.409 mm，用于核对数值尺度与量纲。Emerald按水层厚度、水密度、水的摩尔质量及3600 s累计时段换算为摩尔通量，使数据单位与模式输入一致。完成参数、时间和量纲衔接后，真实陆面参数与气象驱动共同完成Emerald初始化和60 s首步计算，大气与土壤关键状态均保持有限值。该年度案例表明，多源标准网格数据能够按明确的空间、时间与单位关系形成可用的模式输入。
 
 ### 4.5 跨操作系统运行一致性与多语言下载结果
 
-跨操作系统运行中，GriddingMachine、GriddingMachineDatasets及Emerald合成输入接口的数据结构、逐点数值、文件摘要和接口状态满足相同判据。标准化、镜像获取和模式输入检查表明，统一数据约定能够支持核心流程在不同操作系统中采用一致的调用方式与结果核对方法；各系统测试项目与结果见补充材料S5。
+跨操作系统运行中，GriddingMachine和GriddingMachineDatasets的确定性核心流程得到一致的数据结构、逐点数值和文件摘要，Emerald合成输入接口的状态均符合预设结果。不同系统能够沿用同一数据约定完成标准化、获取和模式输入组织，为科研程序在不同运行环境中使用这些数据提供支持；各系统测试项目与结果见补充材料S5。
 
 经编译的C和Fortran入口均成功获取参考文件，字节数和SHA-256与参考内容一致。新增入口使采用这两种语言的科研程序能够调用统一下载逻辑，自动获取内容一致的网格数据文件。
 
@@ -279,7 +277,7 @@ ERA5降水单位修订后，下游仍可使用原逻辑标签获取修订文件�
 
 2022版GriddingMachine的主要作用是以统一网格、变量和标签提供多源数据访问[5]。本研究在此基础上处理数据持续更新中的重复维护问题。31组处理实例与OISST结果说明，源维度、坐标和数值差异可以由配置表达，并在通用流程中得到正确处理；ELEV重复处理则表明，已有标准化结果可以沿用这一流程而保持数据值。处理规则因而能够与数据文件共同维护，新增或更新数据时不必为相同转换重新编写完整程序。独立目录进一步使镜像调整和文件修订集中于分发信息，模式侧继续沿用标签访问。
 
-统一约定还需要同时支持数据更新和既有试验的复现。ERA5降水修订中，下游逻辑标签保持不变，实际文件位置及完整性信息在目录中更新，使调用程序能够继续使用已有入口。对某次模式试验，保存当时的目录、文件摘要、处理配置和代码版本则能够明确实际使用的数据与转换过程。标签用于简化调用，归档记录用于还原试验，两者共同支持数据库的持续维护与科研复用。
+数据库维护需要兼顾数据持续更新与既有试验复现。ERA5降水修订表明，目录能够承接文件变化，使科研程序沿用已有标签；保存各次试验使用的目录、文件摘要、处理配置和代码版本，则可明确实际输入及其转换过程。数据标签提供统一调用入口，归档记录保存具体试验所用内容，两者共同支持数据库更新与科研复用。
 
 ### 5.2 分发效率与科学数据质量
 
@@ -289,17 +287,17 @@ ELEV和LAI已经使用NetCDF内部压缩，外层归档的额外压缩收益较�
 
 ### 5.3 从标准网格数据到模式输入
 
-US-NR1案例表明，统一文件格式之后的关键工作是建立变量之间的空间、时间和物理联系。不同分辨率的陆面数据按各自网格提取目标位置的参数，季节参数与ERA5逐时气象按共同年度组织，再由模式适配完成字段和量纲转换。降水修订尤其说明，仅有数值一致还不足以保证正确的物理输入：0.496409 m与496.409 mm代表同一水层，但模式的通量换算必须采用与输入单位一致的关系。把这些组织方法置于数据库读取之后，能够使各模式复用已明确的变量关系，减少单独整理参数和气象输入的工作。
+US-NR1案例表明，统一文件格式之后的关键工作是建立变量之间的空间、时间和物理联系。不同分辨率的陆面数据按各自网格提取目标位置的参数，季节参数与ERA5逐时气象按共同年度组织，再由模式适配完成字段和量纲转换。降水等累计量还需结合单位和累计时段换算为模式所需通量，使数据的物理含义与模式计算相衔接。将这些关系纳入统一的数据组织方法，能够减少各模式单独整理参数和气象输入的工作。
 
 这一流程也可用于其他站点、年份和模式的数据接入；根据目标模式的空间、时间和变量约定调整配置与接口适配，即可复用标准网格读取和数据组织方法。Julia主流程与非Julia下载入口分别服务输入组织和跨语言文件获取，研究人员可按已有科研程序的需求选择调用方式。
 
 ### 5.4 与相关数据基础设施的关系及扩展方向
 
-地球系统数据立方体着重多变量时空数据的联合分析[12]；GriddingMachine侧重将不同来源的变量组织为可重复调用的模式输入，其Julia实现[13]便于把标准化、读取和模式适配组合到已有科研程序中。Google Earth Engine提供云端遥感访问与计算[4]，ESGF组织分布式气候模式数据发现与访问[14]，Pangeo及Pangeo Forge支持云端数据组织和可复用处理配方[15,16]。这些设施为数据访问和计算提供基础，GriddingMachine则以标准网格、数据标签和输入组织方法衔接本地模式试验，使获得的数据能够进一步用于参数配置与气象驱动。
+不同数据基础设施侧重数据分析与访问的不同环节。地球系统数据立方体着重多变量时空数据的联合分析[12]，GriddingMachine则将标准化、读取和模式适配组合为可由科研程序调用的数据流程，其Julia实现为这些方法的组合提供支持[13]。Google Earth Engine提供云端遥感访问与计算[4]，ESGF组织分布式气候模式数据发现与访问[14]，Pangeo及Pangeo Forge支持云端数据组织和可复用处理配方[15,16]。本文OISST标准化与US-NR1案例展示了数据获取之后的衔接：按统一空间约定保存处理结果，并依据变量的时间和量纲关系组织参数与气象驱动，使共享数据进一步用于本地模式试验。
 
-数据目录连接文件发现与实际获取。国内地球系统科学数据共享研究强调规范分类和目录建设[17]，Pooch提供科研文件获取工具，STAC提供地理空间目录描述规范[18,19]。本研究的镜像获取和修订案例表明，维护标签与文件内容的对应关系，可以在调整分发地址或修订数据时保持既有调用方式。后续可加强与通用目录和获取工具的衔接，使科研程序更便于复用共享数据。
+数据目录连接文件发现与实际获取。国内地球系统科学数据共享研究强调规范分类和目录建设[17]，Pooch提供科研文件获取工具，STAC提供地理空间目录描述规范[18,19]。在本研究的镜像获取和修订案例中，标签既连接分发地址，也与文件内容记录对应，使科研程序能够在镜像切换或数据修订后沿用已有调用入口。这一实践为本地模式使用共享数据提供了文件获取与更新的衔接方式；后续可加强与通用目录和获取工具的连接。
 
-数据复用还需要保留处理规则及其研究出处。软件引用原则、科研软件FAIR原则（FAIR4RS）及数字资源库TRUST原则分别为软件识别、复用与资源库维护提供参考[20-22]。归档数据来源、配置和软件版本，可将模式试验中的输入追溯到具体处理过程；新增数据源配置、公共镜像登记和更多模式接口适配则可持续扩展数据库的科研用途。
+多源数据共同进入模式时，处理规则及其研究出处也需要随输入保存。软件引用原则、科研软件FAIR原则（FAIR4RS）及数字资源库TRUST原则分别为软件识别、复用与资源库维护提供参考[20-22]。本文将数据来源、配置和软件版本与处理结果共同归档，使OISST转换和模式输入组织能够对应具体数据与方法。后续新增数据源配置、公共镜像登记和模式接口适配时，延续这些记录可为数据库更新和科研复用提供依据。
 
 ## 6 结论
 
@@ -311,7 +309,7 @@ US-NR1案例表明，统一文件格式之后的关键工作是建立变量之�
 
 ## 数据和代码可用性声明
 
-GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。ERA5案例的逐文件大小与SHA-256、格点统计、时间轴核对和模式状态保存在`experiment_data/03_09/real_era5_result.toml`；PPT修订文件以V1_R1后缀发布，逻辑标签保持V1，目录记录其文件大小、SHA-256和机构FTP地址。既有主体实验使用的核心代码版本分别以`griddingmachine-paper-2026-v1`、`griddingmachine-datasets-paper-2026-v1`和`emerald-paper-2026-v1`标签固定。多语言下载入口位于GriddingMachine.jl的`clients`目录，对应发布分支提交`8b3ff703e14f1a387281f4c814f2620438e8f9aa`；该提交包含跨语言下载入口及其完整性验证记录。研究材料的内容冻结提交、冻结分支及不可变稿件标签由`论文/投稿版本锁定.toml`统一记录；永久归档与DOI信息随最终归档版本同步发布。
+GriddingMachine.jl源代码公开于https://github.com/CliMA/GriddingMachine.jl，数据生产代码公开于https://github.com/jhOo1/GriddingMachineDatasets，Emerald模式接口环境公开于https://github.com/jhOo1/Emerald-paper，论文补充材料、实验协议、脚本和结果公开于https://github.com/jhOo1/GriddingMachine_Reaserach。研究所用代码版本、多语言下载入口及验证记录、数据修订信息和实验结果索引见补充材料S8，精确提交与稿件冻结信息由`论文/投稿版本锁定.toml`统一记录。永久归档与DOI信息随最终归档版本同步发布。
 
 ## 基金项目
 
