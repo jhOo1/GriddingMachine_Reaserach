@@ -197,7 +197,8 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
     header = OxmlElement("w:tblHeader")
     table.rows[0]._tr.get_or_add_trPr().append(header)
     for i, row in enumerate(rows):
-        # Keep each table row intact while allowing the table to span pages.
+        # Keep the two comparison tables intact. The longer specification
+        # table may span pages, with its header repeated and each row intact.
         table.rows[i]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
         for j in range(width):
             text = row[j] if j < len(row) else ""
@@ -218,6 +219,10 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
             paragraph.paragraph_format.space_before = Pt(0)
             paragraph.paragraph_format.space_after = Pt(0)
             paragraph.paragraph_format.line_spacing = 1.0
+            paragraph.paragraph_format.keep_together = True
+            paragraph.paragraph_format.keep_with_next = (
+                i < len(rows) - 1 if table_index in (1, 3) else i == 0
+            )
             paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 or j == 0 else WD_ALIGN_PARAGRAPH.LEFT
             for run in cell.paragraphs[0].runs:
                 run.font.size = Pt(9.2 if i == 0 else 9)
@@ -293,7 +298,9 @@ def export() -> None:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 paragraph.paragraph_format.first_line_indent = Cm(0)
                 paragraph.paragraph_format.keep_with_next = True
-                paragraph.add_run().add_picture(str(image_path), width=Cm(15.0))
+                # Leave room for the bilingual architecture caption.
+                figure_width = 14.5 if "图1_" in image_path.name else 15.0
+                paragraph.add_run().add_picture(str(image_path), width=Cm(figure_width))
             i += 1
             continue
 
