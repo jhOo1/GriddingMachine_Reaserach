@@ -37,12 +37,13 @@ def set_run_font(run, east_asia: str = "Songti SC", latin: str = "Times New Roma
 
 def add_text_segments(paragraph, text: str, bold: bool = False) -> None:
     """Add ordinary text while rendering author markers as Word superscripts."""
-    for part in re.split(r"(\^\d+|\\?\*)", text):
+    # Keep multiple affiliation numbers and the correspondence marker in one superscript.
+    for part in re.split(r"(\^\d+(?:,\d+)*(?:,?\\?\*)?|\\?\*)", text):
         if not part:
             continue
         marker = part.startswith("^") or part in {"*", r"\*"}
         if part.startswith("^"):
-            display = part[1:]
+            display = part[1:].replace(r"\*", "*")
         elif part == r"\*":
             display = "*"
         else:
@@ -343,6 +344,12 @@ def export() -> None:
             paragraph.style = "List Bullet"
             line = line[2:]
         add_inline(paragraph, line)
+        # Match the supplied centered author, affiliation and correspondence block.
+        if line.startswith(("**姜皓**", "**Hao JIANG**", "**A Global", "^1 ", "^2 ", r"\* 通讯作者", r"\* Corresponding author")):
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            paragraph.paragraph_format.first_line_indent = Cm(0)
+            paragraph.paragraph_format.space_after = Pt(4)
+            paragraph.paragraph_format.keep_with_next = True
         if line.startswith("**表"):
             paragraph._element.getparent().remove(paragraph._element)
             add_table_caption(document, line)

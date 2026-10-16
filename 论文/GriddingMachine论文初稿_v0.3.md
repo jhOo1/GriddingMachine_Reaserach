@@ -1,12 +1,12 @@
 # 面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用
 
-**姜皓（Hao Jiang）**^1，**王玉杰（Yujie Wang）**^1*
+**姜皓**^1,2　**王玉杰**^1,2,*
 
-1. 中国科学技术大学地球和空间科学学院，安徽 合肥 230026
+^1 中国科学技术大学风云卫星遥感联合实验室
 
-姜皓，E-mail：hao.jiang@mail.ustc.edu.cn；ORCID：https://orcid.org/0009-0009-8295-8661
+^2 崂山实验室
 
-\* 通讯作者：王玉杰，wyujie@ustc.edu.cn
+\* 通讯作者（wyujie@ustc.edu.cn）
 
 ## 摘要
 
@@ -16,13 +16,13 @@
 
 **A Global Gridded Database for Earth System Models: Advances and Applications of GriddingMachine**
 
-**Hao JIANG^1, Yujie WANG^1\***
+**Hao JIANG**^1,2, **Yujie WANG**^1,2,*
 
-1. School of Earth and Space Sciences, University of Science and Technology of China, Hefei 230026, China
+^1 Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China
 
-Hao Jiang, E-mail: hao.jiang@mail.ustc.edu.cn; ORCID: https://orcid.org/0009-0009-8295-8661
+^2 Laoshan Laboratory
 
-\* Corresponding author: Yujie Wang, wyujie@ustc.edu.cn
+\* Corresponding author (wyujie@ustc.edu.cn)
 
 ## Abstract
 
