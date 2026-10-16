@@ -3,5 +3,7 @@
   "sha256": "2e3e82539e6e1c7171ebd285ced49f16b17029b0020b2fdd3457ebc30c425ab3",
   "tables": 3,
   "figures": 3,
-  "references": 22
+  "references": 22,
+  "overleaf_project": "https://www.overleaf.com/project/6ad187c7099334b21a9823a4",
+  "template_sha256": "d3704620f7e1ed7f865d8eefde853e22df0525aa4da8e1a9a810221fa0fa5f40"
 }

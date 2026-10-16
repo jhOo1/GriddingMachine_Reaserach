@@ -1,0 +1,35 @@
+\documentclass{chinese}
+
+% line spacing control
+\usepackage{setspace}
+
+
+\begin{document}
+\doublespacing
+\begin{CJK}{UTF8}{gbsn}
+%
+% Title page
+%
+{
+\centering
+\Large
+\par \noindent \Large \textbf{面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用}
+
+\normalsize
+\par \noindent 姜皓$^{1,2}$\ \ \ \ ？？？\ \ \ \ 王玉杰$^{1,2,*}$
+\par \noindent $^1$ 中国科学技术大学风云卫星遥感联合实验室
+\par \noindent $^2$ 崂山实验室
+\par \noindent $^*$ 通讯作者（wyujie@ustc.edu.cn）\\
+}
+
+
+%
+% Abstract
+%
+\section*{摘要}
+地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，不同数据源在处理规则、单位、数据标识和网络分发方式等方面仍存在差异，研究人员往往需要针对各自模式重复整理和维护数据库，增加了模式持续更新与验证的工作量。本文在2022版GriddingMachine基础上，围绕数据预处理、分发和读取进行改进。通过共享配置统一组织数据处理规则，使不同来源的数据能够按一致规范完成标准化；采用直接NetCDF分发和独立维护的数据目录，简化数据获取与更新；进一步将多源数据组织为陆面参数和气象驱动，为模式计算提供输入。应用案例表明，改进后的流程能够保持标准化结果与独立参考的一致性，缩短数据获取至首次读取的时间，并在数据修订后沿用已有标签访问，支持多源数据向模式输入的衔接。此外，完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran语言的自动下载支持，以更好地服务科学研究与应用。
+
+
+
+\end{CJK}
+\end{document}

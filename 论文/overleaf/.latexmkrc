@@ -1,2 +1,2 @@
-# Compile the UTF-8 Chinese manuscript with XeLaTeX.
-$pdf_mode = 5;
+# Compile the supervisor's CJKutf8 template with pdfLaTeX.
+$pdf_mode = 1;

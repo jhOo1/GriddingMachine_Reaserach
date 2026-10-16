@@ -32,6 +32,8 @@ def escape_text(text: str) -> str:
         "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
         "℃": r"\ensuremath{{}^{\circ}\mathrm{C}}", "₂": r"\textsubscript{2}",
         "～": r"\ensuremath{\sim}",
+        # Permit line wrapping between language names in narrow cells of the original template.
+        "、": r"、\allowbreak{}",
     }
     return "".join(substitutions.get(char, char) for char in text)
 
@@ -51,9 +53,9 @@ def inline(text: str, citations: bool = True) -> str:
         if value.startswith("**"):
             parts.append(r"\textbf{" + inline(value[2:-2], citations) + "}")
         elif value.startswith("`"):
-            # URL verbatim suppresses CJK font switching, so render Chinese paths as ordinary code.
+            # Non-ASCII code needs normal font switching and escaped symbols in the original CJK class.
             code = value[1:-1]
-            if re.search(r"[\u3400-\u9fff～]", code):
+            if re.search(r"[^\x00-\x7f]", code):
                 parts.append(r"\texttt{" + escape_text(code) + "}")
             else:
                 parts.append(r"\nolinkurl{" + code + "}")
@@ -97,7 +99,8 @@ def render_table(rows: list[str], index: int, captions: list[str]) -> str:
     spec = "@{}" + "".join(r">{\raggedright\arraybackslash}p{" + f"{weight:.2f}" + r"\gmTableWidth}" for weight in weights) + "@{}"
     header = " & ".join(r"\textbf{" + inline(value) + "}" for value in cells[0]) + r" \\"
     body = ["% Keep bilingual captions with the first header and repeat columns on continuation pages.",
-            r"\begingroup\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.25}",
+            # Single-spaced cells retain legibility without changing the supervisor's body spacing.
+            r"\begingroup\singlespacing\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.25}",
             available, r"\begin{longtable}{" + spec + "}"]
     for caption in captions:
         body.append(r"\multicolumn{" + str(columns) + r"}{@{}p{\linewidth}@{}}{\centering " + inline(caption) + r"\par} \\[4pt]")
@@ -110,38 +113,38 @@ def render_table(rows: list[str], index: int, captions: list[str]) -> str:
 
 
 def preamble() -> str:
-    """Use fonts shipped with TeX Live so Overleaf does not depend on local macOS fonts."""
-    return r"""% !TeX program = xelatex
+    """Retain the supervisor's original class, Chinese fonts, and double-spaced manuscript."""
+    # The original CJKutf8 class uses pdfLaTeX; keep its typography and section definitions.
+    return r"""% !TeX program = pdflatex
 % This editable project is generated from the canonical Markdown manuscript.
-\documentclass[UTF8,a4paper,zihao=-4,fontset=fandol]{ctexart}
-% Keep the layout suitable for a Chinese research manuscript rather than a slide or report.
-\usepackage[top=2.5cm,bottom=2.5cm,left=2.6cm,right=2.6cm]{geometry}
-\usepackage{graphicx,booktabs,longtable,array,caption,setspace}
+% Preserve the supervisor's chinese.cls, with numbered references for the existing bibliography.
+\documentclass[numdoi]{chinese}
+\usepackage{booktabs,longtable,array,caption}
 \usepackage{xurl}
 \usepackage[unicode,hidelinks]{hyperref}
-% Resolve bundled font files through TeX rather than platform font registries.
-\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf,BoldItalicFont=lmroman10-bolditalic.otf]
-\setsansfont{lmsans10-regular.otf}[BoldFont=lmsans10-bold.otf,ItalicFont=lmsans10-oblique.otf]
-\setmonofont{lmmono10-regular.otf}
+% Restrict the legacy CJK Unicode maps to CJK fonts so Latin text remains searchable.
+\makeatletter
+\let\gmOriginalCJKAddCmap\CJK@addcmap
+\def\CJK@addcmap#1{%
+  \edef\gmCJKEncoding{C70}%
+  \ifx\f@encoding\gmCJKEncoding\gmOriginalCJKAddCmap{#1}\fi}
+\makeatother
 \urlstyle{same}
-\setstretch{1.3}
-% Use unobtrusive page numbers without running section headers.
+% Keep the original manuscript spacing; dense tables and captions remain single-spaced.
 \pagestyle{plain}
-\setlength{\parskip}{3pt}
 \setlength{\emergencystretch}{2em}
-% Retain the existing section hierarchy and omit punctuation after section numbers.
-\ctexset{
-  section={format=\Large\bfseries,aftername=\quad},
-  subsection={format=\large\bfseries,aftername=\quad},
-  subsubsection={format=\normalsize\bfseries,aftername=\quad}}
-\captionsetup{font=small,justification=justified,singlelinecheck=false,skip=5pt}
+\captionsetup{font={small,stretch=1},justification=justified,singlelinecheck=false,skip=5pt}
 \newlength{\gmTableWidth}
+% Use the Chinese bibliography heading while retaining the template's numbered reference layout.
+\renewcommand{\refname}{参考文献}
 \setcounter{topnumber}{3}
 \renewcommand{\topfraction}{0.95}
 \renewcommand{\textfraction}{0.03}
 \renewcommand{\floatpagefraction}{0.75}
 \hypersetup{pdftitle={面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用},pdfauthor={Hao Jiang; Yujie Wang}}
 \begin{document}
+\doublespacing
+\begin{CJK}{UTF8}{gbsn}
 """
 
 
@@ -159,19 +162,18 @@ def export() -> None:
         if not line:
             i += 1
             continue
-        # Keep the screenshot's compact Chinese title and author block together.
+        # Keep the supervisor's title size and centered author block while removing placeholders.
         if i == 0:
-            # Break at the subtitle boundary rather than splitting a Chinese word.
             title = line.removeprefix("# ")
-            main_title, subtitle = title.split("：", 1)
-            body.extend(["% Chinese title and verified dual affiliations.", r"\begin{center}",
-                         r"{\zihao{3}\bfseries " + inline(main_title + "：") + r"\\[0.2em]" + inline(subtitle) + r"\par}", r"\vspace{0.6em}"])
+            body.extend(["% Preserve the supplied title block and the confirmed two-author list.",
+                         r"{\centering", r"\par\noindent {\Large\textbf{" + inline(title) + r"}\par}",
+                         r"\normalsize"])
             i += 1
             while i < len(lines) and lines[i].strip() != "## 摘要":
                 if lines[i].strip():
-                    body.append(inline(lines[i].strip()) + r"\par\vspace{0.35em}")
+                    body.append(r"\par\noindent " + inline(lines[i].strip()))
                 i += 1
-            body.append(r"\end{center}")
+            body.append(r"\par}")
             continue
         # Keep complete bilingual captions with each figure and use stable ASCII paths.
         if line.startswith("!["):
@@ -209,7 +211,8 @@ def export() -> None:
         # Preserve manually curated reference entries rather than inventing BibTeX metadata.
         if line == "## 参考文献":
             in_references = True
-            body.append(r"\begin{thebibliography}{99}\small\setlength{\itemsep}{5pt}")
+            # Keep numbered reference entries compact within the double-spaced manuscript.
+            body.append(r"\begingroup\singlespacing\begin{thebibliography}{99}\small\setlength{\itemsep}{5pt}")
             i += 1
             continue
         if in_references:
@@ -240,16 +243,19 @@ def export() -> None:
             body.append(inline(line) + "\n")
         i += 1
     assert (table_index, figure_count, reference_count) == (3, 3, 22)
-    body.extend([r"\end{thebibliography}", r"\end{document}"])
+    # Close the original CJK environment after every manuscript section and reference.
+    body.extend([r"\end{thebibliography}\endgroup", r"\end{CJK}", r"\end{document}"])
     (OUTPUT / "main.tex").write_text("\n".join(body) + "\n")
-    # Configure XeLaTeX for both Overleaf and local latexmk without shell-escape requirements.
-    (OUTPUT / ".latexmkrc").write_text("# Compile the UTF-8 Chinese manuscript with XeLaTeX.\n$pdf_mode = 5;\n")
+    # Match the compiler used by the original CJKutf8-based Overleaf template.
+    (OUTPUT / ".latexmkrc").write_text("# Compile the supervisor's CJKutf8 template with pdfLaTeX.\n$pdf_mode = 1;\n")
     (OUTPUT / "source_manifest.json").write_text(json.dumps({
         "source": SOURCE.name, "sha256": hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
         "tables": table_index, "figures": figure_count, "references": reference_count,
+        "overleaf_project": "https://www.overleaf.com/project/6ad187c7099334b21a9823a4",
+        "template_sha256": hashlib.sha256((OUTPUT / "chinese.cls").read_bytes()).hexdigest(),
     }, ensure_ascii=False, indent=2) + "\n")
     # Build a minimal archive with the main document at its root and no machine-specific files.
-    members = [OUTPUT / "main.tex", OUTPUT / ".latexmkrc", OUTPUT / "README.md", OUTPUT / "source_manifest.json"]
+    members = [OUTPUT / "main.tex", OUTPUT / "chinese.cls", OUTPUT / ".latexmkrc", OUTPUT / "README.md", OUTPUT / "source_manifest.json"]
     members.extend(sorted((OUTPUT / "figures").glob("*.png")))
     with zipfile.ZipFile(ARCHIVE, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for member in members:
