@@ -89,26 +89,29 @@ def table_cells(line: str) -> list[str]:
 
 
 def render_table(rows: list[str], index: int, captions: list[str]) -> str:
-    """Use a three-rule longtable with deliberate widths and repeated column headings."""
-    # Preserve all text while allowing descriptive cells and long tables to wrap naturally.
+    """Keep each concise table together with proportional widths and light row rules."""
+    # Give descriptive columns the space released by removing redundant explanations.
     cells = [table_cells(row) for row in rows if not re.fullmatch(r"[| :\-]+", row)]
     columns = len(cells[0])
-    weights = {1: [0.13, 0.24, 0.34, 0.29], 2: [0.20, 0.44, 0.36], 3: [0.25, 0.26, 0.27, 0.22]}[index]
+    weights = {1: [0.17, 0.36, 0.47], 2: [0.20, 0.80], 3: [0.18, 0.46, 0.36]}[index]
     assert columns == len(weights) and all(len(row) == columns for row in cells)
     available = rf"\setlength{{\gmTableWidth}}{{\dimexpr\linewidth-{2 * (columns - 1)}\tabcolsep\relax}}"
     spec = "@{}" + "".join(r">{\raggedright\arraybackslash}p{" + f"{weight:.2f}" + r"\gmTableWidth}" for weight in weights) + "@{}"
     header = " & ".join(r"\textbf{" + inline(value) + "}" for value in cells[0]) + r" \\"
-    body = ["% Keep bilingual captions with the first header and repeat columns on continuation pages.",
-            # Single-spaced cells retain legibility without changing the supervisor's body spacing.
-            r"\begingroup\singlespacing\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.25}",
-            available, r"\begin{longtable}{" + spec + "}"]
+    # Float the complete table rather than leaving a few rows on a continuation page.
+    body = ["% Keep captions and all rows together; thin rules distinguish parallel entries.",
+            r"\begin{table}[!htbp]\centering",
+            r"\begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}",
+            r"\captionsetup{justification=centering}", available]
     for caption in captions:
-        body.append(r"\multicolumn{" + str(columns) + r"}{@{}p{\linewidth}@{}}{\centering " + inline(caption) + r"\par} \\[4pt]")
-    body.extend([r"\toprule", header, r"\midrule\endfirsthead", r"\toprule", header,
-                 r"\midrule\endhead", r"\bottomrule\endfoot", r"\bottomrule\endlastfoot"])
-    for row in cells[1:]:
-        body.append(" & ".join(inline(value) for value in row) + r" \\[4pt]")
-    body.extend([r"\end{longtable}", r"\endgroup"])
+        body.append(r"\caption*{" + inline(caption) + "}")
+    body.extend([r"\begin{tabular}{" + spec + "}", r"\toprule", header, r"\midrule"])
+    for row_index, row in enumerate(cells[1:]):
+        body.append(" & ".join(inline(value) for value in row) + r" \\")
+        # Use auxiliary rules without vertical boxes, following text-heavy geoscience tables.
+        if row_index < len(cells) - 2:
+            body.append(r"\midrule[0.25pt]")
+    body.extend([r"\bottomrule", r"\end{tabular}", r"\endgroup", rf"\label{{tab:{index}}}", r"\end{table}"])
     return "\n".join(body)
 
 
@@ -198,7 +201,7 @@ def export() -> None:
             body.extend(r"\caption*{" + caption + "}" for caption in captions)
             body.extend([rf"\label{{fig:{figure_count}}}", r"\end{figure}"])
             continue
-        # Longtables handle page breaks without rasterizing editable table content.
+        # Preserve editable cells and keep each shortened table on one page.
         if line.startswith("|"):
             rows = []
             while i < len(lines) and lines[i].strip().startswith("|"):
@@ -233,7 +236,7 @@ def export() -> None:
             else:
                 body.append("\\" + command + "*{" + inline(title) + "}")
         elif line.startswith(("**表", "**Table")):
-            # Defer captions until the longtable so they cannot be orphaned on a previous page.
+            # Defer captions until the table so they cannot be orphaned on a previous page.
             table_captions.append(line)
         elif line.startswith("**A Global"):
             body.append(r"\begin{center}\large " + inline(line) + r"\end{center}")

@@ -56,21 +56,21 @@ Wang等[5]于2022年发布了基于Julia语言的GriddingMachine数据库和软�
 
 三个功能层通过标准NetCDF和数据标签连接。生产流程输出以标签命名的文件，数据目录记录标签对应的文件地址，科研程序据此获取和读取数据。源数据变化时更新处理配置，分发位置变化时调整目录，模式程序则沿用统一读取方式，并根据自身接口组织输入。这样，处理规则、分发信息和模式接入程序可以分别维护。具体方法见第2.2—2.4节。
 
-表1概括2022版与新版的主要差异及其在数据流程中的作用。
+表1对比2022版与新版在数据生产、分发、读取和跨语言获取方面的主要差异。
 
 **表1 2022版与新版GriddingMachine的功能和技术路线比较**
 
-**Table 1 Comparison between the 2022 release and the updated GriddingMachine.** The table summarizes the implemented mechanisms, workflow changes, and their implications for scientific data use across the data workflow.
+**Table 1 Comparison between the 2022 release and the updated GriddingMachine.**
 
-| 环节 | 2022版 | 新版 | 对科研流程的作用 |
-|---|---|---|---|
-| 分发单元 | NetCDF的`tar.gz`归档文件 | 可直接读取的`.nc` | 简化数据获取并降低端到端读取时间 |
-| 数据目录 | Julia包内置`Artifacts.toml` | 独立`Artifacts.yaml`，支持目录校验和独立更新 | 数据目录可独立于软件版本维护 |
-| 数据获取 | 基于哈希标识管理数据，支持多个URL、摘要核验和解包 | 直接NetCDF获取、多镜像回退、临时文件核验后更新正式文件 | 简化获取步骤，并保持镜像切换时的文件内容一致 |
-| 数据读取接口 | 以`read_LUT`提供全域网格、周期切片和指定格点读取 | 以`read_dataset`统一读取入口，保留`read_LUT`兼容名称，并衔接参数与气象输入组织 | 沿用已有读取方式，为模式输入组织提供基础，并降低旧接口迁移成本 |
-| 多语言访问 | 提供Julia、Matlab、Octave、Python和R接口 | 完善Matlab、Octave、Python和R自动下载，新增C和Fortran支持；各下载入口均支持URL或数据标签调用及文件完整性核验 | 不同科研编程环境共享数据获取方式与内容核验规则 |
-| 模式组织 | 标准化数据和通用读取 | 陆面参数融合与气象驱动组织 | 标准化数据进入Emerald参数组织与模式初始化 |
-| 数据生产 | 数据源专用处理及贡献流程 | 共享YAML配置规范、程序化与交互式配置生成及显式源维度映射 | 形成共享的标准化数据生产工作流 |
+| 更新环节 | 2022版 | 新版 |
+|---|---|---|
+| 数据生产 | 数据源专用脚本与贡献流程 | 共享YAML配置、源维度映射及配置生成 |
+| 分发文件 | NetCDF外层`tar.gz`归档 | 直接分发NetCDF，省去外层解包 |
+| 目录维护 | Julia包内置`Artifacts.toml` | 独立`Artifacts.yaml`，与软件版本分别更新 |
+| 文件获取 | 多URL下载、哈希核验及解包 | 多镜像回退，临时文件核验后更新正式文件 |
+| 数据读取 | `read_LUT`提供全域网格、周期切片及格点读取 | `read_dataset`统一读取入口，兼容`read_LUT` |
+| 模式输入 | 标准化数据与通用读取 | 陆面参数融合、气象驱动组织及Emerald接口 |
+| 多语言获取 | Julia、Matlab、Octave、Python和R接口 | 完善原有下载支持，新增C和Fortran；各下载入口支持URL、标签与完整性核验 |
 
 研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、土壤水力性质、植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签按类别、空间与时间分辨率、年份和版本组织；各条目登记机构文件传输协议（File Transfer Protocol，FTP）地址，部分同时配置Zenodo镜像。预定义陆面参数集合将土壤、冠层和叶片等数据按字段组合，气象驱动集合则按变量和年份组织逐时数据，便于科研程序按格点与年份获取输入。目录版本与统计记录见补充材料S7。
 
@@ -82,22 +82,21 @@ GriddingMachine采用NetCDF格式保存多维数组、坐标和自描述元数�
 
 **表2 GriddingMachine 标准 NetCDF 数据与元数据规范**
 
-**Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.** The specification connects grid structure, gap filling, metadata, provenance, versioning, and distribution integrity within a unified standardization workflow.
+**Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.**
 
-| 类别 | 新版规范 | 实现方式 |
-|---|---|---|
-| 文件与网格 | 一个标签对应一个可直接读取的`.nc`；规则经纬度网格，默认全球覆盖并声明坐标参考 | NetCDF统一保存数据、坐标与自描述元数据 |
-| 维度 | 二维`(lon, lat)`；三维`(lon, lat, ind)`；源维度按名称映射到标准顺序 | 通用维度映射将多种源排列转换为统一结构 |
-| 坐标方向 | `lon`自西向东并统一到`[-180, 180)`；`lat`自南向北 | 翻转和循环平移保持数据与坐标同步 |
-| 数据变量 | `data`为主变量；`std`保存同形不确定性；输出为实际物理值 | 统一变量命名、类型、单位和数值表达 |
-| 缺失值填补与范围 | 有效范围、填充值和缺失值填补策略由YAML显式声明 | 支持数值常数、`MEAN`、`KEEP_AS_IS`、`INT_NAN_TO_1`、`NO_LAND_NAN`和`NO_NAN` |
-| 变量元数据 | `data/std`记录可读说明、单位及处理变更条目 | 输出文件保留变量语义与主要转换过程 |
-| 处理记录 | YAML文件明确记录维度、坐标、数值转换和缺失值填补规则；处理完成后，输出NetCDF文件的属性中同步保存实际执行的变更记录 | 处理规则与实际执行记录可相互核对 |
-| 处理复现 | `SCHEMA_VERSION`、完整YAML、固定输入和版本化项目环境共同归档 | 利用归档的配置、输入与代码环境复现处理 |
-| 标签与版本 | 标签表达类别、空间/时间分辨率、年份、版本和可选修订号 | 标签与文件名共同形成稳定数据集标识 |
-| 分发完整性 | 新登记的条目或纳入严格完整性管理的条目记录文件字节数和SHA-256摘要（用于核验文件内容一致性）；同一标签的受控镜像指向相同内容 | 带完整性信息的下载文件通过核验后才替换本地正式文件；已有条目按其登记信息获取 |
+| 规范要素 | 统一约定 |
+|---|---|
+| 文件与网格 | 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 |
+| 维度顺序 | 二维`(lon, lat)`或三维`(lon, lat, ind)`；源维度按名称映射到标准顺序 |
+| 坐标方向 | 经度自西向东，范围为`[-180, 180)`；纬度自南向北；坐标与数据同步变换 |
+| 数据与元数据 | `data`为主变量，`std`为同形不确定性；保存实际物理值、变量说明和单位 |
+| 范围与缺失值 | YAML显式声明有效范围、填充值及缺失值处理策略 |
+| 处理记录 | YAML保存转换规则；输出NetCDF属性记录实际执行的变更 |
+| 复现信息 | 共同归档配置规范版本（`SCHEMA_VERSION`）、完整YAML、固定输入及代码环境 |
+| 标签与版本 | 标签记录类别、空间/时间分辨率、年份、版本及可选修订号，并与文件名对应 |
+| 文件完整性 | 新增或纳入严格核验的条目记录文件字节数及SHA-256；同标签受控镜像内容一致，核验后更新本地正式文件 |
 
-缺失值填补（gap filling）由YAML中的`GAPFILL`字段指定，策略依据变量的物理含义和陆海分布选择，可保留缺失状态、以常数或均值填补，或检查指定区域的数据完整性。需要类别编码的数据可采用整数化处理。陆地掩膜用于区分陆地区域与全域的检查要求；本文高程数据（ELEV）配置采用常数0填补陆地区域缺失值。各策略的作用范围与字段说明见补充材料S3。
+缺失值填补（gap filling）由YAML中的`GAPFILL`字段指定，策略依据变量的物理含义和陆海分布选择，可保留缺失状态（`KEEP_AS_IS`）、以常数或均值（`MEAN`）填补，或检查指定区域的数据完整性。需要类别编码的数据可采用整数化处理。陆地掩膜用于区分陆地区域与全域的检查要求；本文高程数据（ELEV）配置采用常数0填补陆地区域缺失值。各策略的作用范围与字段说明见补充材料S3。
 
 GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，维度标准化过程将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。目录中的全球网格数据均可通过统一标准化流程进入发布和读取环节；对于非规则网格、区域投影和复杂坐标源数据，先由数据源专用预处理模块完成坐标适配，再按同一标准输出。
 
@@ -153,14 +152,16 @@ YAML配置记录各数据源的输入文件、变量及转换规则，使数据�
 
 **表3 GriddingMachine框架更新的应用案例与评价指标**
 
-**Table 3 Application cases and evaluation metrics for the GriddingMachine framework updates.** Controlled experiments and real-data or real-network applications evaluate data standardization, distribution, model-input organization, and cross-platform consistency.
+**Table 3 Application cases and evaluation metrics for the GriddingMachine framework updates.**
 
-| 框架更新与评价内容 | 受控实例与对照 | 真实数据与网络案例 | 主要评价指标 |
-|---|---|---|---|
-| 数据生产与标准化层将异构源数据转换为标准NetCDF | 31组受控实例、ELEV重复生产与逐点核对 | OISST V2.1真实异构源数据 | 维度与坐标、有效值掩膜、逐点物理值、重复生成摘要 |
-| 数据目录与可信分发层组织高效且内容可核验的数据获取 | ELEV/LAI回环HTTP对照；13类受控状态场景 | Zenodo公共网络记录；中国科学技术大学（以下简称中科大）校内网 FTP—Zenodo同文件获取 | 端到端时间、传输字节、候选遍历、`SIZE`/SHA-256、临时与正式文件状态 |
-| 模式输入组织层将标准化数据组织为模式就绪输入 | 确定性读取、字段、时间轴与接口核对 | US-NR1的14类陆面数据集、8类ERA5及Emerald初始化和60 s首步 | 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 |
-| 跨操作系统运行一致性与多语言下载 | Windows、macOS、Linux持续集成；六种语言的URL与标签下载、镜像回退和完整性核验 | Windows/macOS独立性能观测；真实网络与数据案例 | 数据集结构、逐点数值、文件摘要、缓存状态和接口状态 |
+| 评价内容 | 实验数据与对照 | 主要评价指标 |
+|---|---|---|
+| 标准化一致性 | 31组受控实例及OISST V2.1；与构造参考和独立解码结果比较 | 维度与坐标、有效值掩膜、逐点物理值 |
+| 重复处理与复用 | ELEV连续处理3次；配置生成与数据贡献流程 | 数据结构、文件摘要、发布与获取状态 |
+| 文件分发效率 | ELEV与LAI；Windows和macOS回环HTTP；直接NetCDF与外层`tar.gz`对照 | 端到端时间、传输字节、文件存储占用 |
+| 镜像与目录更新 | 13类受控状态；Zenodo公共网络；中国科学技术大学（以下简称中科大）校内网FTP—Zenodo获取 | 候选遍历、文件大小与SHA-256、临时及正式文件状态 |
+| 模式输入组织 | US-NR1的14类陆面数据与8类ERA5逐时数据；底层读取对照、Emerald初始化及60 s首步 | 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 |
+| 跨环境运行与调用 | Windows、macOS和Linux持续集成；Matlab、Octave、Python、R、C和Fortran下载入口 | 数据结构与数值、文件摘要、缓存状态、URL/标签调用及镜像回退 |
 
 
 ### 3.1 数据生产与标准化及OISST案例

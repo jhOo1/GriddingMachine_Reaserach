@@ -127,7 +127,7 @@ def set_table_borders(table) -> None:
 
 
 def set_cell_bottom_border(cell, size: int = 6, color: str = "6B7280") -> None:
-    """Draw the single horizontal rule beneath the table header."""
+    """Draw a header rule or a lighter boundary between descriptive rows."""
     tc_pr = cell._tc.get_or_add_tcPr()
     borders = tc_pr.first_child_found_in("w:tcBorders")
     if borders is None:
@@ -143,11 +143,11 @@ def set_cell_bottom_border(cell, size: int = 6, color: str = "6B7280") -> None:
 
 
 def table_widths(column_count: int, table_index: int) -> list[float]:
-    if column_count == 3:
-        return [3.4, 7.0, 5.2]
-    if table_index == 3:
-        return [4.0, 4.2, 4.3, 3.1]
-    return [2.5, 4.1, 4.7, 4.3]
+    """Allocate width to the comparison, specification, and experiment columns separately."""
+    # Keep total width at 15.6 cm and match the proportions of the LaTeX tables.
+    widths = {1: [2.65, 5.62, 7.33], 2: [3.12, 12.48], 3: [2.81, 7.18, 5.61]}[table_index]
+    assert len(widths) == column_count
+    return widths
 
 
 def shade_cell(cell, fill: str) -> None:
@@ -198,20 +198,16 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
     header = OxmlElement("w:tblHeader")
     table.rows[0]._tr.get_or_add_trPr().append(header)
     for i, row in enumerate(rows):
-        # Keep the two comparison tables intact. The longer specification
-        # table may span pages, with its header repeated and each row intact.
+        # The concise tables fit on a page; keep all their rows and captions together.
         table.rows[i]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
         for j in range(width):
             text = row[j] if j < len(row) else ""
             cell = table.cell(i, j)
             cell.text = ""
             cell.width = Cm(widths[j])
-            cell.vertical_alignment = (
-                WD_CELL_VERTICAL_ALIGNMENT.CENTER
-                if i == 0 or j == 0
-                else WD_CELL_VERTICAL_ALIGNMENT.TOP
-            )
-            set_cell_margins(cell)
+            # Align text at the top and leave visible gutters between descriptive columns.
+            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.TOP
+            set_cell_margins(cell, top=90, start=110, bottom=90, end=170)
             add_inline(cell.paragraphs[0], text)
             paragraph = cell.paragraphs[0]
             paragraph.paragraph_format.first_line_indent = Cm(0)
@@ -219,17 +215,18 @@ def add_table(document: Document, lines: list[str], table_index: int) -> None:
             paragraph.paragraph_format.right_indent = Cm(0)
             paragraph.paragraph_format.space_before = Pt(0)
             paragraph.paragraph_format.space_after = Pt(0)
-            paragraph.paragraph_format.line_spacing = 1.0
+            paragraph.paragraph_format.line_spacing = 1.05
             paragraph.paragraph_format.keep_together = True
-            paragraph.paragraph_format.keep_with_next = (
-                i < len(rows) - 1 if table_index in (1, 3) else i == 0
-            )
-            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER if i == 0 or j == 0 else WD_ALIGN_PARAGRAPH.LEFT
+            paragraph.paragraph_format.keep_with_next = i < len(rows) - 1
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
             for run in cell.paragraphs[0].runs:
-                run.font.size = Pt(9.2 if i == 0 else 9)
+                run.font.size = Pt(10)
                 run.bold = i == 0 or run.bold
             if i == 0:
                 set_cell_bottom_border(cell)
+            elif i < len(rows) - 1:
+                # Thin gray row rules prevent adjacent paragraphs from appearing to run together.
+                set_cell_bottom_border(cell, size=2, color="B8BDC4")
 
 
 def add_table_caption(document: Document, line: str) -> None:
