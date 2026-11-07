@@ -49,7 +49,7 @@
 
 
 \section*{摘要}
-地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，不同数据源在处理规则、单位、数据标识和网络分发方式等方面仍存在差异，研究人员往往需要针对各自模式重复整理和维护数据库，增加了模式持续更新与验证的工作量。本文在GriddingMachine（v0.2）的基础上，围绕数据预处理、分发和读取进行进一步改进。在数据预处理方面，新版GriddingMachine（v0.5）提供了标准化的数据处理流程，以便数据提供方进行数据标准化及验证。在数据分发方面，我们将定期更新的数据库文件上传至Zenodo，以保证每个版本的数据库的可追溯性；同时，我们将NetCDF数据文件上传至Zenodo和ScienceDB上，降低数据的获取难度。在数据读取方面，我们进一步提供了读取多源数据集合的功能，例如一次性获取陆面模式所需的初始化参数和气象驱动，为模式运行提供更便利的输入。新版GriddingMachine实现了数据IO功能（如数据处理和读取）和数据分发（如数据库和数据文件）的分离，使得新数据的更新独立于软件版本。此外，我们还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran语言的自动下载支持，以更好地服务地球科学研究与应用。
+地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，不同数据源在处理规则、单位、数据标识和网络分发方式等方面仍存在差异，研究人员往往需要针对各自模式重复整理和维护数据库，增加了模式持续更新与验证的工作量。本文在2022版GriddingMachine（v0.2）的基础上，围绕数据预处理、分发和读取进行进一步改进。在数据预处理方面，新版GriddingMachine（v0.5）提供了标准化的数据处理流程，以便数据提供方进行数据标准化及验证。在数据分发方面，我们将定期更新的数据库文件上传至Zenodo，以保证每个版本的数据库的可追溯性；同时，我们将NetCDF数据文件上传至Zenodo和ScienceDB上，降低数据的获取难度。在数据读取方面，我们进一步提供了读取多源数据集合的功能，例如一次性获取陆面模式所需的初始化参数和气象驱动，为模式运行提供更便利的输入。新版GriddingMachine实现了数据IO功能（如数据处理和读取）和数据分发（如数据库和数据文件）的分离，使得新数据的更新独立于软件版本。此外，我们还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran语言的自动下载支持，以更好地服务地球科学研究与应用。
 
 \textbf{关键词：} 地球系统模式；全球网格数据库；数据标准化；NetCDF；数据完整性；模式输入
 
@@ -66,7 +66,7 @@
 
 
 \section*{Abstract}
-Earth system models depend on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets use standard formats such as NetCDF, HDF, and GeoTIFF, differences in processing rules, units, data identifiers, and distribution methods still require researchers to organize and maintain databases for individual models, adding to the work of continued model development and evaluation. Building on GriddingMachine v0.2, the updated framework (v0.5) improves data preprocessing, distribution, and reading. A standardized processing workflow enables data providers to prepare and verify their datasets. Regularly updated database catalogs are archived on Zenodo to make each catalog version traceable, while NetCDF data files are shared through Zenodo and ScienceDB to facilitate access. Reading interfaces support collections of data from multiple sources, allowing initialization parameters and meteorological forcing for a land surface model to be obtained in a single call. The updated framework separates data input and output operations, including processing and reading, from the distribution of catalogs and data files, so that new data can be added independently of software releases. Automatic downloading of the updated data has also been improved for Matlab, Octave, Python, and R, with new support for C and Fortran, to better serve Earth science research and applications.
+Earth system models depend on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets use standard formats such as NetCDF, HDF, and GeoTIFF, differences in processing rules, units, data identifiers, and distribution methods still require researchers to organize and maintain databases for individual models, adding to the work of continued model development and evaluation. Building on GriddingMachine v0.2 released in 2022, the updated framework (v0.5) improves data preprocessing, distribution, and reading. A standardized processing workflow enables data providers to prepare and verify their datasets. Regularly updated database catalogs are archived on Zenodo to make each catalog version traceable, while NetCDF data files are shared through Zenodo and ScienceDB to facilitate access. Reading interfaces support collections of data from multiple sources, allowing initialization parameters and meteorological forcing for a land surface model to be obtained in a single call. The updated framework separates data input and output operations, including processing and reading, from the distribution of catalogs and data files, so that new data can be added independently of software releases. Automatic downloading of the updated data has also been improved for Matlab, Octave, Python, and R, with new support for C and Fortran, to better serve Earth science research and applications.
 
 \textbf{Keywords:} Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
 
@@ -107,15 +107,15 @@ julia> using GriddingMachine
 
 \subsection{Cartographer：数据标准化处理}
 
-Cartographer将不同来源的网格数据转换为具有统一空间和变量约定的NetCDF文件，并提供相应的数据验证功能。标准化数据采用规则经纬网，前两维依次为经度和纬度，可选第三维表示月份等周期。经度自西向东、\allowbreak{}纬度自南向北排列，数值保存为实际物理值，缺失值在读取后统一表示为\nolinkurl{NaN}\cite{ref5}。主变量命名为\nolinkurl{data}，可选的不确定性变量命名为\nolinkurl{std}，二者具有相同的形状和数值类型，并保存变量说明和单位。主要数据规范见表2。
+Cartographer是新版GriddingMachine（v0.5）中负责数据标准化及验证的模块，以便数据提供方将不同来源的网格数据整理为统一的NetCDF文件。标准文件采用规则经纬网，前两维依次为经度和纬度，可选第三维表示月份等周期；经度自西向东、\allowbreak{}纬度自南向北排列，数值保存为实际物理值，缺失值在读取后统一表示为\nolinkurl{NaN}\cite{ref5}。主变量命名为\nolinkurl{data}，可选的不确定性变量命名为\nolinkurl{std}，二者具有相同的形状和数值类型，并保存变量说明和单位。主要数据规范见表2。
 
-数据提供方通过YAML文本配置文件说明输入文件、\allowbreak{}源变量名称、\allowbreak{}维度含义、\allowbreak{}单位、\allowbreak{}有效范围和缺失值处理方式。配置可通过程序或本地交互式界面生成，程序检查配置内容后，依次完成维度重排、\allowbreak{}坐标调整、\allowbreak{}数值换算和缺失值处理。同类数据可以使用相同的处理程序，通过修改配置适配不同数据源。非规则网格或区域投影数据需先完成坐标适配，再进入规则经纬网的标准化流程。
+数据提供方首先通过YAML文本配置文件指定输入文件、\allowbreak{}源变量名称、\allowbreak{}维度含义、\allowbreak{}单位、\allowbreak{}有效范围和缺失值处理方式。我们提供了程序化和本地交互式两种配置生成方式，方便数据提供方根据数据特点设置处理规则。同类数据可使用相同的处理程序，通过调整配置完成不同数据源的标准化；非规则网格或区域投影数据则先完成坐标适配，再进入规则经纬网的处理流程。
 
-维度与坐标处理使数组排列与地理位置保持一致。例如，源数据按纬度、\allowbreak{}经度排列，纬度由北向南，经度范围为0°\ensuremath{\sim}360°时，程序根据配置交换维度、\allowbreak{}翻转纬度方向并沿经度循环平移，得到经度在前、\allowbreak{}纬度在后且坐标递增的标准网格。随后按配置执行线性数值换算，并将超出有效范围的数值标记为缺失。
+程序读取并检查配置后，依次进行维度重排、\allowbreak{}坐标调整和数值换算。例如，源数据按纬度、\allowbreak{}经度排列，纬度由北向南，经度范围为0°\ensuremath{\sim}360°时，程序先交换维度，再翻转纬度方向并沿经度循环平移，使数据与标准坐标逐点对应。随后按配置进行线性数值换算，将超出有效范围的数值标记为缺失。
 
-缺失值填补（gap filling）由配置中的\nolinkurl{GAPFILL}字段指定。根据变量的物理含义和适用区域，可以保留缺失状态，在陆地区域以常数或均值填补，或检查陆地区域及全域是否存在缺失；类别数据还可进行整数化处理。例如，高程数据（ELEV）采用常数0填补陆地区域缺失值。完整配置与字段说明见补充材料S3。
+缺失值处理由配置中的\nolinkurl{GAPFILL}字段指定。数据提供方可根据变量的物理含义和适用区域，选择保留缺失值、\allowbreak{}以常数或均值填补陆地区域的缺失值，或检查陆地区域及全域是否存在缺失；类别数据还可进行整数化处理。例如，高程数据（ELEV）采用常数0填补陆地区域缺失值。缺失值填补（gap filling）的完整配置与字段说明见补充材料S3。
 
-数据验证结合空间分布图与文件检查进行。程序生成带经纬度坐标轴的空间分布图，供数据提供方确认数据位置和方向；标准文件还需检查维度和变量是否齐全、\allowbreak{}数组形状是否一致，以及数值范围和缺失值分布是否符合要求。对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。验证后的文件按数据标签命名，实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性，配置文件保留对应处理规则，便于查阅和追溯。
+最后，Cartographer生成带经纬度坐标轴的空间分布图，供数据提供方确认数据位置和方向；同时检查标准文件的维度、\allowbreak{}变量、\allowbreak{}数组形状、\allowbreak{}数值范围和缺失值分布。对于要求陆地区域数据完整的变量，程序利用相应分辨率的陆地掩膜进行核查。处理后的文件按数据标签命名，实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性，配置文件保留相应处理规则，以便查阅和追溯。
 
 \subsection{数据文件共享}
 \subsection{数据库文件}
