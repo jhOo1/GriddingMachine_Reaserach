@@ -62,6 +62,9 @@
 
 % Load required packages after loading the class
 \let\CheckCommand\providecommand
+\RequirePackage{caption}
+    \captionsetup[figure]{labelfont={bf,it},labelformat={default},labelsep=period, name={图}, textfont={default}}
+    \captionsetup[table]{labelfont={bf,it},labelformat={default},labelsep=period, name={表}, textfont={default}}
 \RequirePackage{geometry}
 \RequirePackage{natbib}
 \RequirePackage{titlesec}

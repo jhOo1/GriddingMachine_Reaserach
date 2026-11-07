@@ -8,7 +8,7 @@
 
 项目包含完整中英文摘要、正文、3 张图、3 个可编辑表格和 22 条参考文献。参考文献使用 `thebibliography`，不需要额外运行 BibTeX。图件沿用当前论文版本。
 
-对应线上项目：[2026_GriddingMachine](https://www.overleaf.com/project/6ad187c7099334b21a9823a4)。`chinese.cls` 与老师的原文件逐字节一致；接入全文前的主文件保存在研究仓库的 `论文/overleaf_template_backup/main_20261016.tex`，不参与编译。
+对应线上项目：[2026_GriddingMachine](https://www.overleaf.com/project/6ad187c7099334b21a9823a4)。`chinese.cls` 与 2026-11-05 线上版逐字节一致；接入全文前的主文件保存在研究仓库的 `论文/overleaf_template_backup/main_20261016.tex`，不参与编译。
 
 中文署名为姜皓和王玉杰，两位作者均标注单位 1、2，王玉杰标注通讯作者，邮箱为 wyujie@ustc.edu.cn。不保留截图中的问号占位。
 
@@ -21,13 +21,9 @@
 
 ## 后续修改
 
-当前内容由论文 Markdown 源稿生成。直接在 Overleaf 中编辑 `main.tex` 即可修改论文；本地重新导出前，应先把 Overleaf 中的文字修改合回 Markdown，避免覆盖。
+当前项目以 2026-11-05 从 Overleaf 取回的 LaTeX 主文件和模板为基准，Markdown 与 Word 跟进同一份文字稿。老师新增的七个小节标题按原稿保留。Markdown 和 Word 使用各自的排版。
 
-本地重新生成项目和上传包：
-
-```sh
-python3 论文/tools/export_latex.py
-```
+如需重新生成 Word，运行 `python3 论文/tools/export_docx.py`。旧的 `export_latex.py` 会按照历史模板重建主文件。保留线上版排版时，应从 Overleaf 取回最新源码，直接打包 `论文/overleaf/`。
 
 ## 可选的仓库关联
 
