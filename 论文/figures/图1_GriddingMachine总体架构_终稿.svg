@@ -21,10 +21,10 @@
   <path d="M535 196V268" class="map"/><path d="M861 196V268" class="map"/><path d="M1171 196V268" class="map"/><path d="M1498 196V268" class="map"/>
   <path d="M375 559V653H253V687" class="map"/><path d="M851 559V633H554V687" class="map"/><path d="M1083 559V656H845V687" class="map"/><path d="M1317 559V657H1141V687" class="map"/><path d="M1550 559V636H1453V687" class="map"/>
 
-  <!-- (a) 2022 baseline -->
+  <!-- (a) GriddingMachine v0.2 baseline -->
   <rect x="10" y="16" width="1660" height="205" rx="18" fill="url(#bluePanel)" stroke="#aecbf3" stroke-width="1.8"/>
   <rect x="32" y="38" width="24" height="24" rx="3" fill="url(#blueIcon)" stroke="#0d4c96"/>
-  <text x="70" y="62" class="sans panel-title">(a) 2022年基线</text>
+  <text x="70" y="62" class="sans panel-title">(a) v0.2基线</text>
   <g class="sans">
     <g transform="translate(36 84)" filter="url(#shadow)"><rect width="305" height="114" rx="12" class="base-card"/>
       <g transform="translate(19 22)"><ellipse cx="28" cy="8" rx="18" ry="7" fill="url(#blueIcon)"/><path d="M10 8V55C10 61 18 65 28 65S46 61 46 55V8M10 24C10 30 18 34 28 34S46 30 46 24M10 40C10 46 18 50 28 50S46 46 46 40" class="icon-blue"/><g fill="url(#blueIcon)"><rect x="56" y="0" width="12" height="12"/><rect x="72" y="0" width="12" height="12"/><rect x="88" y="0" width="12" height="12"/><rect x="56" y="16" width="12" height="12"/><rect x="72" y="16" width="12" height="12"/><rect x="88" y="16" width="12" height="12"/><rect x="56" y="32" width="12" height="12"/><rect x="72" y="32" width="12" height="12"/><rect x="88" y="32" width="12" height="12"/></g></g>
@@ -125,7 +125,7 @@
   <g class="sans">
     <rect x="16" y="858" width="873" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <circle cx="53" cy="890" r="16" fill="#fff" stroke="#245789" stroke-width="2"/><text x="53" y="897" text-anchor="middle" font-size="21" font-weight="700" fill="#245789">i</text>
-    <text x="82" y="897" class="legend"><tspan fill="#14648d" font-weight="700">青绿色实线：</tspan>新版核心数据路径　|　<tspan fill="#d65f13" font-weight="700">橙色虚线：</tspan>相对2022版的改进映射　|　<tspan fill="#687078" font-weight="700">灰色：</tspan>2022版基线</text>
+    <text x="82" y="897" class="legend"><tspan fill="#14648d" font-weight="700">青绿色实线：</tspan>新版核心数据路径　|　<tspan fill="#d65f13" font-weight="700">橙色虚线：</tspan>相对v0.2版的改进映射　|　<tspan fill="#687078" font-weight="700">灰色：</tspan>v0.2版基线</text>
     <rect x="921" y="858" width="743" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <path d="M944 875H967V909L956 902L944 909Z" fill="url(#tealIcon)"/><path d="M950 884H961M950 890H961" stroke="#fff" stroke-width="2"/>
     <text x="979" y="897" class="legend"><tspan font-weight="700">模块对应：</tspan>Cartographer 标准化 · Collector 下载 · Indexer 读取</text>
