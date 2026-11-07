@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="945" viewBox="0 0 1680 945">
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1176" viewBox="0 0 1680 1176">
   <defs>
     <linearGradient id="bluePanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fbff"/><stop offset="1" stop-color="#edf4ff"/></linearGradient>
     <linearGradient id="tealPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5fbfb"/><stop offset="1" stop-color="#eaf7f6"/></linearGradient>
@@ -15,7 +15,7 @@
       .sans{font-family:"PingFang SC","Songti SC","Heiti SC","Noto Sans CJK SC",Arial,sans-serif}.mono{font-family:Consolas,"Courier New",monospace}.panel-title{font-size:31px;font-weight:700;fill:#10213a}.layer-label{font-size:16px;font-weight:700;fill:#086b67}.base-title{font-size:23px;font-weight:700;fill:#17243a}.base-sub{font-size:17px;fill:#354254}.step-title{font-size:22px;font-weight:700;fill:#11252e}.step-sub{font-size:17px;fill:#243640}.code{font-size:16px;fill:#25323c}.opt-title{font-size:22px;font-weight:700;fill:#8d3507}.opt-sub{font-size:17px;fill:#47392e}.legend{font-size:17px;fill:#27323a}.base-card{fill:#fff;stroke:#5e82b9;stroke-width:1.5}.flow-card{fill:#fff;stroke:#147b82;stroke-width:1.6}.opt-card{fill:#fff;stroke:#e28a45;stroke-width:1.4}.flow-gray{fill:none;stroke:#788087;stroke-width:4;marker-end:url(#arrowGray)}.flow-teal{fill:none;stroke:#087a78;stroke-width:4;marker-end:url(#arrowTeal)}.map{fill:none;stroke:#dd6818;stroke-width:1.8;stroke-dasharray:6 6;marker-end:url(#arrowOrange)}.icon-blue{fill:none;stroke:#1457a4;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-teal{fill:none;stroke:#087a78;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.icon-orange{fill:none;stroke:#cc5b10;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
     </style>
   </defs>
-  <rect width="1680" height="945" fill="#fff"/>
+  <rect width="1680" height="1176" fill="#fff"/>
 
   <!-- cross-version mappings behind panels -->
   <path d="M535 196V268" class="map"/><path d="M861 196V268" class="map"/><path d="M1171 196V268" class="map"/><path d="M1498 196V268" class="map"/>
@@ -52,18 +52,18 @@
     </g>
   </g>
 
-  <!-- (b) updated workflow -->
+  <!-- (b) Map the existing workflow to Cartographer, Collector, and Indexer. -->
   <rect x="10" y="270" width="1660" height="316" rx="18" fill="url(#tealPanel)" stroke="#a8d4d3" stroke-width="1.8"/>
   <rect x="28" y="291" width="21" height="24" rx="3" fill="url(#tealIcon)" stroke="#076d68"/>
   <text x="60" y="315" class="sans panel-title">(b) 新版数据流程</text>
   <g class="sans">
     <path d="M27 331H950M988 331H1416M1450 331H1648" fill="none" stroke="#6fb5b2" stroke-width="2"/>
-    <rect x="393" y="311" width="190" height="24" rx="12" fill="#f5fbfb"/>
-    <text x="488" y="329" text-anchor="middle" class="layer-label">数据生产与标准化层</text>
+    <rect x="338" y="311" width="300" height="24" rx="12" fill="#f5fbfb"/>
+    <text x="488" y="329" text-anchor="middle" class="layer-label">Cartographer：标准化处理</text>
     <rect x="1089" y="311" width="226" height="24" rx="12" fill="#f5fbfb"/>
-    <text x="1202" y="329" text-anchor="middle" class="layer-label">数据目录与可信分发层</text>
+    <text x="1202" y="329" text-anchor="middle" class="layer-label">Collector：目录与下载</text>
     <rect x="1462" y="311" width="174" height="24" rx="12" fill="#f5fbfb"/>
-    <text x="1549" y="329" text-anchor="middle" class="layer-label">模式输入组织层</text>
+    <text x="1549" y="329" text-anchor="middle" class="layer-label">Indexer：数据读取</text>
   </g>
   <g class="sans">
     <!-- step 01 -->
@@ -121,13 +121,44 @@
     <g transform="translate(1351 688)" filter="url(#shadow)"><rect width="297" height="119" rx="12" class="opt-card"/><circle cx="29" cy="36" r="20" fill="url(#orangeIcon)"/><text x="29" y="43" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">O5</text><g transform="translate(55 23)"><rect x="0" y="0" width="13" height="13" class="icon-orange"/><rect x="52" y="29" width="13" height="13" class="icon-orange"/><rect x="7" y="63" width="13" height="13" class="icon-orange"/><rect x="54" y="63" width="13" height="13" class="icon-orange"/><path d="M13 7H46V35H52M32 35H52M13 7V62H7M32 35V68H54" class="icon-orange"/><rect x="23" y="27" width="25" height="17" rx="4" fill="#f4a25e" stroke="#cc5b10" stroke-width="2"/></g><text x="211" y="42" text-anchor="middle" class="opt-title">模式就绪接口</text><text x="211" y="74" text-anchor="middle" class="opt-sub" style="font-size:14px">统一读取并组织模式输入</text></g>
   </g>
 
-  <!-- legends -->
+  <!-- Explain color encodings and the module-to-workflow mapping. -->
   <g class="sans">
     <rect x="16" y="858" width="873" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <circle cx="53" cy="890" r="16" fill="#fff" stroke="#245789" stroke-width="2"/><text x="53" y="897" text-anchor="middle" font-size="21" font-weight="700" fill="#245789">i</text>
     <text x="82" y="897" class="legend"><tspan fill="#14648d" font-weight="700">青绿色实线：</tspan>新版核心数据路径　|　<tspan fill="#d65f13" font-weight="700">橙色虚线：</tspan>相对2022版的改进映射　|　<tspan fill="#687078" font-weight="700">灰色：</tspan>2022版基线</text>
     <rect x="921" y="858" width="743" height="65" rx="8" fill="#fbfcfe" stroke="#8ca8c3" stroke-dasharray="3 2"/>
     <path d="M944 875H967V909L956 902L944 909Z" fill="url(#tealIcon)"/><path d="M950 884H961M950 890H961" stroke="#fff" stroke-width="2"/>
-    <text x="979" y="897" class="legend"><tspan font-weight="700">三层架构：</tspan>数据生产与标准化层、数据目录与可信分发层、模式输入组织层。</text>
+    <text x="979" y="897" class="legend"><tspan font-weight="700">模块对应：</tspan>Cartographer 标准化 · Collector 下载 · Indexer 读取</text>
+  </g>
+
+  <!-- (d) Server/client interactions reuse the same standard files and reading modules. -->
+  <rect x="10" y="947" width="1660" height="212" rx="18" fill="url(#tealPanel)" stroke="#a8d4d3" stroke-width="1.8"/>
+  <rect x="28" y="968" width="21" height="24" rx="3" fill="url(#tealIcon)" stroke="#076d68"/>
+  <text x="60" y="992" class="sans panel-title" style="font-size:29px">(d) 服务端与客户端的对应关系</text>
+  <g class="sans">
+    <g transform="translate(36 1016)" filter="url(#shadow)">
+      <rect width="420" height="116" rx="12" class="flow-card"/>
+      <text x="210" y="32" text-anchor="middle" class="step-title">标准NetCDF文件与数据目录</text>
+      <text x="210" y="65" text-anchor="middle" class="step-sub">Collector 获取与缓存</text>
+      <text x="210" y="94" text-anchor="middle" class="step-sub">Indexer 读取格点数据</text>
+    </g>
+    <path d="M460 1074H580" class="flow-teal"/>
+    <text x="520" y="1057" text-anchor="middle" class="step-sub">服务端读取</text>
+    <g transform="translate(590 1016)" filter="url(#shadow)">
+      <rect width="450" height="116" rx="12" class="flow-card"/>
+      <text x="225" y="32" text-anchor="middle" class="step-title">GMServer</text>
+      <text x="225" y="65" text-anchor="middle" class="step-sub">独立服务器组件</text>
+      <text x="225" y="94" text-anchor="middle" class="step-sub">调用 Collector / Indexer</text>
+    </g>
+    <path d="M1220 1058H1050" class="flow-teal"/>
+    <text x="1135" y="1043" text-anchor="middle" class="step-sub" style="font-size:16px">标签 · 位置 · 周期</text>
+    <path d="M1050 1107H1220" class="flow-teal"/>
+    <text x="1135" y="1092" text-anchor="middle" class="step-sub">返回格点数据</text>
+    <g transform="translate(1230 1016)" filter="url(#shadow)">
+      <rect width="418" height="116" rx="12" class="flow-card"/>
+      <text x="209" y="32" text-anchor="middle" class="step-title">Requestor</text>
+      <text x="209" y="65" text-anchor="middle" class="step-sub">科研程序中的请求接口</text>
+      <text x="209" y="94" text-anchor="middle" class="step-sub">无需预先下载整份网格文件</text>
+    </g>
   </g>
 </svg>

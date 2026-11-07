@@ -296,6 +296,10 @@ def export() -> None:
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 paragraph.paragraph_format.first_line_indent = Cm(0)
                 paragraph.paragraph_format.keep_with_next = True
+                # Keep the expanded architecture drawing at its natural height instead of
+                # multiplying its inline image line by the manuscript's prose spacing.
+                if "图1_" in image_path.name:
+                    paragraph.paragraph_format.line_spacing = 1.0
                 # Leave room for the bilingual architecture caption.
                 figure_width = 14.5 if "图1_" in image_path.name else 15.0
                 paragraph.add_run().add_picture(str(image_path), width=Cm(figure_width))

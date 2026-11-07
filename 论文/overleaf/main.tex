@@ -42,8 +42,8 @@
 \par\noindent {\Large\textbf{面向地球系统模式的全球网格数据库：\\GriddingMachine框架更新与应用}\par}
 \normalsize
 \par\noindent \textbf{姜皓}\textsuperscript{1,2}　\textbf{王玉杰}\textsuperscript{1,2,*}
-\par\noindent \textsuperscript{1} 中国科学技术大学风云卫星遥感联合实验室
-\par\noindent \textsuperscript{2} 崂山实验室
+\par\noindent \textsuperscript{1} 中国科学技术大学风云卫星遥感联合实验室，安徽 合肥 230026
+\par\noindent \textsuperscript{2} 崂山实验室，山东 青岛 266237
 \par\noindent \textsuperscript{*} 通讯作者（wyujie@ustc.edu.cn）\\
 }
 
@@ -59,14 +59,14 @@
 \centering
 \par\noindent {\Large \textbf{A Global Gridded Database for Earth System Models: Advances and Applications of GriddingMachine}}
 \par\noindent \textbf{Hao JIANG}\textsuperscript{1,2}, \textbf{Yujie WANG}\textsuperscript{1,2,*}
-\par\noindent \textsuperscript{1} Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China
-\par\noindent \textsuperscript{2} Laoshan Laboratory
+\par\noindent \textsuperscript{1} Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China, Hefei 230026, Anhui, China
+\par\noindent \textsuperscript{2} Laoshan Laboratory, Qingdao 266237, Shandong, China
 \par\noindent \textsuperscript{*} Corresponding author (wyujie@ustc.edu.cn)\\
 }
 
 
 \section*{Abstract}
-Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, data sources still differ in processing rules, units, data identifiers, and distribution methods. Researchers therefore often need to organize and maintain databases for individual models, adding to the work required for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and reading. Shared configurations organize processing rules so that data from different sources can be standardized according to common conventions. Direct NetCDF distribution and an independently maintained catalog simplify data acquisition and updates, while land parameters and meteorological forcing are assembled from multiple sources to provide model inputs. Application cases show that the improved workflow maintains agreement between standardized results and independent references, shortens the time from data acquisition to the first read, preserves access through existing labels after data revisions, and connects data from multiple sources to model inputs. Automatic downloading of the updated data has also been improved for MATLAB, Octave, Python, and R, with new support for C and Fortran, to better serve scientific research and applications.
+Earth system models depend on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets use standard formats such as NetCDF, HDF, and GeoTIFF, differences in processing rules, units, data identifiers, and distribution methods still require researchers to organize and maintain databases for individual models, adding to the work of continued model development and evaluation. Building on GriddingMachine v0.2 released in 2022, the updated framework (v0.5) improves data preprocessing, distribution, and reading. A standardized processing workflow enables data providers to prepare and verify their datasets. Regularly updated database catalogs are archived on Zenodo to make each catalog version traceable, while NetCDF data files are shared through Zenodo and ScienceDB to facilitate access. Reading interfaces support collections of data from multiple sources, allowing initialization parameters and meteorological forcing for a land surface model to be obtained in a single call. The updated framework separates data input and output operations, including processing and reading, from the distribution of catalogs and data files, so that new data can be added independently of software releases. Automatic downloading of the updated data has also been improved for Matlab, Octave, Python, and R, with new support for C and Fortran, to better serve Earth science research and applications.
 
 \textbf{Keywords:} Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
 
@@ -77,7 +77,7 @@ Earth system models rely on gridded data at regional to global scales for parame
 \section{引言}
 地球系统模式的参数初始化、边界条件设置、气象驱动和结果验证均依赖区域至全球尺度的网格数据。这些数据通常由不同研究团队和业务机构提供，即使其采用相同的文件格式，其坐标排列、空间与时间分辨率、变量含义、单位和缺失值表示仍可能存在差异。为此，研究人员经常需要在获取数据后，进行额外的数据转换和格式处理。此类工作往往随各模式的需求分别开展，且在源数据或模式接口更新后，相应程序和输入文件还需持续维护。因此，减少同类数据的重复整理、在更新中保持数据读取的一致性、降低数据应用的门槛，是数据共享与应用中的亟需解决的问题。
 
-尽管Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力\cite{ref4}，但是大多数社区生产的数据仍并接入这些云平台。此外，这些云平台并不提供直接的云端数据和本地数据同步功能，忽视了用户进行本地数据利用的需求。针对该问题，我们需要标准化的数据转换规则和数据标识、自动化的网络数据获取。Wang等\cite{ref5}于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等\cite{ref5}首先将常用于地球系统模式的的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，然后为每个数据被分配了一个独一无二且易读懂的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
+Google Earth Engine通过改善数据表达、\allowbreak{}发现、\allowbreak{}访问及计算，提升了大尺度地学数据的访问和分析能力\cite{ref4}。在将这些数据用于本地地球系统模式时，研究人员仍需根据模式要求统一网格、\allowbreak{}变量和单位，并在源数据更新后维护处理规则、\allowbreak{}数据版本与模式输入之间的对应关系。因此，标准化的数据转换规则、\allowbreak{}清晰的数据标识和自动化的数据获取，是衔接数据共享与本地模式应用的重要基础。Wang等\cite{ref5}于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等\cite{ref5}首先将常用于地球系统模式的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，随后为各数据分配唯一且易于识别的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
 
 GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的全功能接口，并提供了Matlab、Octave、Python和R的数据下载接口，为多源数据的统一访问奠定了基础。然而，随着数据类型和应用需求扩展，原有流程在数据维护和模式接入方面仍有改进空间。例如，v0.2版本的数据存储在加州理工学院的FTP服务器上，存在服务关停风险和数据下载带宽限制；Artifacts.toml文件只能通过GriddingMachine版本更新（即便核心代码不变）；标准已压缩的NetCDF文件仍然经外层tar.gz压缩后分发，使用前还需解压，对于大文件非常不友好。此外，获得标准网格数据后，研究人员仍需根据具体模式需求组合参数和气象输入数据，造成不必要的代码重复。针对这些问题，改进应围绕提高数据的安全性、降低数据下载时间成本、软件与数据独立维护、集合数据读取等。
 
@@ -87,18 +87,18 @@ GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的
 
 
 \section{GriddingMachine框架}
-新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图\ref{fig:1}），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。GriddingMachine.jl的安装与使用如下：
+新版GriddingMachine（v0.5）在原有Collector、\allowbreak{}Indexer和Requestor模块的基础上，增加Cartographer用于数据标准化处理，并将服务器功能组织为独立的GMServer组件，避免服务器依赖增加数据访问软件的安装与首次运行开销（图\ref{fig:1}）。Cartographer负责标准化数据及核查处理结果；Collector依据数据目录获取并缓存文件；Indexer读取标准化数据并组织多源数据集合；Requestor向服务器请求指定格点的数据；GMServer在服务端调用Collector和Indexer，将所需数据返回Requestor。GriddingMachine.jl的安装与使用如下：
 
 \begin{Verbatim}[frame=single]
 pkg> add GriddingMachine
 julia> using GriddingMachine
 \end{Verbatim}
 
-\begin{figure}[!ht]
+\begin{figure}[!htp]
 \centering
 \includegraphics[width=\linewidth]{figures/figure1.png}
-\caption{\textbf{GriddingMachine从2022版基线到新版数据流程的架构更新} （a）2022版以数据集专用脚本、\nolinkurl{tar.gz}文件、包内数据目录和读取函数\nolinkurl{read_LUT}构成数据预处理、分发与读取路径；（b）新版由数据生产与标准化层、数据目录与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML配置、标准化与质量控制、标准NetCDF、独立数据目录、完整性获取以及统一读取和模式调用；（c）O1—O5依次表示统一数据规范、简化数据文件、目录独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系。}
-\caption*{\textbf{Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data workflow.} (a) The 2022 release linked dataset-specific preprocessing, \nolinkurl{tar.gz} distribution, an in-package catalog, and \nolinkurl{read_LUT}. (b) The updated framework connects configuration-driven standardization, direct NetCDF distribution, an independent catalog with integrity-verified acquisition, and model-input organization. (c) O1--O5 summarize updates to data specifications, file distribution, catalog maintenance, transactional acquisition, and model-ready interfaces. Orange dashed lines link these updates to the corresponding baseline components and updated workflow nodes.}
+\caption{\textbf{GriddingMachine从2022版到新版的数据流程与模块协作} （a）2022版以数据集专用脚本、\allowbreak{}\nolinkurl{tar.gz}文件、\allowbreak{}包内数据目录和读取函数\nolinkurl{read_LUT}构成数据预处理、\allowbreak{}分发与读取路径；（b）新版保留从源数据到模式输入的连续流程，Cartographer完成配置驱动的标准化处理，Collector依据独立目录获取和缓存文件，Indexer读取标准化数据并组织模式输入；（c）O1—O5依次表示统一数据规范、\allowbreak{}简化数据文件、\allowbreak{}目录独立维护、\allowbreak{}完整性核验与获取，以及模式输入组织，橙色虚线标示其与数据流程的对应关系；（d）GMServer在服务端复用Collector与Indexer，Requestor按数据标签、\allowbreak{}经纬度和周期发送请求并接收格点数据，科研程序无需预先下载整份网格文件。}
+\caption*{\textbf{Fig. 1 Data workflows and module interactions from the 2022 GriddingMachine release to the updated framework.} (a) The 2022 release linked dataset-specific preprocessing, \nolinkurl{tar.gz} distribution, an in-package catalog, and \nolinkurl{read_LUT}. (b) Cartographer standardizes source data using shared configurations, Collector retrieves and caches files using an independent catalog, and Indexer reads standardized data and assembles model inputs. (c) O1--O5 summarize updates to data specifications, file distribution, independent catalog maintenance, integrity-verified acquisition, and model-input organization. Orange dashed lines link these updates to the workflow. (d) GMServer uses Collector and Indexer on the server. Requestor sends a data label, coordinates, and a cycle index, then receives grid-cell data without downloading the full gridded file.}
 \label{fig:1}
 \end{figure}
 
@@ -124,14 +124,14 @@ Cartographer负责将不同来源的网格数据整理为GriddingMachine约定�
 \subsection{Collector：数据自动化下载}
 \subsection{Indexer：数据及数据集读取}
 \subsection{GMServer：数据服务器搭建}
-\subsection{Requstor：非下载式数据请求}
+\subsection{Requestor：非下载式数据请求}
 
 
 
 
 
 
-三个功能层通过标准NetCDF和数据标签连接。生产流程输出以标签命名的文件，数据目录记录标签对应的文件地址，科研程序据此获取和读取数据。源数据变化时更新处理配置，分发位置变化时调整目录，模式程序则沿用统一读取方式，并根据自身接口组织输入。这样，处理规则、分发信息和模式接入程序可以分别维护。具体方法见第2.2—2.4节。
+各模块通过标准NetCDF文件和数据标签协同工作。Cartographer完成标准化处理，Collector依据独立数据目录获取与缓存文件，Indexer读取数据并组织模式输入。需要按位置远程访问数据时，GMServer在服务端调用Collector与Indexer，Requestor向其发送标签、\allowbreak{}经纬度和周期信息并接收格点数据。数据处理规则、\allowbreak{}分发信息和模式接入程序由此可以分别维护。
 
 表1对比2022版与新版在数据生产、分发、读取和跨语言获取方面的主要差异。
 
