@@ -145,7 +145,8 @@ def set_cell_bottom_border(cell, size: int = 6, color: str = "6B7280") -> None:
 def table_widths(column_count: int, table_index: int) -> list[float]:
     """Allocate width to the comparison, specification, and experiment columns separately."""
     # Keep total width at 15.6 cm and match the proportions of the LaTeX tables.
-    widths = {1: [2.65, 5.62, 7.33], 2: [3.12, 12.48], 3: [2.81, 7.18, 5.61]}[table_index]
+    # The specification table now precedes the version comparison; retain each table's existing proportions.
+    widths = {1: [3.12, 12.48], 2: [2.65, 5.62, 7.33], 3: [2.81, 7.18, 5.61]}[table_index]
     assert len(widths) == column_count
     return widths
 
