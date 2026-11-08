@@ -3,6 +3,8 @@
 % Preserve the supervisor's chinese.cls, with numbered references for the existing bibliography.
 \documentclass[numdoi]{chinese}
 \usepackage{booktabs,longtable,array,caption}
+% Keep overview tables before the following chapter or detailed evaluation subsection.
+\usepackage{placeins}
 \usepackage{xurl}
 \usepackage{fancyvrb}
 \usepackage[unicode,hidelinks]{hyperref}
@@ -107,36 +109,30 @@ julia> using GriddingMachine
 
 \subsection{Cartographer：数据标准化处理}
 
-Cartographer提供数据标准化及验证功能，以便数据提供方将不同来源的网格数据整理为GriddingMachine采用的标准NetCDF文件。其标准化处理程序由GriddingMachineDatasets实现，数据提供方可使用该程序生成后续获取与读取所需的文件。标准文件沿用既有的规则经纬网与变量约定\cite{ref2}，以经度、\allowbreak{}纬度为前两维，可选第三维表示月份等周期；数值保存为实际物理值，缺失值在读取后统一表示为\nolinkurl{NaN}，并保留变量说明和单位。具体规范见表1。
+Cartographer提供数据标准化及验证功能，以便数据提供方将不同来源的网格数据整理为GriddingMachine采用的标准NetCDF文件。其标准化处理程序由GriddingMachineDatasets实现，数据提供方可使用该程序生成后续获取与读取所需的文件。标准文件沿用既有的规则经纬网与变量约定\cite{ref2}，以经度、\allowbreak{}纬度为前两维，可选第三维表示月份等周期；数值保存为实际物理值，缺失值在读取后统一表示为\nolinkurl{NaN}，并保留变量说明和单位。标准文件的主要约定见表1。
 
 % Keep captions and all rows together; thin rules distinguish parallel entries.
 \begin{table}[!htbp]\centering
 \begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}
 \captionsetup{justification=centering}
 \setlength{\gmTableWidth}{\dimexpr\linewidth-2\tabcolsep\relax}
-\caption*{\textbf{表1 GriddingMachine 标准 NetCDF 数据与元数据规范}}
-\caption*{\textbf{Table 1 Standardized NetCDF data and metadata requirements of GriddingMachine.}}
+\caption*{\textbf{表1 GriddingMachine标准NetCDF文件的主要约定}}
+\caption*{\textbf{Table 1 Main conventions for standard NetCDF files in GriddingMachine.}}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.20\gmTableWidth}>{\raggedright\arraybackslash}p{0.80\gmTableWidth}@{}}
 \toprule
 \textbf{规范要素} & \textbf{统一约定} \\
 \midrule
 文件与网格 & 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 \\
 \midrule[0.25pt]
-维度顺序 & 二维\nolinkurl{(lon, lat)}或三维\nolinkurl{(lon, lat, ind)}；源维度按名称映射到标准顺序 \\
+维度顺序 & 二维\nolinkurl{(lon, lat)}或三维\nolinkurl{(lon, lat, ind)}；\nolinkurl{ind}表示月份等周期索引 \\
 \midrule[0.25pt]
-坐标方向 & 经度自西向东，范围为\nolinkurl{[-180, 180)}；纬度自南向北；坐标与数据同步变换 \\
+坐标方向 & 经度自西向东，范围为\nolinkurl{[-180, 180)}；纬度自南向北；坐标与数据逐点对应 \\
 \midrule[0.25pt]
-数据与元数据 & \nolinkurl{data}为主变量，\nolinkurl{std}为可选的同形不确定性变量；保存实际物理值、变量说明和单位 \\
+数据与元数据 & \nolinkurl{data}为主变量，\nolinkurl{std}为可选的同形不确定性变量；保存实际物理值、\allowbreak{}变量说明和单位 \\
 \midrule[0.25pt]
-范围与缺失值 & YAML显式声明有效范围、填充值及缺失值处理策略 \\
+范围与缺失值 & 按变量有效范围处理数值；未填补的缺失值在读取后统一表示为\nolinkurl{NaN} \\
 \midrule[0.25pt]
-处理记录 & YAML保存转换规则；输出NetCDF属性记录实际执行的变更 \\
-\midrule[0.25pt]
-复现信息 & 共同归档配置规范版本（\nolinkurl{SCHEMA_VERSION}）、完整YAML、固定输入及代码环境 \\
-\midrule[0.25pt]
-标签与版本 & 标签记录类别、空间/时间分辨率、年份、版本及可选修订号，并与文件名对应 \\
-\midrule[0.25pt]
-文件完整性 & 新增或纳入严格核验的条目记录文件字节数及SHA-256；同标签受控镜像内容一致；带完整性信息的文件核验通过后更新本地正式文件 \\
+处理记录 & NetCDF变量属性记录维度、\allowbreak{}坐标及数值处理的实际变更 \\
 \bottomrule
 \end{tabular}
 \endgroup
@@ -149,7 +145,7 @@ Cartographer提供数据标准化及验证功能，以便数据提供方将不�
 
 缺失值填补（gap filling）由配置中的\nolinkurl{GAPFILL}字段指定。数据提供方可根据变量的物理含义，选择保留缺失值，或以常数、\allowbreak{}均值填补陆地区域的缺失值；还可按数据覆盖要求检查陆地区域及全域的缺失情况，并对类别数据进行整数化处理。例如，高程数据（ELEV）采用常数0填补陆地区域缺失值。完整配置与字段说明见补充材料S3。
 
-处理过程中生成带经纬度坐标轴的空间分布图，由数据提供方确认数据的位置和方向。确认后，文件按数据标签命名并保存，实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性，配置文件保留相应处理规则。文件保存后，再核查维度和变量是否齐全、\allowbreak{}数组形状是否一致，以及数值范围和缺失值分布是否符合要求；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。
+处理过程中生成带经纬度坐标轴的空间分布图，由数据提供方确认数据的位置和方向。确认后，文件按数据标签命名并保存，实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性，配置文件保留相应处理规则。文件保存后，再核查维度和变量是否齐全、\allowbreak{}数组形状是否一致，以及数值范围和缺失值分布是否符合要求；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。配置规范版本（\nolinkurl{SCHEMA_VERSION}）、\allowbreak{}完整YAML、\allowbreak{}固定输入及代码环境共同归档，便于重复处理。
 
 \subsection{数据文件共享}
 
@@ -165,7 +161,7 @@ Cartographer提供数据标准化及验证功能，以便数据提供方将不�
 
 每个数据标签对应一个条目，其中本地相对路径（\nolinkurl{PATH}）确定文件的保存位置，下载地址（\nolinkurl{URL}）列出可用镜像，文件字节数（\nolinkurl{SIZE}）和文件摘要（\nolinkurl{SHA256}）用于核对下载内容。登记工具根据标准NetCDF文件计算字节数和SHA-256摘要，再将其与下载地址一并写入数据库文件。Collector据此查找和获取文件，Indexer读取相应数据；数据库内容和软件功能因而可以分别更新。
 
-研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、\allowbreak{}土壤水力性质、\allowbreak{}植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签按类别、\allowbreak{}空间与时间分辨率、\allowbreak{}年份和版本组织；各条目登记机构FTP地址，部分同时配置Zenodo镜像。目录版本与统计记录见补充材料S7。
+研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、\allowbreak{}土壤水力性质、\allowbreak{}植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签记录类别、\allowbreak{}空间与时间分辨率、\allowbreak{}年份和版本，并与文件名对应；数据修订时，可在文件名中附加修订号。各条目登记机构FTP地址，部分同时配置Zenodo镜像。目录版本与统计记录见补充材料S7。
 
 \subsection{Collector：数据自动化下载}
 
@@ -209,37 +205,40 @@ Requestor沿用GriddingMachine按格点在线获取数据的方式，与独立GM
 
 现有请求接口支持单数据集指定格点的全部周期或某个周期，并接收主变量及可用的不确定性数据。Requestor解析服务器返回的JSON文本，将传输时使用的缺失值标记还原为\nolinkurl{NaN}，以便后续计算。需要重复使用完整文件时，可通过Collector下载后本地读取；仅需指定位置的数据时，可采用Requestor请求。两种方式使用相同的数据标签和格点读取规则。
 
-以上功能将数据标准化、\allowbreak{}文件共享、\allowbreak{}目录维护和科研程序中的数据访问连接起来。数据提供方维护处理规则及标准文件，科研程序通过标签获取数据，或向服务端请求所需格点；新增数据、\allowbreak{}调整分发位置与维护访问软件因此可以分别进行。表2概括2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。
+以上功能将数据标准化、\allowbreak{}文件共享、\allowbreak{}目录维护和科研程序中的数据访问连接起来。数据提供方维护处理规则及标准文件，科研程序通过标签获取数据，或向服务端请求所需格点；新增数据、\allowbreak{}调整分发位置与维护访问软件因此可以分别进行。表2按上述功能环节归纳2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。
 
 % Keep captions and all rows together; thin rules distinguish parallel entries.
 \begin{table}[!htbp]\centering
 \begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}
 \captionsetup{justification=centering}
 \setlength{\gmTableWidth}{\dimexpr\linewidth-4\tabcolsep\relax}
-\caption*{\textbf{表2 v0.2版与新版GriddingMachine的功能和技术路线比较}}
-\caption*{\textbf{Table 2 Comparison between the v0.2 release and the updated GriddingMachine.}}
+\caption*{\textbf{表2 GriddingMachine v0.2与v0.5的主要功能比较}}
+\caption*{\textbf{Table 2 Comparison of the main functions of GriddingMachine v0.2 and v0.5.}}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\gmTableWidth}>{\raggedright\arraybackslash}p{0.36\gmTableWidth}>{\raggedright\arraybackslash}p{0.47\gmTableWidth}@{}}
 \toprule
-\textbf{更新环节} & \textbf{v0.2版} & \textbf{新版} \\
+\textbf{功能环节} & \textbf{v0.2} & \textbf{v0.5} \\
 \midrule
-数据生产 & 数据源专用脚本与贡献流程 & 以共享YAML配置组织处理规则，统一完成维度、坐标与数值转换，并支持配置生成 \\
+数据标准化 & 数据源专用脚本与贡献流程 & 共享YAML配置与通用处理流程，支持配置生成及结果核查 \\
 \midrule[0.25pt]
-分发文件 & NetCDF外层\nolinkurl{tar.gz}归档 & 直接分发NetCDF，省去外层解包 \\
+数据文件共享 & 机构FTP分发；NetCDF外层\nolinkurl{tar.gz}归档 & Zenodo、\allowbreak{}ScienceDB及机构镜像共享；直接分发NetCDF \\
 \midrule[0.25pt]
-目录维护 & Julia包内置\nolinkurl{Artifacts.toml} & 独立\nolinkurl{Artifacts.yaml}，与软件版本分别更新 \\
+数据库文件 & Julia包内置\nolinkurl{Artifacts.toml} & 独立维护\nolinkurl{Artifacts.yaml}，数据目录与软件分别更新 \\
 \midrule[0.25pt]
-文件获取 & 多URL下载、哈希核验及解包 & 多镜像回退，临时文件核验后更新正式文件 \\
+数据自动获取 & 多URL下载、\allowbreak{}哈希核验及解包 & 多镜像回退，临时文件核验后更新正式文件 \\
 \midrule[0.25pt]
-数据读取 & \nolinkurl{read_LUT}提供全域网格、周期切片及格点读取 & \nolinkurl{read_dataset}按文件路径或数据标签统一读取，兼容\nolinkurl{read_LUT}，并衔接模式输入组织 \\
+多语言下载 & 提供Matlab、\allowbreak{}Octave、\allowbreak{}Python和R下载接口 & 完善原有接口，新增C和Fortran；支持URL或标签下载与完整性核验 \\
 \midrule[0.25pt]
-模式输入 & 标准化数据与通用读取 & 融合陆面参数并组织气象驱动，形成可用于Emerald的模式输入 \\
+单文件读取 & \nolinkurl{read_LUT}读取全域网格、\allowbreak{}周期切片及格点数据 & \nolinkurl{read_dataset}按路径或标签读取，保留\nolinkurl{read_LUT}兼容调用 \\
 \midrule[0.25pt]
-多语言获取 & Julia、Matlab、Octave、Python和R接口 & 完善原有下载支持，新增C和Fortran；六种非Julia接口支持URL或标签下载与完整性核验 \\
+多源数据集合读取 & 通用网格读取，模式输入由使用者组织 & 按集合名称、\allowbreak{}年份和位置组织陆面参数与气象驱动 \\
+\midrule[0.25pt]
+在线格点访问 & Requestor按格点请求服务器数据 & 保留格点请求；独立GMServer在服务端复用Collector和Indexer \\
 \bottomrule
 \end{tabular}
 \endgroup
 \label{tab:2}
 \end{table}
+\FloatBarrier
 
 \section{应用案例与评价方法}
 应用案例分别考察数据标准化、分发和模式接入中的改进效果。受控处理实例与真实最优插值海表温度数据（Optimum Interpolation Sea Surface Temperature，OISST）用于检验统一流程对维度、坐标和数值差异的处理；ELEV与叶面积指数数据（Leaf Area Index，LAI）用于比较有无外层归档时的数据获取和首次读取时间，网络镜像实验进一步核对不同地址所提供文件的一致性。北美通量观测站US-NR1附近格点的陆面参数与气象驱动用于考察多源数据能否形成模式输入，并通过跨操作系统测试检查核心流程的运行一致性。各案例与评价指标见表3。
@@ -255,20 +254,21 @@ Requestor沿用GriddingMachine按格点在线获取数据的方式，与独立GM
 \toprule
 \textbf{评价内容} & \textbf{实验数据与对照} & \textbf{主要评价指标} \\
 \midrule
-标准化与重复处理 & 受控实例：31组处理与构造参考对照、配置生成及数据贡献流程；ELEV连续处理3次；真实数据：OISST V2.1独立解码对照 & 维度与坐标、有效值掩膜、逐点数值、重复生成摘要及登记获取结果 \\
+标准化与重复处理 & 31组受控处理及构造参考；配置生成与贡献流程；ELEV重复处理3次；OISST V2.1独立解码对照 & 维度、\allowbreak{}坐标、\allowbreak{}有效值掩膜与逐点数值；重复生成摘要；登记与获取结果 \\
 \midrule[0.25pt]
-文件分发效率 & ELEV与LAI；Windows和macOS回环HTTP；直接NetCDF与外层\nolinkurl{tar.gz}对照 & 端到端时间、传输字节、文件存储占用 \\
+文件分发效率 & ELEV与LAI；Windows和macOS回环HTTP；直接NetCDF与外层\nolinkurl{tar.gz}对照 & 端到端时间、\allowbreak{}传输字节与文件存储占用 \\
 \midrule[0.25pt]
-目录更新与镜像获取 & 受控场景：13类镜像状态及目录更新；网络案例：Zenodo公共网络与中国科学技术大学（以下简称中科大）校内网FTP—Zenodo获取；数据修订：ERA5降水单位修订及原标签访问 & 候选遍历、文件大小与SHA-256、临时及正式文件状态、修订后标签访问与缓存复用 \\
+目录更新与镜像获取 & 13类镜像状态及目录更新；Zenodo公共网络与中国科学技术大学（以下简称中科大）校内网FTP—Zenodo同文件获取；ERA5降水单位修订及原标签访问 & 候选镜像选择；文件大小与SHA-256；临时及正式文件状态；修订后标签访问与缓存复用 \\
 \midrule[0.25pt]
-模式输入组织 & 参考数据核对；真实数据：US-NR1的14类陆面数据与8类ERA5逐时数据、非植被格点；底层读取对照及Emerald初始化、60 s首步 & 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 \\
+模式输入组织 & 参考数据核对；US-NR1的14类陆面数据与8类ERA5逐时数据；非植被格点；底层读取对照及Emerald初始化、\allowbreak{}60 s首步 & 字段与形状、\allowbreak{}时间轴、\allowbreak{}量纲与逐点数值；初始化与首步状态 \\
 \midrule[0.25pt]
-跨操作系统运行与多语言下载 & 跨系统：Windows、macOS和Linux持续集成及Windows/macOS独立环境；多语言：Matlab、Octave、Python、R、C和Fortran的URL与标签下载 & 数据结构与逐点数值、文件摘要、接口状态、镜像回退、错误返回与缓存保留 \\
+跨操作系统运行与多语言下载 & Windows、\allowbreak{}macOS和Linux持续集成，Windows/macOS独立环境；Matlab、\allowbreak{}Octave、\allowbreak{}Python、\allowbreak{}R、\allowbreak{}C和Fortran的URL与标签下载 & 数据结构、\allowbreak{}逐点数值与文件摘要；接口状态、\allowbreak{}镜像回退、\allowbreak{}错误返回与缓存保留 \\
 \bottomrule
 \end{tabular}
 \endgroup
 \label{tab:3}
 \end{table}
+\FloatBarrier
 \subsection{数据生产与标准化及OISST案例}
 \subsubsection{共享处理规范与质量控制}
 为检验YAML驱动流程能否正确处理多维网格数据，本文构造以空间位置编码的参考数组：二维数组的值由经纬度索引共同确定，三维数组进一步加入周期索引。数组值与位置之间的对应关系已知，因此可逐点核对维度交换、方向翻转、经度平移和周期组织后的结果。
