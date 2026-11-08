@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200" role="img" aria-labelledby="title description">
+<title id="title">GriddingMachine框架更新与模块协作</title>
+<desc id="description">旧版对照；新版的预处理、独立分发与本地读取；GMServer和Requestor的远程格点访问。实线为数据传递，虚线为配置、目录或请求信息。</desc>
+<style>text{font-family:"Heiti SC","PingFang SC","Noto Sans CJK SC",Arial,sans-serif}</style>
+<rect width="1800" height="1200" fill="white"/>
+<text x="36" y="40" font-size="33" font-weight="600" fill="#203349" text-anchor="start">(a) 2022版GriddingMachine（v0.2）</text>
+<rect x="36" y="65" width="506" height="111" rx="6" fill="#F7F8FA" stroke="#D4DAE0" stroke-width="1.8"/>
+<text x="60" y="108" font-size="30" font-weight="600" fill="#596779" text-anchor="start">数据源专用脚本</text>
+<text x="60" y="148" font-size="27" font-weight="400" fill="#596779" text-anchor="start">按数据源分别编写转换方法</text>
+<rect x="570" y="65" width="460" height="111" rx="6" fill="#F7F8FA" stroke="#D4DAE0" stroke-width="1.8"/>
+<text x="594" y="108" font-size="30" font-weight="600" fill="#596779" text-anchor="start">FTP文件与包内数据目录</text>
+<text x="594" y="148" font-size="27" font-weight="400" fill="#596779" text-anchor="start">tar.gz + Artifacts.toml</text>
+<rect x="1058" y="65" width="706" height="111" rx="6" fill="#F7F8FA" stroke="#D4DAE0" stroke-width="1.8"/>
+<text x="1082" y="108" font-size="30" font-weight="600" fill="#596779" text-anchor="start">单数据读取与在线请求</text>
+<text x="1082" y="148" font-size="27" font-weight="400" fill="#596779" text-anchor="start">read_LUT · Requestor</text>
+<text x="36" y="238" font-size="33" font-weight="600" fill="#203349" text-anchor="start">(b) 新版GriddingMachine（v0.5）</text>
+<rect x="36" y="274" width="506" height="536" rx="9" fill="#F3F7FB" stroke="#CCD4DC" stroke-width="1.8"/>
+<rect x="36" y="274" width="6" height="77" rx="0" fill="#35618B" stroke="#35618B" stroke-width="0"/>
+<text x="60" y="310" font-size="34" font-weight="600" fill="#35618B" text-anchor="start">数据预处理</text>
+<text x="60" y="343" font-size="27" font-weight="400" fill="#596779" text-anchor="start">复用处理规则</text>
+<path d="M60 361 L518 361" fill="none" stroke="#CCD4DC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="570" y="274" width="460" height="536" rx="9" fill="#FCF9F3" stroke="#CCD4DC" stroke-width="1.8"/>
+<rect x="570" y="274" width="6" height="77" rx="0" fill="#9C6B2F" stroke="#9C6B2F" stroke-width="0"/>
+<text x="594" y="310" font-size="34" font-weight="600" fill="#9C6B2F" text-anchor="start">数据分发</text>
+<text x="594" y="343" font-size="27" font-weight="400" fill="#596779" text-anchor="start">数据与目录独立维护</text>
+<path d="M594 361 L1006 361" fill="none" stroke="#CCD4DC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="1058" y="274" width="706" height="536" rx="9" fill="#F2F8F7" stroke="#CCD4DC" stroke-width="1.8"/>
+<rect x="1058" y="274" width="6" height="77" rx="0" fill="#217973" stroke="#217973" stroke-width="0"/>
+<text x="1082" y="310" font-size="34" font-weight="600" fill="#217973" text-anchor="start">数据读取</text>
+<text x="1082" y="343" font-size="27" font-weight="400" fill="#596779" text-anchor="start">单文件访问与多源集合</text>
+<path d="M1082 361 L1740 361" fill="none" stroke="#CCD4DC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="60" y="390" width="190" height="105" rx="6" fill="white" stroke="#35618B" stroke-width="1.8"/>
+<text x="155" y="431" font-size="28" font-weight="600" fill="#35618B" text-anchor="middle">源网格数据</text>
+<text x="155" y="469" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">多维变量与坐标</text>
+<rect x="60" y="578" width="190" height="102" rx="6" fill="white" stroke="#77638D" stroke-width="1.8"/>
+<text x="155" y="619" font-size="28" font-weight="600" fill="#77638D" text-anchor="middle">YAML配置</text>
+<text x="155" y="655" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">转换与填补规则</text>
+<rect x="282" y="390" width="236" height="290" rx="6" fill="white" stroke="#35618B" stroke-width="2.2"/>
+<text x="400" y="430" font-size="31" font-weight="600" fill="#35618B" text-anchor="middle">Cartographer</text>
+<text x="400" y="469" font-size="26" font-weight="400" fill="#35618B" text-anchor="middle">2.1  标准化与验证</text>
+<path d="M300 490 L500 490" fill="none" stroke="#D9E3ED" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="400" y="533" font-size="28" font-weight="400" fill="#203349" text-anchor="middle">维度与坐标</text>
+<text x="400" y="578" font-size="28" font-weight="400" fill="#203349" text-anchor="middle">数值与缺失值</text>
+<text x="400" y="623" font-size="28" font-weight="400" fill="#203349" text-anchor="middle">空间核查与保存</text>
+<path d="M250 442 L282 442" fill="none" stroke="#35618B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="282,442 270.0,447.0 270.0,437.0" fill="#35618B"/>
+<path d="M250 629 L268 629 L268 585 L282 585" fill="none" stroke="#77638D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="282,585 270.0,590.0 270.0,580.0" fill="#77638D"/>
+<text x="289" y="772" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">实现：GriddingMachineDatasets</text>
+<rect x="600" y="390" width="400" height="152" rx="6" fill="white" stroke="#9C6B2F" stroke-width="2.1"/>
+<text x="800" y="430" font-size="30" font-weight="600" fill="#9C6B2F" text-anchor="middle">2.2  标准NetCDF文件</text>
+<text x="800" y="472" font-size="29" font-weight="400" fill="#203349" text-anchor="middle">TAG.nc</text>
+<text x="800" y="514" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">Zenodo · ScienceDB · FTP</text>
+<rect x="600" y="625" width="400" height="112" rx="6" fill="white" stroke="#77638D" stroke-width="2.1"/>
+<text x="800" y="666" font-size="30" font-weight="600" fill="#77638D" text-anchor="middle">2.3  数据库文件</text>
+<text x="800" y="709" font-size="28" font-weight="400" fill="#203349" text-anchor="middle">Artifacts.yaml</text>
+<path d="M518 442 L600 442" fill="none" stroke="#35618B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="600,442 588.0,447.0 588.0,437.0" fill="#35618B"/>
+<path d="M800 542 L800 625" fill="none" stroke="#77638D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="800,625 795.0,613.0 805.0,613.0" fill="#77638D"/>
+<text x="815" y="586" font-size="25" font-weight="400" fill="#77638D" text-anchor="start">登记文件信息</text>
+<text x="800" y="772" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">数据文件与目录单独发布、留存版本</text>
+<rect x="1086" y="390" width="270" height="152" rx="6" fill="white" stroke="#217973" stroke-width="2.1"/>
+<text x="1221" y="433" font-size="33" font-weight="600" fill="#217973" text-anchor="middle">Collector</text>
+<text x="1221" y="474" font-size="27" font-weight="400" fill="#217973" text-anchor="middle">2.4  数据自动下载</text>
+<text x="1221" y="515" font-size="26" font-weight="400" fill="#596779" text-anchor="middle">镜像获取与文件核验</text>
+<rect x="1440" y="390" width="296" height="152" rx="6" fill="white" stroke="#217973" stroke-width="2.1"/>
+<text x="1588" y="433" font-size="33" font-weight="600" fill="#217973" text-anchor="middle">Indexer</text>
+<text x="1588" y="474" font-size="27" font-weight="400" fill="#217973" text-anchor="middle">2.5  单文件与集合读取</text>
+<text x="1588" y="515" font-size="26" font-weight="400" fill="#596779" text-anchor="middle">全域 · 周期 · 格点</text>
+<path d="M1000 442 L1086 442" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1086,442 1074.0,447.0 1074.0,437.0" fill="#217973"/>
+<text x="1043" y="422" font-size="24" font-weight="400" fill="#217973" text-anchor="middle">下载</text>
+<path d="M1356 442 L1440 442" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1440,442 1428.0,447.0 1428.0,437.0" fill="#217973"/>
+<text x="1398" y="422" font-size="24" font-weight="400" fill="#217973" text-anchor="middle">文件</text>
+<path d="M1000 680 L1138 680 L1138 590 L1221 590 L1221 542" fill="none" stroke="#77638D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1221,542 1226.0,554.0 1216.0,554.0" fill="#77638D"/>
+<text x="1153" y="644" font-size="26" font-weight="400" fill="#77638D" text-anchor="start">目录查找</text>
+<rect x="1340" y="660" width="396" height="104" rx="6" fill="#F2F8F7" stroke="#B5D0CC" stroke-width="1.8"/>
+<text x="1538" y="702" font-size="30" font-weight="600" fill="#217973" text-anchor="middle">科研程序与模式应用</text>
+<text x="1538" y="741" font-size="26" font-weight="400" fill="#596779" text-anchor="middle">网格变量 · 参数 · 气象序列</text>
+<path d="M1588 542 L1588 660" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1588,660 1583.0,648.0 1593.0,648.0" fill="#217973"/>
+<text x="1607" y="601" font-size="26" font-weight="400" fill="#217973" text-anchor="start">读取结果</text>
+<text x="36" y="866" font-size="33" font-weight="600" fill="#203349" text-anchor="start">(c) 在线格点访问：服务端复用相同的获取与读取模块</text>
+<rect x="36" y="891" width="1728" height="255" rx="9" fill="#FCFDFD" stroke="#D4DDE1" stroke-width="1.8"/>
+<rect x="70" y="946" width="350" height="145" rx="6" fill="white" stroke="#9CAAB8" stroke-width="1.8"/>
+<text x="245" y="990" font-size="29" font-weight="600" fill="#203349" text-anchor="middle">同一数据文件与目录</text>
+<text x="245" y="1036" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">NetCDF + Artifacts.yaml</text>
+<rect x="560" y="924" width="660" height="190" rx="7" fill="#F2F8F7" stroke="#217973" stroke-width="2.1"/>
+<text x="585" y="965" font-size="32" font-weight="600" fill="#217973" text-anchor="start">2.6  GMServer</text>
+<text x="1195" y="965" font-size="27" font-weight="400" fill="#217973" text-anchor="end">独立服务器组件</text>
+<rect x="600" y="991" width="230" height="64" rx="4" fill="white" stroke="#94B7B0" stroke-width="1.8"/>
+<text x="715.0" y="1033" font-size="29" font-weight="600" fill="#217973" text-anchor="middle">Collector</text>
+<rect x="925" y="991" width="230" height="64" rx="4" fill="white" stroke="#94B7B0" stroke-width="1.8"/>
+<text x="1040.0" y="1033" font-size="29" font-weight="600" fill="#217973" text-anchor="middle">Indexer</text>
+<path d="M830 1023 L925 1023" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="925,1023 913.0,1028.0 913.0,1018.0" fill="#217973"/>
+<text x="890" y="1093" font-size="27" font-weight="400" fill="#596779" text-anchor="middle">服务端获取、缓存与读取</text>
+<path d="M420 1023 L560 1023" fill="none" stroke="#78828E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="560,1023 548.0,1028.0 548.0,1018.0" fill="#78828E"/>
+<text x="490" y="998" font-size="25" font-weight="400" fill="#596779" text-anchor="middle">按需获取</text>
+<rect x="1440" y="946" width="296" height="145" rx="6" fill="white" stroke="#35618B" stroke-width="2.1"/>
+<text x="1588" y="990" font-size="31" font-weight="600" fill="#35618B" text-anchor="middle">2.7  Requestor</text>
+<text x="1588" y="1036" font-size="26" font-weight="400" fill="#596779" text-anchor="middle">科研程序中的请求接口</text>
+<text x="1588" y="1073" font-size="26" font-weight="400" fill="#596779" text-anchor="middle">接收所需格点数据</text>
+<path d="M1440 981 L1220 981" fill="none" stroke="#35618B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1220,981 1232.0,976.0 1232.0,986.0" fill="#35618B"/>
+<text x="1330" y="958" font-size="24" font-weight="400" fill="#35618B" text-anchor="middle">标签 / 位置 / 周期</text>
+<path d="M1220 1065 L1440 1065" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1440,1065 1428.0,1070.0 1428.0,1060.0" fill="#217973"/>
+<text x="1330" y="1101" font-size="26" font-weight="400" fill="#217973" text-anchor="middle">格点数据</text>
+<path d="M40 1180 L100 1180" fill="none" stroke="#217973" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="100,1180 88.0,1185.0 88.0,1175.0" fill="#217973"/>
+<text x="115" y="1188" font-size="25" font-weight="400" fill="#596779" text-anchor="start">数据传递</text>
+<path d="M302 1180 L362 1180" fill="none" stroke="#77638D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="362,1180 350.0,1185.0 350.0,1175.0" fill="#77638D"/>
+<text x="377" y="1188" font-size="25" font-weight="400" fill="#596779" text-anchor="start">配置、目录或请求信息</text>
+<text x="1764" y="1188" font-size="26" font-weight="400" fill="#203349" text-anchor="end">标准文件与目录可独立于访问软件更新</text>
+</svg>
