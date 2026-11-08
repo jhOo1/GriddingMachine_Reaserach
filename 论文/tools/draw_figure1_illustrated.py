@@ -172,7 +172,7 @@ def card(d, x, y, w, h, color, pale="white", radius=16):
     d.rect(x, y, w, h, pale, color, radius=radius, line=2.4)
 
 
-# Keep the baseline quieter than the new framework, without changing its functional comparison.
+# Strengthen the baseline contrast while keeping it distinct from the three colored stages.
 def baseline(d):
     d.text(36, 37, "(a) 2022版GriddingMachine（v0.2）", 31, bold=True)
     values = [
@@ -181,9 +181,9 @@ def baseline(d):
         (1208, "单数据读取与在线请求", "read_LUT · Requestor"),
     ]
     for x, title, subtitle in values:
-        d.rect(x, 60, 554, 103, "#F6F8FB", "#CBD4DF", radius=14)
-        d.text(x+24, 102, title, 29, MUTED, bold=True, max_width=506)
-        d.text(x+24, 142, subtitle, 26, MUTED, max_width=506)
+        d.rect(x, 60, 554, 103, "#E1EAF6", "#7893B6", radius=14, line=2.2)
+        d.text(x+24, 102, title, 29, "#334E70", bold=True, max_width=506)
+        d.text(x+24, 142, subtitle, 26, "#4B617B", max_width=506)
 
 
 # Keep source values and YAML rules as separate inputs to the processing component.

@@ -49,11 +49,11 @@ pkg> add GriddingMachine
 julia> using GriddingMachine
 ```
 
-![图1 GriddingMachine从v0.2版到新版的数据流程与模块协作](figures/图1_GriddingMachine总体架构_终稿.svg)
+![图1 GriddingMachine框架更新与模块协作](figures/图1_GriddingMachine总体架构_终稿.svg)
 
-**图1 GriddingMachine从v0.2版到新版的数据流程与模块协作** （a）v0.2版以数据集专用脚本、`tar.gz`文件、包内数据目录和读取函数`read_LUT`构成数据预处理、分发与读取路径；（b）新版保留从源数据到模式输入的连续流程，Cartographer完成配置驱动的标准化处理，Collector依据独立目录获取和缓存文件，Indexer读取标准化数据并组织模式输入；（c）O1—O5依次表示统一数据规范、简化数据文件、目录独立维护、完整性核验与获取，以及模式输入组织，橙色虚线标示其与数据流程的对应关系；（d）GMServer在服务端复用Collector与Indexer，Requestor按数据标签、经纬度和周期发送请求并接收格点数据，科研程序无需预先下载整份网格文件。
+**图1 GriddingMachine框架更新与模块协作** （a）2022版GriddingMachine（v0.2）的预处理、分发、读取与在线请求方式；（b）新版GriddingMachine（v0.5）的数据预处理、分发和读取三个环节。Cartographer结合源数据与YAML配置生成标准NetCDF文件；数据文件与数据库文件`Artifacts.yaml`分别维护，Collector依据目录获取文件，Indexer读取单文件或多源集合；（c）GMServer在服务端复用Collector和Indexer，Requestor按数据标签、经纬度和周期请求并接收格点数据。2.1—2.7对应正文小节；实线表示数据传递，虚线表示配置、目录或请求信息。
 
-**Fig. 1 Data workflows and module interactions from GriddingMachine v0.2 to the updated framework.** (a) The v0.2 release linked dataset-specific preprocessing, `tar.gz` distribution, an in-package catalog, and `read_LUT`. (b) Cartographer standardizes source data using shared configurations, Collector retrieves and caches files using an independent catalog, and Indexer reads standardized data and assembles model inputs. (c) O1--O5 summarize updates to data specifications, file distribution, independent catalog maintenance, integrity-verified acquisition, and model-input organization. Orange dashed lines link these updates to the workflow. (d) GMServer uses Collector and Indexer on the server. Requestor sends a data label, coordinates, and a cycle index, then receives grid-cell data without downloading the full gridded file.
+**Fig. 1 Framework updates and module interactions in GriddingMachine.** (a) Preprocessing, distribution, reading, and online requests in GriddingMachine v0.2, released in 2022. (b) Data preprocessing, distribution, and reading in v0.5. Cartographer produces standard NetCDF files from source data and YAML configurations. Data files and the catalog, `Artifacts.yaml`, are maintained separately; Collector retrieves files using the catalog, and Indexer reads individual files or multisource collections. (c) GMServer reuses Collector and Indexer on the server. Requestor sends a data label, coordinates, and a cycle index and receives grid-cell data. Numbers 2.1–2.7 refer to manuscript subsections. Solid arrows represent data transfer; dashed arrows represent configuration, catalog, or request information.
 
 ### 2.1 Cartographer：数据标准化处理
 

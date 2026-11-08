@@ -6,15 +6,15 @@
 <rect width="1800" height="1200" fill="white"/>
 <rect x="0" y="0" width="1800" height="1300" rx="0" fill="white" stroke="white" stroke-width="0"/>
 <text x="36" y="37" font-size="31" font-weight="600" fill="#203349" text-anchor="start">(a) 2022版GriddingMachine（v0.2）</text>
-<rect x="36" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
-<text x="60" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">数据源专用脚本</text>
-<text x="60" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">按数据源分别编写转换方法</text>
-<rect x="622" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
-<text x="646" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">FTP文件与包内数据目录</text>
-<text x="646" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">tar.gz + Artifacts.toml</text>
-<rect x="1208" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
-<text x="1232" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">单数据读取与在线请求</text>
-<text x="1232" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">read_LUT · Requestor</text>
+<rect x="36" y="60" width="554" height="103" rx="14" fill="#E1EAF6" stroke="#7893B6" stroke-width="2.2"/>
+<text x="60" y="102" font-size="29" font-weight="600" fill="#334E70" text-anchor="start">数据源专用脚本</text>
+<text x="60" y="142" font-size="26" font-weight="400" fill="#4B617B" text-anchor="start">按数据源分别编写转换方法</text>
+<rect x="622" y="60" width="554" height="103" rx="14" fill="#E1EAF6" stroke="#7893B6" stroke-width="2.2"/>
+<text x="646" y="102" font-size="29" font-weight="600" fill="#334E70" text-anchor="start">FTP文件与包内数据目录</text>
+<text x="646" y="142" font-size="26" font-weight="400" fill="#4B617B" text-anchor="start">tar.gz + Artifacts.toml</text>
+<rect x="1208" y="60" width="554" height="103" rx="14" fill="#E1EAF6" stroke="#7893B6" stroke-width="2.2"/>
+<text x="1232" y="102" font-size="29" font-weight="600" fill="#334E70" text-anchor="start">单数据读取与在线请求</text>
+<text x="1232" y="142" font-size="26" font-weight="400" fill="#4B617B" text-anchor="start">read_LUT · Requestor</text>
 <text x="36" y="221" font-size="31" font-weight="600" fill="#203349" text-anchor="start">(b) 新版GriddingMachine（v0.5）</text>
 <rect x="36" y="255" width="554" height="660" rx="24" fill="#FDFEFE" stroke="#326CB2" stroke-width="2.1" stroke-dasharray="9 6"/>
 <rect x="36" y="255" width="554" height="99" rx="24" fill="#E9F1FF" stroke="#326CB2" stroke-width="2.4"/>
