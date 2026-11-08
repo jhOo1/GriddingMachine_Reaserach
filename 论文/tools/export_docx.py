@@ -160,6 +160,8 @@ def shade_cell(cell, fill: str) -> None:
 
 def add_code_block(document: Document, lines: list[str]) -> None:
     paragraph = document.add_paragraph()
+    # Keep each short manuscript example intact rather than splitting its calls across pages.
+    paragraph.paragraph_format.keep_together = True
     paragraph.paragraph_format.first_line_indent = Cm(0)
     paragraph.paragraph_format.left_indent = Cm(0.55)
     paragraph.paragraph_format.right_indent = Cm(0.55)

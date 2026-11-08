@@ -80,6 +80,16 @@ Cartographer提供数据标准化及验证功能，以便数据提供方将不�
 
 处理过程中生成带经纬度坐标轴的空间分布图，由数据提供方确认数据的位置和方向。确认后，文件按数据标签命名并保存，实际执行的维度调整、数值换算及缺失值填补等变更写入NetCDF变量属性，配置文件保留相应处理规则。文件保存后，再核查维度和变量是否齐全、数组形状是否一致，以及数值范围和缺失值分布是否符合要求；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。配置规范版本（`SCHEMA_VERSION`）、完整YAML、固定输入及代码环境共同归档，便于重复处理。
 
+配置完成后，可在GriddingMachineDatasets环境中调用标准化程序：
+
+```julia
+using GriddingMachineDatasets
+# Process source data using the prepared YAML configuration.
+process_dataset!("dataset.yml")
+```
+
+其中，`dataset.yml`为已设置输入文件及处理规则的配置文件。程序按配置完成数据读取、转换和方向核查，确认后保存标准NetCDF文件。
+
 ### 2.2 数据文件共享
 
 为便于研究人员获取和长期使用数据，标准化文件可发布到Zenodo、ScienceDB等科研数据平台，也可由机构服务器提供镜像。公共科研存储有助于减少数据分发对单一机构服务器的依赖；不同位置保存内容一致的文件，则为使用者提供多个获取地址。
@@ -94,6 +104,22 @@ Cartographer提供数据标准化及验证功能，以便数据提供方将不�
 
 每个数据标签对应一个条目，其中本地相对路径（`PATH`）确定文件的保存位置，下载地址（`URL`）列出可用镜像，文件字节数（`SIZE`）和文件摘要（`SHA256`）用于核对下载内容。登记工具根据标准NetCDF文件计算字节数和SHA-256摘要，再将其与下载地址一并写入数据库文件。Collector据此查找和获取文件，Indexer读取相应数据；数据库内容和软件功能因而可以分别更新。
 
+以2020年MODIS叶面积指数数据为例，数据库文件中的记录如下。这里展示其中一个下载地址，多个镜像可依次列在`URL`下：
+
+```yaml
+# One download address from the existing LAI catalog entry.
+LAI_MODIS_2X_8D_2020_V1:
+  PATH: "public/v0"
+  SIZE: 13936426
+  SHA256: >-
+    fda32f694a38d9d3c5244cd5bd739825c7441c918d91e56442a553ab4fa5d0df
+  URL:
+    - >-
+      https://zenodo.org/records/17732092/files/LAI_MODIS_2X_8D_2020_V1.nc
+```
+
+标签用于科研程序中的数据调用，`PATH`确定本地保存目录，`URL`提供文件位置，`SIZE`和`SHA256`用于确认获取的文件与登记内容一致。
+
 研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、土壤水力性质、植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签记录类别、空间与时间分辨率、年份和版本，并与文件名对应；数据修订时，可在文件名中附加修订号。各条目登记机构FTP地址，部分同时配置Zenodo镜像。目录版本与统计记录见补充材料S7。
 
 ### 2.4 Collector：数据自动化下载
@@ -101,6 +127,17 @@ Cartographer提供数据标准化及验证功能，以便数据提供方将不�
 Collector依据数据库文件获取数据，并管理本地目录和缓存。程序读取本地`Artifacts.yaml`；文件不存在时，从配置的远端地址获取。研究人员也可指定目录来源，或显式更新本地数据库文件，以使用新增或修订的数据。更新时，程序检查下载内容的结构和字段，通过后替换本地目录文件，并保留上一有效版本。
 
 获取某个数据集时，Collector根据标签查找本地文件及候选下载地址。符合目录记录的已有文件可直接复用；需要下载时，先写入临时文件，依据目录登记的完整性信息核验后，再更新正式文件。当前镜像不可用或内容核验未通过时，继续尝试其余地址，获取失败时保留已有文件。候选镜像可依据访问延迟排序。除单个数据集获取外，Collector还支持选定标签的批量同步和全库同步，使研究人员能够按任务需要维护本地数据。目录字段与调用示例见补充材料S2。
+
+例如，更新数据库文件后，可按上述叶面积指数数据的标签获取文件：
+
+```julia
+using GriddingMachine.Collector
+# Refresh the catalog and obtain the local NetCDF path.
+update_database!()
+file_path = download_dataset!("LAI_MODIS_2X_8D_2020_V1")
+```
+
+`file_path`为下载或复用的本地NetCDF文件路径，可直接交给Indexer读取。
 
 除Julia的Collector外，新版还完善了Matlab、Octave、Python和R的数据自动下载入口，并新增C和Fortran支持。这些入口采用相同的数据目录约定，由共享的Python下载程序实现，使用时需要Python 3运行环境。科研程序可通过文件URL或本地数据库文件中的数据标签指定所需文件，按一致的镜像与核验规则完成下载，再利用相应语言的NetCDF工具读取。接口调用示例见补充材料S5。
 
@@ -111,6 +148,23 @@ Indexer既可读取单个标准化数据文件，也可按预定义集合读取�
 #### 2.5.1 标准网格数据读取
 
 标准网格读取接口`read_dataset`可按本地NetCDF路径或数据标签访问数据，支持读取文件覆盖的全部空间网格、指定周期的空间切片，以及站点的全部周期或指定周期数据，共4种方式。按标签调用时，目录模块自动获取对应文件。接口默认读取标准变量`data`，也可读取文件中可选的原始数据变量`raw_data`或形状相同的不确定性变量`std`。各读取方式采用一致的维度、单位和缺失值约定，便于后续组合模式输入。
+
+以同一叶面积指数数据和北美通量观测站US-NR1的位置为例，4种读取方式分别为：
+
+```julia
+using GriddingMachine.Indexer
+tag = "LAI_MODIS_2X_8D_2020_V1"
+# Read all grid cells and cycles.
+data = read_dataset(tag)
+# Read the spatial slice for the eighth cycle.
+layer = read_dataset(tag, 8)
+# Read all cycles at the target grid cell.
+series = read_dataset(tag, 40.0329, -105.5464)
+# Read the eighth cycle at the target grid cell.
+value = read_dataset(tag, 40.0329, -105.5464, 8)
+```
+
+上述调用依次返回全部空间与周期数据、第8个周期的空间切片、目标格点的周期序列及该格点第8个周期的数值。示例中的`8`表示周期索引，并非月份；该数据采用8日时间分辨率。
 
 站点读取根据全球规则经纬网的分辨率，将目标经纬度换算为数组索引。输入文件的维度顺序为`(lon,lat[,ind])`，经度自西向东、纬度自南向北排列。接口直接提取对应格点的数据；需要投影转换、非规则网格转换或空间插值时，先由数据源专用预处理程序完成相应处理。周期索引表示月份、日期还是小时，由相应数据的元数据说明。
 
@@ -124,9 +178,32 @@ Indexer既可读取单个标准化数据文件，也可按预定义集合读取�
 
 上述两类集合分别提供模式参数和气象驱动。集合读取在单变量提取之外统一处理字段组合和时间组织，科研程序因而可以复用同一套数据准备方法。本文以Emerald为例，将集合输出按其字段和单位要求接入初始化与驱动接口；其他模式可依据自身输入约定进行适配。
 
+在上述站点位置，2020年的陆面参数与气象驱动可分别通过以下调用获得：
+
+```julia
+using GriddingMachine.Indexer
+# Assemble the land parameter collection at the target grid cell.
+land = grid_dict("gm2", 2020, 40.0329, -105.5464)
+# Organize the hourly meteorological forcing at the same grid cell.
+forcing = grid_weather("wd1", 2020, 40.0329, -105.5464)
+```
+
+`land`按字段保存陆面参数，`forcing`组织气象序列及相应时间信息。科研程序可据此提取模式所需字段，无需逐项查找和读取组成集合的数据。
+
 ### 2.6 GMServer：数据服务器搭建
 
 GMServer用于搭建网格数据查询服务，便于研究人员通过网络获取指定位置的数据。新版将服务器组织为独立组件，单独加载Genie网络服务框架所需依赖，减少服务器功能对本地数据访问软件安装及首次运行的影响。服务提供方配置数据根目录和数据库文件来源，注册查询接口后启动服务；科研客户端随后通过服务器地址发送查询。
+
+在独立的服务器项目环境中，加载GriddingMachineServer后即可注册查询接口并启动服务：
+
+```julia
+using GriddingMachineServer
+# Register query routes and start the server on port 5055.
+setup_url_input_routes!()
+up_servers!(5055)
+```
+
+上述调用在5055端口提供查询服务，同机客户端可通过`http://localhost:5055`访问；其他客户端使用部署机器的相应地址。
 
 服务端复用Collector和Indexer，按照请求中的标签、经纬度和周期获取或复用本地文件，再提取相应格点的数据。除单数据集查询外，服务端还提供按集合名称、年份和位置组织陆面参数或气象驱动的查询接口。结果采用便于程序解析的JSON（JavaScript Object Notation）文本格式返回，单数据集查询可同时返回文件中可用的不确定性数据。
 
@@ -137,6 +214,19 @@ GMServer还提供查询页面，便于使用者选择数据、输入位置和周
 Requestor沿用GriddingMachine按格点在线获取数据的方式，与独立GMServer配合，使科研程序无需预先下载完整网格文件。调用时提供服务器地址、数据标签、目标经纬度和周期，服务器完成数据获取及格点读取后，将结果返回请求端。文件存储和读取发生在服务端，请求端接收所需数值，以便继续开展站点分析或模式计算。
 
 现有请求接口支持单数据集指定格点的全部周期或某个周期，并接收主变量及可用的不确定性数据。Requestor解析服务器返回的JSON文本，将传输时使用的缺失值标记还原为`NaN`，以便后续计算。需要重复使用完整文件时，可通过Collector下载后本地读取；仅需指定位置的数据时，可采用Requestor请求。两种方式使用相同的数据标签和格点读取规则。
+
+例如，在同一机器启动上述服务后，可请求同一叶面积指数数据在US-NR1附近格点的周期序列：
+
+```julia
+using GriddingMachine.Requestor
+server = "http://localhost:5055"
+tag = "LAI_MODIS_2X_8D_2020_V1"
+# Request all cycles and the available uncertainty at the target grid cell.
+series, uncertainty = request_site_data(
+    server, "research", tag, 40.0329, -105.5464)
+```
+
+其中，`research`为请求记录中的使用者标记；`series`返回目标格点的周期序列，`uncertainty`返回文件中可用的不确定性数据，无该变量时为`nothing`。
 
 以上功能将数据标准化、文件共享、目录维护和科研程序中的数据访问连接起来。数据提供方维护处理规则及标准文件，科研程序通过标签获取数据，或向服务端请求所需格点；新增数据、调整分发位置与维护访问软件因此可以分别进行。表2按上述功能环节归纳2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。
 
