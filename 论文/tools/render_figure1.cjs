@@ -7,11 +7,14 @@ async function main() {
   // Resolve the figure paths relative to this script so rendering is independent of the working directory.
   const paperRoot = path.resolve(__dirname, '..');
   const figureRoot = path.join(paperRoot, 'figures');
-  // Keep the systems-paper comparison variant separate until it is adopted by the manuscript.
-  const previewVariant = process.argv.includes('--systems-preview');
-  const stem = previewVariant
-    ? '图1_GriddingMachine框架_系统论文风格_2026-11-08'
-    : '图1_GriddingMachine总体架构_终稿';
+  // Keep both comparison styles separate until a variant is adopted by the manuscript.
+  const illustratedVariant = process.argv.includes('--illustrated-preview');
+  const previewVariant = illustratedVariant || process.argv.includes('--systems-preview');
+  const stem = illustratedVariant
+    ? '图1_GriddingMachine框架_彩色组件版_2026-11-08'
+    : (previewVariant
+      ? '图1_GriddingMachine框架_系统论文风格_2026-11-08'
+      : '图1_GriddingMachine总体架构_终稿');
   const source = await fs.readFile(path.join(figureRoot, `${stem}.svg`));
 
   // Rasterize at twice the SVG dimensions while retaining the SVG as the editable source.
@@ -33,7 +36,7 @@ async function main() {
     .toFile(path.join(figureRoot, `${stem}_300dpi.tiff`));
   // State explicitly whether this command generated a comparison figure or replaced the active image.
   console.log(previewVariant
-    ? 'Systems-paper Figure 1 comparison PNG and TIFF have been generated.'
+    ? 'Figure 1 comparison PNG and TIFF have been generated.'
     : 'Figure 1 PNG, TIFF, and Overleaf copy have been synchronized.');
 }
 

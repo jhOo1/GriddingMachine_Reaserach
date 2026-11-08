@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1300" viewBox="0 0 1800 1300" role="img" aria-labelledby="title description">
+<title id="title">GriddingMachine框架更新与模块协作</title>
+<desc id="description">旧版对照；新版的预处理、独立分发与本地读取；GMServer和Requestor的远程格点访问。实线为数据传递，虚线为配置、目录或请求信息。</desc>
+<style>text{font-family:"Heiti SC","PingFang SC","Noto Sans CJK SC",Arial,sans-serif}</style>
+<rect width="1800" height="1200" fill="white"/>
+<rect x="0" y="0" width="1800" height="1300" rx="0" fill="white" stroke="white" stroke-width="0"/>
+<text x="36" y="37" font-size="31" font-weight="600" fill="#203349" text-anchor="start">(a) 2022版GriddingMachine（v0.2）</text>
+<rect x="36" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
+<text x="60" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">数据源专用脚本</text>
+<text x="60" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">按数据源分别编写转换方法</text>
+<rect x="622" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
+<text x="646" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">FTP文件与包内数据目录</text>
+<text x="646" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">tar.gz + Artifacts.toml</text>
+<rect x="1208" y="60" width="554" height="103" rx="14" fill="#F6F8FB" stroke="#CBD4DF" stroke-width="1.8"/>
+<text x="1232" y="102" font-size="29" font-weight="600" fill="#5B6B7D" text-anchor="start">单数据读取与在线请求</text>
+<text x="1232" y="142" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">read_LUT · Requestor</text>
+<text x="36" y="221" font-size="31" font-weight="600" fill="#203349" text-anchor="start">(b) 新版GriddingMachine（v0.5）</text>
+<rect x="36" y="255" width="554" height="660" rx="24" fill="#FDFEFE" stroke="#326CB2" stroke-width="2.1" stroke-dasharray="9 6"/>
+<rect x="36" y="255" width="554" height="99" rx="24" fill="#E9F1FF" stroke="#326CB2" stroke-width="2.4"/>
+<rect x="38" y="337" width="550" height="25" rx="0" fill="#E9F1FF" stroke="#E9F1FF" stroke-width="0"/>
+<path d="M36 355 L590 355" fill="none" stroke="#326CB2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<circle cx="77" cy="296" r="25" fill="#E9F1FF" stroke="#326CB2" stroke-width="2"/>
+<circle cx="77" cy="296" r="20.5" fill="#326CB2" stroke="white" stroke-width="1.4"/>
+<text x="77" y="307" font-size="30" font-weight="600" fill="white" text-anchor="middle">1</text>
+<text x="119" y="301" font-size="34" font-weight="600" fill="#326CB2" text-anchor="start">数据预处理</text>
+<text x="119" y="337" font-size="25" font-weight="400" fill="#326CB2" text-anchor="start">复用处理规则</text>
+<rect x="622" y="255" width="554" height="660" rx="24" fill="#FDFEFE" stroke="#688E3D" stroke-width="2.1" stroke-dasharray="9 6"/>
+<rect x="622" y="255" width="554" height="99" rx="24" fill="#EFF6E5" stroke="#688E3D" stroke-width="2.4"/>
+<rect x="624" y="337" width="550" height="25" rx="0" fill="#EFF6E5" stroke="#EFF6E5" stroke-width="0"/>
+<path d="M622 355 L1176 355" fill="none" stroke="#688E3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<circle cx="663" cy="296" r="25" fill="#EFF6E5" stroke="#688E3D" stroke-width="2"/>
+<circle cx="663" cy="296" r="20.5" fill="#688E3D" stroke="white" stroke-width="1.4"/>
+<text x="663" y="307" font-size="30" font-weight="600" fill="white" text-anchor="middle">2</text>
+<text x="705" y="301" font-size="34" font-weight="600" fill="#688E3D" text-anchor="start">数据分发</text>
+<text x="705" y="337" font-size="25" font-weight="400" fill="#688E3D" text-anchor="start">数据与目录独立维护</text>
+<rect x="1208" y="255" width="554" height="660" rx="24" fill="#FDFEFE" stroke="#7956AD" stroke-width="2.1" stroke-dasharray="9 6"/>
+<rect x="1208" y="255" width="554" height="99" rx="24" fill="#F2EBFC" stroke="#7956AD" stroke-width="2.4"/>
+<rect x="1210" y="337" width="550" height="25" rx="0" fill="#F2EBFC" stroke="#F2EBFC" stroke-width="0"/>
+<path d="M1208 355 L1762 355" fill="none" stroke="#7956AD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<circle cx="1249" cy="296" r="25" fill="#F2EBFC" stroke="#7956AD" stroke-width="2"/>
+<circle cx="1249" cy="296" r="20.5" fill="#7956AD" stroke="white" stroke-width="1.4"/>
+<text x="1249" y="307" font-size="30" font-weight="600" fill="white" text-anchor="middle">3</text>
+<text x="1291" y="301" font-size="34" font-weight="600" fill="#7956AD" text-anchor="start">数据读取</text>
+<text x="1291" y="337" font-size="25" font-weight="400" fill="#7956AD" text-anchor="start">单文件访问与多源集合</text>
+<rect x="63" y="396" width="210" height="145" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="60" y="392" width="210" height="145" rx="16" fill="#F7FAFF" stroke="#326CB2" stroke-width="2.4"/>
+<circle cx="165.0" cy="431.0" r="21.53125" fill="#E9F1FF" stroke="#326CB2" stroke-width="2.3187499999999996"/>
+<path d="M143.46875 431.0 L186.53125 431.0" fill="none" stroke="#326CB2" stroke-width="2.3187499999999996" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M147.609375 419.40625 L182.390625 419.40625" fill="none" stroke="#326CB2" stroke-width="2.3187499999999996" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M147.609375 442.59375 L182.390625 442.59375" fill="none" stroke="#326CB2" stroke-width="2.3187499999999996" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M165.0 409.46875 C149.265625 419.40625 149.265625 442.59375 165.0 452.53125 C180.734375 442.59375 180.734375 419.40625 165.0 409.46875" fill="none" stroke="#326CB2" stroke-width="2.3187499999999996" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M165.0 409.46875 L165.0 452.53125" fill="none" stroke="#326CB2" stroke-width="2.3187499999999996" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="165" y="485" font-size="28" font-weight="600" fill="#326CB2" text-anchor="middle">源网格数据</text>
+<text x="165" y="519" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="middle">多维变量与坐标</text>
+<rect x="63" y="643" width="210" height="145" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="60" y="639" width="210" height="145" rx="16" fill="#FFFCF5" stroke="#B7893A" stroke-width="2.4"/>
+<path d="M149.0625 658.484375 L172.171875 658.484375 L181.734375 668.046875 L181.734375 701.515625 L149.0625 701.515625 Z" fill="white" stroke="#B7893A" stroke-width="2.2312499999999997" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M172.171875 658.484375 L172.171875 668.046875 L181.734375 668.046875" fill="#FFF7E7" stroke="#B7893A" stroke-width="2.2312499999999997" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M155.4375 676.8125 L175.359375 676.8125" fill="none" stroke="#B7893A" stroke-width="1.9124999999999999" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="161.015625" cy="676.8125" r="2.7890625" fill="#FFF7E7" stroke="#B7893A" stroke-width="2.2312499999999997"/>
+<path d="M155.4375 685.578125 L175.359375 685.578125" fill="none" stroke="#B7893A" stroke-width="1.9124999999999999" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="170.578125" cy="685.578125" r="2.7890625" fill="#FFF7E7" stroke="#B7893A" stroke-width="2.2312499999999997"/>
+<path d="M155.4375 694.34375 L175.359375 694.34375" fill="none" stroke="#B7893A" stroke-width="1.9124999999999999" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="162.609375" cy="694.34375" r="2.7890625" fill="#FFF7E7" stroke="#B7893A" stroke-width="2.2312499999999997"/>
+<text x="165" y="733" font-size="28" font-weight="600" fill="#B7893A" text-anchor="middle">YAML配置</text>
+<text x="165" y="767" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="middle">转换与填补规则</text>
+<rect x="315" y="394" width="250" height="394" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="312" y="390" width="250" height="394" rx="16" fill="#F5F9FF" stroke="#326CB2" stroke-width="2.4"/>
+<path d="M458.984375 433.0 L466.3125 433.0" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M452.545300642648 448.545300642648 L457.72706752353065 453.72706752353065" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M437.0 454.984375 L437.0 462.3125" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M421.454699357352 448.545300642648 L416.27293247646935 453.72706752353065" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M415.015625 433.0 L407.6875 433.0" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M421.454699357352 417.454699357352 L416.27293247646935 412.27293247646935" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M437.0 411.015625 L437.0 403.6875" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M452.545300642648 417.454699357352 L457.72706752353065 412.27293247646935" fill="none" stroke="#326CB2" stroke-width="5.234375" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="437.0" cy="433.0" r="21.984375" fill="#E9F1FF" stroke="#326CB2" stroke-width="2.93125"/>
+<circle cx="437.0" cy="433.0" r="13.609375" fill="white" stroke="#326CB2" stroke-width="2.09375"/>
+<path d="M427.578125 433.0 L433.859375 439.28125 L447.46875 425.671875" fill="none" stroke="#688E3D" stroke-width="3.978125" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="437" y="497" font-size="30" font-weight="600" fill="#326CB2" text-anchor="middle">Cartographer</text>
+<text x="437" y="535" font-size="25" font-weight="400" fill="#326CB2" text-anchor="middle">2.1  标准化与验证</text>
+<path d="M332 554 L542 554" fill="none" stroke="#B9CFEA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="332" y="581" width="22" height="22" rx="5" fill="white" stroke="#85AD70" stroke-width="1.6"/>
+<path d="M336 591 L341 596 L350 585" fill="none" stroke="#688E3D" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="365" y="601" font-size="25" font-weight="400" fill="#24374D" text-anchor="start">维度与坐标</text>
+<rect x="332" y="635" width="22" height="22" rx="5" fill="white" stroke="#85AD70" stroke-width="1.6"/>
+<path d="M336 645 L341 650 L350 639" fill="none" stroke="#688E3D" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="365" y="655" font-size="25" font-weight="400" fill="#24374D" text-anchor="start">数值与缺失值</text>
+<rect x="332" y="689" width="22" height="22" rx="5" fill="white" stroke="#85AD70" stroke-width="1.6"/>
+<path d="M336 699 L341 704 L350 693" fill="none" stroke="#688E3D" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="365" y="709" font-size="25" font-weight="400" fill="#24374D" text-anchor="start">空间核查与保存</text>
+<path d="M270 464 L312 464" fill="none" stroke="#326CB2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="312,464 300.0,469.0 300.0,459.0" fill="#326CB2"/>
+<path d="M270 712 L291 712 L291 676 L312 676" fill="none" stroke="#B7893A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="312,676 300.0,681.0 300.0,671.0" fill="#B7893A"/>
+<rect x="60" y="839" width="506" height="48" rx="12" fill="#E9F1FF" stroke="#B6CFEF" stroke-width="1.7"/>
+<text x="313" y="871" font-size="25" font-weight="400" fill="#326CB2" text-anchor="middle">实现：GriddingMachineDatasets</text>
+<rect x="663" y="394" width="480" height="198" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="660" y="390" width="480" height="198" rx="16" fill="#FBFDF7" stroke="#688E3D" stroke-width="2.4"/>
+<path d="M688.75 410.0625 L712.3125 410.0625 L722.0625 419.8125 L722.0625 453.9375 L688.75 453.9375 Z" fill="white" stroke="#688E3D" stroke-width="2.275" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M712.3125 410.0625 L712.3125 419.8125 L722.0625 419.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="2.275" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="693.625" y="427.125" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="693.625" y="435.25" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="693.625" y="443.375" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="701.75" y="427.125" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="701.75" y="435.25" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="701.75" y="443.375" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="709.875" y="427.125" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="709.875" y="435.25" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<rect x="709.875" y="443.375" width="4.875" height="4.875" rx="0.8125" fill="#EFF6E5" stroke="#688E3D" stroke-width="1.1375"/>
+<text x="750" y="440" font-size="28" font-weight="600" fill="#688E3D" text-anchor="start">2.2  标准NetCDF文件</text>
+<text x="900" y="492" font-size="32" font-weight="400" fill="#24374D" text-anchor="middle">TAG.nc</text>
+<rect x="689" y="528" width="111" height="42" rx="10" fill="#EFF6E5" stroke="#ADC992" stroke-width="1.5"/>
+<text x="744.5" y="557" font-size="24" font-weight="400" fill="#688E3D" text-anchor="middle">Zenodo</text>
+<rect x="811" y="528" width="168" height="42" rx="10" fill="#EFF6E5" stroke="#ADC992" stroke-width="1.5"/>
+<text x="895.0" y="557" font-size="24" font-weight="400" fill="#688E3D" text-anchor="middle">ScienceDB</text>
+<rect x="990" y="528" width="122" height="42" rx="10" fill="#EFF6E5" stroke="#ADC992" stroke-width="1.5"/>
+<text x="1051.0" y="557" font-size="24" font-weight="400" fill="#688E3D" text-anchor="middle">FTP</text>
+<rect x="663" y="689" width="480" height="128" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="660" y="685" width="480" height="128" rx="16" fill="#FFFCF5" stroke="#B7893A" stroke-width="2.4"/>
+<path d="M685.0625 715.8125 L701.3125 715.8125 L706.1875 721.5 L728.9375 721.5 L724.875 748.3125 L685.0625 748.3125 Z" fill="#FFF7E7" stroke="#B7893A" stroke-width="2.275" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="694.0" cy="728.8125" r="1.21875" fill="#B7893A" stroke="#B7893A" stroke-width="0.8125"/>
+<path d="M699.6875 728.8125 L718.375 728.8125" fill="none" stroke="#B7893A" stroke-width="1.7875" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="694.0" cy="736.125" r="1.21875" fill="#B7893A" stroke="#B7893A" stroke-width="0.8125"/>
+<path d="M699.6875 736.125 L718.375 736.125" fill="none" stroke="#B7893A" stroke-width="1.7875" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="694.0" cy="743.4375" r="1.21875" fill="#B7893A" stroke="#B7893A" stroke-width="0.8125"/>
+<path d="M699.6875 743.4375 L718.375 743.4375" fill="none" stroke="#B7893A" stroke-width="1.7875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M687.5 715.8125 L687.5 710.125 L715.9375 710.125 L715.9375 720.6875" fill="none" stroke="#B7893A" stroke-width="1.625" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="752" y="736" font-size="29" font-weight="600" fill="#B7893A" text-anchor="start">2.3  数据库文件</text>
+<text x="900" y="783" font-size="30" font-weight="400" fill="#24374D" text-anchor="middle">Artifacts.yaml</text>
+<path d="M562 464 L660 464" fill="none" stroke="#326CB2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="660,464 648.0,469.0 648.0,459.0" fill="#326CB2"/>
+<path d="M900 588 L900 685" fill="none" stroke="#B7893A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="900,685 895.0,673.0 905.0,673.0" fill="#B7893A"/>
+<text x="921" y="644" font-size="25" font-weight="400" fill="#B7893A" text-anchor="start">登记文件信息</text>
+<rect x="660" y="839" width="480" height="48" rx="12" fill="#EFF6E5" stroke="#B4CD9A" stroke-width="1.7"/>
+<text x="900" y="871" font-size="25" font-weight="400" fill="#688E3D" text-anchor="middle">文件与目录独立发布、留存版本</text>
+<rect x="1251" y="394" width="474" height="154" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="1248" y="390" width="474" height="154" rx="16" fill="#FCF9FF" stroke="#7956AD" stroke-width="2.4"/>
+<path d="M1283.0 452.0 C1270.0 452.0 1269.0 433.0 1284.0 433.0 C1290.0 415.0 1314.0 416.0 1318.0 436.0 C1334.0 436.0 1334.0 456.0 1319.0 457.0" fill="#F2EBFC" stroke="#7956AD" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1301.0 438.0 L1301.0 468.0" fill="none" stroke="#7956AD" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1291.0 458.0 L1301.0 468.0 L1311.0 458.0" fill="none" stroke="#7956AD" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1284.0 472.0 L1318.0 472.0" fill="none" stroke="#7956AD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1358" y="435" font-size="33" font-weight="600" fill="#7956AD" text-anchor="start">Collector</text>
+<text x="1358" y="476" font-size="27" font-weight="400" fill="#7956AD" text-anchor="start">2.4  数据自动下载</text>
+<text x="1358" y="516" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">镜像获取与文件核验</text>
+<rect x="1251" y="637" width="474" height="146" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="1248" y="633" width="474" height="146" rx="16" fill="#FCF9FF" stroke="#7956AD" stroke-width="2.4"/>
+<rect x="1275.8125" y="666.75" width="34.875" height="37.78125" rx="3.875" fill="white" stroke="#7956AD" stroke-width="2.5187500000000003"/>
+<path d="M1287.4375 667.71875 L1287.4375 703.5625" fill="none" stroke="#7956AD" stroke-width="1.453125" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1299.0625 667.71875 L1299.0625 703.5625" fill="none" stroke="#7956AD" stroke-width="1.453125" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1276.78125 679.34375 L1309.71875 679.34375" fill="none" stroke="#7956AD" stroke-width="1.453125" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1276.78125 690.96875 L1309.71875 690.96875" fill="none" stroke="#7956AD" stroke-width="1.453125" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="1310.6875" cy="697.75" r="12.59375" fill="#F2EBFC" stroke="#7956AD" stroke-width="2.7125"/>
+<path d="M1319.40625 707.4375 L1329.09375 717.125" fill="none" stroke="#7956AD" stroke-width="4.84375" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1358" y="677" font-size="33" font-weight="600" fill="#7956AD" text-anchor="start">Indexer</text>
+<text x="1358" y="719" font-size="27" font-weight="400" fill="#7956AD" text-anchor="start">2.5  单文件与集合读取</text>
+<text x="1358" y="759" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="start">全域 · 周期 · 格点</text>
+<path d="M1140 464 L1248 464" fill="none" stroke="#688E3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1248,464 1236.0,469.0 1236.0,459.0" fill="#688E3D"/>
+<text x="1194" y="441" font-size="24" font-weight="400" fill="#688E3D" text-anchor="middle">下载</text>
+<path d="M1485 544 L1485 633" fill="none" stroke="#7956AD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1485,633 1480.0,621.0 1490.0,621.0" fill="#7956AD"/>
+<text x="1505" y="596" font-size="25" font-weight="400" fill="#7956AD" text-anchor="start">本地文件</text>
+<path d="M1140 749 L1188 749 L1188 584 L1430 584 L1430 544" fill="none" stroke="#B7893A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1430,544 1435.0,556.0 1425.0,556.0" fill="#B7893A"/>
+<text x="1259" y="571" font-size="24" font-weight="400" fill="#B7893A" text-anchor="start">目录查找</text>
+<rect x="1251" y="820" width="474" height="80" rx="13" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="1248" y="816" width="474" height="80" rx="13" fill="#F2EBFC" stroke="#7956AD" stroke-width="2.4"/>
+<path d="M1276.453125 870.015625 C1273.390625 847.8125 1291.765625 838.625 1308.609375 838.625 C1310.140625 858.53125 1294.828125 875.375 1276.453125 870.015625 Z" fill="#EFF6E5" stroke="#688E3D" stroke-width="2.14375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1272.625 876.90625 L1300.1875 849.34375" fill="none" stroke="#688E3D" stroke-width="2.296875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1284.109375 864.65625 L1282.578125 853.9375" fill="none" stroke="#688E3D" stroke-width="1.53125" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1291.765625 857.0 L1301.71875 858.53125" fill="none" stroke="#688E3D" stroke-width="1.53125" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1326" y="850" font-size="28" font-weight="600" fill="#7956AD" text-anchor="start">科研程序与模式应用</text>
+<text x="1326" y="883" font-size="24" font-weight="400" fill="#5B6B7D" text-anchor="start">变量 · 参数 · 气象序列</text>
+<path d="M1485 779 L1485 816" fill="none" stroke="#7956AD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1485,816 1480.0,804.0 1490.0,804.0" fill="#7956AD"/>
+<text x="36" y="973" font-size="31" font-weight="600" fill="#203349" text-anchor="start">(c) 在线格点访问：复用相同的获取与读取模块</text>
+<rect x="36" y="1002" width="1728" height="235" rx="20" fill="#FCFAFF" stroke="#BBA8D5" stroke-width="2.1"/>
+<rect x="73" y="1048" width="350" height="144" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="70" y="1044" width="350" height="144" rx="16" fill="#F7FAFF" stroke="#326CB2" stroke-width="2.4"/>
+<path d="M97.25 1065.4375 L117.1875 1065.4375 L125.4375 1073.6875 L125.4375 1102.5625 L97.25 1102.5625 Z" fill="white" stroke="#326CB2" stroke-width="1.9249999999999998" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M117.1875 1065.4375 L117.1875 1073.6875 L125.4375 1073.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="1.9249999999999998" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="101.375" y="1079.875" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="101.375" y="1086.75" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="101.375" y="1093.625" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="108.25" y="1079.875" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="108.25" y="1086.75" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="108.25" y="1093.625" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="115.125" y="1079.875" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="115.125" y="1086.75" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<rect x="115.125" y="1093.625" width="4.125" height="4.125" rx="0.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="0.9624999999999999"/>
+<text x="151" y="1092" font-size="28" font-weight="600" fill="#326CB2" text-anchor="start">同一文件与目录</text>
+<text x="245" y="1150" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="middle">NetCDF + Artifacts.yaml</text>
+<rect x="563" y="1026" width="660" height="184" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="560" y="1022" width="660" height="184" rx="16" fill="#F2EBFC" stroke="#7956AD" stroke-width="2.4"/>
+<rect x="580.15625" y="1038.375" width="31.6875" height="7.921875" rx="1.828125" fill="white" stroke="#7956AD" stroke-width="1.584375"/>
+<circle cx="585.03125" cy="1042.3359375" r="1.0359375" fill="#7956AD" stroke="#7956AD" stroke-width="0.609375"/>
+<path d="M590.515625 1042.3359375 L606.359375 1042.3359375" fill="none" stroke="#7956AD" stroke-width="1.096875" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="580.15625" y="1049.953125" width="31.6875" height="7.921875" rx="1.828125" fill="white" stroke="#7956AD" stroke-width="1.584375"/>
+<circle cx="585.03125" cy="1053.9140625" r="1.0359375" fill="#7956AD" stroke="#7956AD" stroke-width="0.609375"/>
+<path d="M590.515625 1053.9140625 L606.359375 1053.9140625" fill="none" stroke="#7956AD" stroke-width="1.096875" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="580.15625" y="1061.53125" width="31.6875" height="7.921875" rx="1.828125" fill="white" stroke="#7956AD" stroke-width="1.584375"/>
+<circle cx="585.03125" cy="1065.4921875" r="1.0359375" fill="#7956AD" stroke="#7956AD" stroke-width="0.609375"/>
+<path d="M590.515625 1065.4921875 L606.359375 1065.4921875" fill="none" stroke="#7956AD" stroke-width="1.096875" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="629" y="1063" font-size="30" font-weight="600" fill="#7956AD" text-anchor="start">2.6  GMServer</text>
+<text x="1194" y="1063" font-size="25" font-weight="400" fill="#7956AD" text-anchor="end">独立服务器组件</text>
+<rect x="600" y="1091" width="230" height="64" rx="11" fill="white" stroke="#AF95CE" stroke-width="1.9"/>
+<path d="M620.59375 1127.046875 C613.078125 1127.046875 612.5 1116.0625 621.171875 1116.0625 C624.640625 1105.65625 638.515625 1106.234375 640.828125 1117.796875 C650.078125 1117.796875 650.078125 1129.359375 641.40625 1129.9375" fill="#F2EBFC" stroke="#7956AD" stroke-width="1.61875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M631.0 1118.953125 L631.0 1136.296875" fill="none" stroke="#7956AD" stroke-width="2.0234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M625.21875 1130.515625 L631.0 1136.296875 L636.78125 1130.515625" fill="none" stroke="#7956AD" stroke-width="2.0234375" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M621.171875 1138.609375 L640.828125 1138.609375" fill="none" stroke="#7956AD" stroke-width="1.4453125" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="664" y="1133" font-size="29" font-weight="600" fill="#7956AD" text-anchor="start">Collector</text>
+<rect x="925" y="1091" width="230" height="64" rx="11" fill="white" stroke="#AF95CE" stroke-width="1.9"/>
+<rect x="940.96875" y="1109.125" width="20.8125" height="22.546875" rx="2.3125" fill="white" stroke="#7956AD" stroke-width="1.503125"/>
+<path d="M947.90625 1109.703125 L947.90625 1131.09375" fill="none" stroke="#7956AD" stroke-width="0.8671875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M954.84375 1109.703125 L954.84375 1131.09375" fill="none" stroke="#7956AD" stroke-width="0.8671875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M941.546875 1116.640625 L961.203125 1116.640625" fill="none" stroke="#7956AD" stroke-width="0.8671875" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M941.546875 1123.578125 L961.203125 1123.578125" fill="none" stroke="#7956AD" stroke-width="0.8671875" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="961.78125" cy="1127.625" r="7.515625" fill="#F2EBFC" stroke="#7956AD" stroke-width="1.61875"/>
+<path d="M966.984375 1133.40625 L972.765625 1139.1875" fill="none" stroke="#7956AD" stroke-width="2.890625" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="989" y="1133" font-size="29" font-weight="600" fill="#7956AD" text-anchor="start">Indexer</text>
+<path d="M830 1123 L925 1123" fill="none" stroke="#7956AD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="925,1123 913.0,1128.0 913.0,1118.0" fill="#7956AD"/>
+<text x="890" y="1193" font-size="26" font-weight="400" fill="#5B6B7D" text-anchor="middle">服务端获取、缓存与读取</text>
+<rect x="1443" y="1048" width="296" height="144" rx="16" fill="#EEF1F5" stroke="#EEF1F5" stroke-width="0"/>
+<rect x="1440" y="1044" width="296" height="144" rx="16" fill="#F7FAFF" stroke="#326CB2" stroke-width="2.4"/>
+<text x="1588" y="1087" font-size="30" font-weight="600" fill="#326CB2" text-anchor="middle">2.7  Requestor</text>
+<rect x="1465.890625" y="1127.875" width="28.21875" height="22.84375" rx="2.6875" fill="#E9F1FF" stroke="#326CB2" stroke-width="1.746875"/>
+<path d="M1465.21875 1151.390625 L1494.78125 1151.390625 L1500.15625 1159.453125 L1459.84375 1159.453125 Z" fill="white" stroke="#326CB2" stroke-width="1.8812499999999999" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1475.296875 1155.421875 L1484.703125 1155.421875" fill="none" stroke="#326CB2" stroke-width="1.34375" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1515" y="1136" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="start">科研程序请求</text>
+<text x="1515" y="1172" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="start">接收格点数据</text>
+<path d="M420 1123 L560 1123" fill="none" stroke="#326CB2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="560,1123 548.0,1128.0 548.0,1118.0" fill="#326CB2"/>
+<text x="490" y="1100" font-size="25" font-weight="400" fill="#326CB2" text-anchor="middle">按需获取</text>
+<path d="M1440 1093 L1220 1093" fill="none" stroke="#326CB2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1220,1093 1232.0,1088.0 1232.0,1098.0" fill="#326CB2"/>
+<text x="1330" y="1070" font-size="24" font-weight="400" fill="#326CB2" text-anchor="middle">标签 / 位置 / 周期</text>
+<path d="M1220 1164 L1440 1164" fill="none" stroke="#7956AD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1440,1164 1428.0,1169.0 1428.0,1159.0" fill="#7956AD"/>
+<text x="1330" y="1200" font-size="26" font-weight="400" fill="#7956AD" text-anchor="middle">格点数据</text>
+<path d="M40 1274 L100 1274" fill="none" stroke="#326CB2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="100,1274 88.0,1279.0 88.0,1269.0" fill="#326CB2"/>
+<text x="115" y="1283" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="start">数据传递</text>
+<path d="M302 1274 L362 1274" fill="none" stroke="#B7893A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="362,1274 350.0,1279.0 350.0,1269.0" fill="#B7893A"/>
+<text x="377" y="1283" font-size="25" font-weight="400" fill="#5B6B7D" text-anchor="start">配置、目录或请求信息</text>
+<text x="1764" y="1283" font-size="25" font-weight="400" fill="#24374D" text-anchor="end">文件与目录可独立于访问软件更新</text>
+</svg>
