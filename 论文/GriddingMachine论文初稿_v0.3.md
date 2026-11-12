@@ -42,18 +42,20 @@ GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的
 
 ## 2 GriddingMachine框架
 
-新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图1），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。GriddingMachine.jl的安装与关键方法使用如下：
-
-```text
-pkg> add GriddingMachine
-julia> using GriddingMachine
-```
+新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图1），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。
 
 ![图1 GriddingMachine框架更新与模块协作](figures/图1_GriddingMachine总体架构_终稿.svg)
 
 **图1 GriddingMachine框架更新与模块协作** （a）2022版GriddingMachine（v0.2）的预处理、分发、读取与在线请求方式；（b）新版GriddingMachine（v0.5）的数据预处理、分发和读取三个环节。Cartographer结合源数据与YAML配置生成标准NetCDF文件；数据文件与数据库文件`Artifacts.yaml`分别维护，Collector依据目录获取文件，Indexer读取单文件或多源集合；（c）GMServer在服务端复用Collector和Indexer，Requestor按数据标签、经纬度和周期请求并接收格点数据。2.1—2.7对应正文小节；实线表示数据传递，虚线表示配置、目录或请求信息。
 
 **Fig. 1 Framework updates and module interactions in GriddingMachine.** (a) Preprocessing, distribution, reading, and online requests in GriddingMachine v0.2, released in 2022. (b) Data preprocessing, distribution, and reading in v0.5. Cartographer produces standard NetCDF files from source data and YAML configurations. Data files and the catalog, `Artifacts.yaml`, are maintained separately; Collector retrieves files using the catalog, and Indexer reads individual files or multisource collections. (c) GMServer reuses Collector and Indexer on the server. Requestor sends a data label, coordinates, and a cycle index and receives grid-cell data. Numbers 2.1–2.7 refer to manuscript subsections. Solid arrows represent data transfer; dashed arrows represent configuration, catalog, or request information.
+
+GriddingMachine.jl的安装与关键方法使用如下：
+
+```text
+pkg> add GriddingMachine
+julia> using GriddingMachine
+```
 
 ### 2.1 Cartographer：数据标准化处理
 

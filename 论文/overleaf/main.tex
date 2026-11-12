@@ -89,12 +89,9 @@ GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的
 
 
 \section{GriddingMachine框架}
-新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图\ref{fig:1}），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。GriddingMachine.jl的安装与关键方法使用如下：
+新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图\ref{fig:1}），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。
 
-\begin{Verbatim}[frame=single]
-pkg> add GriddingMachine
-julia> using GriddingMachine
-\end{Verbatim}
+
 
 \begin{figure}[!htp]
 \centering
@@ -106,6 +103,16 @@ julia> using GriddingMachine
 
 
 
+
+% Keep the overview figure before the installation example and subsection 2.1.
+\FloatBarrier
+
+GriddingMachine.jl的安装与关键方法使用如下：
+
+\begin{Verbatim}[frame=single]
+pkg> add GriddingMachine
+julia> using GriddingMachine
+\end{Verbatim}
 
 \subsection{Cartographer：数据标准化处理}
 
