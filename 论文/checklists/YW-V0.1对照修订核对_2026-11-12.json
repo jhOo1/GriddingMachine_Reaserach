@@ -1,0 +1,20 @@
+{
+  "checked_date": "2026-11-12",
+  "teacher_label": "YW-V0.1",
+  "teacher_history_version": 946,
+  "teacher_source_sha256": "6536d26a4c53edb2bfec36f257c50a3f348d087f737fccfbf3476acfebf6d9f5",
+  "online_before_sha256": "37c26d7e3d463953d7cc6e67d6c895fee155169802e42671ad0ade276c96cc28",
+  "online_after_sha256": "500254486a8c0facd51d582ac958991368870af513d3be81dfbade137ff568af",
+  "local_source_sha256": "500254486a8c0facd51d582ac958991368870af513d3be81dfbade137ff568af",
+  "online_tracked_changes_added": 14,
+  "teacher_tracked_changes_preserved": 5,
+  "teacher_comment_threads_preserved": 4,
+  "online_compile_errors": 0,
+  "online_compile_warnings": 2,
+  "warning_detail": "Existing CJK font substitutions; existing layout diagnostics remain.",
+  "word_nonempty_items_checked": 277,
+  "word_rendered_pages": 28,
+  "examples_tables_figures_and_experiments_unchanged": true,
+  "online_source_manifest_updated": false,
+  "manifest_note": "Article text was synchronized using fourteen online Reviewing edits and read back exactly. The auxiliary online source_manifest.json could not be uploaded after the browser connection restarted; the repository manifest records the current local sources."
+}

@@ -1,0 +1,948 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YW-V0.1 与当前稿对照及本轮修订</title><style>
+:root{--paper:#fff;--ink:#18253a;--muted:#4b596b;--line:#dce3eb;--bg:#f3f6fa;--brand:#173967;--red:#a41e30}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:1080px;margin:auto;padding:32px 24px 62px}header{background:#18365c;color:#fff;padding:32px 36px;border-radius:16px}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(24px,4vw,36px);line-height:1.28;margin:8px 0 14px}header p{margin:0;color:#e0e9f7}
+.eyebrow,.tag{font-weight:700;font-size:13px;letter-spacing:.06em}.eyebrow{color:#c1d6f2}
+nav{display:flex;flex-wrap:wrap;gap:9px;margin:17px 0 20px}a{color:#164f94;text-underline-offset:3px}nav a{background:#fff;border:1px solid var(--line);padding:5px 13px;border-radius:8px}
+section{margin-top:28px;scroll-margin-top:10px}h2{font-size:23px;margin-bottom:10px}h3{font-size:17px;margin-bottom:5px}
+.note{background:#eaf1fb;border-left:4px solid #577eaf;padding:12px 15px;border-radius:6px;margin:0 0 16px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card,details.diff,.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:15px 17px}
+.card p{margin:8px 0 0}.meta,.tag,.quiet,.brief{color:var(--muted)}.meta,.tag{font-size:13px}
+blockquote{margin:10px 0 8px;padding:8px 12px;border-left:3px solid #8265a5;background:#f5f0fa;color:#493165;font-weight:700}
+details.diff{margin-bottom:9px;scroll-margin-top:10px}summary{cursor:pointer;font-weight:750;color:var(--brand)}summary:focus-visible,a:focus-visible{outline:2px solid #2d66aa;outline-offset:3px}
+.brief{margin:9px 0;font-size:14px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pair>div{background:#f8fafc;border:1px solid #e5eaf0;padding:10px 13px;border-radius:7px}.pair p{margin:4px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:16px}
+ins{color:var(--red);font-weight:750;text-decoration:none;background:#fff0f1}del{color:#626871;background:#e8ebef;text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:14px;margin-bottom:9px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}th{background:#edf3fb;color:#18365c}td:first-child{font-weight:700;width:24%}tr:last-child td{border:0}
+pre{background:#f6f8fa;padding:10px 12px;border:1px solid var(--line);border-radius:6px;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.55 ui-monospace,Menlo,monospace}code{overflow-wrap:anywhere}
+footer{margin-top:26px;color:var(--muted);font-size:13px}
+@media(max-width:680px){main{padding:18px 12px 35px}header{padding:22px 17px}.cards,.pair{grid-template-columns:1fr}th,td{padding:6px}.card,details.diff,.panel{padding:12px}.pair p{font-size:15px}}
+@media print{body{background:white}main{max-width:none;padding:0}header{background:white;color:#111;border:1px solid #bbb;padding:18px}header p,.eyebrow{color:#333}nav{display:none}.card,.pair>div{break-inside:avoid}details.diff{break-inside:auto}}
+ins{color:#1559a6;background:#edf5ff;font-weight:750} .section-compare{max-height:42em;overflow:auto} code{font-size:.85em} a{overflow-wrap:anywhere}</style></head><body><main><header><div class="eyebrow">GRIDDINGMACHINE · 2026-11-12</div><h1>YW-V0.1 与当前稿对照及本轮修订</h1><p>老师版：YW-V0.1，2026-11-05 19:11，版本946</p><p>本轮起点：2026-11-12读回的当前线上稿，保留11月10日老师的新修改</p></header><nav><a href="#scope">改动范围</a><a href="#edits">14处修改</a><a href="#baseline">老师版与修订稿</a></nav><section id="scope"><h2>本轮改动范围</h2><div class="note">第二章保留老师的七节顺序、各模块名称和全部代码示例，修顺14处说明文字。摘要、引言、图表与第三章之后的实验、结果和讨论均保留线上原文。老师11月10日在引言中的5条修订同步到本地稿，不计作本轮作者改写。</div><p>写法沿用老师摘要中的“预处理、分发和读取”主线：先交代科研人员要做什么，再说明模块的做法及用途。避免只排列功能名，也不把方法部分改写成安装和调用说明书。</p></section><section id="edits"><h2>本轮14处修改前后</h2><div class="legend"><span><ins>蓝色加粗</ins>：本轮新增或改写</span><span><del>灰色删除线</del>：本轮删去</span><span>其余文字未变</span></div><details class="diff" id="change1" open><summary>01　第二章总述</summary><p class="brief">沿用老师按模块介绍的顺序，直接交代各模块分工及数据与软件分别维护的关系。</p><div class="pair"><div><div class="tag">修改前</div><p>新版GriddingMachine（v0.5）<del>围绕数据预处理、分发和读取三个环节展开，分别通过数据标准化、文件与数据库共享，以及本地读取和在线请求衔接源数据与模式应用（图1）。</del>在原有Collector、Indexer和Requestor模块的基础上，<del>我们</del>增加Cartographer用于数据标准化及验证<del>，并</del>将服务器功能<del>组织为</del>独立<del>的</del>GMServer<del>组件。Collector依据</del>数据<del>库</del>文件<del>获取并缓存数据</del>，Indexer读取<del>标准化文件及</del>多源数据集合<del>；</del>GMServer在服务端调用<del>这两个模块，将</del>查询<del>结果返回Requestor</del>。GriddingMachine.jl的安装与使用如下：</p></div><div><div class="tag">修改后</div><p>新版GriddingMachine（v0.5）在原有Collector、Indexer和Requestor模块的基础上，增加Cartographer<ins>，</ins>用于数据标准化及验证<ins>；同时</ins>将服务器功能独立<ins>为</ins>GMServer<ins>，便于搭建格点</ins>数据<ins>查询服务（图1）。Cartographer处理源数据，Collector获取和缓存标准</ins>文件，Indexer读取<ins>单个数据集或</ins>多源数据集合<ins>。Requestor向GMServer请求指定格点的数据，</ins>GMServer在服务端调用<ins>Collector和Indexer完成</ins>查询<ins>。数据处理和读取由软件完成，数据库文件与标准化数据文件则分别共享和维护</ins>。GriddingMachine.jl的安装与使用如下：</p></div></div></details><details class="diff" id="change2"><summary>02　2.1 标准化用途</summary><p class="brief">保留老师“提供功能，以便……”的句式，说明配置与通用程序的关系。</p><div class="pair"><div><div class="tag">修改前</div><p>Cartographer提供数据标准化及验证功能，以便数据提供方将不同来源的网格数据整理为GriddingMachine采用的标准NetCDF文件。<del>其标准化</del>处理程序<del>由GriddingMachineDatasets实现</del>，数据提供方可<del>使</del>用<del>该程序生成后续获取与读取所需</del>的<del>文件</del>。标准文件沿用<del>既有</del>的规则经纬网与变量约定[2]<del>，</del>以经度、纬度为前两维，可选第三维表示月份等周期；数值保存为实际物理值，缺失值在读取后统一表示为`NaN`<del>，并保留变量说明和单位</del>。<del>标准文件的</del>主要约定见表1。</p></div><div><div class="tag">修改后</div><p>Cartographer提供数据标准化及验证功能，以便数据提供方将不同来源的网格数据整理为GriddingMachine采用的标准NetCDF文件。<ins>我们在GriddingMachineDatasets中提供通用</ins>处理程序，数据提供方<ins>通过配置说明源数据的结构和转换要求，即</ins>可<ins>复</ins>用<ins>相应</ins>的<ins>处理方法</ins>。标准文件沿用<ins>v0.2</ins>的规则经纬网与变量约定[2]<ins>：</ins>以经度、纬度为前两维，可选第三维表示月份等周期；数值保存为实际物理值，<ins>并保留变量说明和单位，</ins>缺失值在读取后统一表示为`NaN`。主要约定见表1。</p></div></div></details><details class="diff" id="change3"><summary>03　2.1 配置与复用</summary><p class="brief">减少重复的主体和“方式”用语，保留配置生成与专用预处理的分工。</p><div class="pair"><div><div class="tag">修改前</div><p><del>数据提供方通过</del>YAML文本配置文件<del>指定</del>输入文件、源变量名称、维度含义、单位、有效范围和缺失值处理方式。<del>我们</del>提供<del>了</del>程序<del>化和</del>本地交互式<del>两种</del>配置<del>生成方式，方便数据提供方根据数据特点设置处理规则</del>。新增或更新同类数据时，调整输入文件、变量名称及处理参数，即可<del>复</del>用已有转换程序。对于非规则网格和区域投影数据，先由数据源专用预处理程序完成网格或投影转换，再进入规则经纬网的通用处理流程。</p></div><div><div class="tag">修改后</div><p><ins>处理规则保存在</ins>YAML文本配置文件<ins>中，包括</ins>输入文件、源变量名称、维度含义、单位、有效范围和缺失值处理方式。<ins>数据</ins>提供<ins>方可通过</ins>程序<ins>或</ins>本地交互式<ins>界面生成</ins>配置。新增或更新同类数据时，调整输入文件、变量名称及处理参数，即可<ins>使</ins>用已有转换程序。对于非规则网格和区域投影数据，先由数据源专用预处理程序完成网格或投影转换，再进入规则经纬网的通用处理流程。</p></div></div></details><details class="diff" id="change4"><summary>04　2.1 人工确认与文件验证</summary><p class="brief">按代码区分人工确认、保存文件和另行文件验证，避免把几步挤成同一个动作。</p><div class="pair"><div><div class="tag">修改前</div><p><del>数据提供方通</del>过带经纬度坐标轴的空间分布图确认数据的位置和方向，程序<del>随后</del>按数据标签保存标准文件，并将实际执行的维度调整、数值换算及缺失值填补等变更写入NetCDF变量属性。<del>生成</del>文件由文件验证程序<del>进一步核查，</del>检查维度和变量<del>是否齐全</del>、数组形状<del>是否一致，以及</del>数值范围<del>和</del>缺失值分布<del>是否符合要求</del>；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。配置文件<del>保留</del>处理规则，并与配置规范版本（`SCHEMA_VERSION`）、固定输入及代码环境共同归档，便于重<del>复</del>处理。</p></div><div><div class="tag">修改后</div><p><ins>处理</ins>过<ins>程中，程序生成</ins>带经纬度坐标轴的空间分布图<ins>，由数据提供方</ins>确认数据的位置和方向<ins>。确认后</ins>，程序按数据标签保存标准文件，并将实际执行的维度调整、数值换算及缺失值填补等变更写入NetCDF变量属性。文件<ins>保存后，另</ins>由文件验证程序检查维度和变量、数组形状<ins>、</ins>数值范围<ins>及</ins>缺失值分布；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。配置文件<ins>记录</ins>处理规则，并与配置规范版本（`SCHEMA_VERSION`）、固定输入及代码环境共同归档，便于重<ins>新</ins>处理<ins>数据</ins>。</p></div></div></details><details class="diff" id="change5"><summary>05　2.2 共享与镜像</summary><p class="brief">从数据如何共享写起，直接解释机构镜像和公共存储的作用。</p><div class="pair"><div><div class="tag">修改前</div><p><del>为便于研究人员获取和长期使用数据，</del>标准化文件可<del>发布到</del>Zenodo、ScienceDB等科研数据平台，也可由机构服务器提供镜像。公共科研存储<del>有助于</del>减少<del>数据分发</del>对单一机构服务器的依赖；不同位置保存<del>内容一致的文件</del>，则<del>为</del>使<del>用者提供</del>多个获取<del>地址</del>。</p></div><div><div class="tag">修改后</div><p>标准化文件可<ins>通过</ins>Zenodo、ScienceDB等科研数据平台<ins>共享</ins>，也可由机构服务器提供镜像。公共科研存储减少<ins>了</ins>对单一机构服务器的依赖；<ins>同一文件在</ins>不同位置保存，则使<ins>研究人员可以从</ins>多个<ins>地址</ins>获取<ins>数据</ins>。</p></div></div></details><details class="diff" id="change6"><summary>06　2.3 数据库文件</summary><p class="brief">按照老师摘要中数据库独立维护、按版本归档的叙述展开，减少重复解释。</p><div class="pair"><div><div class="tag">修改前</div><p>数据库文件<del>是一份</del>记录数据标签、文件位置及相关信息<del>的数据清单</del>。我们将<del>原来保存在</del>软件包内的`Artifacts.toml`改为独立维护的`Artifacts.yaml`，使新增数据或调整下载地址<del>时，</del>不必<del>同时</del>发布<del>访问软件</del>。数据库文件采用YAML文本格式，并通过Zenodo保存不同版本<del>；</del>研究人员<del>可选用相应版本，也</del>可保留试验所用的<del>清单</del>，记录当时选用的数据<del>及分发信息</del>。</p></div><div><div class="tag">修改后</div><p>数据库文件记录数据标签、文件位置及相关信息。我们将软件包内的`Artifacts.toml`改为独立维护的`Artifacts.yaml`，使新增数据或调整下载地址不必<ins>伴随软件</ins>发布。数据库文件采用YAML文本格式，并通过Zenodo保存不同版本<ins>。</ins>研究人员可保留试验所用的<ins>数据库文件</ins>，<ins>以</ins>记录当时选用的数据<ins>和下载地址</ins>。</p></div></div></details><details class="diff" id="change7"><summary>07　2.4 本地目录更新</summary><p class="brief">先说明研究人员如何获得新数据，再说明程序怎样更新数据库文件，区分数据库文件与数据文件。</p><div class="pair"><div><div class="tag">修改前</div><p>Collector<del>依</del>据数据库文件<del>获取</del>数据，并管理本地<del>目录和缓存</del>。程序读取本地`Artifacts.yaml`；文件不存在时，从配置的远端地址获取。研究人员<del>也</del>可指定<del>目录来源，或显式更新本地</del>数据库文件，以<del>使用</del>新增或修订的数据。更新<del>时</del>，程序检查<del>下载内容</del>的结构和字段，<del>通过后</del>替换本地<del>目录</del>文件，并保留上一有效版本。</p></div><div><div class="tag">修改后</div><p>Collector<ins>根</ins>据数据库文件<ins>下载</ins>数据，并管理本地<ins>文件</ins>。程序<ins>优先</ins>读取本地`Artifacts.yaml`；<ins>该</ins>文件不存在时，从配置的远端地址获取。研究人员可指定数据库文件<ins>的来源，也可主动更新</ins>，以<ins>获取</ins>新增或修订的数据。更新<ins>过程中</ins>，程序<ins>先</ins>检查<ins>新文件</ins>的结构和字段，<ins>再</ins>替换本地<ins>数据库</ins>文件，并保留上一有效版本。</p></div></div></details><details class="diff" id="change8"><summary>08　2.4 镜像与缓存</summary><p class="brief">把查找、下载、核验和镜像切换连成可理解的过程，保留缓存及批量同步信息。</p><div class="pair"><div><div class="tag">修改前</div><p>获取<del>某个</del>数据<del>集</del>时，Collector根据标签查找本地文件<del>及候选下载地址</del>。符合目录记录的<del>已有</del>文件<del>可直接复用；需要</del>下载<del>时，先写入</del>临时<del>文件</del>，<del>依据目录</del>登记的完整性信息核验后，再<del>更新</del>正式文件<del>。当前镜像不可用或内容核验</del>未通过<del>时</del>，继续尝试其余<del>地址，获取</del>失败时保留<del>已</del>有文件。候选镜像可依据访问延迟排序。除单个数据集<del>获取</del>外，Collector还<del>支持</del>选定标签的批量同步和全库同步，<del>使研究人员能够按任务需要</del>维护本地数据。目录字段与调用示例见补充材料S2。</p></div><div><div class="tag">修改后</div><p>获取数据时，Collector<ins>先</ins>根据标签查找本地文件。<ins>已有文件</ins>符合目录记录<ins>时，直接返回本地路径；否则尝试目录中</ins>的<ins>下载地址。新</ins>文件<ins>先</ins>下载<ins>到</ins>临时<ins>位置</ins>，<ins>按</ins>登记的完整性信息核验后，再<ins>移入</ins>正式<ins>位置。若某个镜像无法访问或</ins>文件未通过<ins>核验</ins>，<ins>程序</ins>继续尝试其余<ins>镜像；全部下载</ins>失败时<ins>，</ins>保留<ins>原</ins>有文件。候选镜像可依据访问延迟排序。除单个数据集外，Collector还<ins>提供</ins>选定标签的批量同步和全库同步，<ins>便于</ins>维护本地数据<ins>库</ins>。目录字段与调用示例见补充材料S2。</p></div></div></details><details class="diff" id="change9"><summary>09　2.4 多语言下载</summary><p class="brief">沿用老师列举语言接口的口吻，保留共享Python实现和URL、标签调用方式。</p><div class="pair"><div><div class="tag">修改前</div><p>除Julia的Collector外，<del>新版</del>还完善了Matlab、Octave、Python和R的数据自动下载入口，并新增C和Fortran支持。<del>这些</del>入口<del>采</del>用<del>相</del>同<del>的数据目录约定，由共享的</del>Python下载程序<del>实现</del>，<del>使用时</del>需要Python 3运行环境。科研程序可<del>通过</del>文件URL或本地数据库文件中的数据标签<del>指定所需</del>文件<del>，按一致</del>的镜像与核验规则<del>完成下载</del>，<del>再</del>利用相应语言的NetCDF工具读取。接口调用示例见补充材料S5。</p></div><div><div class="tag">修改后</div><p>除Julia的Collector外，<ins>我们</ins>还完善了Matlab、Octave、Python和R的数据自动下载入口，并新增C和Fortran支持。<ins>各语言</ins>入口<ins>调</ins>用同<ins>一</ins>Python下载程序，<ins>因此</ins>需要Python 3运行环境。科研程序可<ins>提供</ins>文件URL<ins>，</ins>或<ins>根据</ins>本地数据库文件中的数据标签<ins>获取</ins>文件<ins>；下载时使用相同</ins>的镜像与<ins>完整性</ins>核验规则，<ins>获取后可</ins>利用相应语言的NetCDF工具读取。接口调用示例见补充材料S5。</p></div></div></details><details class="diff" id="change10"><summary>10　2.5 单文件与集合</summary><p class="brief">先用用途区分两种读取，再解释为什么集合读取不只是逐文件调用。</p><div class="pair"><div><div class="tag">修改前</div><p>Indexer提供单<del>文件读取</del>和多源数据集合读取。单文件读取<del>按标签或路径取得</del>某<del>个</del>变量<del>；</del>模式所需参数<del>和</del>气象数据<del>通常</del>来自不同<del>数据</del>源，其空间分辨率、时间组织和字段定义<del>并</del>不<del>完全一致</del>，集合读取<del>则</del>在<del>单文件读</del>取<del>的基础上</del>，进一步<del>完成数据组合与</del>时间组织。研究人员<del>按</del>集合名称、年份和位置<del>调用接口</del>，即可获得所需的参数<del>集合</del>或气象<del>序列</del>。</p></div><div><div class="tag">修改后</div><p>Indexer提供单<ins>个数据集</ins>和多源数据集合<ins>的</ins>读取<ins>功能</ins>。单文件<ins>接口用于</ins>读取某<ins>一</ins>变量<ins>，集合接口则用于组合</ins>模式所需<ins>的多种</ins>参数<ins>或</ins>气象数据<ins>。由于这些数据</ins>来自不同<ins>来</ins>源，其空间分辨率、时间组织和字段定义<ins>往往</ins>不<ins>同</ins>，集合读取<ins>需要</ins>在<ins>提</ins>取<ins>目标位置数据后</ins>，进一步<ins>统一季节序列的</ins>时间<ins>轴并</ins>组织<ins>相应字段</ins>。研究人员<ins>指定</ins>集合名称、年份和位置，即可获得所需的参数或气象<ins>驱动</ins>。</p></div></div></details><details class="diff" id="change11"><summary>11　2.5.1 位置索引</summary><p class="brief">用正面说明交代索引方式，并将网格转换与前文的预处理对应起来。</p><div class="pair"><div><div class="tag">修改前</div><p><del>站点</del>读取根据全球规则经纬网的分辨率，将目标<del>经纬度</del>换算为数组索引。<del>输入</del>文件<del>的维度顺序为</del>`(lon,lat[,ind])`，经度自西向东、纬度自南向北排列。<del>接口直接提取对应格点的数据；需要</del>投影转换、非规则网格转换<del>或</del>空间插值<del>时，先由</del>数据<del>源专用</del>预处理<del>程序</del>完成<del>相应处理</del>。</p></div><div><div class="tag">修改后</div><p><ins>按经纬度</ins>读取<ins>时，Indexer</ins>根据全球规则经纬网的分辨率，将目标<ins>位置</ins>换算为数组索引<ins>，并提取对应格点的数据</ins>。文件<ins>采用</ins>`(lon,lat[,ind])`<ins>的维度顺序</ins>，经度自西向东、纬度自南向北排列<ins>，与第2.1节的标准化约定一致</ins>。投影转换、非规则网格转换<ins>及所需的</ins>空间插值<ins>在</ins>数据预处理<ins>阶段</ins>完成。</p></div></div></details><details class="diff" id="change12"><summary>12　2.6 服务端分工</summary><p class="brief">先交代查询如何完成，再解释独立服务器的理由，与老师总述中的分工一致。</p><div class="pair"><div><div class="tag">修改前</div><p>GMServer用于搭建网格数据查询服务，<del>在</del>服务端复用<del>Collector和</del>Indexer<del>，</del>提<del>供</del>单数据集、陆面参数集合<del>及</del>气象驱动集合的格点<del>查询</del>。我们将服务器组<del>织为独立组</del>件，<del>单独</del>加载Genie网络服务框架<del>所需</del>依赖，减少<del>服务器功能对本地数据访问软件</del>安装<del>及</del>首次运行的<del>影响</del>。服务提供方配置数据根目录和数据库文件来源，注册查询接口<del>后即可</del>启动服务。</p></div><div><div class="tag">修改后</div><p>GMServer用于搭建网格数据查询服务，<ins>供科研程序获取指定位置的数据。</ins>服务端<ins>调用Collector获取或</ins>复用<ins>文件，再由</ins>Indexer提<ins>取</ins>单数据集、陆面参数集合<ins>或</ins>气象驱动集合<ins>中</ins>的格点<ins>数据</ins>。我们将<ins>GMServer独立为</ins>服务器组件，<ins>使本地下载和读取不必</ins>加载Genie网络服务框架<ins>的</ins>依赖，减少安装<ins>与</ins>首次运行的<ins>开销</ins>。服务提供方配置数据根目录和数据库文件来源<ins>后</ins>，注册查询接口<ins>并</ins>启动服务。</p></div></div></details><details class="diff" id="change13"><summary>13　2.7 请求端用途</summary><p class="brief">用请求动作说明Requestor的用途，不再反复使用抽象接口名称。</p><div class="pair"><div><div class="tag">修改前</div><p>Requestor<del>提供</del>科研程序中<del>的在线</del>格点<del>请求接口，与GMServer配合，使</del>研究人员<del>无需预先下载完整网格文件。调用时</del>提供服务器地址、数据标签、<del>目标</del>经纬度和周期，即可<del>获</del>得<del>指定位置的</del>数值，<del>用</del>于站点分析或模式计算。</p></div><div><div class="tag">修改后</div><p>Requestor<ins>用于在</ins>科研程序中<ins>向GMServer请求指定</ins>格点<ins>的数据。</ins>研究人员提供服务器地址、数据标签、经纬度和周期，即可<ins>取</ins>得<ins>所需</ins>数值，<ins>无需在本地下载完整网格文件，便</ins>于<ins>开展</ins>站点分析或模式计算。</p></div></div></details><details class="diff" id="change14"><summary>14　第二章收束</summary><p class="brief">从提供方和使用者的实际工作收束本章，避免再重复整套模块清单。</p><div class="pair"><div><div class="tag">修改前</div><p><del>以</del>上<del>功能将数据标准化、文件共享、目录维护和科研程序中的数据访问连接起来。</del>数据提供方<del>维护</del>处理规则<del>及标准</del>文件，<del>科研程序通过标签获取</del>数据<del>，或向服务端请求所需格点；</del>新<del>增数据、调整分发位置与维护</del>访问软件<del>因此可以分别进行</del>。表2按<del>上述</del>功能环节<del>归纳</del>2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。</p></div><div><div class="tag">修改后</div><p><ins>通过</ins>上<ins>述模块，</ins>数据提供方<ins>可以处理和共享标准化数据，研究人员则可按标签下载文件、读取数据集合，或直接请求指定格点的数据。</ins>处理规则<ins>、数据库</ins>文件<ins>和分发地址分别维护</ins>，<ins>使新增或修订</ins>数据<ins>不必同时更</ins>新访问软件。表2按<ins>各</ins>功能环节<ins>比较</ins>2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。</p></div></div></details></section><section id="baseline"><h2>与老师版逐节对照</h2><p>这里呈现的是整个历史版本到本轮最终稿的变化，包含11月5日之后已有的修改，不能全部归为本轮新增。老师当时新增的2.1—2.7多数仅有标题，旧方法文字主要还在2.8—2.11；当前第二章按这七节补入了方法及调用示例。</p><details class="diff"><summary>中文摘要：YW-V0.1 → 本轮最终稿</summary><div class="pair section-compare"><div><div class="tag">YW-V0.1</div><p>地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，不同数据源在处理规则、单位、数据标识和网络分发方式等方面仍存在差异，研究人员往往需要针对各自模式重复整理和维护数据库，增加了模式持续更新与验证的工作量。本文在2022版GriddingMachine（v0.2）的基础上，围绕数据预处理、分发和读取进行进一步改进。在数据预处理方面，新版GriddingMachine（v0.5）提供了标准化的数据处理流程，以便数据提供方进行数据标准化及验证。在数据分发方面，我们将定期更新的数据库文件上传至Zenodo，以保证每个版本的数据库的可追溯性；同时，我们将NetCDF数据文件上传至Zenodo和ScienceDB上，降低数据的获取难度。在数据读取方面，我们进一步提供了读取多源数据集合的功能，例如一次性获取陆面模式所需的初始化参数和气象驱动，为模式运行提供更便利的输入。新版GriddingMachine实现了数据IO功能（如数据处理和读取）和数据分发（如数据库和数据文件）的分离，使得新数据的更新独立于软件版本。此外，我们还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran语言的自动下载支持，以更好地服务地球科学研究与应用。</p></div><div><div class="tag">本轮最终稿</div><p>地球系统模式依赖区域至全球尺度的网格数据进行参数初始化及结果验证。尽管当前数据大多已采用NetCDF、HDF、GeoTIFF等标准格式，不同数据源在处理规则、单位、数据标识和网络分发方式等方面仍存在差异，研究人员往往需要针对各自模式重复整理和维护数据库，增加了模式持续更新与验证的工作量。本文在2022版GriddingMachine（v0.2）的基础上，围绕数据预处理、分发和读取进行进一步改进。在数据预处理方面，新版GriddingMachine（v0.5）提供了标准化的数据处理流程，以便数据提供方进行数据标准化及验证。在数据分发方面，我们将定期更新的数据库文件上传至Zenodo，以保证每个版本的数据库的可追溯性；同时，我们将NetCDF数据文件上传至Zenodo和ScienceDB上，降低数据的获取难度。在数据读取方面，我们进一步提供了读取多源数据集合的功能，例如一次性获取陆面模式所需的初始化参数和气象驱动，为模式运行提供更便利的输入。新版GriddingMachine实现了数据IO功能（如数据处理和读取）和数据分发（如数据库和数据文件）的分离，使得新数据的更新独立于软件版本。此外，我们还完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增C和Fortran语言的自动下载支持，以更好地服务地球科学研究与应用。</p></div></div></details><details class="diff"><summary>引言：YW-V0.1 → 本轮最终稿</summary><div class="pair section-compare"><div><div class="tag">YW-V0.1</div><p>地球系统模式的参数初始化、边界条件设置、气象驱动和结果验证均依赖区域至全球尺度的网格数据。这些数据通常由不同研究团队和业务机构提供，<del>即使其采用相同的</del>文件格式，<del>其</del>坐标排列、空间与时间分辨率、变量含义、单位和缺失值表示<del>仍可能</del>存在差异。为此，研究人员经常需要在获取数据后，进行额外的数据转换和格式处理。此类工作往往随各模式的需求分别开展，且在源数据或模式接口更新后，相应程序和输入文件还需持续维护。因此，减少同类数据的重复整理、在更新中保持数据读取的一致性、降低数据应用的门槛，是数据共享与应用中的亟需解决的问题。
+
+<del>尽管</del>Google Earth Engine<del>等</del>云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[<del>4</del>]<del>，但是大多数社区生产的</del>数据仍并<del>接入这些云平台。此外，这些云平台并不提供直接的云端</del>数据<del>和本地</del>数据<del>同步功能</del>，<del>忽视了用户进行本地数据利用的需求。针对该问题，我们需要</del>标准化的数据转换规则<del>和</del>数据标识<del>、</del>自动化的<del>网络</del>数据获取。Wang等[<del>5</del>]于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等[<del>5</del>]首先将常用于地球系统模式<del>的</del>的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，<del>然</del>后为<del>每个</del>数据<del>被</del>分配<del>了</del>一<del>个独一无二</del>且易<del>读懂</del>的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
+
+GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的全功能接口，并提供了Matlab、Octave、Python和R的数据下载接口，为多源数据的统一访问奠定了基础。然而，随着数据类型和应用需求扩展，原有流程在数据维护和模式接入方面仍有改进空间。例如，v0.2版本的数据存储在加州理工学院的FTP服务器上，存在服务关停风险和数据下载带宽限制；Artifacts.toml文件只能通过GriddingMachine版本更新（即便核心代码不变）；标准已压缩的NetCDF文件仍然经外层tar.gz压缩后分发，使用前还需解压，对于大文件非常不友好。此外，获得标准网格数据后，研究人员仍需根据具体模式需求组合参数和气象输入数据，造成不必要的代码重复。针对这些问题，改进应围绕提高数据的安全性、降低数据下载时间成本、软件与数据独立维护、集合数据读取等。
+
+本研究将从数据预处理、分发与读取三个方面更新GriddingMachine，在保证原数据的一致性的同时，降低数据获取的难度。我们同时完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增了C和Fortran语言的自动下载支持。</p></div><div><div class="tag">本轮最终稿</div><p>地球系统模式的参数初始化、边界条件设置、气象驱动和结果验证均依赖区域至全球尺度的网格数据。这些数据通常由不同研究团队和业务机构提供，<ins>且</ins>文件格式<ins>常常不同；此外</ins>，<ins>同种格式数据的</ins>坐标排列、空间与时间分辨率、变量含义、单位和缺失值表示<ins>也</ins>存在差异。为此，研究人员经常需要在获取数据后，进行额外的数据转换和格式处理。此类工作往往随各模式的需求分别开展，且在源数据或模式接口更新后，相应程序和输入文件还需持续维护。因此，减少同类数据的重复整理、在更新中保持数据读取的一致性、降低数据应用的门槛，是数据共享与应用中的亟需解决的问题。
+
+<ins>如</ins>Google Earth Engine<ins>的</ins>云<ins>计算</ins>平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力[<ins>1</ins>]<ins>。在将这些</ins>数据<ins>用于本地地球系统模式时，研究人员</ins>仍<ins>需根据模式要求统一网格、变量和单位，</ins>并<ins>在源</ins>数据<ins>更新后维护处理规则、</ins>数据<ins>版本与模式输入之间的对应关系。因此</ins>，标准化的数据转换规则<ins>、清晰的</ins>数据标识<ins>和</ins>自动化的数据获取<ins>，是衔接数据共享与本地模式应用的重要基础</ins>。Wang等[<ins>2</ins>]于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等[<ins>2</ins>]首先将常用于地球系统模式的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，<ins>随</ins>后为<ins>各</ins>数据分配<ins>唯</ins>一且易<ins>于识别</ins>的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
+
+GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的全功能接口，并提供了Matlab、Octave、Python和R的数据下载接口，为多源数据的统一访问奠定了基础。然而，随着数据类型和应用需求扩展，原有流程在数据维护和模式接入方面仍有改进空间。例如，v0.2版本的数据存储在加州理工学院的FTP服务器上，存在服务关停风险和数据下载带宽限制；Artifacts.toml文件只能通过GriddingMachine版本更新（即便核心代码不变）；标准已压缩的NetCDF文件仍然经外层tar.gz压缩后分发，使用前还需解压，对于大文件非常不友好。此外，获得标准网格数据后，研究人员仍需根据具体模式需求组合参数和气象输入数据，造成不必要的代码重复。针对这些问题，改进应围绕提高数据的安全性、降低数据下载时间成本、软件与数据独立维护、集合数据读取等。
+
+本研究将从数据预处理、分发与读取三个方面更新GriddingMachine，在保证原数据的一致性的同时，降低数据获取的难度。我们同时完善了Matlab、Octave、Python和R语言对新版数据的自动下载支持，并新增了C和Fortran语言的自动下载支持。</p></div></div></details><details class="diff"><summary>第二章：YW-V0.1 → 本轮最终稿</summary><div class="pair section-compare"><div><div class="tag">YW-V0.1</div><p>GriddingMachine框架
+
+新版GriddingMachine（v0.5）在原有<del>的</del>Collector、Indexer<del>、</del>Requestor<del>子</del>模块的基础上，<del>添</del>加<del>了</del>Cartographer<del>子模块</del>用于数据<del>处理</del>功能<del>层</del>（图1），<del>并提供独立</del>的<del>Server模块以搭建</del>服务<del>器利</del>用<del>Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）</del>。<del>GriddingMachine各模块的核心功能如下</del>，<del>Cartographer：</del>标准化数据<del>并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器</del>和<del>Requstor互通</del>。GriddingMachine.jl的安装与使用如下：
+
+```text
+pkg&gt; add GriddingMachine
+julia&gt; using GriddingMachine
+```
+
+![图1 GriddingMachine<del>从2022版基线到新版数据流程的</del>架<del>构</del>更新](figures/图1_GriddingMachine总体架构_终稿.svg)
+
+**图1 GriddingMachine<del>从2022版基线到新版数据流程的</del>架<del>构</del>更新** （a）2022版<del>以数据集专用脚本</del>、<del>`tar.gz`文件</del>、<del>包内数据目录和</del>读取<del>函数`read_LUT`构成</del>数据预处理、分发<del>与</del>读取<del>路径；（b）新版由</del>数据生<del>产与</del>标准<del>化层、</del>数据目录<del>与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML配置、标准化与质量控制、标准NetCDF、独立数据目录、完整性</del>获取<del>以及统一</del>读取<del>和模式调用</del>；（c）<del>O1</del>—<del>O5依次</del>表示<del>统一</del>数据<del>规范、简化数据文件</del>、目录<del>独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系</del>。
+
+**Fig. 1 <del>Architectural</del> updates <del>from</del> <del>the</del> <del>2022</del> GriddingMachine<del> baseline to the updated data workflow</del>.** (a) <del>The</del> 2022 <del>release</del> <del>linked dataset-specific</del> preprocessing, <del>`tar.gz` </del>distribution, <del>an</del> in<del>-package</del> catalog, and <del>`read_LUT`.</del> <del>(b)</del> <del>The</del> <del>updated</del> <del>framework</del> <del>connects</del> <del>configuration-driven standardization, direct NetCDF distribution, an independent catalog with integrity-verified acquisition, and model-input organization</del>. (c) <del>O1--O5</del> <del>summarize</del> <del>updates</del> <del>to</del> data <del>specifications</del>, <del>file distribution, catalog maintenance, transactional acquisition</del>, and <del>model</del>-<del>ready</del> <del>interfaces</del>. <del>Orange</del> dashed <del>lines</del> <del>link</del> <del>these</del> <del>updates</del> <del>to</del> <del>the</del> <del>corresponding baseline components and updated workflow nodes</del>.
+
+### 2.1 Cartographer：数据标准化处理
+
+<del>### 2.2 数据文件共享
+
+### 2.3 数据库文件
+
+### 2.4 Collector：数据自动化下载
+
+### 2.5 Indexer：数据及数据集读取
+
+### 2.6 GMServer：数据服务器搭建
+
+### 2.7 Requstor：非下载式数据请求
+
+三个功能层通过标准NetCDF和</del>数据标<del>签连接。生产流程输出以标签命名的文件，数据目录记录标签对应的文件地址，科研程序据此获取和读取数据。源数据变</del>化<del>时更新处理配置，分发位置变化时调整目录，模式程序则沿用统一读取方式，并根据自身接口组织输入。这样，处理规则、分发信息和模式接入程序可以分别维护。具体方法见第2.2—2.4节。
+
+表1对比2022版与新版在数据生产、分发、读取和跨语言获取方面的主要差异。
+
+**表1 2022版与新版GriddingMachine的</del>功能<del>和技术路线比较**
+
+**Table 1 Comparison between the 2022 release and the updated GriddingMachine.**
+
+| 更新环节 | 2022版 | 新版 |
+|---|---|---|
+| 数据生产 | 数据源专用脚本与贡献流程 | 以共享YAML配置组织处理规则，统一完成维度、坐标与数值转换，并支持配置生成 |
+| 分发文件 | NetCDF外层`tar.gz`归档 | 直接分发NetCDF，省去外层解包 |
+| 目录维护 | Julia包内置`Artifacts.toml` | 独立`Artifacts.yaml`，与软件版本分别更新 |
+| 文件获取 | 多URL下载、哈希核验及解包 | 多镜像回退，临时文件核验后更新正式文件 |
+| 数据读取 | `read_LUT`提供全域网格、周期切片及格点读取 | `read_dataset`按文件路径或数据标签统一读取，兼容`read_LUT`，并衔接模式输入组织 |
+| 模式输入 | 标准化数据与通用读取 | 融合陆面参数并组织气象驱动，形成可用于Emerald的模式输入 |
+| 多语言获取 | Julia、Matlab、Octave、Python和R接口 | 完善原有下载支持，新增C和Fortran；六种非Julia接口支持URL或标签下载与完整性核验 |
+
+研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、土壤水力性质、植被结构与叶片属性</del>，以<del>及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象</del>数据提供<del>模式运行</del>的<del>外部驱动。</del>数据<del>标签按类别、空间与时间分辨率、年份和版本组织；各条目登记机构文件传输协议（File Transfer Protocol，FTP）地址，部分同时配置Zenodo镜像。预定义陆面参数集合将土壤、冠层和叶片等数据按字段组合，气象驱动集合则按变量和年份组织逐时数据，便于科研程序按格点与年份获取输入。目录版本与统计记录见补充材料S7。
+
+### 2.8 YAML驱动的数据生产与标准化
+
+#### 2.8.1 数据规范与维度映射
+
+</del>GriddingMachine采用NetCDF<del>格式保存多维数组、坐标和自描述元</del>数据<del>，便于不同地球科学软件读取[2]。2022 年版本已经规定</del>数据<del>采</del>用<del>二维或三维</del>规则经纬网<del>，</del>前两维<del>依次为经度和纬度</del>，可选第三维表示周期；<del>经度自西向东、纬度自南向北，输出</del>保存为实际物理值，缺失值在读取后统一表示为<del> </del>`NaN`<del>，</del>主<del>变量和不确定性变量分别命名为 `data` 和 `std`[5]。新版保留这些</del>约定<del>，并进一步规范源维度映射、处理记录、配置归档和分发完整性信息，使处理程序、数据文件和获取接口能够使用同一套规则（</del>表<del>2）</del>。
+
+**表<del>2</del> GriddingMachine<del> </del>标准<del> </del>NetCDF<del> 数据与元数据规范</del>**
+
+**Table <del>2</del> <del>Standardized</del> NetCDF <del>data</del> <del>and metadata requirements of</del> GriddingMachine.**
+
+| 规范要素 | 统一约定 |
+|---|---|
+| 文件与网格 | 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 |
+| 维度顺序 | 二维`(lon, lat)`或三维`(lon, lat, ind)`；<del>源维度按名称映射到标准顺序</del> |
+| 坐标方向 | 经度自西向东，范围为`[-180, 180)`；纬度自南向北；坐标与数据<del>同步变换</del> |
+| 数据与元数据 | `data`为主变量，`std`为可选的同形不确定性变量；保存实际物理值、变量说明和单位 |
+| 范围与缺失值 | <del>YAML显式声明</del>有效范围<del>、</del>填<del>充值及</del>缺失值<del>处理策略</del> |
+| 处理记录 | <del>YAML保存转换规则；输出</del>NetCDF属性记录实际<del>执行的</del>变更 |<del>
+| 复现信息 | 共同归档</del>配置<del>规范版本（`SCHEMA_VERSION`）、完整YAML、固定</del>输入<del>及代码环境 |
+| 标签与版本 | 标签记录类别、空间/时间分辨率、年份、版本及可选修订号，并与</del>文件名<del>对应 |
+| 文件完整性 | </del>新增或<del>纳</del>入<del>严格核验的条目记录</del>文件<del>字节数及SHA-256；同标签受控镜像内容一致；带完整性信息的文件核验通过后更新本地正式文件 |
+
+缺失值填补（gap filling）由YAML中的`GAPFILL`字段指定，策略依据</del>变量<del>的物理含义和陆海分布选择，可保留缺失状态、以常数或均值填补，或检查指定区域的数据完整性。需要类别编码的数据可采用整数化</del>处理。<del>陆地掩膜用于区分陆地区域与全域的检查要求；本文高程数据（ELEV）配置采用常数0填补陆地区域缺失值。各策略的作用范围与字段说明见补充材料S3。
+
+GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的`DIMENSIONS`显式记录源变量各维度语义，维度标准化过程将`(lat, lon)`、`(ind, lat, lon)`等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。目录中的全球网格数据均可通过统一标准化流程进入发布和读取环节；</del>对于非规则网格<del>、</del>区域投影<del>和复杂坐标源</del>数据，先由数据源专用预处理<del>模块</del>完成<del>坐标适配</del>，再<del>按同一标准输出。
+
+#### 2.8.2 YAML配置与转换示例
+
+YAML配置记录各数据源的输</del>入<del>文件、变量及转换</del>规则<del>，使数据源特有</del>的<del>处理要求可以独立于</del>通用<del>程序维护。框架提供程序化和本地交互式两种配置生成方式，均在执行前检查必需信息、字段类型及相互关系，再由标准化处理函数`process_dataset!`完成转换。新增数据时，贡献者可以通过配置明确相应规则，复用已有</del>处理流程。
+
+<del>以二</del>维源数据<del>为例，源维度</del>按纬度、经度排列，纬度由北向南，经度范围为0°～360°<del>。配置声明</del>维度<del>语义和坐标转换规则，处理程序据此重排数据</del>、翻转纬度并<del>调整</del>经度<del>范围</del>，<del>输出</del>经度<del>在前</del>、纬度<del>在后且坐标递增</del>的标准<del>网格；需要数值转换时，</del>按配置<del>执</del>行<del>相应</del>变<del>换</del>。<del>该示</del>例<del>说明不同源排列</del>如<del>何进入同一输出结构</del>，<del>结果核对见第4.1节</del>。完整配置与字段说明见补充材料S3。
+
+<del>#### 2.8.3 生产流程与质量控制
+
+生产流程依次完成维度与坐标转换、数值变换、有效范围过滤和缺失值</del>处理，<del>主变量与可选不确定性变量采用一致的数值类型。保存前检查输出维度、坐标、变量、数值范围和缺失值状态，并依据相应分辨率的陆地掩膜核对陆地区域完整性。</del>程序<del>还</del>生成带经纬度坐标轴的空间<del>方向</del>图，供<del>人工</del>确认数据<del>与坐标</del>的<del>对应关系，补充自动结构检查。每种配</del>置<del>首次使用时的</del>方向确认<del>结果随配置</del>保存<del>。
+
+质量检查完成后，主变量保存为`data`，存在不确定性时追加形状相同的`std`，</del>文件<del>按表2所列标签规则命名。</del>实际执行的<del>转</del>换<del>记录在</del>NetCDF变量属性<del>中</del>，完整<del>YAML</del>、固定输入<del>和版本化项目</del>环境<del>与输出一</del>同归档，<del>以</del>便<del>追溯</del>数据<del>来源、</del>处理规则<del>和生成环境</del>。
+
+### 2.<del>9</del> <del>独立</del>数据<del>目录与事</del>务<del>式多</del>镜像<del>分发</del>
+
+标准化数据标签<del>表达类别、空间与时间</del>分<del>辨率、可选年份及</del>版<del>本信息</del>，<del>具体命名规则见表2和补充材料S2。数据</del>文件可以<del>发布到机构FTP服务器、</del>超文本传输协议（HTTP/HTTPS）<del>服务</del>或<del>Zenodo</del>科研<del>资源存储平台，</del>独立<del>目录</del>保存标签<del>与</del>文件地址<del>的</del>对<del>应关系</del>。登记<del>时依</del>据<del>用于发布的</del>标准NetCDF文件计算字节数和SHA-256，<del>并</del>将其与<del>镜像</del>地址一并记录。数据<del>集列表、分发位置和完整性信息由此可以独立于访问软件更新，科研程序仍通过</del>标签<del>获取</del>数据。
+
+数据<del>目录与获取模块</del>Collector<del>负责更新目录和</del>管理本地<del>缓</del>存<del>。</del>远端<del>目录通</del>过结构<del>与</del>字段<del>校验后</del>替换本地<del>目录</del>，<del>同时</del>保留上一有效版本。目录<del>条目</del>记录本地<del>相对</del>路径<del>、候选</del>下载地址<del>及</del>完整性信息<del>；对于已有条目</del>，<del>模块依据其登记字段保留兼容访问方</del>式。<del>更新后的目录因此仍可供科研程序按标签查找和获取数据。
+
+数据集按标签获取；候选</del>镜像<del>由目录提供，并可依据访问延迟安排尝试顺序。每次下载先保存为独立临时文件，对登记完整性信息的条目核对字节数和SHA-256，通过后才更新正式文件；</del>访问或<del>内容核验</del>未通过<del>时</del>继续尝试其余镜像<del>。这样既能切换获取地址，也能在</del>下载<del>异常</del>时保留<del>已</del>有<del>有效</del>文件。全库同步<del>与单</del>数据<del>集获取使用同一套核验规则</del>。<del>
+
+镜像选择和内容核验采用不同的信息：镜像地址与访问延迟决定下载尝试顺序，数据标识与完整性</del>字段用<del>于确认文件内容。分发地址变化时，只需调整目录中的候选镜像，科研程序仍可按原标签获取相同内容的文件。接口、状态恢复流程和目录条目</del>示例见补充材料。
+
+### 2.<del>10</del> 统一<del>读取与模式输入</del>组织
+
+#### 2.<del>10</del>.1 标准网格数据读取
+
+标准网格读取接口可按本地NetCDF路径或数据标签访问数据，<del>支持读取文件覆盖的全部空间网格、指定</del>周期<del>的空间切片，以及站点的全部周期或指定周期数据，共4种方式</del>。按标签调用时，<del>目录模块</del>自动获取对应文件。接口默认读取标准变量`data`，也可读取文件中可选的原始数据变量`raw_data`或形状相同的不确定性变量`std`<del>。</del>各读取方式<del>采</del>用<del>一致</del>的维度、单位和缺失值约定<del>，便于后续组合模式输入</del>。
+
+站<del>点</del>读取根据全球规则经纬网的分辨率，将目标<del>经纬度</del>换算为数组索引。<del>输入</del>文件<del>的维度顺序为</del>`(lon,lat[,ind])`，经度自西向东、纬度自南向北排列。<del>接口直接提取对应格点的数据；区域</del>投影、非规则网格转换<del>和</del>空间插值<del>可</del>在数据<del>生产与标准化层</del>完成<del>。周期索引表示月份、日期还是小时，由相应数据的元数据说明</del>。
+
+#### 2.<del>10</del>.2 <del>模式参</del>数<del>与气象驱动组织</del>
+
+陆面参数<del>由同一目标位置和年度的多源数据组合而成。接口从预定义</del>集合<del>中提取</del>土壤、冠层、叶片、地形、陆地掩膜和植物功能型数据，按各<del>自</del>网格分辨率<del>定位</del>目标格点，<del>再依</del>据陆面状态<del>融</del>合参数。<del>叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列统一到逐日时间轴。完成缺失值填补后，月尺度数据按各月实际天数展开，8日尺度数据按覆盖日期展开，并依据年份保留365或366日。</del>本文第二套陆面参数集合`gm2`包含14类标准化数据，其中冠层聚集度采用月尺度数据集。
+
+叶片光学参数与Medlyn气孔导度模型参数<del>分别按采用C3和C4光合途径</del>的<del>植物组织[6,7]。C3参数按格点内对应植物功能型的比例归一化加权，C4参数从相应类型的参数表提取，以保留两类植物的参数</del>差异<del>。</del>叶片羧化<del>能力</del>与电子传递能力的关联<del>为</del>光合参数<del>组织提供依据</del>[<del>8</del>]。<del>本研究采用GriddingMachine模式输入接口的固定比例</del>参数<del>化，根据25 ℃下最大羧化速率`VCMAX25`计算最大电子传递速率`JMAX25`和细胞色素b6f复合体含量`B6F`，换算关系、参数单位与实现出处见补充材料S1。输出包括位置、分辨率、年份、二氧化碳（CO₂）、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数</del>，同时检查字段<del>是否</del>完整<del>以及</del>缺失值<del>标记`NaN`的</del>分布。<del>经过上述处理，多源数据形成结构一致的格点级</del>模式<del>输入</del>。
+
+<del>气象驱动组织将同一格点、同一年度的变量组成逐小时序列。</del>气象驱动集合`wd1`包含8类第五代全球再分析数据（ERA5）[<del>9</del>]<del>：</del>地表气压、降水、<del>漫射与直射短波辐射、长波</del>辐射、气温、水汽压亏缺和风速。接口<del>可</del>按<del>经纬度</del>提取对应格点，也可从已加载的全域气象数组中索引<del>序列。时间轴采用浮点年积日（fractional day of year</del>，<del>`FDOY`）：按模式驱动接口的约定，</del>将<del>协调世界时（Coordinated Universal Time，UTC）年度序列中的各小时标记置于小时中点，再以经度除以15得到的小时偏移转换为地方平太阳时，用于Emerald的太阳天顶角计算。经纬度调用采用输入位置的经度，数组索引调用采用格点中心经度；完整公式见补充材料S1。输出同时检查字段完整性和缺失值状态，使气象序列与模式时间计算采用明确的对应关系。
+
+网格读取提供</del>各变量<del>的数值，</del>参数和气象驱动接口<del>则将这些</del>数<del>值</del>按字段<del>、</del>时间<del>与量纲关系组织为模式输入</del>。<del>本文所称“模式就绪”，是指标准化数据经过格点提取、参数融合、时间轴构建和量纲换算后，能够满足Emerald初始化接口的数据结构要求。2022版主要通过标签提供基础数据访问[5]，新版进一步组合多源数据，形成可由模式直接调用的输入，使</del>科研程序<del>能够复用</del>数据<del>及其组织方法。完整调用示例见补充材料</del>。
+
+### 2.<del>11</del> <del>多语言</del>数据<del>下载接口</del>
+
+<del>为衔接不同</del>科研<del>编</del>程<del>环境，新版完善Matlab、Octave、Python和R</del>的数据<del>自</del>动下载接口，<del>并新增C和Fortran支持。各</del>接口<del>均</del>可通过<del>文件URL或</del>数据标签<del>指定</del>所需数据<del>；标签调用依</del>据<del>本地Artifacts.yaml</del>查<del>找分发地址，并在镜像不</del>可用<del>或内容核验未通过时尝试其余地址</del>。<del>下载先保存为临时</del>文件<del>，依据目录或调用参数中的文件大小和SHA-256完成核验后，再更新本地目标文件；</del>获取<del>失败时保留</del>已有文件。
+
+<del>各语言接口共用Python</del>下载<del>程序，使</del>用<del>时需要Python 3运行环境。不同语言的</del>科研程序<del>因此</del>可<del>以按</del>相同的数据标签和镜像<del>信息</del>获取<del>标准NetCDF</del>文件，<del>采用一致的</del>完整性核验<del>规则</del>，<del>再</del>使用<del>各自的NetCDF工具读取</del>数据<del>。下载程序集中维护，减少了</del>在<del>不同编程环境中重</del>复<del>实现文件获取</del>和<del>内容核验的工作。接口调用示例见补充材料S5。</del></p></div><div><div class="tag">本轮最终稿</div><p>GriddingMachine框架
+
+新版GriddingMachine（v0.5）在原有Collector、Indexer<ins>和</ins>Requestor模块的基础上，<ins>增</ins>加Cartographer<ins>，</ins>用于数据<ins>标准化及验证；同时将服务器</ins>功能<ins>独立为GMServer，便于搭建格点数据查询服务</ins>（图1）<ins>。Cartographer处理源数据</ins>，<ins>Collector获取和缓存标准文件，Indexer读取单个数据集或多源数据集合。Requestor向GMServer请求指定格点</ins>的<ins>数据，GMServer在</ins>服务<ins>端调</ins>用<ins>Collector和Indexer完成查询</ins>。<ins>数据处理和读取由软件完成</ins>，<ins>数据库文件与</ins>标准化数据<ins>文件则分别共享</ins>和<ins>维护</ins>。GriddingMachine.jl的安装与使用如下：
+
+```text
+pkg&gt; add GriddingMachine
+julia&gt; using GriddingMachine
+```
+
+![图1 GriddingMachine<ins>框</ins>架更新<ins>与模块协作</ins>](figures/图1_GriddingMachine总体架构_终稿.svg)
+
+**图1 GriddingMachine<ins>框</ins>架更新<ins>与模块协作</ins>** （a）2022版<ins>GriddingMachine（v0.2）的预处理</ins>、<ins>分发</ins>、读取<ins>与在线请求方式；（b）新版GriddingMachine（v0.5）的</ins>数据预处理、分发<ins>和</ins>读取<ins>三个环节。Cartographer结合源</ins>数据<ins>与YAML配置</ins>生<ins>成</ins>标准<ins>NetCDF文件；</ins>数<ins>据文件与数据库文件`Artifacts.yaml`分别维护，Collector依</ins>据目录获取<ins>文件，Indexer</ins>读取<ins>单文件或多源集合</ins>；（c）<ins>GMServer在服务端复用Collector和Indexer，Requestor按数据标签、经纬度和周期请求并接收格点数据。2.1</ins>—<ins>2.7对应正文小节；实线</ins>表示数据<ins>传递，虚线表示配置</ins>、目录<ins>或请求信息</ins>。
+
+**Fig. 1 <ins>Framework</ins> updates <ins>and</ins> <ins>module</ins> <ins>interactions in</ins> GriddingMachine.** (a) <ins>Preprocessing, distribution, reading, and online requests in GriddingMachine v0.2, released in</ins> 2022<ins>.</ins> <ins>(b)</ins> <ins>Data</ins> preprocessing, distribution, <ins>and reading</ins> in<ins> v0.5. Cartographer produces standard NetCDF files from source data and YAML configurations. Data files and the catalog, `Artifacts.yaml`, are maintained separately; Collector retrieves files using the</ins> catalog, and <ins>Indexer</ins> <ins>reads</ins> <ins>individual</ins> <ins>files</ins> <ins>or</ins> <ins>multisource</ins> <ins>collections</ins>. (c) <ins>GMServer</ins> <ins>reuses</ins> <ins>Collector</ins> <ins>and Indexer on the server. Requestor sends a</ins> data <ins>label</ins>, <ins>coordinates</ins>, and <ins>a cycle index and receives grid</ins>-<ins>cell</ins> <ins>data</ins>. <ins>Numbers 2.1–2.7 refer to manuscript subsections. Solid arrows represent data transfer;</ins> dashed <ins>arrows</ins> <ins>represent</ins> <ins>configuration,</ins> <ins>catalog,</ins> <ins>or</ins> <ins>request</ins> <ins>information</ins>.
+
+### 2.1 Cartographer：数据标准化处理
+
+<ins>Cartographer提供</ins>数据标<ins>准</ins>化<ins>及验证</ins>功能，以<ins>便</ins>数据提供<ins>方将不同来源</ins>的<ins>网格</ins>数据<ins>整理为</ins>GriddingMachine采用<ins>的标准</ins>NetCDF<ins>文件。我们在GriddingMachineDatasets中提供通用处理程序，</ins>数据<ins>提供方通过配置说明源</ins>数据<ins>的结构和转换要求，即可复</ins>用<ins>相应的处理方法。标准文件沿用v0.2的</ins>规则经纬网<ins>与变量约定[2]：以经度、纬度为</ins>前两维，可选第三维表示<ins>月份等</ins>周期；<ins>数值</ins>保存为实际物理值<ins>，并保留变量说明和单位</ins>，缺失值在读取后统一表示为`NaN`<ins>。</ins>主<ins>要</ins>约定<ins>见</ins>表<ins>1</ins>。
+
+**表<ins>1</ins> GriddingMachine标准NetCDF<ins>文件的主要约定</ins>**
+
+**Table <ins>1</ins> <ins>Main conventions for standard</ins> NetCDF <ins>files</ins> <ins>in</ins> GriddingMachine.**
+
+| 规范要素 | 统一约定 |
+|---|---|
+| 文件与网格 | 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 |
+| 维度顺序 | 二维`(lon, lat)`或三维`(lon, lat, ind)`；<ins>`ind`表示月份等周期索引</ins> |
+| 坐标方向 | 经度自西向东，范围为`[-180, 180)`；纬度自南向北；坐标与数据<ins>逐点对应</ins> |
+| 数据与元数据 | `data`为主变量，`std`为可选的同形不确定性变量；保存实际物理值、变量说明和单位 |
+| 范围与缺失值 | <ins>按变量</ins>有效范围<ins>处理数值；未</ins>填<ins>补的</ins>缺失值<ins>在读取后统一表示为`NaN`</ins> |
+| 处理记录 | NetCDF<ins>变量</ins>属性记录<ins>维度、坐标及数值处理的</ins>实际变更 |<ins>
+
+处理规则保存在YAML文本</ins>配置<ins>文件中，包括</ins>输入文件<ins>、源变量</ins>名<ins>称、维度含义、单位、有效范围和缺失值处理方式。数据提供方可通过程序或本地交互式界面生成配置。</ins>新增或<ins>更新同类数据时，调整输</ins>入文件<ins>、</ins>变量<ins>名称及</ins>处理<ins>参数，即可使用已有转换程序</ins>。对于非规则网格<ins>和</ins>区域投影数据，先由数据源专用预处理<ins>程序</ins>完成<ins>网格或投影转换</ins>，再<ins>进</ins>入规则<ins>经纬网</ins>的通用处理流程。
+
+<ins>程序读取并检查配置后，首先调整数据的</ins>维<ins>度顺序和空间方向。例如，</ins>源数据按纬度、经度排列，纬度由北向南，经度范围为0°～360°<ins>时，程序交换</ins>维度、翻转纬度<ins>方向</ins>并<ins>沿</ins>经度<ins>循环平移</ins>，<ins>使数据与</ins>经度<ins>自西向东</ins>、纬度<ins>自南向北</ins>的标准<ins>坐标逐点对应。随后</ins>按配置<ins>中的系数进</ins>行<ins>线性数值换算，并将超出有效范围的数值标记为缺失。
+
+缺失值填补（gap filling）由配置中的`GAPFILL`字段指定。数据提供方可根据</ins>变<ins>量的物理含义，选择保留缺失值，或以常数、均值填补陆地区域的缺失值；还可按数据覆盖要求检查陆地区域及全域的缺失情况，并对类别数据进行整数化处理</ins>。例如，<ins>高程数据（ELEV）采用常数0填补陆地区域缺失值</ins>。完整配置与字段说明见补充材料S3。
+
+处理<ins>过程中</ins>，程序生成带经纬度坐标轴的空间<ins>分布</ins>图，<ins>由数据提</ins>供<ins>方</ins>确认数据的<ins>位</ins>置<ins>和</ins>方向<ins>。</ins>确认<ins>后，程序按数据标签</ins>保存<ins>标准</ins>文件<ins>，并将</ins>实际执行的<ins>维度调整、数值</ins>换<ins>算及缺失值填补等变更写入</ins>NetCDF变量属性<ins>。文件保存后</ins>，<ins>另由文件验证程序检查维度和变量、数组形状、数值范围及缺失值分布；对于要求陆地区域数据</ins>完整<ins>的变量，利用相应分辨率的陆地掩膜进行核查。配置文件记录处理规则，并与配置规范版本（`SCHEMA_VERSION`）</ins>、固定输入<ins>及代码</ins>环境<ins>共</ins>同归档，便<ins>于重新处理</ins>数据<ins>。
+
+配置完成后，可在GriddingMachineDatasets环境中调用标准化程序：
+
+```julia
+using GriddingMachineDatasets
+# Process source data using the prepared YAML configuration.
+process_dataset!(&quot;dataset.yml&quot;)
+```
+
+其中，`dataset.yml`为已设置输入文件及</ins>处理规则<ins>的配置文件</ins>。
+
+### 2.<ins>2</ins> 数据<ins>文件共享
+
+标准化文件可通过Zenodo、ScienceDB等科研数据平台共享，也可由机构服</ins>务<ins>器提供</ins>镜像<ins>。公共科研存储减少了对单一机构服务器的依赖；同一文件在不同位置保存，则使研究人员可以从多个地址获取数据。</ins>
+
+标准化数据<ins>以单个NetCDF文件作为共享单元，文件名与数据</ins>标签<ins>对应。2022版GriddingMachine（v0.2）将NetCDF文件经外层`tar.gz`压缩后</ins>分<ins>发，使用前需要解压；新</ins>版<ins>GriddingMachine（v0.5）直接分发NetCDF文件</ins>，<ins>使下载后的</ins>文件可以<ins>直接用于读取，减少了数据获取与使用之间的处理步骤。
+
+文件通过</ins>超文本传输协议（HTTP/HTTPS）或<ins>文件传输协议（File Transfer Protocol，FTP）地址提供下载，同一数据标签可登记多个镜像。下载地址和文件完整性信息由数据库文件统一记录。分发位置调整时，数据提供方更新相应记录，</ins>科研<ins>程序继续通过标签获取数据。
+
+### 2.3 数据库文件
+
+数据库文件记录数据标签、文件位置及相关信息。我们将软件包内的`Artifacts.toml`改为</ins>独立<ins>维护的`Artifacts.yaml`，使新增数据或调整下载地址不必伴随软件发布。数据库文件采用YAML文本格式，并通过Zenodo</ins>保存<ins>不同版本。研究人员可保留试验所用的数据库文件，以记录当时选用的数据和下载地址。
+
+每个数据</ins>标签<ins>对应一个条目，其中本地相对路径（`PATH`）确定</ins>文件<ins>的保存位置，下载</ins>地址<ins>（`URL`）列出可用镜像，文件字节数（`SIZE`）和文件摘要（`SHA256`）用于核</ins>对<ins>下载内容</ins>。登记<ins>工具根</ins>据标准NetCDF文件计算字节数和SHA-256<ins>摘要</ins>，<ins>再</ins>将其与<ins>下载</ins>地址一并<ins>写入数据库文件。Collector据此查找和获取文件，Indexer读取相应数据；数据库内容和软件功能因而可以分别更新。
+
+以中分辨率成像光谱仪（Moderate Resolution Imaging Spectroradiometer，MODIS）的2020年叶面积指数数据为例，数据库文件中的</ins>记录<ins>如下。这里展示其中一个下载地址，多个镜像可依次列在`URL`下：
+
+```yaml
+# One download address from the existing LAI catalog entry.
+LAI_MODIS_2X_8D_2020_V1:
+  PATH: &quot;public/v0&quot;
+  SIZE: 13936426
+  SHA256: &gt;-
+    fda32f694a38d9d3c5244cd5bd739825c7441c918d91e56442a553ab4fa5d0df
+  URL:
+    - &gt;-
+      https://zenodo.org/records/17732092/files/LAI_MODIS_2X_8D_2020_V1.nc
+```
+
+示例标签中的`LAI`表示叶面积指数（Leaf Area Index），`2X`表示0.5°空间分辨率，`8D`表示8日时间分辨率，`2020`和`V1`分别表示年份和数据版本。同一标签通过数据库文件关联相应文件及下载地址。
+
+研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、土壤水力性质、植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动</ins>。数据标签<ins>记录类别、空间与时间分辨率、年份和版本，并与文件名对应；</ins>数据<ins>修订时，可在文件名中附加修订号。各条目登记机构FTP地址，部分同时配置Zenodo镜像。目录版本与统计记录见补充材料S7</ins>。
+
+<ins>### 2.4 Collector：</ins>数据<ins>自动化下载
+
+</ins>Collector<ins>根据数据库文件下载数据，并</ins>管理本地<ins>文件。程序优先读取本地`Artifacts.yaml`；该文件不</ins>存<ins>在时，从配置的</ins>远端<ins>地址获取。研究人员可指定数据库文件的来源，也可主动更新，以获取新增或修订的数据。更新</ins>过<ins>程中，程序先检查新文件的</ins>结构<ins>和</ins>字段<ins>，再</ins>替换本地<ins>数据库文件</ins>，<ins>并</ins>保留上一有效版本。<ins>
+
+获取数据时，Collector先根据标签查找本地文件。已有文件符合</ins>目录记录<ins>时，直接返回</ins>本地路径<ins>；否则尝试目录中的</ins>下载地址<ins>。新文件先下载到临时位置，按登记的</ins>完整性信息<ins>核验后</ins>，<ins>再移入正</ins>式<ins>位置</ins>。<ins>若某个</ins>镜像<ins>无法</ins>访问或<ins>文件</ins>未通过<ins>核验，程序</ins>继续尝试其余镜像<ins>；全部</ins>下载<ins>失败</ins>时<ins>，</ins>保留<ins>原</ins>有文件。<ins>候选镜像可依据访问延迟排序。除单个数据集外，Collector还提供选定标签的批量同步和</ins>全库同步<ins>，便于维护本地</ins>数据<ins>库</ins>。<ins>目录</ins>字段<ins>与调</ins>用示例见补充材料<ins>S2。
+
+例如，更新数据库文件后，可按上述叶面积指数数据的标签获取文件：
+
+```julia
+using GriddingMachine.Collector
+# Refresh the catalog and obtain the local NetCDF path.
+update_database!()
+file_path = download_dataset!(&quot;LAI_MODIS_2X_8D_2020_V1&quot;)
+```
+
+`file_path`为下载或复用的本地NetCDF文件路径，可直接交给Indexer读取。
+
+除Julia的Collector外，我们还完善了Matlab、Octave、Python和R的数据自动下载入口，并新增C和Fortran支持。各语言入口调用同一Python下载程序，因此需要Python 3运行环境。科研程序可提供文件URL，或根据本地数据库文件中的数据标签获取文件；下载时使用相同的镜像与完整性核验规则，获取后可利用相应语言的NetCDF工具读取。接口调用示例见补充材料S5</ins>。
+
+### 2.<ins>5</ins> <ins>Indexer：数据及数据集读取
+
+Indexer提供单个数据集和多源数据集合的读取功能。单文件接口用于读取某一变量，集合接口则用于组合模式所需的多种参数或气象数据。由于这些数据来自不同来源，其空间分辨率、时间组织和字段定义往往不同，集合读取需要在提取目标位置数据后，进一步</ins>统一<ins>季节序列的时间轴并</ins>组织<ins>相应字段。研究人员指定集合名称、年份和位置，即可获得所需的参数或气象驱动。</ins>
+
+#### 2.<ins>5</ins>.1 标准网格数据读取
+
+标准网格读取接口<ins>`read_dataset`</ins>可按本地NetCDF路径或数据标签访问数据，<ins>并根据位置和</ins>周期<ins>提取所需内容</ins>。按标签调用时，<ins>Collector</ins>自动获取对应文件。接口默认读取标准变量`data`，也可读取文件中可选的原始数据变量`raw_data`或形状相同的不确定性变量`std`<ins>，</ins>各读取方式<ins>沿</ins>用<ins>标准文件</ins>的维度、单位和缺失值约定。
+
+<ins>以同一叶面积指数数据和北美通量观测</ins>站<ins>US-NR1的位置为例，4种</ins>读取<ins>方式分别为：
+
+```julia
+using GriddingMachine.Indexer
+tag = &quot;LAI_MODIS_2X_8D_2020_V1&quot;
+# Read all grid cells and cycles.
+data = read_dataset(tag)
+# Read the spatial slice for the eighth cycle.
+layer = read_dataset(tag, 8)
+# Read all cycles at the target grid cell.
+series = read_dataset(tag, 40.0329, -105.5464)
+# Read the eighth cycle at the target grid cell.
+value = read_dataset(tag, 40.0329, -105.5464, 8)
+```
+
+上述调用依次返回全部空间与周期数据、第8个周期的空间切片、目标格点的周期序列及该格点第8个周期的数值。周期索引的时间含义由相应数据的元数据说明，示例中的`8`对应8日序列的第8个周期。
+
+按经纬度读取时，Indexer</ins>根据全球规则经纬网的分辨率，将目标<ins>位置</ins>换算为数组索引<ins>，并提取对应格点的数据</ins>。文件<ins>采用</ins>`(lon,lat[,ind])`<ins>的维度顺序</ins>，经度自西向东、纬度自南向北排列<ins>，与第2.1节的标准化约定一致</ins>。投影<ins>转换</ins>、非规则网格转换<ins>及所需的</ins>空间插值在数据<ins>预处理阶段</ins>完成。
+
+#### 2.<ins>5</ins>.2 <ins>多源</ins>数<ins>据集合读取</ins>
+
+陆面参数集合<ins>将</ins>土壤、冠层、叶片、地形、陆地掩膜和植物功能型数据<ins>按模式所需字段组织。研究人员指定集合名称、年份和经纬度后</ins>，<ins>接口</ins>按各<ins>数据的</ins>网格分辨率<ins>提取</ins>目标格点，<ins>并根</ins>据陆面状态<ins>组</ins>合参数。本文<ins>采用的</ins>第二套陆面参数集合`gm2`包含14类标准化数据，其中冠层聚集度采用月尺度数据<ins>。叶面积指数、叶绿素、冠层聚</ins>集<ins>度和最大羧化速率等季节序列经缺失值处理后统一到逐日时间轴，月尺度数据按各月实际天数展开，8日尺度数据按覆盖日期展开，按年份保留365或366日</ins>。
+
+<ins>参数融合保留采用C3和C4光合途径的植物在</ins>叶片光学参数与Medlyn气孔导度模型参数<ins>上</ins>的差异<ins>[3,4]，并利用</ins>叶片羧化与电子传递能力的关联<ins>组织</ins>光合参数[<ins>5</ins>]。<ins>所得</ins>参数<ins>按统一字段保存</ins>，同时检查字段完整<ins>性与</ins>缺失值分布。<ins>具体换算与</ins>模式<ins>适配见第3.4节和补充材料S1</ins>。
+
+气象驱动集合`wd1`包含8类第五代全球再分析数据（ERA5）[<ins>6</ins>]<ins>，包括</ins>地表气压、降水、辐射、气温、水汽压亏缺和风速。接口按<ins>位置和年份</ins>提取对应格点<ins>的逐小时序列</ins>，也可从已加载的全域气象数组中索引<ins>数据</ins>，<ins>并</ins>将各变量<ins>与相应时间信息共同组织为气象驱动集合。
+
+上述两类集合分别提供模式</ins>参数和气象驱动<ins>。本文以Emerald为例，将集合输出按其字段和单位要求接入初始化与驱动</ins>接口<ins>；其他模式可依据自身输入约定进行适配。
+
+在上述站点位置，2020年的陆面参</ins>数<ins>与气象驱动可分别通过以下调用获得：
+
+```julia
+using GriddingMachine.Indexer
+# Assemble the land parameter collection at the target grid cell.
+land = grid_dict(&quot;gm2&quot;, 2020, 40.0329, -105.5464)
+# Organize the hourly meteorological forcing at the same grid cell.
+forcing = grid_weather(&quot;wd1&quot;, 2020, 40.0329, -105.5464)
+```
+
+`land`</ins>按字段<ins>保存陆面参数，`forcing`组织气象序列及相应</ins>时间<ins>信息</ins>。科研程序<ins>可据此提取模式所需字段，无需逐项查找和读取组成集合的</ins>数据。
+
+### 2.<ins>6</ins> <ins>GMServer：</ins>数据<ins>服务器搭建</ins>
+
+<ins>GMServer用于搭建网格数据查询服务，供</ins>科研程<ins>序获取指定位置</ins>的数据<ins>。服务端调用Collector获取或复用文件，再由Indexer提取单数据集、陆面参数集合或气象驱</ins>动<ins>集合中的格点数据。我们将GMServer独立为服务器组件，使本地</ins>下载<ins>和读取不必加载Genie网络服务框架的依赖，减少安装与首次运行的开销。服务提供方配置数据根目录和数据库文件来源后，注册查询</ins>接口<ins>并启动服务。
+
+在独立的服务器项目环境中</ins>，<ins>加载GriddingMachineServer后即可注册查询</ins>接口<ins>并启动服务：
+
+```julia
+using GriddingMachineServer
+# Register query routes and start the server on port 5055.
+setup_url_input_routes!()
+up_servers!(5055)
+```
+
+上述调用在5055端口提供查询服务，同机客户端</ins>可通过<ins>`http://localhost:5055`访问；其他客户端使用部署机器的相应地址。
+
+服务端按</ins>数据标签<ins>或集合名称，以及经纬度、年份或周期处理查询，获取或复用本地文件后提取</ins>所需数据<ins>。结果以便于程序解析的JSON（JavaScript Object Notation）文本格式返回，单数</ins>据<ins>集</ins>查<ins>询可同时返回文件中</ins>可用<ins>的不确定性数据</ins>。<ins>
+
+GMServer还提供查询页面，便于使用者选择数据、输入位置和周期并查看结果。数据</ins>文件<ins>由服务端统一</ins>获取<ins>和缓存，多个查询可复用</ins>已有文件<ins>，客户端接收本次查询所需的数据</ins>。
+
+<ins>### 2.7 Requestor：非</ins>下载<ins>式数据请求
+
+Requestor</ins>用<ins>于在</ins>科研程序<ins>中向GMServer请求指定格点的数据。研究人员提供服务器地址、数据标签、经纬度和周期，即</ins>可<ins>取得所需数值，无需在本地下载完整网格文件，便于开展站点分析或模式计算。
+
+接口支持请求单数据集在指定格点的全部周期或某个周期，接收主变量及可用的不确定性数据，并将返回结果中的缺失值标记还原为`NaN`。需要重复使用完整文件时，可通过Collector下载后本地读取；仅需指定位置的数据时，可采用Requestor请求。两种方式使用</ins>相同的数据标签和<ins>格点读取规则。
+
+例如，在同一机器启动上述服务后，可请求同一叶面积指数数据在US-NR1附近格点的周期序列：
+
+```julia
+using GriddingMachine.Requestor
+server = &quot;http://localhost:5055&quot;
+tag = &quot;LAI_MODIS_2X_8D_2020_V1&quot;
+# Request all cycles and the available uncertainty at the target grid cell.
+series, uncertainty = request_site_data(
+    server, &quot;research&quot;, tag, 40.0329, -105.5464)
+```
+
+其中，`research`为请求记录中的使用者标记；`series`返回目标格点的周期序列，`uncertainty`返回文件中可用的不确定性数据，无该变量时为`nothing`。
+
+通过上述模块，数据提供方可以处理和共享标准化数据，研究人员则可按标签下载文件、读取数据集合，或直接请求指定格点的数据。处理规则、数据库文件和分发地址分别维护，使新增或修订数据不必同时更新访问软件。表2按各功能环节比较2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。
+
+**表2 GriddingMachine v0.2与v0.5的主要功能比较**
+
+**Table 2 Comparison of the main functions of GriddingMachine v0.2 and v0.5.**
+
+| 功能环节 | v0.2 | v0.5 |
+|---|---|---|
+| 数据标准化 | 数据源专用脚本与贡献流程 | 共享YAML配置与通用处理流程，支持配置生成及结果核查 |
+| 数据文件共享 | 机构FTP分发；NetCDF外层`tar.gz`归档 | Zenodo、ScienceDB及机构</ins>镜像<ins>共享；直接分发NetCDF |
+| 数据库文件 | Julia包内置`Artifacts.toml` | 独立维护`Artifacts.yaml`，数据目录与软件分别更新 |
+| 数据自动</ins>获取<ins> | 多URL下载、哈希核验及解包 | 多镜像回退，临时</ins>文件<ins>核验后更新正式文件 |
+| 多语言下载 | 提供Matlab、Octave、Python和R下载接口 | 完善原有接口</ins>，<ins>新增C和Fortran；支持URL或标签下载与</ins>完整性核验<ins> |
+| 单文件读取 | `read_LUT`读取全域网格、周期切片及格点数据 | `read_dataset`按路径或标签读取</ins>，<ins>保留`read_LUT`兼容调用 |
+| 多源数据集合读取 | 通用网格读取，模式输入由</ins>使用<ins>者组织 | 按集合名称、年份和位置组织陆面参数与气象驱动 |
+| 在线格点访问 | Requestor按格点请求服务器</ins>数据<ins> | 保留格点请求；独立GMServer</ins>在<ins>服务端</ins>复<ins>用Collector</ins>和<ins>Indexer |</ins></p></div></div></details><details class="diff"><summary>完整源码差异（历史累计修改，含排版）</summary><pre>--- YW-V0.1/main.tex
++++ 2026-11-12/main.tex
+@@ -3,6 +3,8 @@
+ % Preserve the supervisor&#x27;s chinese.cls, with numbered references for the existing bibliography.
+ \documentclass[numdoi]{chinese}
+ \usepackage{booktabs,longtable,array,caption}
++% Keep overview tables before the following chapter or detailed evaluation subsection.
++\usepackage{placeins}
+ \usepackage{xurl}
+ \usepackage{fancyvrb}
+ \usepackage[unicode,hidelinks]{hyperref}
+@@ -42,8 +44,8 @@
+ \par\noindent {\Large\textbf{面向地球系统模式的全球网格数据库：\\GriddingMachine框架更新与应用}\par}
+ \normalsize
+ \par\noindent \textbf{姜皓}\textsuperscript{1,2}　\textbf{王玉杰}\textsuperscript{1,2,*}
+-\par\noindent \textsuperscript{1} 中国科学技术大学风云卫星遥感联合实验室
+-\par\noindent \textsuperscript{2} 崂山实验室
++\par\noindent \textsuperscript{1} 中国科学技术大学风云卫星遥感联合实验室，安徽 合肥 230026
++\par\noindent \textsuperscript{2} 崂山实验室，山东 青岛 266237
+ \par\noindent \textsuperscript{*} 通讯作者（wyujie@ustc.edu.cn）\\
+ }
+ 
+@@ -59,14 +61,14 @@
+ \centering
+ \par\noindent {\Large \textbf{A Global Gridded Database for Earth System Models: Advances and Applications of GriddingMachine}}
+ \par\noindent \textbf{Hao JIANG}\textsuperscript{1,2}, \textbf{Yujie WANG}\textsuperscript{1,2,*}
+-\par\noindent \textsuperscript{1} Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China
+-\par\noindent \textsuperscript{2} Laoshan Laboratory
++\par\noindent \textsuperscript{1} Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China, Hefei 230026, Anhui, China
++\par\noindent \textsuperscript{2} Laoshan Laboratory, Qingdao 266237, Shandong, China
+ \par\noindent \textsuperscript{*} Corresponding author (wyujie@ustc.edu.cn)\\
+ }
+ 
+ 
+ \section*{Abstract}
+-Earth system models rely on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets are available in standard formats such as NetCDF, HDF, and GeoTIFF, data sources still differ in processing rules, units, data identifiers, and distribution methods. Researchers therefore often need to organize and maintain databases for individual models, adding to the work required for continued model development and evaluation. Building on the 2022 release of GriddingMachine, this study improves data preprocessing, distribution, and reading. Shared configurations organize processing rules so that data from different sources can be standardized according to common conventions. Direct NetCDF distribution and an independently maintained catalog simplify data acquisition and updates, while land parameters and meteorological forcing are assembled from multiple sources to provide model inputs. Application cases show that the improved workflow maintains agreement between standardized results and independent references, shortens the time from data acquisition to the first read, preserves access through existing labels after data revisions, and connects data from multiple sources to model inputs. Automatic downloading of the updated data has also been improved for MATLAB, Octave, Python, and R, with new support for C and Fortran, to better serve scientific research and applications.
++Earth system models depend on gridded data at regional to global scales for parameter initialization and evaluation of simulation results. Although most datasets use standard formats such as NetCDF, HDF, and GeoTIFF, differences in processing rules, units, data identifiers, and distribution methods still require researchers to organize and maintain databases for individual models, adding to the work of continued model development and evaluation. Building on GriddingMachine v0.2 released in 2022, the updated framework (v0.5) improves data preprocessing, distribution, and reading. A standardized processing workflow enables data providers to prepare and verify their datasets. Regularly updated database catalogs are archived on Zenodo to make each catalog version traceable, while NetCDF data files are shared through Zenodo and ScienceDB to facilitate access. Reading interfaces support collections of data from multiple sources, allowing initialization parameters and meteorological forcing for a land surface model to be obtained in a single call. The updated framework separates data input and output operations, including processing and reading, from the distribution of catalogs and data files, so that new data can be added independently of software releases. Automatic downloading of the updated data has also been improved for Matlab, Octave, Python, and R, with new support for C and Fortran, to better serve Earth science research and applications.
+ 
+ \textbf{Keywords:} Earth system models; global gridded database; data standardization; NetCDF; data integrity; model input
+ 
+@@ -75,9 +77,9 @@
+ 
+ \clearpage
+ \section{引言}
+-地球系统模式的参数初始化、边界条件设置、气象驱动和结果验证均依赖区域至全球尺度的网格数据。这些数据通常由不同研究团队和业务机构提供，即使其采用相同的文件格式，其坐标排列、空间与时间分辨率、变量含义、单位和缺失值表示仍可能存在差异。为此，研究人员经常需要在获取数据后，进行额外的数据转换和格式处理。此类工作往往随各模式的需求分别开展，且在源数据或模式接口更新后，相应程序和输入文件还需持续维护。因此，减少同类数据的重复整理、在更新中保持数据读取的一致性、降低数据应用的门槛，是数据共享与应用中的亟需解决的问题。
+-
+-尽管Google Earth Engine等云平台通过改善数据表达、发现、访问及计算，提升了大尺度地学数据的访问和分析能力\cite{ref4}，但是大多数社区生产的数据仍并接入这些云平台。此外，这些云平台并不提供直接的云端数据和本地数据同步功能，忽视了用户进行本地数据利用的需求。针对该问题，我们需要标准化的数据转换规则和数据标识、自动化的网络数据获取。Wang等\cite{ref5}于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等\cite{ref5}首先将常用于地球系统模式的的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，然后为每个数据被分配了一个独一无二且易读懂的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
++地球系统模式的参数初始化、边界条件设置、气象驱动和结果验证均依赖区域至全球尺度的网格数据。这些数据通常由不同研究团队和业务机构提供，且文件格式常常不同；此外，同种格式数据的坐标排列、空间与时间分辨率、变量含义、单位和缺失值表示也存在差异。为此，研究人员经常需要在获取数据后，进行额外的数据转换和格式处理。此类工作往往随各模式的需求分别开展，且在源数据或模式接口更新后，相应程序和输入文件还需持续维护。因此，减少同类数据的重复整理、在更新中保持数据读取的一致性、降低数据应用的门槛，是数据共享与应用中的亟需解决的问题。
++
++如Google Earth Engine的云计算平台通过改善数据表达、\allowbreak{}发现、\allowbreak{}访问及计算，提升了大尺度地学数据的访问和分析能力\cite{ref1}。在将这些数据用于本地地球系统模式时，研究人员仍需根据模式要求统一网格、\allowbreak{}变量和单位，并在源数据更新后维护处理规则、\allowbreak{}数据版本与模式输入之间的对应关系。因此，标准化的数据转换规则、\allowbreak{}清晰的数据标识和自动化的数据获取，是衔接数据共享与本地模式应用的重要基础。Wang等\cite{ref2}于2022年做了初步尝试，发布了基于Julia语言的GriddingMachine数据库和软件（v0.2）。Wang等\cite{ref2}首先将常用于地球系统模式的全球网格化数据整理为具有统一空间和变量约定的NetCDF文件，随后为各数据分配唯一且易于识别的数据标签，最后将数据标签与下载地址保存在GriddingMachine.jl软件包内的Artifacts.toml文件中，以便实现数据自动下载。
+ 
+ GriddingMachine项目提供了Julia的数据下载、读取以及在线请求的全功能接口，并提供了Matlab、Octave、Python和R的数据下载接口，为多源数据的统一访问奠定了基础。然而，随着数据类型和应用需求扩展，原有流程在数据维护和模式接入方面仍有改进空间。例如，v0.2版本的数据存储在加州理工学院的FTP服务器上，存在服务关停风险和数据下载带宽限制；Artifacts.toml文件只能通过GriddingMachine版本更新（即便核心代码不变）；标准已压缩的NetCDF文件仍然经外层tar.gz压缩后分发，使用前还需解压，对于大文件非常不友好。此外，获得标准网格数据后，研究人员仍需根据具体模式需求组合参数和气象输入数据，造成不必要的代码重复。针对这些问题，改进应围绕提高数据的安全性、降低数据下载时间成本、软件与数据独立维护、集合数据读取等。
+ 
+@@ -87,18 +89,18 @@
+ 
+ 
+ \section{GriddingMachine框架}
+-新版GriddingMachine（v0.5）在原有的Collector、Indexer、Requestor子模块的基础上，添加了Cartographer子模块用于数据处理功能层（图\ref{fig:1}），并提供独立的Server模块以搭建服务器利用Requestor功能（防止Genie依赖关系影响GriddingMachine安装及首次运行速度）。GriddingMachine各模块的核心功能如下，Cartographer：标准化数据并验证、Collector：更新数据库及下载数据、Indexer：读取数据及数据集、Requestor：在不下载数据的情况下从服务器端获取格点数据、Server：搭建服务器和Requstor互通。GriddingMachine.jl的安装与使用如下：
++新版GriddingMachine（v0.5）在原有Collector、\allowbreak{}Indexer和Requestor模块的基础上，增加Cartographer，用于数据标准化及验证；同时将服务器功能独立为GMServer，便于搭建格点数据查询服务（图\ref{fig:1}）。Cartographer处理源数据，Collector获取和缓存标准文件，Indexer读取单个数据集或多源数据集合。Requestor向GMServer请求指定格点的数据，GMServer在服务端调用Collector和Indexer完成查询。数据处理和读取由软件完成，数据库文件与标准化数据文件则分别共享和维护。GriddingMachine.jl的安装与使用如下：
+ 
+ \begin{Verbatim}[frame=single]
+ pkg&gt; add GriddingMachine
+ julia&gt; using GriddingMachine
+ \end{Verbatim}
+ 
+-\begin{figure}[!ht]
++\begin{figure}[!htp]
+ \centering
+ \includegraphics[width=\linewidth]{figures/figure1.png}
+-\caption{\textbf{GriddingMachine从2022版基线到新版数据流程的架构更新} （a）2022版以数据集专用脚本、\nolinkurl{tar.gz}文件、包内数据目录和读取函数\nolinkurl{read_LUT}构成数据预处理、分发与读取路径；（b）新版由数据生产与标准化层、数据目录与可信分发层和模式输入组织层构成，依次连接异构源数据、共享YAML配置、标准化与质量控制、标准NetCDF、独立数据目录、完整性获取以及统一读取和模式调用；（c）O1—O5依次表示统一数据规范、简化数据文件、目录独立演化、事务式获取和模式就绪接口。橙色虚线标示各项更新相对于2022版基线及新版核心节点的对应关系。}
+-\caption*{\textbf{Fig. 1 Architectural updates from the 2022 GriddingMachine baseline to the updated data workflow.} (a) The 2022 release linked dataset-specific preprocessing, \nolinkurl{tar.gz} distribution, an in-package catalog, and \nolinkurl{read_LUT}. (b) The updated framework connects configuration-driven standardization, direct NetCDF distribution, an independent catalog with integrity-verified acquisition, and model-input organization. (c) O1--O5 summarize updates to data specifications, file distribution, catalog maintenance, transactional acquisition, and model-ready interfaces. Orange dashed lines link these updates to the corresponding baseline components and updated workflow nodes.}
++\caption{\textbf{GriddingMachine框架更新与模块协作} （a）2022版GriddingMachine（v0.2）的预处理、\allowbreak{}分发、\allowbreak{}读取与在线请求方式；（b）新版GriddingMachine（v0.5）的数据预处理、\allowbreak{}分发和读取三个环节。Cartographer结合源数据与YAML配置生成标准NetCDF文件；数据文件与数据库文件\nolinkurl{Artifacts.yaml}分别维护，Collector依据目录获取文件，Indexer读取单文件或多源集合；（c）GMServer在服务端复用Collector和Indexer，Requestor按数据标签、\allowbreak{}经纬度和周期请求并接收格点数据。2.1—2.7对应正文小节；实线表示数据传递，虚线表示配置、\allowbreak{}目录或请求信息。}
++\caption*{\textbf{Fig. 1 Framework updates and module interactions in GriddingMachine.} (a) Preprocessing, distribution, reading, and online requests in GriddingMachine v0.2, released in 2022. (b) Data preprocessing, distribution, and reading in v0.5. Cartographer produces standard NetCDF files from source data and YAML configurations. Data files and the catalog, \nolinkurl{Artifacts.yaml}, are maintained separately; Collector retrieves files using the catalog, and Indexer reads individual files or multisource collections. (c) GMServer reuses Collector and Indexer on the server. Requestor sends a data label, coordinates, and a cycle index and receives grid-cell data. Numbers 2.1–2.7 refer to manuscript subsections. Solid arrows represent data transfer; dashed arrows represent configuration, catalog, or request information.}
+ \label{fig:1}
+ \end{figure}
+ 
+@@ -107,134 +109,247 @@
+ 
+ \subsection{Cartographer：数据标准化处理}
+ 
+-
++Cartographer提供数据标准化及验证功能，以便数据提供方将不同来源的网格数据整理为GriddingMachine采用的标准NetCDF文件。我们在GriddingMachineDatasets中提供通用处理程序，数据提供方通过配置说明源数据的结构和转换要求，即可复用相应的处理方法。标准文件沿用v0.2的规则经纬网与变量约定\cite{ref2}：以经度、\allowbreak{}纬度为前两维，可选第三维表示月份等周期；数值保存为实际物理值，并保留变量说明和单位，缺失值在读取后统一表示为\nolinkurl{NaN}。主要约定见表1。
++
++% Keep captions and all rows together; thin rules distinguish parallel entries.
++\begin{table}[!htbp]\centering
++\begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}
++\captionsetup{justification=centering}
++\setlength{\gmTableWidth}{\dimexpr\linewidth-2\tabcolsep\relax}
++\caption*{\textbf{表1 GriddingMachine标准NetCDF文件的主要约定}}
++\caption*{\textbf{Table 1 Main conventions for standard NetCDF files in GriddingMachine.}}
++\begin{tabular}{@{}&gt;{\raggedright\arraybackslash}p{0.20\gmTableWidth}&gt;{\raggedright\arraybackslash}p{0.80\gmTableWidth}@{}}
++\toprule
++\textbf{规范要素} &amp; \textbf{统一约定} \\
++\midrule
++文件与网格 &amp; 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 \\
++\midrule[0.25pt]
++维度顺序 &amp; 二维\nolinkurl{(lon, lat)}或三维\nolinkurl{(lon, lat, ind)}；\nolinkurl{ind}表示月份等周期索引 \\
++\midrule[0.25pt]
++坐标方向 &amp; 经度自西向东，范围为\nolinkurl{[-180, 180)}；纬度自南向北；坐标与数据逐点对应 \\
++\midrule[0.25pt]
++数据与元数据 &amp; \nolinkurl{data}为主变量，\nolinkurl{std}为可选的同形不确定性变量；保存实际物理值、\allowbreak{}变量说明和单位 \\
++\midrule[0.25pt]
++范围与缺失值 &amp; 按变量有效范围处理数值；未填补的缺失值在读取后统一表示为\nolinkurl{NaN} \\
++\midrule[0.25pt]
++处理记录 &amp; NetCDF变量属性记录维度、\allowbreak{}坐标及数值处理的实际变更 \\
++\bottomrule
++\end{tabular}
++\endgroup
++\label{tab:1}
++\end{table}
++
++处理规则保存在YAML文本配置文件中，包括输入文件、\allowbreak{}源变量名称、\allowbreak{}维度含义、\allowbreak{}单位、\allowbreak{}有效范围和缺失值处理方式。数据提供方可通过程序或本地交互式界面生成配置。新增或更新同类数据时，调整输入文件、\allowbreak{}变量名称及处理参数，即可使用已有转换程序。对于非规则网格和区域投影数据，先由数据源专用预处理程序完成网格或投影转换，再进入规则经纬网的通用处理流程。
++
++程序读取并检查配置后，首先调整数据的维度顺序和空间方向。例如，源数据按纬度、\allowbreak{}经度排列，纬度由北向南，经度范围为0°\ensuremath{\sim}360°时，程序交换维度、\allowbreak{}翻转纬度方向并沿经度循环平移，使数据与经度自西向东、\allowbreak{}纬度自南向北的标准坐标逐点对应。随后按配置中的系数进行线性数值换算，并将超出有效范围的数值标记为缺失。
++
++缺失值填补（gap filling）由配置中的\nolinkurl{GAPFILL}字段指定。数据提供方可根据变量的物理含义，选择保留缺失值，或以常数、\allowbreak{}均值填补陆地区域的缺失值；还可按数据覆盖要求检查陆地区域及全域的缺失情况，并对类别数据进行整数化处理。例如，高程数据（ELEV）采用常数0填补陆地区域缺失值。完整配置与字段说明见补充材料S3。
++
++处理过程中，程序生成带经纬度坐标轴的空间分布图，由数据提供方确认数据的位置和方向。确认后，程序按数据标签保存标准文件，并将实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性。文件保存后，另由文件验证程序检查维度和变量、\allowbreak{}数组形状、\allowbreak{}数值范围及缺失值分布；对于要求陆地区域数据完整的变量，利用相应分辨率的陆地掩膜进行核查。配置文件记录处理规则，并与配置规范版本（\nolinkurl{SCHEMA_VERSION}）、\allowbreak{}固定输入及代码环境共同归档，便于重新处理数据。
++
++配置完成后，可在GriddingMachineDatasets环境中调用标准化程序：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachineDatasets
++# Process source data using the prepared YAML configuration.
++process_dataset!(&quot;dataset.yml&quot;)
++\end{Verbatim}
++\endgroup
++
++其中，\nolinkurl{dataset.yml}为已设置输入文件及处理规则的配置文件。
+ 
+ \subsection{数据文件共享}
++
++标准化文件可通过Zenodo、\allowbreak{}ScienceDB等科研数据平台共享，也可由机构服务器提供镜像。公共科研存储减少了对单一机构服务器的依赖；同一文件在不同位置保存，则使研究人员可以从多个地址获取数据。
++
++标准化数据以单个NetCDF文件作为共享单元，文件名与数据标签对应。2022版GriddingMachine（v0.2）将NetCDF文件经外层\nolinkurl{tar.gz}压缩后分发，使用前需要解压；新版GriddingMachine（v0.5）直接分发NetCDF文件，使下载后的文件可以直接用于读取，减少了数据获取与使用之间的处理步骤。
++
++文件通过超文本传输协议（HTTP/HTTPS）或文件传输协议（File Transfer Protocol，FTP）地址提供下载，同一数据标签可登记多个镜像。下载地址和文件完整性信息由数据库文件统一记录。分发位置调整时，数据提供方更新相应记录，科研程序继续通过标签获取数据。
++
+ \subsection{数据库文件}
++
++数据库文件记录数据标签、\allowbreak{}文件位置及相关信息。我们将软件包内的\nolinkurl{Artifacts.toml}改为独立维护的\nolinkurl{Artifacts.yaml}，使新增数据或调整下载地址不必伴随软件发布。数据库文件采用YAML文本格式，并通过Zenodo保存不同版本。研究人员可保留试验所用的数据库文件，以记录当时选用的数据和下载地址。
++
++每个数据标签对应一个条目，其中本地相对路径（\nolinkurl{PATH}）确定文件的保存位置，下载地址（\nolinkurl{URL}）列出可用镜像，文件字节数（\nolinkurl{SIZE}）和文件摘要（\nolinkurl{SHA256}）用于核对下载内容。登记工具根据标准NetCDF文件计算字节数和SHA-256摘要，再将其与下载地址一并写入数据库文件。Collector据此查找和获取文件，Indexer读取相应数据；数据库内容和软件功能因而可以分别更新。
++
++以中分辨率成像光谱仪（Moderate Resolution Imaging Spectroradiometer，MODIS）的2020年叶面积指数数据为例，数据库文件中的记录如下。这里展示其中一个下载地址，多个镜像可依次列在\nolinkurl{URL}下：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++# One download address from the existing LAI catalog entry.
++LAI_MODIS_2X_8D_2020_V1:
++  PATH: &quot;public/v0&quot;
++  SIZE: 13936426
++  SHA256: &gt;-
++    fda32f694a38d9d3c5244cd5bd739825c7441c918d91e56442a553ab4fa5d0df
++  URL:
++    - &gt;-
++      https://zenodo.org/records/17732092/files/LAI_MODIS_2X_8D_2020_V1.nc
++\end{Verbatim}
++\endgroup
++
++示例标签中的\nolinkurl{LAI}表示叶面积指数（Leaf Area Index），\nolinkurl{2X}表示0.5°空间分辨率，\nolinkurl{8D}表示8日时间分辨率，\nolinkurl{2020}和\nolinkurl{V1}分别表示年份和数据版本。同一标签通过数据库文件关联相应文件及下载地址。
++
++研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、\allowbreak{}土壤水力性质、\allowbreak{}植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签记录类别、\allowbreak{}空间与时间分辨率、\allowbreak{}年份和版本，并与文件名对应；数据修订时，可在文件名中附加修订号。各条目登记机构FTP地址，部分同时配置Zenodo镜像。目录版本与统计记录见补充材料S7。
++
+ \subsection{Collector：数据自动化下载}
++
++Collector根据数据库文件下载数据，并管理本地文件。程序优先读取本地\nolinkurl{Artifacts.yaml}；该文件不存在时，从配置的远端地址获取。研究人员可指定数据库文件的来源，也可主动更新，以获取新增或修订的数据。更新过程中，程序先检查新文件的结构和字段，再替换本地数据库文件，并保留上一有效版本。
++
++获取数据时，Collector先根据标签查找本地文件。已有文件符合目录记录时，直接返回本地路径；否则尝试目录中的下载地址。新文件先下载到临时位置，按登记的完整性信息核验后，再移入正式位置。若某个镜像无法访问或文件未通过核验，程序继续尝试其余镜像；全部下载失败时，保留原有文件。候选镜像可依据访问延迟排序。除单个数据集外，Collector还提供选定标签的批量同步和全库同步，便于维护本地数据库。目录字段与调用示例见补充材料S2。
++
++例如，更新数据库文件后，可按上述叶面积指数数据的标签获取文件：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachine.Collector
++# Refresh the catalog and obtain the local NetCDF path.
++update_database!()
++file_path = download_dataset!(&quot;LAI_MODIS_2X_8D_2020_V1&quot;)
++\end{Verbatim}
++\endgroup
++
++\nolinkurl{file_path}为下载或复用的本地NetCDF文件路径，可直接交给Indexer读取。
++
++除Julia的Collector外，我们还完善了Matlab、\allowbreak{}Octave、\allowbreak{}Python和R的数据自动下载入口，并新增C和Fortran支持。各语言入口调用同一Python下载程序，因此需要Python 3运行环境。科研程序可提供文件URL，或根据本地数据库文件中的数据标签获取文件；下载时使用相同的镜像与完整性核验规则，获取后可利用相应语言的NetCDF工具读取。接口调用示例见补充材料S5。
++
+ \subsection{Indexer：数据及数据集读取}
++
++Indexer提供单个数据集和多源数据集合的读取功能。单文件接口用于读取某一变量，集合接口则用于组合模式所需的多种参数或气象数据。由于这些数据来自不同来源，其空间分辨率、\allowbreak{}时间组织和字段定义往往不同，集合读取需要在提取目标位置数据后，进一步统一季节序列的时间轴并组织相应字段。研究人员指定集合名称、\allowbreak{}年份和位置，即可获得所需的参数或气象驱动。
++
++\subsubsection{标准网格数据读取}
++
++标准网格读取接口\nolinkurl{read_dataset}可按本地NetCDF路径或数据标签访问数据，并根据位置和周期提取所需内容。按标签调用时，Collector自动获取对应文件。接口默认读取标准变量\nolinkurl{data}，也可读取文件中可选的原始数据变量\nolinkurl{raw_data}或形状相同的不确定性变量\nolinkurl{std}，各读取方式沿用标准文件的维度、\allowbreak{}单位和缺失值约定。
++
++以同一叶面积指数数据和北美通量观测站US-NR1的位置为例，4种读取方式分别为：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachine.Indexer
++tag = &quot;LAI_MODIS_2X_8D_2020_V1&quot;
++# Read all grid cells and cycles.
++data = read_dataset(tag)
++# Read the spatial slice for the eighth cycle.
++layer = read_dataset(tag, 8)
++# Read all cycles at the target grid cell.
++series = read_dataset(tag, 40.0329, -105.5464)
++# Read the eighth cycle at the target grid cell.
++value = read_dataset(tag, 40.0329, -105.5464, 8)
++\end{Verbatim}
++\endgroup
++
++上述调用依次返回全部空间与周期数据、\allowbreak{}第8个周期的空间切片、\allowbreak{}目标格点的周期序列及该格点第8个周期的数值。周期索引的时间含义由相应数据的元数据说明，示例中的\nolinkurl{8}对应8日序列的第8个周期。
++
++按经纬度读取时，Indexer根据全球规则经纬网的分辨率，将目标位置换算为数组索引，并提取对应格点的数据。文件采用\nolinkurl{(lon,lat[,ind])}的维度顺序，经度自西向东、\allowbreak{}纬度自南向北排列，与第2.1节的标准化约定一致。投影转换、\allowbreak{}非规则网格转换及所需的空间插值在数据预处理阶段完成。
++
++\subsubsection{多源数据集合读取}
++
++陆面参数集合将土壤、\allowbreak{}冠层、\allowbreak{}叶片、\allowbreak{}地形、\allowbreak{}陆地掩膜和植物功能型数据按模式所需字段组织。研究人员指定集合名称、\allowbreak{}年份和经纬度后，接口按各数据的网格分辨率提取目标格点，并根据陆面状态组合参数。本文采用的第二套陆面参数集合\nolinkurl{gm2}包含14类标准化数据，其中冠层聚集度采用月尺度数据。叶面积指数、\allowbreak{}叶绿素、\allowbreak{}冠层聚集度和最大羧化速率等季节序列经缺失值处理后统一到逐日时间轴，月尺度数据按各月实际天数展开，8日尺度数据按覆盖日期展开，按年份保留365或366日。
++
++参数融合保留采用C3和C4光合途径的植物在叶片光学参数与Medlyn气孔导度模型参数上的差异\cite{ref3,ref4}，并利用叶片羧化与电子传递能力的关联组织光合参数\cite{ref5}。所得参数按统一字段保存，同时检查字段完整性与缺失值分布。具体换算与模式适配见第3.4节和补充材料S1。
++
++气象驱动集合\nolinkurl{wd1}包含8类第五代全球再分析数据（ERA5）\cite{ref6}，包括地表气压、\allowbreak{}降水、\allowbreak{}辐射、\allowbreak{}气温、\allowbreak{}水汽压亏缺和风速。接口按位置和年份提取对应格点的逐小时序列，也可从已加载的全域气象数组中索引数据，并将各变量与相应时间信息共同组织为气象驱动集合。
++
++上述两类集合分别提供模式参数和气象驱动。本文以Emerald为例，将集合输出按其字段和单位要求接入初始化与驱动接口；其他模式可依据自身输入约定进行适配。
++
++在上述站点位置，2020年的陆面参数与气象驱动可分别通过以下调用获得：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachine.Indexer
++# Assemble the land parameter collection at the target grid cell.
++land = grid_dict(&quot;gm2&quot;, 2020, 40.0329, -105.5464)
++# Organize the hourly meteorological forcing at the same grid cell.
++forcing = grid_weather(&quot;wd1&quot;, 2020, 40.0329, -105.5464)
++\end{Verbatim}
++\endgroup
++
++\nolinkurl{land}按字段保存陆面参数，\nolinkurl{forcing}组织气象序列及相应时间信息。科研程序可据此提取模式所需字段，无需逐项查找和读取组成集合的数据。
++
+ \subsection{GMServer：数据服务器搭建}
+-\subsection{Requstor：非下载式数据请求}
+-
+-
+-
+-
+-
+-
+-三个功能层通过标准NetCDF和数据标签连接。生产流程输出以标签命名的文件，数据目录记录标签对应的文件地址，科研程序据此获取和读取数据。源数据变化时更新处理配置，分发位置变化时调整目录，模式程序则沿用统一读取方式，并根据自身接口组织输入。这样，处理规则、分发信息和模式接入程序可以分别维护。具体方法见第2.2—2.4节。
+-
+-表1对比2022版与新版在数据生产、分发、读取和跨语言获取方面的主要差异。
++
++GMServer用于搭建网格数据查询服务，供科研程序获取指定位置的数据。服务端调用Collector获取或复用文件，再由Indexer提取单数据集、\allowbreak{}陆面参数集合或气象驱动集合中的格点数据。我们将GMServer独立为服务器组件，使本地下载和读取不必加载Genie网络服务框架的依赖，减少安装与首次运行的开销。服务提供方配置数据根目录和数据库文件来源后，注册查询接口并启动服务。
++
++在独立的服务器项目环境中，加载GriddingMachineServer后即可注册查询接口并启动服务：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachineServer
++# Register query routes and start the server on port 5055.
++setup_url_input_routes!()
++up_servers!(5055)
++\end{Verbatim}
++\endgroup
++
++上述调用在5055端口提供查询服务，同机客户端可通过\nolinkurl{http://localhost:5055}访问；其他客户端使用部署机器的相应地址。
++
++服务端按数据标签或集合名称，以及经纬度、\allowbreak{}年份或周期处理查询，获取或复用本地文件后提取所需数据。结果以便于程序解析的JSON（JavaScript Object Notation）文本格式返回，单数据集查询可同时返回文件中可用的不确定性数据。
++
++GMServer还提供查询页面，便于使用者选择数据、\allowbreak{}输入位置和周期并查看结果。数据文件由服务端统一获取和缓存，多个查询可复用已有文件，客户端接收本次查询所需的数据。
++
++\subsection{Requestor：非下载式数据请求}
++
++Requestor用于在科研程序中向GMServer请求指定格点的数据。研究人员提供服务器地址、\allowbreak{}数据标签、\allowbreak{}经纬度和周期，即可取得所需数值，无需在本地下载完整网格文件，便于开展站点分析或模式计算。
++
++接口支持请求单数据集在指定格点的全部周期或某个周期，接收主变量及可用的不确定性数据，并将返回结果中的缺失值标记还原为\nolinkurl{NaN}。需要重复使用完整文件时，可通过Collector下载后本地读取；仅需指定位置的数据时，可采用Requestor请求。两种方式使用相同的数据标签和格点读取规则。
++
++例如，在同一机器启动上述服务后，可请求同一叶面积指数数据在US-NR1附近格点的周期序列：
++
++% Keep each short example compact and together with its explanation.
++\begingroup\singlespacing
++\begin{Verbatim}[fontsize=\small,frame=single,framesep=5pt]
++using GriddingMachine.Requestor
++server = &quot;http://localhost:5055&quot;
++tag = &quot;LAI_MODIS_2X_8D_2020_V1&quot;
++# Request all cycles and the available uncertainty at the target grid cell.
++series, uncertainty = request_site_data(
++    server, &quot;research&quot;, tag, 40.0329, -105.5464)
++\end{Verbatim}
++\endgroup
++
++其中，\nolinkurl{research}为请求记录中的使用者标记；\nolinkurl{series}返回目标格点的周期序列，\nolinkurl{uncertainty}返回文件中可用的不确定性数据，无该变量时为\nolinkurl{nothing}。
++
++通过上述模块，数据提供方可以处理和共享标准化数据，研究人员则可按标签下载文件、\allowbreak{}读取数据集合，或直接请求指定格点的数据。处理规则、\allowbreak{}数据库文件和分发地址分别维护，使新增或修订数据不必同时更新访问软件。表2按各功能环节比较2022版GriddingMachine（v0.2）与新版GriddingMachine（v0.5）的主要差异。
+ 
+ % Keep captions and all rows together; thin rules distinguish parallel entries.
+ \begin{table}[!htbp]\centering
+ \begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}
+ \captionsetup{justification=centering}
+ \setlength{\gmTableWidth}{\dimexpr\linewidth-4\tabcolsep\relax}
+-\caption*{\textbf{表1 2022版与新版GriddingMachine的功能和技术路线比较}}
+-\caption*{\textbf{Table 1 Comparison between the 2022 release and the updated GriddingMachine.}}
++\caption*{\textbf{表2 GriddingMachine v0.2与v0.5的主要功能比较}}
++\caption*{\textbf{Table 2 Comparison of the main functions of GriddingMachine v0.2 and v0.5.}}
+ \begin{tabular}{@{}&gt;{\raggedright\arraybackslash}p{0.17\gmTableWidth}&gt;{\raggedright\arraybackslash}p{0.36\gmTableWidth}&gt;{\raggedright\arraybackslash}p{0.47\gmTableWidth}@{}}
+ \toprule
+-\textbf{更新环节} &amp; \textbf{2022版} &amp; \textbf{新版} \\
++\textbf{功能环节} &amp; \textbf{v0.2} &amp; \textbf{v0.5} \\
+ \midrule
+-数据生产 &amp; 数据源专用脚本与贡献流程 &amp; 以共享YAML配置组织处理规则，统一完成维度、坐标与数值转换，并支持配置生成 \\
+-\midrule[0.25pt]
+-分发文件 &amp; NetCDF外层\nolinkurl{tar.gz}归档 &amp; 直接分发NetCDF，省去外层解包 \\
+-\midrule[0.25pt]
+-目录维护 &amp; Julia包内置\nolinkurl{Artifacts.toml} &amp; 独立\nolinkurl{Artifacts.yaml}，与软件版本分别更新 \\
+-\midrule[0.25pt]
+-文件获取 &amp; 多URL下载、哈希核验及解包 &amp; 多镜像回退，临时文件核验后更新正式文件 \\
+-\midrule[0.25pt]
+-数据读取 &amp; \nolinkurl{read_LUT}提供全域网格、周期切片及格点读取 &amp; \nolinkurl{read_dataset}按文件路径或数据标签统一读取，兼容\nolinkurl{read_LUT}，并衔接模式输入组织 \\
+-\midrule[0.25pt]
+-模式输入 &amp; 标准化数据与通用读取 &amp; 融合陆面参数并组织气象驱动，形成可用于Emerald的模式输入 \\
+-\midrule[0.25pt]
+-多语言获取 &amp; Julia、Matlab、Octave、Python和R接口 &amp; 完善原有下载支持，新增C和Fortran；六种非Julia接口支持URL或标签下载与完整性核验 \\
++数据标准化 &amp; 数据源专用脚本与贡献流程 &amp; 共享YAML配置与通用处理流程，支持配置生成及结果核查 \\
++\midrule[0.25pt]
++数据文件共享 &amp; 机构FTP分发；NetCDF外层\nolinkurl{tar.gz}归档 &amp; Zenodo、\allowbreak{}ScienceDB及机构镜像共享；直接分发NetCDF \\
++\midrule[0.25pt]
++数据库文件 &amp; Julia包内置\nolinkurl{Artifacts.toml} &amp; 独立维护\nolinkurl{Artifacts.yaml}，数据目录与软件分别更新 \\
++\midrule[0.25pt]
++数据自动获取 &amp; 多URL下载、\allowbreak{}哈希核验及解包 &amp; 多镜像回退，临时文件核验后更新正式文件 \\
++\midrule[0.25pt]
++多语言下载 &amp; 提供Matlab、\allowbreak{}Octave、\allowbreak{}Python和R下载接口 &amp; 完善原有接口，新增C和Fortran；支持URL或标签下载与完整性核验 \\
++\midrule[0.25pt]
++单文件读取 &amp; \nolinkurl{read_LUT}读取全域网格、\allowbreak{}周期切片及格点数据 &amp; \nolinkurl{read_dataset}按路径或标签读取，保留\nolinkurl{read_LUT}兼容调用 \\
++\midrule[0.25pt]
++多源数据集合读取 &amp; 通用网格读取，模式输入由使用者组织 &amp; 按集合名称、\allowbreak{}年份和位置组织陆面参数与气象驱动 \\
++\midrule[0.25pt]
++在线格点访问 &amp; Requestor按格点请求服务器数据 &amp; 保留格点请求；独立GMServer在服务端复用Collector和Indexer \\
+ \bottomrule
+ \end{tabular}
+ \endgroup
+-\label{tab:1}
+-\end{table}
+-研究所用目录版本收录1179个数据条目，包括高程与陆地掩膜、土壤水力性质、植被结构与叶片属性，以及气象驱动等数据。地形和土壤属性用于描述格点的基础陆面条件，植被数据包含季节变化信息，逐时气象数据提供模式运行的外部驱动。数据标签按类别、空间与时间分辨率、年份和版本组织；各条目登记机构文件传输协议（File Transfer Protocol，FTP）地址，部分同时配置Zenodo镜像。预定义陆面参数集合将土壤、冠层和叶片等数据按字段组合，气象驱动集合则按变量和年份组织逐时数据，便于科研程序按格点与年份获取输入。目录版本与统计记录见补充材料S7。
+-
+-\subsection{YAML驱动的数据生产与标准化}
+-\subsubsection{数据规范与维度映射}
+-GriddingMachine采用NetCDF格式保存多维数组、坐标和自描述元数据，便于不同地球科学软件读取\cite{ref2}。2022 年版本已经规定数据采用二维或三维规则经纬网，前两维依次为经度和纬度，可选第三维表示周期；经度自西向东、纬度自南向北，输出保存为实际物理值，缺失值在读取后统一表示为 \nolinkurl{NaN}，主变量和不确定性变量分别命名为 \nolinkurl{data} 和 \nolinkurl{std}\cite{ref5}。新版保留这些约定，并进一步规范源维度映射、处理记录、配置归档和分发完整性信息，使处理程序、数据文件和获取接口能够使用同一套规则（表2）。
+-
+-% Keep captions and all rows together; thin rules distinguish parallel entries.
+-\begin{table}[!htbp]\centering
+-\begingroup\singlespacing\small\setlength{\tabcolsep}{9pt}\renewcommand{\arraystretch}{1.12}
+-\captionsetup{justification=centering}
+-\setlength{\gmTableWidth}{\dimexpr\linewidth-2\tabcolsep\relax}
+-\caption*{\textbf{表2 GriddingMachine 标准 NetCDF 数据与元数据规范}}
+-\caption*{\textbf{Table 2 Standardized NetCDF data and metadata requirements of GriddingMachine.}}
+-\begin{tabular}{@{}&gt;{\raggedright\arraybackslash}p{0.20\gmTableWidth}&gt;{\raggedright\arraybackslash}p{0.80\gmTableWidth}@{}}
+-\toprule
+-\textbf{规范要素} &amp; \textbf{统一约定} \\
+-\midrule
+-文件与网格 &amp; 一个标签对应一个NetCDF文件；采用规则经纬网，默认全球覆盖，并声明坐标参考 \\
+-\midrule[0.25pt]
+-维度顺序 &amp; 二维\nolinkurl{(lon, lat)}或三维\nolinkurl{(lon, lat, ind)}；源维度按名称映射到标准顺序 \\
+-\midrule[0.25pt]
+-坐标方向 &amp; 经度自西向东，范围为\nolinkurl{[-180, 180)}；纬度自南向北；坐标与数据同步变换 \\
+-\midrule[0.25pt]
+-数据与元数据 &amp; \nolinkurl{data}为主变量，\nolinkurl{std}为可选的同形不确定性变量；保存实际物理值、变量说明和单位 \\
+-\midrule[0.25pt]
+-范围与缺失值 &amp; YAML显式声明有效范围、填充值及缺失值处理策略 \\
+-\midrule[0.25pt]
+-处理记录 &amp; YAML保存转换规则；输出NetCDF属性记录实际执行的变更 \\
+-\midrule[0.25pt]
+-复现信息 &amp; 共同归档配置规范版本（\nolinkurl{SCHEMA_VERSION}）、完整YAML、固定输入及代码环境 \\
+-\midrule[0.25pt]
+-标签与版本 &amp; 标签记录类别、空间/时间分辨率、年份、版本及可选修订号，并与文件名对应 \\
+-\midrule[0.25pt]
+-文件完整性 &amp; 新增或纳入严格核验的条目记录文件字节数及SHA-256；同标签受控镜像内容一致；带完整性信息的文件核验通过后更新本地正式文件 \\
+-\bottomrule
+-\end{tabular}
+-\endgroup
+ \label{tab:2}
+ \end{table}
+-缺失值填补（gap filling）由YAML中的\nolinkurl{GAPFILL}字段指定，策略依据变量的物理含义和陆海分布选择，可保留缺失状态、以常数或均值填补，或检查指定区域的数据完整性。需要类别编码的数据可采用整数化处理。陆地掩膜用于区分陆地区域与全域的检查要求；本文高程数据（ELEV）配置采用常数0填补陆地区域缺失值。各策略的作用范围与字段说明见补充材料S3。
+-
+-GriddingMachine固定输出维度顺序，以降低下游接口复杂度。新版通过YAML的\nolinkurl{DIMENSIONS}显式记录源变量各维度语义，维度标准化过程将\nolinkurl{(lat, lon)}、\nolinkurl{(ind, lat, lon)}等排列重排为统一输出；经纬度翻转与循环平移同步作用于坐标和数据值。目录中的全球网格数据均可通过统一标准化流程进入发布和读取环节；对于非规则网格、区域投影和复杂坐标源数据，先由数据源专用预处理模块完成坐标适配，再按同一标准输出。
+-
+-\subsubsection{YAML配置与转换示例}
+-YAML配置记录各数据源的输入文件、变量及转换规则，使数据源特有的处理要求可以独立于通用程序维护。框架提供程序化和本地交互式两种配置生成方式，均在执行前检查必需信息、字段类型及相互关系，再由标准化处理函数\nolinkurl{process_dataset!}完成转换。新增数据时，贡献者可以通过配置明确相应规则，复用已有处理流程。
+-
+-以二维源数据为例，源维度按纬度、经度排列，纬度由北向南，经度范围为0°\ensuremath{\sim}360°。配置声明维度语义和坐标转换规则，处理程序据此重排数据、翻转纬度并调整经度范围，输出经度在前、纬度在后且坐标递增的标准网格；需要数值转换时，按配置执行相应变换。该示例说明不同源排列如何进入同一输出结构，结果核对见第4.1节。完整配置与字段说明见补充材料S3。
+-
+-\subsubsection{生产流程与质量控制}
+-生产流程依次完成维度与坐标转换、数值变换、有效范围过滤和缺失值处理，主变量与可选不确定性变量采用一致的数值类型。保存前检查输出维度、坐标、变量、数值范围和缺失值状态，并依据相应分辨率的陆地掩膜核对陆地区域完整性。程序还生成带经纬度坐标轴的空间方向图，供人工确认数据与坐标的对应关系，补充自动结构检查。每种配置首次使用时的方向确认结果随配置保存。
+-
+-质量检查完成后，主变量保存为\nolinkurl{data}，存在不确定性时追加形状相同的\nolinkurl{std}，文件按表2所列标签规则命名。实际执行的转换记录在NetCDF变量属性中，完整YAML、固定输入和版本化项目环境与输出一同归档，以便追溯数据来源、处理规则和生成环境。
+-
+-\subsection{独立数据目录与事务式多镜像分发}
+-标准化数据标签表达类别、空间与时间分辨率、可选年份及版本信息，具体命名规则见表2和补充材料S2。数据文件可以发布到机构FTP服务器、超文本传输协议（HTTP/HTTPS）服务或Zenodo科研资源存储平台，独立目录保存标签与文件地址的对应关系。登记时依据用于发布的标准NetCDF文件计算字节数和SHA-256，并将其与镜像地址一并记录。数据集列表、分发位置和完整性信息由此可以独立于访问软件更新，科研程序仍通过标签获取数据。
+-
+-数据目录与获取模块Collector负责更新目录和管理本地缓存。远端目录通过结构与字段校验后替换本地目录，同时保留上一有效版本。目录条目记录本地相对路径、候选下载地址及完整性信息；对于已有条目，模块依据其登记字段保留兼容访问方式。更新后的目录因此仍可供科研程序按标签查找和获取数据。
+-
+-数据集按标签获取；候选镜像由目录提供，并可依据访问延迟安排尝试顺序。每次下载先保存为独立临时文件，对登记完整性信息的条目核对字节数和SHA-256，通过后才更新正式文件；访问或内容核验未通过时继续尝试其余镜像。这样既能切换获取地址，也能在下载异常时保留已有有效文件。全库同步与单数据集获取使用同一套核验规则。
+-
+-镜像选择和内容核验采用不同的信息：镜像地址与访问延迟决定下载尝试顺序，数据标识与完整性字段用于确认文件内容。分发地址变化时，只需调整目录中的候选镜像，科研程序仍可按原标签获取相同内容的文件。接口、状态恢复流程和目录条目示例见补充材料。
+-
+-\subsection{统一读取与模式输入组织}
+-\subsubsection{标准网格数据读取}
+-标准网格读取接口可按本地NetCDF路径或数据标签访问数据，支持读取文件覆盖的全部空间网格、指定周期的空间切片，以及站点的全部周期或指定周期数据，共4种方式。按标签调用时，目录模块自动获取对应文件。接口默认读取标准变量\nolinkurl{data}，也可读取文件中可选的原始数据变量\nolinkurl{raw_data}或形状相同的不确定性变量\nolinkurl{std}。各读取方式采用一致的维度、单位和缺失值约定，便于后续组合模式输入。
+-
+-站点读取根据全球规则经纬网的分辨率，将目标经纬度换算为数组索引。输入文件的维度顺序为\nolinkurl{(lon,lat[,ind])}，经度自西向东、纬度自南向北排列。接口直接提取对应格点的数据；区域投影、非规则网格转换和空间插值可在数据生产与标准化层完成。周期索引表示月份、日期还是小时，由相应数据的元数据说明。
+-
+-\subsubsection{模式参数与气象驱动组织}
+-陆面参数由同一目标位置和年度的多源数据组合而成。接口从预定义集合中提取土壤、冠层、叶片、地形、陆地掩膜和植物功能型数据，按各自网格分辨率定位目标格点，再依据陆面状态融合参数。叶面积指数、叶绿素、冠层聚集度和最大羧化速率等季节序列统一到逐日时间轴。完成缺失值填补后，月尺度数据按各月实际天数展开，8日尺度数据按覆盖日期展开，并依据年份保留365或366日。本文第二套陆面参数集合\nolinkurl{gm2}包含14类标准化数据，其中冠层聚集度采用月尺度数据集。
+-
+-叶片光学参数与Medlyn气孔导度模型参数分别按采用C3和C4光合途径的植物组织\cite{ref6,ref7}。C3参数按格点内对应植物功能型的比例归一化加权，C4参数从相应类型的参数表提取，以保留两类植物的参数差异。叶片羧化能力与电子传递能力的关联为光合参数组织提供依据\cite{ref8}。本研究采用GriddingMachine模式输入接口的固定比例参数化，根据25 \ensuremath{{}^{\circ}\mathrm{C}}下最大羧化速率\nolinkurl{VCMAX25}计算最大电子传递速率\nolinkurl{JMAX25}和细胞色素b6f复合体含量\nolinkurl{B6F}，换算关系、参数单位与实现出处见补充材料S1。输出包括位置、分辨率、年份、二氧化碳（CO\textsubscript{2}）、土壤水力性质、冠层结构、植物功能型组成、叶片生物物理和光合参数，同时检查字段是否完整以及缺失值标记\nolinkurl{NaN}的分布。经过上述处理，多源数据形成结构一致的格点级模式输入。
+-
+-气象驱动组织将同一格点、同一年度的变量组成逐小时序列。气象驱动集合\nolinkurl{wd1}包含8类第五代全球再分析数据（ERA5）\cite{ref9}：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。接口可按经纬度提取对应格点，也可从已加载的全域气象数组中索引序列。时间轴采用浮点年积日（fractional day of year，\nolinkurl{FDOY}）：按模式驱动接口的约定，将协调世界时（Coordinated Universal Time，UTC）年度序列中的各小时标记置于小时中点，再以经度除以15得到的小时偏移转换为地方平太阳时，用于Emerald的太阳天顶角计算。经纬度调用采用输入位置的经度，数组索引调用采用格点中心经度；完整公式见补充材料S1。输出同时检查字段完整性和缺失值状态，使气象序列与模式时间计算采用明确的对应关系。
+-
+-网格读取提供各变量的数值，参数和气象驱动接口则将这些数值按字段、时间与量纲关系组织为模式输入。本文所称“模式就绪”，是指标准化数据经过格点提取、参数融合、时间轴构建和量纲换算后，能够满足Emerald初始化接口的数据结构要求。2022版主要通过标签提供基础数据访问\cite{ref5}，新版进一步组合多源数据，形成可由模式直接调用的输入，使科研程序能够复用数据及其组织方法。完整调用示例见补充材料。
+-
+-\subsection{多语言数据下载接口}
+-为衔接不同科研编程环境，新版完善Matlab、Octave、Python和R的数据自动下载接口，并新增C和Fortran支持。各接口均可通过文件URL或数据标签指定所需数据；标签调用依据本地Artifacts.yaml查找分发地址，并在镜像不可用或内容核验未通过时尝试其余地址。下载先保存为临时文件，依据目录或调用参数中的文件大小和SHA-256完成核验后，再更新本地目标文件；获取失败时保留已有文件。
+-
+-各语言接口共用Python下载程序，使用时需要Python 3运行环境。不同语言的科研程序因此可以按相同的数据标签和镜像信息获取标准NetCDF文件，采用一致的完整性核验规则，再使用各自的NetCDF工具读取数据。下载程序集中维护，减少了在不同编程环境中重复实现文件获取和内容核验的工作。接口调用示例见补充材料S5。
++\FloatBarrier
+ 
+ \section{应用案例与评价方法}
+ 应用案例分别考察数据标准化、分发和模式接入中的改进效果。受控处理实例与真实最优插值海表温度数据（Optimum Interpolation Sea Surface Temperature，OISST）用于检验统一流程对维度、坐标和数值差异的处理；ELEV与叶面积指数数据（Leaf Area Index，LAI）用于比较有无外层归档时的数据获取和首次读取时间，网络镜像实验进一步核对不同地址所提供文件的一致性。北美通量观测站US-NR1附近格点的陆面参数与气象驱动用于考察多源数据能否形成模式输入，并通过跨操作系统测试检查核心流程的运行一致性。各案例与评价指标见表3。
+@@ -250,20 +365,21 @@
+ \toprule
+ \textbf{评价内容} &amp; \textbf{实验数据与对照} &amp; \textbf{主要评价指标} \\
+ \midrule
+-标准化与重复处理 &amp; 受控实例：31组处理与构造参考对照、配置生成及数据贡献流程；ELEV连续处理3次；真实数据：OISST V2.1独立解码对照 &amp; 维度与坐标、有效值掩膜、逐点数值、重复生成摘要及登记获取结果 \\
+-\midrule[0.25pt]
+-文件分发效率 &amp; ELEV与LAI；Windows和macOS回环HTTP；直接NetCDF与外层\nolinkurl{tar.gz}对照 &amp; 端到端时间、传输字节、文件存储占用 \\
+-\midrule[0.25pt]
+-目录更新与镜像获取 &amp; 受控场景：13类镜像状态及目录更新；网络案例：Zenodo公共网络与中国科学技术大学（以下简称中科大）校内网FTP—Zenodo获取；数据修订：ERA5降水单位修订及原标签访问 &amp; 候选遍历、文件大小与SHA-256、临时及正式文件状态、修订后标签访问与缓存复用 \\
+-\midrule[0.25pt]
+-模式输入组织 &amp; 参考数据核对；真实数据：US-NR1的14类陆面数据与8类ERA5逐时数据、非植被格点；底层读取对照及Emerald初始化、60 s首步 &amp; 字段与形状、时间轴、量纲、逐点数值、初始化与首步状态 \\
+-\midrule[0.25pt]
+-跨操作系统运行与多语言下载 &amp; 跨系统：Windows、macOS和Linux持续集成及Windows/macOS独立环境；多语言：Matlab、Octave、Python、R、C和Fortran的URL与标签下载 &amp; 数据结构与逐点数值、文件摘要、接口状态、镜像回退、错误返回与缓存保留 \\
++标准化与重复处理 &amp; 31组受控处理及构造参考；配置生成与贡献流程；ELEV重复处理3次；OISST V2.1独立解码对照 &amp; 维度、\allowbreak{}坐标、\allowbreak{}有效值掩膜与逐点数值；重复生成摘要；登记与获取结果 \\
++\midrule[0.25pt]
++文件分发效率 &amp; ELEV与LAI；Windows和macOS回环HTTP；直接NetCDF与外层\nolinkurl{tar.gz}对照 &amp; 端到端时间、\allowbreak{}传输字节与文件存储占用 \\
++\midrule[0.25pt]
++目录更新与镜像获取 &amp; 13类镜像状态及目录更新；Zenodo公共网络与中国科学技术大学（以下简称中科大）校内网FTP—Zenodo同文件获取；ERA5降水单位修订及原标签访问 &amp; 候选镜像选择；文件大小与SHA-256；临时及正式文件状态；修订后标签访问与缓存复用 \\
++\midrule[0.25pt]
++模式输入组织 &amp; 参考数据核对；US-NR1的14类陆面数据与8类ERA5逐时数据；非植被格点；底层读取对照及Emerald初始化、\allowbreak{}60 s首步 &amp; 字段与形状、\allowbreak{}时间轴、\allowbreak{}量纲与逐点数值；初始化与首步状态 \\
++\midrule[0.25pt]
++跨操作系统运行与多语言下载 &amp; Windows、\allowbreak{}macOS和Linux持续集成，Windows/macOS独立环境；Matlab、\allowbreak{}Octave、\allowbreak{}Python、\allowbreak{}R、\allowbreak{}C和Fortran的URL与标签下载 &amp; 数据结构、\allowbreak{}逐点数值与文件摘要；接口状态、\allowbreak{}镜像回退、\allowbreak{}错误返回与缓存保留 \\
+ \bottomrule
+ \end{tabular}
+ \endgroup
+ \label{tab:3}
+ \end{table}
++\FloatBarrier
+ \subsection{数据生产与标准化及OISST案例}
+ \subsubsection{共享处理规范与质量控制}
+ 为检验YAML驱动流程能否正确处理多维网格数据，本文构造以空间位置编码的参考数组：二维数组的值由经纬度索引共同确定，三维数组进一步加入周期索引。数组值与位置之间的对应关系已知，因此可逐点核对维度交换、方向翻转、经度平移和周期组织后的结果。
+@@ -277,7 +393,7 @@
+ ELEV重复处理案例以已有标准NetCDF为输入，先比较统一读取与底层NetCDF读取所得的数组和坐标，再采用显式标准维度、\nolinkurl{KEEP_AS_IS}及不执行缩放和范围裁剪的配置连续处理3次。比较各次输出的\nolinkurl{data/lon/lat}与输入，并核对输出文件的SHA-256，以检验重复处理是否保持数据值和空间结构。
+ 
+ \subsubsection{OISST异构数据集标准化}
+-OISST案例用于检验共享配置对真实异构源数据的适配。采用美国国家海洋和大气管理局国家环境信息中心（NOAA/NCEI）发布的0.25°逐日OISST V2.1数据，选用仅使用甚高分辨率辐射计（AVHRR）数据的版本\cite{ref10}，选取2022年2月25日文件。原始\nolinkurl{sst}变量在NetCDF中声明为\texttt{time\ensuremath{\times}zlev\ensuremath{\times}lat\ensuremath{\times}lon}，其中\nolinkurl{zlev}和\nolinkurl{time}均为单例维度；Julia读取后的数组顺序为\texttt{lon\ensuremath{\times}lat\ensuremath{\times}zlev\ensuremath{\times}time}，形状为1440\ensuremath{\times}720\ensuremath{\times}1\ensuremath{\times}1。经度覆盖0.125°\ensuremath{\sim}359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
++OISST案例用于检验共享配置对真实异构源数据的适配。采用美国国家海洋和大气管理局国家环境信息中心（NOAA/NCEI）发布的0.25°逐日OISST V2.1数据，选用仅使用甚高分辨率辐射计（AVHRR）数据的版本\cite{ref7}，选取2022年2月25日文件。原始\nolinkurl{sst}变量在NetCDF中声明为\texttt{time\ensuremath{\times}zlev\ensuremath{\times}lat\ensuremath{\times}lon}，其中\nolinkurl{zlev}和\nolinkurl{time}均为单例维度；Julia读取后的数组顺序为\texttt{lon\ensuremath{\times}lat\ensuremath{\times}zlev\ensuremath{\times}time}，形状为1440\ensuremath{\times}720\ensuremath{\times}1\ensuremath{\times}1。经度覆盖0.125°\ensuremath{\sim}359.875°，存储类型为Int16，并以0.01缩放因子解码为摄氏度。
+ 
+ 数据源专用预处理模块提取唯一的垂向层和时间层，共享YAML配置进一步完成维度声明、\texttt{0°\ensuremath{\sim}360°}至\texttt{[\ensuremath{-}180°, 180°)}的经度重排、有效范围控制和缺失值策略，生成\nolinkurl{SST_OISST_4X_1D_20220225_V1}标准化数据。
+ 
+@@ -296,9 +412,13 @@
+ 镜像访问实验选取4个同时具有FTP和Zenodo地址且已登记\nolinkurl{SIZE}与\nolinkurl{SHA256}字段的代表性标签，对各文件—镜像组合开展重复下载，记录候选顺序、传输时间、字节数和SHA-256。公共网络场景考察Zenodo的文件获取情况；中科大校内网场景比较FTP与Zenodo提供的同一文件，共形成24次完整性记录。实验数据与环境信息随可复现材料归档。
+ 
+ \subsection{统一读取与模式输入组织}
+-模式输入案例考察标准网格数据经过陆面参数融合和气象驱动组织后，能否用于Emerald初始化。首先利用确定性参考数据核对字段名、形状、类型、时间索引和缺失值处理，再采用2020年第二套陆面参数集合，分别为US-NR1研究站点附近的植被格点和典型非植被格点生成输入，检查不同陆面状态下的参数组织。
+-
+-真实气象案例使用同一年度的8类ERA5标准化数据\cite{ref9}：地表气压、降水、漫射与直射短波辐射、长波辐射、气温、水汽压亏缺和风速。八文件从中科大机构FTP获取，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、105.5464°W）由规则索引映射到40.5°N、105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个\nolinkurl{data}变量的\texttt{lon\ensuremath{\times}lat\ensuremath{\times}ind}维度、360\ensuremath{\times}180\ensuremath{\times}8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较；\nolinkurl{FDOY}另按输入站点经度\ensuremath{-}105.5464°除以15计算时间偏移并独立重建，数据取样位置与时间计算位置分别记录。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、土壤状态是否均为有限值。
++模式输入案例考察标准网格数据经过陆面参数融合和气象驱动组织后，能否用于Emerald初始化。首先利用确定性参考数据核对字段名、\allowbreak{}形状、\allowbreak{}类型、\allowbreak{}时间索引和缺失值处理，再采用2020年第二套陆面参数集合，分别为US-NR1研究站点附近的植被格点和典型非植被格点生成输入，检查不同陆面状态下的参数组织。
++
++叶片光学参数与Medlyn气孔导度模型参数分别按采用C3和C4光合途径的植物组织\cite{ref3,ref4}。C3参数按格点内对应植物功能型的比例归一化加权，C4参数从相应类型的参数表提取，以保留两类植物的参数差异。叶片羧化能力与电子传递能力的关联为光合参数组织提供依据\cite{ref5}。本研究采用GriddingMachine模式输入接口的固定比例参数化，根据25 \ensuremath{{}^{\circ}\mathrm{C}}下最大羧化速率\nolinkurl{VCMAX25}计算最大电子传递速率\nolinkurl{JMAX25}和细胞色素b6f复合体含量\nolinkurl{B6F}，换算关系、\allowbreak{}参数单位与实现出处见补充材料S1。输出包括位置、\allowbreak{}分辨率、\allowbreak{}年份、\allowbreak{}二氧化碳（CO\textsubscript{2}）、\allowbreak{}土壤水力性质、\allowbreak{}冠层结构、\allowbreak{}植物功能型组成、\allowbreak{}叶片生物物理和光合参数，同时检查字段是否完整以及缺失值标记\nolinkurl{NaN}的分布。经过上述处理，多源数据形成结构一致的格点级模式输入。
++
++真实气象案例使用同一年度的8类ERA5标准化数据\cite{ref6}：地表气压、\allowbreak{}降水、\allowbreak{}漫射与直射短波辐射、\allowbreak{}长波辐射、\allowbreak{}气温、\allowbreak{}水汽压亏缺和风速。八文件从中科大机构FTP获取，并逐文件记录SHA-256。US-NR1坐标（40.0329°N、\allowbreak{}105.5464°W）由规则索引映射到40.5°N、\allowbreak{}105.5°W格点；2020年为闰年，预期每个字段包含8784个逐小时值。实验同时核对8个\nolinkurl{data}变量的\texttt{lon\ensuremath{\times}lat\ensuremath{\times}ind}维度、\allowbreak{}360\ensuremath{\times}180\ensuremath{\times}8784形状及单位属性。模式输入组织层输出与底层NetCDF直接读取的同一格点序列逐点比较。
++
++气象驱动时间轴以浮点年积日（fractional day of year，\nolinkurl{FDOY}）表示。按接口约定，以协调世界时（Coordinated Universal Time，UTC）年度序列的小时中点作为时间标记，并按经度除以15得到的小时偏移转换为地方平太阳时，与Emerald的太阳天顶角计算对应。经纬度调用采用输入位置的经度，数组索引调用采用格点中心经度；完整公式见补充材料S1。本案例按输入站点经度\ensuremath{-}105.5464°计算偏移并独立重建\nolinkurl{FDOY}，分别记录数据取样位置与时间计算位置。随后把真实陆面参数和真实气象驱动共同传入Emerald，检查初始化和60 s首步后的大气、\allowbreak{}土壤状态是否均为有限值。
+ 
+ \subsection{跨操作系统运行一致性与多语言下载评价}
+ 跨操作系统测试采用一致的项目依赖、参考数据和判据，比较核心流程的数据结构、逐点数值、文件摘要及接口状态。Windows和macOS本地环境开展生产、分发效率、镜像状态和模式接口测试，Windows、macOS和Linux持续集成环境运行非交互处理与确定性核心流程。各系统的测试项目及真实网络、US-NR1案例的运行环境见补充材料S5。
+@@ -310,7 +430,7 @@
+ 
+ \subsection{数据生产与标准化及OISST结果}
+ \subsubsection{共享处理规范与质量控制结果}
+-31组受控处理实例中，29组非交互实例在三系统持续集成中获得一致的数据结构和逐点数值，V01和V02的人工方向检查结果与预设一致。维度重排、坐标翻转、经度平移、数值转换及缺失值处理均得到相应参考结果，表明配置能够指导通用程序正确处理源数据差异。数据贡献案例经过配置生成、标准化、目录登记和下游读取后，所得数组仍与参考数组逐点一致，标准化结果在后续获取与读取过程中得到保持。
++共享配置能够指导通用程序处理源数据在维度、\allowbreak{}坐标和数值上的差异。31组受控处理实例中，29组非交互实例在三系统持续集成中获得一致的数据结构和逐点数值，V01和V02的人工方向检查结果与预设一致。维度重排、\allowbreak{}坐标翻转、\allowbreak{}经度平移、\allowbreak{}数值转换及缺失值处理均得到相应参考结果。数据贡献案例经过配置生成、\allowbreak{}标准化、\allowbreak{}目录登记和下游读取后，所得数组仍与参考数组逐点一致，标准化结果在后续获取与读取过程中得到保持。
+ 
+ ELEV在重复处理后保持原有数据值与坐标。1440\ensuremath{\times}720网格全域有效，有限值范围为\ensuremath{-}415.5\ensuremath{\sim}5 357.7002 m，统一读取结果与底层NetCDF的Float32数组逐点一致。按第3.1.1节的原值保持配置连续处理3次，各次输出的\nolinkurl{data/lon/lat}均与输入一致，文件SHA-256也彼此相同。这说明通用流程能够接收已有标准化数据，在未要求数值变换时保持其空间结构与数据值。
+ 
+@@ -339,7 +459,7 @@
+ \label{fig:3}
+ \end{figure}
+ \subsection{目录管理与事务式多镜像分发}
+-13类受控状态场景在两个独立操作系统环境中各重复5次，镜像回退、缓存复用和内容核验结果均符合预设。首选镜像无法访问或未通过内容核验时，程序继续尝试后续镜像；下载失败时，已有正式文件的摘要保持不变。因此，切换镜像无需破坏本地有效缓存，下载异常时科研程序仍可读取已有数据。
++镜像切换和获取异常时，下载流程能够保留已有有效文件。13类受控状态场景在两个独立操作系统环境中各重复5次，镜像回退、\allowbreak{}缓存复用和内容核验结果均符合预设。首选镜像无法访问或未通过内容核验时，程序继续尝试后续镜像；下载失败时，已有正式文件的摘要保持不变。本地有效缓存由此可以继续使用。
+ 
+ 公共网络场景中，两个独立环境分别对4个Zenodo标签重复获取3次，共24次下载均与登记字节数和SHA-256一致。下载时间随文件规模呈梯度变化，公共镜像能够向本地科研程序提供内容可核验的数据文件。
+ 
+@@ -352,7 +472,7 @@
+ 
+ 8类ERA5气象变量经统一读取，形成US-NR1格点2020年连续的年度逐小时序列。各源变量均为360\ensuremath{\times}180\ensuremath{\times}8784的经度、纬度和逐小时数组，并带有单位属性；站点的每类变量均得到8784个逐小时值，有限值比例为100\%，与底层NetCDF读取结果的最大绝对差为0。地方平太阳时偏移为\ensuremath{-}7.0364 h，浮点年积日严格递增且与独立公式逐点一致。时间轴和8类气象变量共9个字段经Emerald接口适配后，组成16个模式驱动字段，完成从格点年度序列到模式所需变量的转换。逐文件大小与字段信息见补充材料S1。
+ 
+-依据ERA5逐小时总降水的变量定义\cite{ref11}，降水输入表示每小时累计的米制水层，标准NetCDF单位属性据此修订为\nolinkurl{m}，数据值保持不变。US-NR1年度累计降水为0.496409 m，即496.409 mm，用于核对数值尺度与量纲。Emerald按水层厚度、水密度、水的摩尔质量及3600 s累计时段换算为摩尔通量，使数据单位与模式输入一致。完成参数组织、时间轴构建和量纲换算后，将真实陆面参数与气象驱动共同用于Emerald初始化和60 s首步计算，大气与土壤关键状态均保持有限值。该年度案例表明，多源标准网格数据能够按明确的空间、时间与单位关系形成可用的模式输入。
++依据ERA5逐小时总降水的变量定义\cite{ref8}，降水输入表示每小时累计的米制水层，标准NetCDF单位属性据此修订为\nolinkurl{m}，数据值保持不变。US-NR1年度累计降水为0.496409 m，即496.409 mm，用于核对数值尺度与量纲。Emerald按水层厚度、水密度、水的摩尔质量及3600 s累计时段换算为摩尔通量，使数据单位与模式输入一致。完成参数组织、时间轴构建和量纲换算后，将真实陆面参数与气象驱动共同用于Emerald初始化和60 s首步计算，大气与土壤关键状态均保持有限值。该年度案例表明，多源标准网格数据能够按明确的空间、时间与单位关系形成可用的模式输入。
+ 
+ \subsection{跨操作系统运行一致性与多语言下载结果}
+ 跨操作系统运行中，GriddingMachine和GriddingMachineDatasets的确定性核心流程得到一致的数据结构、逐点数值和文件摘要，Emerald合成输入接口的状态均符合预设结果。不同系统能够沿用同一数据约定完成标准化、获取和模式输入组织，为科研程序在不同运行环境中使用这些数据提供支持；各系统测试项目与结果见补充材料S5。
+@@ -360,8 +480,8 @@
+ Matlab、Octave、Python、R、C和Fortran接口通过URL或数据标签获取的文件均与参考内容一致。按标签下载时，首选镜像不可用后能够继续尝试其余镜像；文件大小或摘要不符时，接口返回错误并保留已有文件。这些结果表明，不同语言的科研程序可以共用数据目录和核验规则，自动获取标准化网格数据，无需分别编写下载与内容核验程序。
+ 
+ \section{讨论}
+-\subsection{相对2022版的更新与科研用途}
+-2022版GriddingMachine通过统一网格、变量和标签提供多源数据访问\cite{ref5}，本研究进一步关注数据持续更新中的重复维护。31组处理实例与OISST结果表明，源数据在维度、坐标和数值上的差异可由配置描述，并由通用程序处理；ELEV重复处理结果则表明，已有标准化数据经过同一流程后仍可保持原值。将处理规则与数据文件一同维护，使新增或更新数据能够复用已有转换程序。镜像调整或文件修订后，可单独更新目录中的分发信息，模式程序继续按标签访问数据。
++\subsection{相对v0.2版的更新与科研用途}
++v0.2版GriddingMachine通过统一网格、变量和标签提供多源数据访问\cite{ref2}，本研究进一步关注数据持续更新中的重复维护。31组处理实例与OISST结果表明，源数据在维度、坐标和数值上的差异可由配置描述，并由通用程序处理；ELEV重复处理结果则表明，已有标准化数据经过同一流程后仍可保持原值。将处理规则与数据文件一同维护，使新增或更新数据能够复用已有转换程序。镜像调整或文件修订后，可单独更新目录中的分发信息，模式程序继续按标签访问数据。
+ 
+ 数据库需要持续更新，既有试验也需要能够复现。ERA5降水修订案例说明，更新目录即可使已有标签指向修订文件；保存各次试验使用的目录、文件摘要、处理配置和代码版本，则能确定当时使用的数据及其转换过程。标签便于程序持续调用，归档记录保留具体试验的输入，两者共同支持数据更新和试验复现。
+ 
+@@ -376,14 +496,14 @@
+ 其他站点和年份可沿用上述读取与数据组织方法；接入不同模式时，可按其空间、时间和变量约定调整配置与适配接口。Julia接口用于组织模式输入，非Julia接口用于在已有科研程序中自动获取文件，研究人员可根据所用语言和计算任务选择调用方式。
+ 
+ \subsection{与相关数据基础设施的关系及扩展方向}
+-现有数据基础设施各有侧重。地球系统数据立方体着重多变量时空数据的联合分析\cite{ref12}。GriddingMachine侧重共享数据在本地模式中的使用，将标准化、读取和模式适配组织为可由科研程序调用的流程，Julia实现便于组合这些处理方法\cite{ref13}。Google Earth Engine提供云端遥感访问与计算\cite{ref4}，ESGF支持分布式气候模式数据发现与访问\cite{ref14}，Pangeo及Pangeo Forge支持云端数据组织和可复用处理配方\cite{ref15,ref16}。本文的OISST和US-NR1案例分别展示了数据转换与本地模式应用：处理结果按统一空间约定保存，多源变量再按时间与量纲关系组合为陆面参数和气象驱动。
+-
+-数据目录是查找和获取文件的依据。国内地球系统科学数据共享研究强调规范分类和目录建设\cite{ref17}，Pooch提供科研文件获取工具，STAC提供地理空间目录描述规范\cite{ref18,ref19}。本研究在标签对应的条目中同时记录分发地址和文件内容信息，使科研程序在镜像切换或数据修订后仍可使用原有调用方式。镜像获取和修订案例表明，这种组织方式便于本地模式持续使用共享数据；后续可进一步与通用目录规范和数据获取工具衔接。
+-
+-模式使用多源数据时，还需要保存处理规则及其研究出处。软件引用原则、科研软件FAIR原则（FAIR4RS）及数字资源库TRUST原则为软件识别、复用与资源库维护提供参考\cite{ref20,ref21,ref22}。本文将数据来源、配置和软件版本与处理结果共同归档，以便追溯OISST转换和模式输入组织所用的数据与方法。在扩展数据源配置、公共镜像和模式接口时，持续保存这些记录，有助于后续数据维护和科研复用。
++Google Earth Engine提供云端遥感数据访问与计算\cite{ref1}，GriddingMachine则将共享数据按统一约定保存为可在本地使用的文件，并提供标签下载和格点读取。地球系统数据立方体强调多变量时空数据的联合组织与分析\cite{ref9}；本文的集合读取面向模式所需参数与气象序列的组合。OISST案例展示源数据标准化，US-NR1案例展示参数与气象序列的集合读取及模式适配。Julia实现便于在科研程序中组合这些处理和读取方法\cite{ref10}。
++
++数据清单与访问软件分别维护，是这些功能能够持续使用的基础。国内地球系统科学数据共享研究强调规范分类和目录建设\cite{ref11}；Pooch和STAC分别提供科研文件获取工具与地理空间目录描述规范\cite{ref12,ref13}。GriddingMachine在数据标签对应的条目中记录文件位置与内容信息，并将目录单独归档，使新增数据、\allowbreak{}调整镜像和修订文件不必伴随软件发布。科研程序继续按标签访问，试验所用的目录版本和文件摘要则保留具体输入的记录。
++
++持续更新还需要保存数据出处、\allowbreak{}处理配置和软件版本，以便识别所用方法并追溯处理结果\cite{ref14,ref15}。在此基础上，后续可继续完善公共镜像、\allowbreak{}扩展数据源配置及模式所需集合，使研究人员沿用已有读取方式开展新的数据分析和模式试验。
+ 
+ \section{结论}
+-本文针对多源网格数据在转换、分发和模式接入中需要重复整理与维护的问题，更新了2022版GriddingMachine。新版通过共享配置记录源数据处理规则，利用独立目录维护标签、分发地址和文件完整性信息，并将统一读取的数据进一步组织为陆面参数与气象驱动。同时完善Matlab、Octave、Python和R对新版数据的自动下载支持，新增C和Fortran支持，使不同编程环境能够通过URL或数据标签获取标准化文件。
++本文针对多源网格数据在转换、\allowbreak{}分发和模式接入中需要重复整理与维护的问题，更新了v0.2版GriddingMachine。新版通过共享配置记录源数据处理规则，利用独立目录维护标签、\allowbreak{}分发地址和文件完整性信息，并通过集合读取将多源数据组织为陆面参数与气象驱动。数据处理和读取由软件承担，数据库文件与标准化数据文件单独发布和维护，使新增或修订数据不必伴随软件版本更新。同时完善Matlab、\allowbreak{}Octave、\allowbreak{}Python和R对新版数据的自动下载支持，新增C和Fortran支持，使不同编程环境能够通过URL或数据标签获取标准化文件。
+ 
+ 受控实例和真实数据案例表明，标准化结果的坐标与物理值均与独立参考一致。直接NetCDF分发减少了解包时间和文件存储占用，缩短了获取至首次读取的时间。FTP—Zenodo镜像所提供的文件与目录登记的摘要一致，数据修订后仍可沿用原标签获取。陆面参数与ERA5逐时数据经组合形成US-NR1模式输入，并完成Emerald初始化和60 s首步计算。
+ 
+@@ -396,28 +516,21 @@
+ 姜皓：概念设计、方法设计、软件、数据整理、初稿撰写。王玉杰：概念设计、软件、数据整理、研究指导、项目管理、论文审阅与修改。
+ 
+ \begingroup\singlespacing\begin{thebibliography}{99}\small\setlength{\itemsep}{5pt}
+-\bibitem{ref1}WILKINSON M D, DUMONTIER M, AALBERSBERG I J, et al. The FAIR Guiding Principles for scientific data management and stewardship[J]. Scientific Data, 2016, 3: 160018. DOI: 10.1038/sdata.2016.18.
+-\bibitem{ref2}REW R, DAVIS G. NetCDF: An interface for scientific data access[J]. IEEE Computer Graphics and Applications, 1990, 10(4): 76-82. DOI: 10.1109/38.56302.
+-\bibitem{ref3}CF CONVENTIONS COMMITTEE. CF Metadata Conventions[EB/OL]. [2026-09-26]. \url{https://cfconventions.org/}.
+-\bibitem{ref4}GORELICK N, HANCHER M, DIXON M, et al. Google Earth Engine: Planetary-scale geospatial analysis for everyone[J]. Remote Sensing of Environment, 2017, 202: 18-27. DOI: 10.1016/j.rse.2017.06.031.
+-\bibitem{ref5}WANG Y, KÖHLER P, BRAGHIERE R K, et al. GriddingMachine, a database and software for Earth system modeling at global and regional scales[J]. Scientific Data, 2022, 9: 258. DOI: 10.1038/s41597-022-01346-x.
+-\bibitem{ref6}MEDLYN B E, DUURSMA R A, EAMUS D, et al. Reconciling the optimal and empirical approaches to modelling stomatal conductance[J]. Global Change Biology, 2011, 17(6): 2134-2144. DOI: 10.1111/j.1365-2486.2010.02375.x.
+-\bibitem{ref7}LIN Y S, MEDLYN B E, DUURSMA R A, et al. Optimal stomatal behaviour around the world[J]. Nature Climate Change, 2015, 5: 459-464. DOI: 10.1038/nclimate2550.
+-\bibitem{ref8}WALKER A P, BECKERMAN A P, GU L, et al. The relationship of leaf photosynthetic traits—Vcmax and Jmax—to leaf nitrogen, leaf phosphorus, and specific leaf area: A meta-analysis and modeling study[J]. Ecology and Evolution, 2014, 4(16): 3218-3235. DOI: 10.1002/ece3.1173.
+-\bibitem{ref9}HERSBACH H, BELL B, BERRISFORD P, et al. The ERA5 global reanalysis[J]. Quarterly Journal of the Royal Meteorological Society, 2020, 146(730): 1999-2049. DOI: 10.1002/qj.3803.
+-\bibitem{ref10}HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
+-\bibitem{ref11}COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-26]. \url{https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790}.
+-\bibitem{ref12}MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
+-\bibitem{ref13}BEZANSON J, EDELMAN A, KARPINSKI S, et al. Julia: A fresh approach to numerical computing[J]. SIAM Review, 2017, 59(1): 65-98. DOI: 10.1137/141000671.
+-\bibitem{ref14}CINQUINI L, CRICHTON D, MATTMANN C, et al. The Earth System Grid Federation: An open infrastructure for access to distributed geospatial data[J]. Future Generation Computer Systems, 2014, 36: 400-417. DOI: 10.1016/j.future.2013.07.002.
+-\bibitem{ref15}ABERNATHEY R P, AUGSPURGER T, BANIHIRWE A, et al. Cloud-native repositories for big scientific data[J]. Computing in Science \&amp; Engineering, 2021, 23(2): 26-35. DOI: 10.1109/MCSE.2021.3059437.
+-\bibitem{ref16}STERN C, ABERNATHEY R, HAMMAN J, et al. Pangeo Forge: Crowdsourcing analysis-ready, cloud optimized data production[J]. Frontiers in Climate, 2022, 3: 782909. DOI: 10.3389/fclim.2021.782909.
+-\bibitem{ref17}王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. DOI: 10.11867/j.issn.1001-8166.2014.02.0265. [WANG Juanle, LIN Hai, RAN Yingying, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
+-\bibitem{ref18}UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
+-\bibitem{ref19}OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025 [2026-09-26]. \url{https://www.ogc.org/standards/stac/}.
+-\bibitem{ref20}SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
+-\bibitem{ref21}BARKER M, CHUE HONG N P, KATZ D S, et al. Introducing the FAIR Principles for research software[J]. Scientific Data, 2022, 9: 622. DOI: 10.1038/s41597-022-01710-x.
+-\bibitem{ref22}LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
++\bibitem{ref1}GORELICK N, HANCHER M, DIXON M, et al. Google Earth Engine: Planetary-scale geospatial analysis for everyone[J]. Remote Sensing of Environment, 2017, 202: 18-27. DOI: 10.1016/j.rse.2017.06.031.
++\bibitem{ref2}WANG Y, KÖHLER P, BRAGHIERE R K, et al. GriddingMachine, a database and software for Earth system modeling at global and regional scales[J]. Scientific Data, 2022, 9: 258. DOI: 10.1038/s41597-022-01346-x.
++\bibitem{ref3}MEDLYN B E, DUURSMA R A, EAMUS D, et al. Reconciling the optimal and empirical approaches to modelling stomatal conductance[J]. Global Change Biology, 2011, 17(6): 2134-2144. DOI: 10.1111/j.1365-2486.2010.02375.x.
++\bibitem{ref4}LIN Y S, MEDLYN B E, DUURSMA R A, et al. Optimal stomatal behaviour around the world[J]. Nature Climate Change, 2015, 5: 459-464. DOI: 10.1038/nclimate2550.
++\bibitem{ref5}WALKER A P, BECKERMAN A P, GU L, et al. The relationship of leaf photosynthetic traits—Vcmax and Jmax—to leaf nitrogen, leaf phosphorus, and specific leaf area: A meta-analysis and modeling study[J]. Ecology and Evolution, 2014, 4(16): 3218-3235. DOI: 10.1002/ece3.1173.
++\bibitem{ref6}HERSBACH H, BELL B, BERRISFORD P, et al. The ERA5 global reanalysis[J]. Quarterly Journal of the Royal Meteorological Society, 2020, 146(730): 1999-2049. DOI: 10.1002/qj.3803.
++\bibitem{ref7}HUANG B, LIU C, BANZON V, et al. Improvements of the Daily Optimum Interpolation Sea Surface Temperature (DOISST) Version 2.1[J]. Journal of Climate, 2021, 34(8): 2923-2939. DOI: 10.1175/JCLI-D-20-0166.1.
++\bibitem{ref8}COPERNICUS CLIMATE CHANGE SERVICE. Conversion table for accumulated variables (total precipitation/fluxes)[EB/OL]. [2026-09-26]. \url{https://confluence.ecmwf.int/pages/viewpage.action?pageId=197702790}.
++\bibitem{ref9}MAHECHA M D, GANS F, BRANDT G, et al. Earth system data cubes unravel global multivariate dynamics[J]. Earth System Dynamics, 2020, 11: 201-234. DOI: 10.5194/esd-11-201-2020.
++\bibitem{ref10}BEZANSON J, EDELMAN A, KARPINSKI S, et al. Julia: A fresh approach to numerical computing[J]. SIAM Review, 2017, 59(1): 65-98. DOI: 10.1137/141000671.
++\bibitem{ref11}王卷乐, 林海, 冉盈盈, 等. 面向数据共享的地球系统科学数据分类探讨[J]. 地球科学进展, 2014, 29(2): 265-274. DOI: 10.11867/j.issn.1001-8166.2014.02.0265. [WANG Juanle, LIN Hai, RAN Yingying, et al. A study of Earth System Science data classification for data sharing[J]. Advances in Earth Science, 2014, 29(2): 265-274.]
++\bibitem{ref12}UIEDA L, SOLER S R, RAMPIN R, et al. Pooch: A friend to fetch your data files[J]. Journal of Open Source Software, 2020, 5(45): 1943. DOI: 10.21105/joss.01943.
++\bibitem{ref13}OPEN GEOSPATIAL CONSORTIUM. SpatioTemporal Asset Catalog (STAC) Community Standard, Version 1.1.0[S/OL]. OGC 25-004, 2025 [2026-09-26]. \url{https://www.ogc.org/standards/stac/}.
++\bibitem{ref14}SMITH A M, KATZ D S, NIEMEYER K E, et al. Software citation principles[J]. PeerJ Computer Science, 2016, 2: e86. DOI: 10.7717/peerj-cs.86.
++\bibitem{ref15}LIN D, CRABTREE J, DILLO I, et al. The TRUST Principles for digital repositories[J]. Scientific Data, 2020, 7: 144. DOI: 10.1038/s41597-020-0486-7.
+ \end{thebibliography}\endgroup
+ \end{CJK}
+ \end{document}
+</pre></details></section><footer>老师的历史稿单独归档；本轮改写在Overleaf Reviewing模式下逐处保留。原始项目ZIP不携带评论和修订状态，历史及批注以原Overleaf项目为准。</footer></main></body></html>
