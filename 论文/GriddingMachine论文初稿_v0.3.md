@@ -1,6 +1,6 @@
 # 面向地球系统模式的全球网格数据库：GriddingMachine框架更新与应用
 
-**姜皓**^1,2　**陶善飞**　**王玉杰**^1,2,*
+**姜皓**^1,2　**陶善飞**^1,2　**王玉杰**^1,2,*
 
 ^1 中国科学技术大学风云卫星遥感联合实验室，安徽 合肥 230026
 
@@ -16,7 +16,7 @@
 
 **A Global Gridded Database for Earth System Models: Advances and Applications of GriddingMachine**
 
-**Hao JIANG**^1,2, **Yujie WANG**^1,2,*
+**Hao JIANG**^1,2, **Shanfei TAO**^1,2, **Yujie WANG**^1,2,*
 
 ^1 Joint Laboratory of Fengyun Remote Sensing, University of Science and Technology of China, Hefei 230026, Anhui, China
 

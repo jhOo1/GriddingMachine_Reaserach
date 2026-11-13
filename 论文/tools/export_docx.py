@@ -372,7 +372,8 @@ def export() -> None:
 
     core = document.core_properties
     core.title = lines[0].removeprefix("# ").strip()
-    core.author = "Hao Jiang; Yujie Wang"
+    # Match the document metadata to the manuscript's three authors.
+    core.author = "Hao Jiang; Shanfei Tao; Yujie Wang"
     core.subject = "导师审阅版，由Markdown源稿自动生成"
     document.save(OUTPUT)
     print(OUTPUT)
