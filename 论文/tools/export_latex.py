@@ -18,7 +18,7 @@ ARCHIVE = ROOT / "GriddingMachine_Overleaf.zip"
 FIGURES = {
     "图1_GriddingMachine总体架构_终稿.svg": ("图1_GriddingMachine总体架构_终稿.png", "figure1.png"),
     "图2_OISST真实产品标准化结果.png": ("图2_OISST真实产品标准化结果.png", "figure2.png"),
-    "图3_直接NetCDF分发效率.svg": ("图3_直接NetCDF分发效率.png", "figure3.png"),
+    "图3_直接NetCDF分发效率_审阅版.png": ("图3_直接NetCDF分发效率_审阅版.png", "Figure3.png"),
 }
 
 

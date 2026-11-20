@@ -1,13 +1,14 @@
 {
   "source": "GriddingMachine论文初稿_v0.3.md",
-  "sha256": "673877feb07a63a0c0eddb5b88978915ccf24277c07f90452fc6ab42102b7808",
+  "sha256": "cb2408f0e16c33e7a2425a08d3beffa80276426d7390d6e8d7478779bf1aa0c0",
   "tables": 3,
   "figures": 3,
   "references": 15,
   "overleaf_project": "https://www.overleaf.com/project/6ad187c7099334b21a9823a4",
   "template_sha256": "f667f6886db409c64cfe05dba70f41b3ffbb7de26fe202d838924cb80b1dec92",
-  "main_tex_sha256": "a297bf92a47c5b30fdd3df206bfa2b054a734b1ab88b00d911a4eb7cd52ff142",
+  "main_tex_sha256": "21a1c88376fb58dacc447e5faae5e2004b35a64b011facc06dc2955a4aee550b",
   "source_authority": "Overleaf",
-  "snapshot_date": "2026-11-17",
-  "figure1_sha256": "902842814ed374e043fe6ddbc066d6cfd4dff8e57fc2eea60ceef9907e4b0f31"
+  "snapshot_date": "2026-11-20",
+  "figure1_sha256": "902842814ed374e043fe6ddbc066d6cfd4dff8e57fc2eea60ceef9907e4b0f31",
+  "figure3_sha256": "606cfc2bfc0729e475d15268edcb50907c115bd4c2dd2251798a560c0d3d1fe5"
 }
