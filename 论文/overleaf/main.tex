@@ -150,7 +150,7 @@ Cartographer用来提供数据标准化及验证功能，方便研究人员将�
 
 程序读取并检查配置后，会先把数据的维度顺序和经纬度排列调整到统一标准。比如，源数据的维度顺序是“纬度、\allowbreak{}经度”，纬度从北向南排列，经度范围为0°\ensuremath{\sim}360°，程序就会将维度改为“经度、\allowbreak{}纬度”，把纬度改为从南向北排列，再将经度及对应的数据重新排序，使经度范围变为\ensuremath{-}180°\ensuremath{\sim}180°，并从西向东排列。调整时，数据会随坐标一起移动，保证每个数值仍对应原来的地理位置。之后，程序会按配置中的缩放系数和偏移量换算数值，并将超出有效范围的值标记为缺失值。
 
-缺失值需要填补的话可以通过配置中的\nolinkurl{GAPFILL}字段设置。研究人员可以根据变量的物理含义，保留原有的缺失值，也可以用常数或均值填补陆地区域的缺失值。例如，处理高程数据（ELEV）时，我们用0填补陆地区域的缺失值。除了填补缺失值，程序还可以根据数据覆盖要求，检查陆地区域或整个数据范围内是否存在缺失值；对于类别数据，也可以将数值转换为整数。具体配置方法和字段说明见补充材料S3。
+缺失值填补策略由配置文件中的 \nolinkurl{GAPFILL} 字段控制。研究人员可以根据变量的物理含义，保留原有的缺失值，也可以用常数或均值填补陆地区域的缺失值。例如，处理高程数据（ELEV）时，我们用0填补陆地区域的缺失值。除了填补缺失值，程序还可以根据数据覆盖要求，检查陆地区域或整个数据范围内是否存在缺失值；对于类别数据，也可以将数值转换为整数。具体配置方法和字段说明见补充材料S3。
 
 在处理数据的过程中，程序会生成带经纬度坐标轴的空间分布图，研究人员可用来确认数据的位置和方向。确认无误后程序会按数据标签保存标准文件，并将实际执行的维度调整、\allowbreak{}数值换算及缺失值填补等变更写入NetCDF变量属性。文件被保存后，文件验证程序会检查维度和变量、\allowbreak{}数组形状、\allowbreak{}数值范围及缺失值分布；有些陆地区域数据要求有完整的变量，我们的程序还会结合相应分辨率的陆地掩膜，检查陆地格点是否存在缺失值。我们会将记录处理规则的配置文件、\allowbreak{}对应的配置规范版本（\nolinkurl{SCHEMA_VERSION}），以及本次处理所用的输入数据和代码运行环境一起保存，方便日后在相同条件下重新处理数据。
 
@@ -179,7 +179,7 @@ process_dataset!("dataset.yml")
 
 数据库文件被用来记录数据标签、\allowbreak{}文件位置等信息。我们将原来放在软件包内的\nolinkurl{Artifacts.toml}改为单独维护的\nolinkurl{Artifacts.yaml}。在后续新增数据或调整下载地址时，只需更新数据库文件，不用同时发布新版软件。文件采用YAML文本格式，我们会在Zenodo上保存它的不同版本。研究人员也可以保留试验时使用的数据库文件，方便日后查看当时用了哪些数据，以及这些数据的下载地址。
 
-数据库文件中的每个数据标签对应一条记录，说明文件下载后存放在哪里（\nolinkurl{PATH}）、\allowbreak{}可以从哪些镜像地址下载（\nolinkurl{URL}），以及用于检查文件完整性的字节数（\nolinkurl{SIZE}）和SHA-256摘要（\nolinkurl{SHA256}）。登记数据时，程序会先计算标准NetCDF文件的字节数和摘要，再将这些信息与下载地址一起写入数据库文件。在使用时Collector会根据记录查找和下载文件，再由Indexer读取其中的数据。这样，新增数据或调整下载地址只需修改数据库文件，不必同时更新软件。
+数据库文件以数据标签为索引，每个标签对应一条记录，记录数据文件下载后的存储路径（\nolinkurl{PATH}）、可用的镜像下载地址（\nolinkurl{URL}），以及用于完整性校验的文件大小（字节数，\nolinkurl{SIZE}）和 SHA-256 摘要（\nolinkurl{SHA256}）。登记数据时，程序首先计算标准 NetCDF 文件的字节数并生成 SHA-256 摘要，再将计算结果与下载地址等信息写入数据库文件。运行过程中，Collector 根据数据库记录定位并下载文件，随后由 Indexer 读取其中的数据。由于数据存储路径和下载地址均由数据库文件管理，新增数据或调整下载地址时，只需更新相应记录，无需修改软件代码。
 
 以中分辨率成像光谱仪（Moderate Resolution Imaging Spectroradiometer，MODIS）的2020年叶面积指数数据为例，数据库文件中的记录如下。这里展示其中一个下载地址，多个镜像可依次列在\nolinkurl{URL}下：
 
@@ -252,7 +252,7 @@ value = read_dataset(tag, 40.0329, -105.5464, 8)
 
 上述调用依次返回全部空间与周期数据、\allowbreak{}第8个周期的空间切片、\allowbreak{}目标格点的周期序列及该格点第8个周期的数值。周期索引的时间含义由相应数据的元数据说明，比如示例中的\nolinkurl{8}对应8日序列的第8个周期。
 
-给定经纬度后，Indexer会根据全球规则经纬网的分辨率，确定目标位置对应的数组索引，并读取该格点的数据。这一读取方式沿用第2.1节的标准化约定：文件维度按\nolinkurl{(lon,lat[,ind])}排列，经度从西向东、\allowbreak{}纬度从南向北排列。Indexer本身不进行投影转换、\allowbreak{}非规则网格转换或空间插值；如果源数据需要这些处理，应在预处理阶段完成，再用Indexer读取。
+给定经纬度后，Indexer会根据全球规则经纬网的分辨率，确定目标位置对应的数组索引，并读取该格点的数据。这一读取方式沿用第2.1节的标准化约定：文件维度按\nolinkurl{(lon,lat[,ind])}排列，经度从西向东、\allowbreak{}纬度从南向北排列。Indexer本身不进行投影转换、\allowbreak{}非规则网格转换或空间插值；如果源数据需要上述处理，应在预处理阶段完成，再用Indexer读取。
 
 \subsubsection{多源数据集合读取}
 
@@ -281,7 +281,7 @@ forcing = grid_weather("wd1", 2020, 40.0329, -105.5464)
 
 \subsection{GMServer：数据服务器搭建}
 
-GMServer被用来搭建网格数据查询服务，科研程序可以直接从服务器获取指定位置的数据。服务器在收到查询请求后会先通过Collector获取文件，如果本地已有可用文件，就直接使用；然后由Indexer从单个数据集、\allowbreak{}陆面参数集合或气象驱动集合中，取出对应格点的数据。我们把GMServer单独做成一个服务器组件，这样如果只在本地下载和读取数据，就不用加载Genie网络服务框架的依赖，可以减少安装和首次运行所需的时间。在搭建服务时服务提供方需要先设置好数据根目录和数据库文件的来源，再注册查询接口，然后就可以启动服务了。
+GMServer被用来搭建网格数据查询服务，科研程序可以直接从服务器获取指定位置的数据。服务器在收到查询请求后会先通过Collector获取文件，如果本地已有可用文件，就直接使用；然后由Indexer从单个数据集、\allowbreak{}陆面参数集合或气象驱动集合中，取出对应格点的数据。我们把GMServer单独做成一个服务器组件，这样如果只在本地下载和读取数据，就不用加载Genie网络服务框架的依赖，可以减少安装和首次运行所需的时间。在服务部署过程中，服务提供方需预先配置数据根目录和数据库文件来源，并完成查询接口的注册，随后即可启动 GMServer。
 
 在独立的服务器项目环境中，加载GriddingMachineServer后即可注册查询接口并启动服务：
 
@@ -323,7 +323,7 @@ series, uncertainty = request_site_data(
 
 其中，\nolinkurl{research}为请求记录中的使用者标记；\nolinkurl{series}返回目标格点的周期序列，\nolinkurl{uncertainty}返回文件中可用的不确定性数据，无该变量时为\nolinkurl{nothing}。
 
-有了这些模块，数据提供方可以把数据整理成标准文件并共享出去，研究人员可以按标签下载文件、\allowbreak{}读取数据集合，也可以直接向服务器请求指定格点的数据。我们将处理规则、\allowbreak{}数据库文件和分发地址分开维护，这样后续新增或修订数据时，就不用同时更新访问软件了。为了更直观地说明新版有哪些变化，我们在表2中按各个功能环节，对比了2022版GriddingMachine（v0.2）和新版GriddingMachine（v0.5）的主要差异。
+数据提供方可通过上述模块，将数据整理为标准文件并发布，研究人员则可根据数据标签下载文件、读取数据集合，或通过服务器接口获取指定格点的数据。数据处理规则、数据库文件和数据分发地址分别管理，因此，新增数据或修订已有数据记录时，只需更新相应的数据库记录及分发配置，无需修改数据访问程序的代码。表2按功能环节对比了2022版 GriddingMachine（v0.2）与新版（v0.5）的主要差异。
 
 % Keep captions and all rows together; thin rules distinguish parallel entries.
 \begin{table}[!htbp]\centering
@@ -404,7 +404,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 
 数据源专用预处理模块提取唯一的垂向层和时间层，共享YAML配置进一步完成维度声明、\texttt{0°\ensuremath{\sim}360°}至\texttt{[\ensuremath{-}180°, 180°)}的经度重排、有效范围控制和缺失值策略，生成\nolinkurl{SST_OISST_4X_1D_20220225_V1}标准化数据。
 
-独立参考流程直接读取未缩放的Int16存储值，根据原始NetCDF中的缩放因子\nolinkurl{scale_factor}、偏移量\nolinkurl{add_offset}和填充值\nolinkurl{_FillValue}计算物理值与缺失值掩膜，并独立计算目标经度索引。参考结果记录全域统计量、10个确定性有效格点和10个缺失格点。标准化数据连续生成3次，逐点比较坐标、有效值掩膜和物理值。随后根据标准NetCDF文件建立包含逻辑路径、镜像地址、字节数和SHA-256的目录条目，通过回环HTTP执行事务式下载，再由统一读取接口完成全域网格逐点核对。
+独立参考流程直接读取未缩放的Int16存储值，根据原始NetCDF中的缩放因子\nolinkurl{scale_factor}、偏移量\nolinkurl{add_offset}和填充值\nolinkurl{_FillValue}计算物理值与缺失值掩膜，并独立计算目标经度索引。参考结果记录全域统计量、10个确定性有效格点和10个缺失格点。标准化数据连续生成3次，逐点比较坐标、有效值掩膜和物理值。随后根据标准NetCDF文件建立包含逻辑路径、镜像地址、字节数和SHA-256的目录条目，通过回环HTTP执行事务式下载，再由统一读取接口完成全域网格的逐点核对。
 
 \subsection{ELEV与LAI的直接NetCDF分发效率评价}
 分发效率比较采用二维静态高程数据集\nolinkurl{ELEV_4X_1Y_V1}和三维8日尺度叶面积指数数据集\nolinkurl{LAI_MODIS_2X_8D_2020_V1}，代表不同规模和维度的内部压缩数据。每个标准NetCDF分别以原始\nolinkurl{.nc}文件和包含同一文件的\nolinkurl{tar.gz}归档分发，对照归档采用gzip级别6。直接分发的NetCDF与归档解包后的文件具有相同SHA-256，因此可在内容一致的条件下比较外层打包与解包所增加的时间和存储占用。
@@ -433,7 +433,7 @@ OISST案例用于检验共享配置对真实异构源数据的适配。采用美
 多语言下载评价考察Matlab、Octave、Python、R、C和Fortran科研程序能否按相同约定获取数据。在相应语言运行环境中，通过文件URL和数据标签获取回环HTTP提供的确定性参考文件，并核对文件字节数、SHA-256与二进制内容；首选镜像不可用、文件大小或摘要不符的情形用于检验镜像回退、错误返回和已有文件保留。含空格与特殊字符的路径及不同工作目录用于检查参数传递和接口调用。各语言环境、调用示例与结果记录见补充材料S5。
 
 \section{结果}
-按照表3所列评价设计，以下依次呈现标准化数据生产、直接NetCDF分发效率、多镜像获取、模式输入组织和跨操作系统运行一致性结果。
+按照表3所列评价设计，本节依次呈现标准化数据生产、直接NetCDF分发效率、多镜像获取、模式输入组织和跨操作系统运行一致性结果。
 
 \subsection{数据生产与标准化及OISST结果}
 \subsubsection{共享处理规范与质量控制结果}
@@ -448,7 +448,7 @@ OISST标准化结果的坐标、有效值掩膜和物理值均与独立参考逐
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\linewidth,height=0.46\textheight,keepaspectratio]{figures/figure2.png}
+\includegraphics[width=0.8\linewidth]{figures/Figure2.png}
 \caption*{\textbf{图2 OISST V2.1数据集标准化结果} （a）2022年2月25日全球海表温度标准化数据；（b）从四维源结构、存储值解码和经度重排到二维标准网格的转换路径；（c）坐标、有效值掩膜、物理值及重复生成摘要的独立参考核对。标准化数据为1440\ensuremath{\times}720规则网格，691 150个有效格点及345 650个缺失格点与独立参考掩膜逐点一致，物理值最大绝对差为0，3次生成的文件摘要相同。}
 \caption*{\textbf{Fig. 2 Standardization results for the OISST V2.1 dataset.} (a) Global standardized sea-surface temperature on 25 February 2022; (b) the transformation from the four-dimensional source layout through stored-value decoding and longitude reordering to the two-dimensional standard grid; and (c) independent-reference checks of coordinates, the finite-value mask, physical values, and repeated file digests. The 1440 \ensuremath{\times} 720 dataset contains 691,150 finite and 345,650 missing cells that match the independently decoded reference mask point by point, with a maximum absolute physical-value difference of zero and identical file digests across three runs.}
 \label{fig:2}
